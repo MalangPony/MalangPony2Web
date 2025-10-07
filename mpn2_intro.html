@@ -80,12 +80,6 @@
         </a>
       </div>
     </div>
-    <div id="ticket-positioner" class="fullsize" >
-      <div id="ticket"  style="pointer-events:auto;">
-        <span class="lang-en">Registration!</span>
-        <span class="lang-ko">지금 등록!</span>
-      </div>
-    </div>
     
     <div id="langswitch-positioner" class="fullsize" >
       <div id="lang-btn"  style="pointer-events:auto;">
@@ -106,24 +100,43 @@
       </div>
       <div id="screen-blanker"></div>
       <div id="afterscroll-content-container">
-        <img id="logo-orig" src="MPN2-Prototype-Image-LogoPlain.png" style="padding-left:64px;padding-right:64px;margin-top:64px;max-width:600px;align-self:center;">
-        
-        <div style="font-size:64px;font-weight:700;color:#FFFFFF;text-align:center;">
-          <span class="lang-en">Malfoy!!!</span>
-          <span class="lang-ko">말포이!!!</span>
+        <div id="page-home" style="">
+          <img id="logo-orig" src="MPN2-Prototype-Image-LogoPlain.png" style="padding-left:64px;padding-right:64px;margin-top:64px;max-width:600px;align-self:center;">
+          
+          <div style="font-size:64px;font-weight:700;color:#FFFFFF;text-align:center;">
+            <span class="lang-en">Malfoy!!!</span>
+            <span class="lang-ko">말포이!!!</span>
+          </div>
+          
+          <div style="font-size:24px;font-weight:400;color:#FFFFFF;text-align:left;padding-left:64px;padding-right:128px;margin-top:32px;">
+            <p>
+              <span class="lang-en">Hello Bronies.</span>
+              <span class="lang-ko">안녕하세요 브로니 여러분.</span>
+              <br>
+              <span class="lang-en">Come to our event!</span>
+              <span class="lang-ko">와야겠지?</span>
+              <br>
+              <span class="lang-en">or I'll kill u</span>
+              <span class="lang-ko">안오기만 해봐 그냥 콱</span>
+            </p>
+          </div>
+          
+          <div id="ticket"  style="pointer-events:auto;">
+            <span class="lang-en">Registration!</span>
+            <span class="lang-ko">지금 등록!</span>
+          </div>
         </div>
-        
-        <div style="font-size:24px;font-weight:400;color:#FFFFFF;text-align:left;padding-left:64px;padding-right:128px;margin-top:32px;">
-          <p>
-            <span class="lang-en">Hello Bronies.</span>
-            <span class="lang-ko">안녕하세요 브로니 여러분.</span>
-            <br>
-            <span class="lang-en">Come to our event!</span>
-            <span class="lang-ko">와야겠지?</span>
-            <br>
-            <span class="lang-en">or I'll kill u</span>
-            <span class="lang-ko">안오기만 해봐 그냥 콱</span>
-          </p>
+        <div id="page-about" style="display:none;">
+          <div style="font-size:64px;font-weight:700;color:#FFFFFF;text-align:center;">
+            <span class="lang-en">About!!!</span>
+            <span class="lang-ko">개요다!!!</span>
+          </div>
+        </div>
+        <div id="page-coc" style="display:none;">
+          <div style="font-size:64px;font-weight:700;color:#FFFFFF;text-align:center;">
+            <span class="lang-en">Code of Conduct!!!</span>
+            <span class="lang-ko">규칙이다!!!</span>
+          </div>
         </div>
       </div>
     </div>
@@ -161,7 +174,6 @@ const afterscroll_container=document.getElementById("afterscroll-content-contain
 const sidebar = document.getElementById("sidebar");
 const sia = document.getElementById("sidebar-intro-anim");
 const siai =document.getElementById("sidebar-intro-anim-image");
-const ticket = document.getElementById("ticket");
 const lmsa = document.getElementById("letter-magic-spritesheet-animation");
 
 const lang_btn = document.getElementById("lang-btn");
@@ -667,7 +679,6 @@ function transition_sky(){
   afterscroll_container.classList.remove("activated");
   lang_btn.classList.remove("activated");
   sidebar_hide();
-  ticket.classList.remove("activated");
 }
 function transition_ground(){
   in_sky_mode=false;
@@ -683,8 +694,6 @@ function transition_ground(){
   lang_btn.classList.add("activated");
   window.setTimeout(()=>{
     if (!in_sky_mode) sidebar_intro_animate();},100);
-  window.setTimeout(()=>{
-    if (!in_sky_mode) ticket.classList.add("activated");},1000);
 }
 /*
 function sidebar_intro_animate(){
@@ -1056,8 +1065,38 @@ function recalculate_camera_position(){
 }
 recalculate_parallax_images();
 */
-
+let currently_on_page="home";
+function page_transition(name){
+  console.log("PT "+name)
+  if (name===currently_on_page) return;
+  console.log("PT 1");
+  let last=document.getElementById("page-"+currently_on_page);
+  if (last===null) return;
+  console.log("PT 2");
+  let target=document.getElementById("page-"+name);
+  if (target===null) return;
+  console.log("PT 3");
+  
+  let anim1=last.animate(
+    [{ opacity: "1.0" },{ opacity: "0.0" } ],
+    {duration: 500});
+  anim1.onfinish= () => {
+    last.style.display="none";
+  }
+  
+  target.style.display="flex";
+  target.style.opacity="0";
+  let anim2=target.animate(
+    [{ opacity: "0.0" },{ opacity: "1.0" } ],
+    {duration: 500,delay:500});
+  anim2.onfinish= () => {
+    target.style.opacity="1.0";
+  }
+  
+  currently_on_page=name;
+}
 function sidebar_clicked(x){
+  page_transition(x);
   if (x==="home") camera_animate_to(new Vector3(0,0,-500));
   else if (x==="about") camera_animate_to(new Vector3(200,0,-500));
   else if (x==="coc") camera_animate_to(new Vector3(0,0,-100));
