@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+*{margin:0;padding:0;}
+html{width:100%;height:100%;}
+body{width:100%;height:100%;}
+.fullsize{
+	position:absolute;
+	top:0;bottom:0;left:0;right:0;
+}
+canvas{
+	display:block;
+	pointer-events:none;
+}
+#whole-screen-div{
+  overflow:hidden;
+}
+#intro-content-container{
+	max-width:1000px;
+	width:calc(100% - 128px);
+	margin-left:auto;
+	margin-right:auto;
+	position:relative;
+	display:flex;
+	flex-direction:column;
+	transition-property: backdrop-filter, background-color, box-shadow;
+	transition-duration:0.5s;
+	
+}
+#intro-content-container.activated{
+  backdrop-filter: blur(3px);
+  background-color:#FFFFFF20;
+  box-shadow:0 0 10px #FFFFFF40;
+}
+#content-scroller{
+	position:absolute;
+	bottom:0;
+    right:0;
+    left:0;
+    top:0;
+    z-index:10;
+	overflow:scroll;
+}
+#initial-screen-spacer{
+  height:120vh;
+}
+#screen-blanker{
+  height:60vh;
+}
+#afterscroll-content-container{
+  min-height:100vh;
+  align-self:stretch;
+  display:flex;
+  flex-direction:column;
+  filter:brightness(50%);
+  transition-property: filter;
+  transition-duration:0.5s;
+  padding-left:64px;
+  padding-right:64px;
+}
+#afterscroll-content-container.activated{
+  filter:none;
+}
+
+#sticky-container{
+  position:sticky;
+  top:0;
+}
+#intro-content-scrollable{
+  position:absolute;
+  bottom:0;
+  right:0;
+  left:0;
+  top:0;
+  z-index:5;
+}
+#mpn-logo-spacer{
+  align-self:flex-start;
+  padding:6vh;
+}
+#mpn_logo_container{
+  width:50vw;
+  height:40vh;
+  position:relative;
+}
+#mpn_logo_container > img{
+  position:absolute;
+  left:0;
+  top:0;
+  right:0;
+  bottom:0;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+#hmr-image-container{
+  width:60vw;
+  height:min(40vw,50vh);
+  position:absolute;
+  right:0;
+  bottom:0;
+  z-index:20;
+  pointer-events:none;
+}
+#hmr-image-container > img{
+  position:absolute;
+  max-width:100%;
+  max-height:100%;
+  bottom:0;
+  right:0;
+}
+#sky-bg{
+background: linear-gradient(0deg,#101050,#303070)
+}
+#container-ground{
+  pointer-events:none;
+  position:absolute;
+  left:0;
+  right:0;
+  height:50vh;
+  bottom:-50vh;
+}
+#container-stars{
+  position:absolute;
+  left:0;
+  right:0;
+  height:calc(100vh + 200px);
+  top:0;
+}
+#sidebar-positioner{
+  display:flex;
+  flex-direction:row;
+  justify-content:flex-start;
+  align-items:center;
+  width:100%;
+  height:100%;
+}
+#sidebar{
+  border:3px solid #d3bf84; 
+  /*background-color:#fcedb6;*/
+  /*margin-left:-160px;*/
+  width:100px;
+  /*height:min(512px,calc(100vh - 64px));*/
+  max-height:calc(100vh - 64px);
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:8px;
+  filter:drop-shadow(8px 8px 10px #00000080);
+  
+  padding-left:16px;
+  padding-right:24px;
+  padding-top:40px;
+  padding-bottom:40px;
+  border-image-source: url("MPN2-Prototype-Image-Scroll.png");
+  border-image-width:60px;
+  border-image-outset:0px;
+  border-image-slice: 850 735 655 570 fill;
+  
+  overflow:hidden;
+  
+  display:flex;
+}
+#sidebar.rolled-up{
+  max-height:0;
+}
+#sidebar > a{
+  text-align:center;
+  text-decoration:none;
+  font-weight:700;
+  color:#644a20;
+}
+#ticket-positioner{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-end;
+}
+#ticket{
+  /*border:5px solid #b37c0f; 
+  background-color:#fcdd41;*/
+  background-image : url("MPN2-Prototype-Image-Ticket.png");
+  background-size: contain;
+  background-repeat:no-repeat;
+  background-position: center;
+  width:160px;
+  height:100px;
+  font-size:24px;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  padding:32px;
+  margin-bottom:-200px;
+  transition-property: transform margin-bottom;
+  transition-duration:0.5s;
+  transition-timing-function: ease-in-out;
+  transform:rotate(-50deg);
+  filter:drop-shadow(8px 8px 10px #00000080);
+}
+#ticket.activated{
+  margin-bottom:32px;
+  transform:rotate(10deg);
+}
+#ticket:hover{
+  transform:rotate(0deg);
+  filter:drop-shadow(0 0 8px #ffff85);
+}
+#letter-magic-spritesheet-animation{
+  width:100%;
+  height:100%;
+  background-image:url("MPN2-Prototype-Image-LetterMagicSpSht.png");
+}
+#sidebar-animation-container{
+  position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  right:0;
+  z-index:2;
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  justify-content:flex-start;
+}
+#langswitch-positioner{
+  display:flex;
+  flex-direction:row;
+  justify-content:flex-end;
+  align-items:flex-start
+}
+#lang-btn{
+  background-color:#FFF;
+  color:#000;
+  font-weight:700;
+  font-size:16px;
+  margin:12px;
+  padding:8px;
+  border-radius:8px;
+  cursor:pointer;
+  opacity:0;
+  transition: all 1s;
+}
+#lang-btn.activated{
+  opacity:1.0;
+}
+</style>
+</head>
+<body>
+<div id="whole-screen-div" class="fullsize">
+  
+  
+  <div id="hmr-image-container">
+    <img id="hmr-ground" src="MPN2-Prototype-Image-Hanmari4.png" style="z-index:3;opacity:0;">
+    <img id="hmr-flash01" src="MPN2-Prototype-Image-Hanmari3.png" style="z-index:2;opacity:0;">
+    <img id="hmr-base" src="MPN2-Prototype-Image-Hanmari2.png" style="z-index:1;">
+  </div>
+  <div id="stickies" class="fullsize" style="z-index:80;pointer-events:none;">
+    <div id="sidebar-positioner" class="fullsize" >
+      <div style="width:32px;"></div>
+      <div id="sidebar-animation-container">
+        <div id="sidebar-intro-anim" style="width:320px; height:320px; margin-left:-60px; display:none;">
+          <!--<img id="sidebar-intro-anim-image" src="MPN2-Prototype-Image-Scroll2.png" style="max-width:100%;max-height:100%;">-->
+          <div id="letter-magic-spritesheet-animation"></div>
+        </div>
+      </div>
+      <div id="sidebar" style="pointer-events:auto;display:none;">
+        <a href="#">
+          <span class="lang-en">Home</span>
+          <span class="lang-ko">홈</span>
+        </a>
+        <a href="#">
+          <span class="lang-en">About</span>
+          <span class="lang-ko">개요</span>
+        </a>
+        <a href="#">
+          <span class="lang-en">Code of Conduct</span>
+          <span class="lang-ko">규칙</span>
+        </a>
+        <a href="#">
+          <span class="lang-en">Registration</span>
+          <span class="lang-ko">등록</span>
+        </a>
+        <a href="#">
+          <span class="lang-en">Timetable</span>
+          <span class="lang-ko">시간표</span>
+        </a>
+        <a href="#">
+          <span class="lang-en">Directions</span>
+          <span class="lang-ko">오시는 길</span>
+        </a>
+        <a href="#">
+          <span class="lang-en">Conbook</span>
+          <span class="lang-ko">콘북</span>
+        </a>
+        <a href="#">
+          <span class="lang-en">News</span>
+          <span class="lang-ko">소식</span>
+        </a>
+        <a href="#">
+          <span class="lang-en">Sponsors</span>
+          <span class="lang-ko">스폰서</span>
+        </a>
+        <a href="#">
+          <span class="lang-en">Get Involved</span>
+          <span class="lang-ko">모집</span>
+        </a>
+        <a href="#">
+          <span class="lang-en">Our Mascot</span>
+          <span class="lang-ko">마스코트</span>
+        </a>
+        <a href="#">
+          <span class="lang-en">Staff</span>
+          <span class="lang-ko">스태프</span>
+        </a>
+      </div>
+    </div>
+    <div id="ticket-positioner" class="fullsize" >
+      <div id="ticket"  style="pointer-events:auto;">
+        <span class="lang-en">Registration!</span>
+        <span class="lang-ko">지금 등록!</span>
+      </div>
+    </div>
+    
+    <div id="langswitch-positioner" class="fullsize" >
+      <div id="lang-btn"  style="pointer-events:auto;">
+        <span class="lang-en">한국어</span>
+        <span class="lang-ko">English</span>
+      </div>
+    </div>
+  </div>
+  <div id="content-scroller">
+    <div id="intro-content-container">
+      <div id="mpn-logo-spacer">
+        <div id="mpn_logo_container">
+          <img id="logo-orig" src="MPN2-Prototype-Image-LogoPlain.png" style="z-index:3;opacity:0;">
+          <img id="logo-flash01" src="MPN2-Prototype-Image-LogoGlow.png" style="z-index:2;opacity:0;">
+          <img id="logo-base" src="MPN2-Prototype-Image-LogoDark.png" style="z-index:1;">
+          
+        </div>
+      </div>
+      <div id="screen-blanker"></div>
+      <div id="afterscroll-content-container">
+        <img id="logo-orig" src="MPN2-Prototype-Image-LogoPlain.png" style="padding-left:64px;padding-right:64px;margin-top:64px;max-width:600px;align-self:center;">
+        
+        <div style="font-size:64px;font-weight:700;color:#FFFFFF;text-align:center;">
+          <span class="lang-en">Malfoy!!!</span>
+          <span class="lang-ko">말포이!!!</span>
+        </div>
+        
+        <div style="font-size:24px;font-weight:400;color:#FFFFFF;text-align:left;padding-left:64px;padding-right:128px;margin-top:32px;">
+          <p>
+            <span class="lang-en">Hello Bronies.</span>
+            <span class="lang-ko">안녕하세요 브로니 여러분.</span>
+            <br>
+            <span class="lang-en">Come to our event!</span>
+            <span class="lang-ko">와야겠지?</span>
+            <br>
+            <span class="lang-en">or I'll kill u</span>
+            <span class="lang-ko">안오기만 해봐 그냥 콱</span>
+          </p>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  <canvas id="canvas-fireworks" class="fullsize" style="z-index:-996;"></canvas>
+  <div id="container-ground" style="z-index:-997;">
+    <img id="ground-texture" src="MPN2-Prototype-Image-ground.png" style="width:100%;height:100%;">
+  </div>
+  <div id="container-stars" style="z-index:-998;"></div>
+  <div id="sky-bg" class="fullsize" style="z-index:-999;"></div>
+</div>
+<script>
+const wsd = document.getElementById("whole-screen-div");
+const canvas_fireworks = document.getElementById("canvas-fireworks");
+//const canvas_stars = document.getElementById("canvas-stars");
+const container_stars = document.getElementById("container-stars");
+const intro_content_container=document.getElementById("intro-content-container");
+
+const hmr_image_base = document.getElementById("hmr-base");
+const hmr_image_flash01 = document.getElementById("hmr-flash01");
+const hmr_image_ground = document.getElementById("hmr-ground");
+
+const logo_image_base = document.getElementById("logo-base");
+const logo_image_flash01 = document.getElementById("logo-flash01");
+const logo_image_orig = document.getElementById("logo-orig");
+
+const content_scroller =document.getElementById("content-scroller");
+const container_ground =document.getElementById("container-ground");
+const logo_spacer = document.getElementById("mpn-logo-spacer");
+const screen_blanker=document.getElementById("screen-blanker");
+const afterscroll_container=document.getElementById("afterscroll-content-container");
+
+const sidebar = document.getElementById("sidebar");
+const sia = document.getElementById("sidebar-intro-anim");
+const siai =document.getElementById("sidebar-intro-anim-image");
+const ticket = document.getElementById("ticket");
+const lmsa = document.getElementById("letter-magic-spritesheet-animation");
+
+const lang_btn = document.getElementById("lang-btn");
+function create_star_SVG(color){
+  let svg=document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  //svg.setAttribute('width', '100');
+  //svg.setAttribute('height', '100');
+  svg.setAttribute('viewBox', '0 0 100 100');
+  var path = document.createElementNS("http://www.w3.org/2000/svg", 'path');
+  path.setAttribute('d', `
+    M 46.443599,0.27739779 
+    C 53.601876,29.626335 60.704491,
+    41.998754 97.450313,
+    50.8273 69.055811,
+    58.462803 54.94261,
+    72.705504 48.500162,
+    98.236694 46.591286,
+    75.807426 32.657703,
+    58.737772 1.161283,
+    50.625059 31.464656,
+    45.614272 40.955586,
+    34.398516 46.443599,
+    0.27739779 Z`);
+  path.setAttribute('style', 
+    `fill:${color};
+     stroke:none;
+     stroke-width:6.61458;
+     stroke-linejoin:miter;
+     stroke-miterlimit:10;
+     paint-order:stroke fill markers;
+     fill-opacity:1`);
+  svg.appendChild(path);
+  return svg
+}
+function create_star_element(){
+  let star_layer_container = document.createElement("div");
+  
+  let star_solid = create_star_SVG("hsl(60, 30%, 70%)");
+  let star_glow = create_star_SVG("hsl(60, 20%, 100%)");
+  //svg.setAttribute('style',"filter:drop-shadow(0 0 5px #FF0000);");
+  //svg.setAttribute('class',"bg-star");
+  
+  star_solid.style.position="absolute";
+  star_solid.style.zIndex=2;
+  
+  star_glow.style.position="absolute";
+  star_glow.style.zIndex=5;
+  star_glow.style.filter="blur(3px)";
+  
+  star_glow.animate(
+    [{ opacity: "1.0" },{ opacity: "0.0" } ],
+    {duration: 500+Math.random()*500,
+     direction:"alternate",
+     iterations: Infinity});
+  
+  star_layer_container.appendChild(star_solid);
+  star_layer_container.appendChild(star_glow);
+  return star_layer_container;
+}
+
+const star_density_reciprocal=10000; // One star every X pixels
+
+// Oh boy! I hope nobody with a 10K pixel monitor views my page!
+// Kid named 4K screen at 33% magnification:
+const max_pixels_x=10000; 
+const max_pixels_y=5000;
+
+// Pre-calculate star locations and attributes
+let star_definitions=[];
+let max_star_count = max_pixels_x*max_pixels_y/star_density_reciprocal;
+for (let i=0;i<max_star_count;i++){
+  star_definitions.push({
+    "x":max_pixels_x*Math.random(),
+    "y":max_pixels_y*Math.random(),
+    "intensity":Math.random(),
+    "size":Math.random()*5+5})
+}
+
+
+function populate_stars(){
+  //Remove all children
+  container_stars.replaceChildren();
+  let maxX=container_stars.clientWidth;
+  let maxY = container_stars.clientHeight;
+  let star_count=0;
+  for (const sd of star_definitions){
+    if (sd.x<maxX && sd.y<maxY){
+      star_count++;
+      let se=create_star_element();
+      se.style.position="absolute";
+      se.style.width=sd.size+"px";
+      se.style.height=sd.size+"px";
+      se.style.top=sd.y-sd.size+"px";
+      se.style.left=sd.x-sd.size+"px";
+      se.style.transform="rotate("+Math.random()*360+"deg)";
+      container_stars.appendChild(se);
+    }
+  }
+  console.log("Star Count: "+star_count);
+}
+populate_stars();
+
+class Vector2{
+  // 2D Vector. Immutable.
+  #x;#y;
+  constructor(x=0,y=0){
+    this.#x=x;
+    this.#y=y
+  }
+  get x(){ return this.#x; }
+  get y(){ return this.#y; }
+  add(v){
+    return new Vector2(this.x+v.x,this.y+v.y);
+  }
+  invert(v){
+    return new Vector2(-this.x,-this.y);
+  }
+  subtract(v){
+    return this.add(v.invert());
+  }
+  multiply(n){
+    //console.log("V2/Mult "+n);
+    return new Vector2(this.x*n,this.y*n);
+  }
+  divide(n){
+    //console.log("V2/Div "+n);
+    return this.multiply(1/n);
+  }
+  length(){
+    return Math.sqrt(this.x*this.x+this.y*this.y);
+  }
+  normalize(){
+    let len=this.length();
+    if (len<0.0000001) return new Vector2(0,0);
+    else return this.divide(len);
+  }
+  toString(){
+    return "V2D("+this.x.toFixed(3)+","+this.y.toFixed(3)+")";
+  }
+  static random(){
+    while (1){
+      let v=new Vector2(Math.random()*2-1,Math.random()*2-1);
+      if (v.length()>1.0) continue;
+      //return v.normalize();
+      return v;
+    }
+  }
+}
+
+class EntityPhysicsParameters{
+  drag_coefficient_linear=0.0;
+  drag_coefficient_quadratic=0.0;
+  gravity=0.0;
+}
+
+class Entity{
+  // Postion. Unit: Pixels.
+  position = new Vector2();
+  // Velocity. Unit: px/sec
+  velocity = new Vector2();
+  // Drag cofficients. Acceleration = Drag. Coeff * v^2
+  drag_coefficient_linear = 0;
+  drag_coefficient_quadratic = 0;
+  // Gravitational acceleration towards +Y direction. px/s^2
+  gravity = 0;
+  constructor(){
+    
+  }
+  tick(dt){
+    if (isNaN(this.position.x)) return;
+    //console.log("V1 "+this.velocity);
+    //console.log("P1 "+this.position);
+    let speed = this.velocity.length();
+    let drag_force = 
+      this.drag_coefficient_linear*speed+
+      this.drag_coefficient_quadratic*speed*speed;
+    let final_speed = speed - drag_force*dt;
+    // Do not decelerate below zero speed.
+    if (final_speed < 0) final_speed=0;
+    //console.log("DT "+dt);
+    //console.log("FS "+final_speed);
+    //console.log("V2 "+this.velocity);
+    //console.log("P2 "+this.position);
+    //console.log("LE "+this.velocity.length());
+    //console.log("NR "+this.velocity.normalize());
+    this.velocity=this.velocity.normalize().multiply(final_speed);
+    //console.log("V3 "+this.velocity);
+    //console.log("P3 "+this.position);
+    this.velocity=this.velocity.add(new Vector2(0,+this.gravity*dt));
+    //console.log("V4 "+this.velocity);
+    //console.log("P4 "+this.position);
+    this.position=this.position.add(this.velocity.multiply(dt));
+    //console.log("V5 "+this.velocity);
+    //console.log("P5 "+this.position);
+    
+  }
+  alive(){
+    return true;
+  }
+  render(c2d){
+    cs.context.fillStyle="#FF0000";
+    let draw_position = this.position.add(c2d.offset);
+    cs.context.fillRect(draw_position.x-2,draw_position.y-2,5,5);
+  }
+}
+
+class GlowingCircleEntity extends Entity{
+  radius;
+  inner_color;
+  border_feather;
+  glow_color;
+  glow_radius;
+  edge_color;
+  life_size_power=1.0
+  #life_fade=false;
+  #lifetime;
+  #remaining_life;
+  set lifetime(t){
+    this.#life_fade=true;
+    this.#lifetime=t;
+    this.#remaining_life=t;
+  }
+  tick(dt){
+    super.tick(dt);
+    if (this.#life_fade) this.#remaining_life-=dt;
+  }
+  alive(){
+    if (this.#life_fade && this.#remaining_life<=0) return false;
+    return true;
+  }
+  render(cs){
+    let draw_position = this.position.add(cs.offset);
+    
+    let size_multiplier=1.0;
+    if (this.#life_fade) size_multiplier=Math.pow(
+      this.#remaining_life/this.#lifetime,
+      this.life_size_power);
+    //console.log("RL "+this.#remaining_life+" | SM "+size_multiplier);
+    
+    const unscaled_r=this.radius+this.glow_radius
+    const total_r=unscaled_r*size_multiplier;
+    
+    const gradient=cs.context.createRadialGradient(
+      draw_position.x,draw_position.y,0,
+      draw_position.x,draw_position.y,total_r);
+    let stop1=(this.radius-this.border_feather)/unscaled_r;
+    let stop2=(this.radius+this.border_feather)/unscaled_r;
+    let stop3=1.0;
+    gradient.addColorStop(stop1,this.inner_color);
+    gradient.addColorStop(stop2,this.glow_color);
+    gradient.addColorStop(stop3,this.edge_color);
+      
+    cs.context.fillStyle=gradient;
+    //c2d.fillStyle="#FF0000";
+    //console.log("Rendering... "+this.position+" | "+total_r+" | "+stop1+" | "+stop2+" | "+stop3);
+    cs.context.beginPath();
+    cs.context.arc(draw_position.x,draw_position.y,total_r,0,2*Math.PI);
+    cs.context.fill();
+  }
+}
+class FireworkEntity extends GlowingCircleEntity{
+  fuze_seconds;
+  distance_travelled_without_particle=0;
+  tick(dt){
+    let old_position = this.position;
+    super.tick(dt);
+    let new_position=this.position;
+    
+    if (this.distance_travelled_without_particle>1000) //failsafe
+      this.distance_travelled_without_particle=0
+    
+    if (this.fuze_seconds<0) return;
+    this.fuze_seconds-=dt;
+    if (this.fuze_seconds<0) {
+      spawn_firework_burst(this.position,this.velocity);
+    }else{
+      // We are traveling - spawn some trail particles!
+      this.distance_travelled_without_particle+=
+        old_position.subtract(new_position).length();
+      let particleN=0;
+      while (this.distance_travelled_without_particle>0){
+        this.distance_travelled_without_particle-=5;
+        let e=new GlowingCircleEntity();
+        e.position=new_position.subtract(old_position).multiply(Math.random()).add(old_position);
+        let exhaust_velocity=this.velocity.normalize().multiply(-1*100);
+        e.velocity=Vector2.random().multiply(150).add(exhaust_velocity);
+        e.drag_coefficient_quadratic=0.1;
+        e.gravity=PARTICLE_PHYSICS_GRAVITY;
+        e.radius=0;
+        e.lifetime=1.0;
+        e.life_size_power=3.0;
+        e.inner_color="#FFFFFF";
+        e.border_feather=0;
+        e.glow_color="#FFFFFF";
+        e.glow_radius=5;
+        e.edge_color="#FFFFFF00";
+        entity_array.push(e);
+      }
+    }
+  }
+  alive(){
+    return this.fuze_seconds>=0;
+  }
+}
+
+let entity_array=[];
+
+function offset_all_entities(dx,dy){
+  for (const e of entity_array){
+    e.position = e.position.add(new Vector2(dx,dy));
+  }
+}
+
+let last_explosion_location=new Vector2();
+const PARTICLE_PHYSICS_GRAVITY=300;
+function spawn_firework_rocket(){
+  let h=canvas_fireworks.height;
+  let w=canvas_fireworks.width;
+  
+  planned_explosion_X=0;
+  planned_explosion_Y=0;
+  let avoidance_thresh=Math.min(h,w)*0.3;
+  //let avoidance_thresh=w*0.5;
+  for (let i=0;i<10;i++){
+    planned_explosion_X=Math.random()*w;
+    planned_explosion_Y=Math.random()*0.5*h;
+    let explosion_candidate=new Vector2(planned_explosion_X,planned_explosion_Y);
+    let distance=last_explosion_location.subtract(explosion_candidate).length();
+    //console.log(distance);
+    if (distance>avoidance_thresh) {
+      last_explosion_location=explosion_candidate;
+      break;
+    }
+  }
+  
+  let explosion_height=h-planned_explosion_Y;
+  let seconds_to_apogee = Math.sqrt(explosion_height*2/PARTICLE_PHYSICS_GRAVITY);
+  let vy=seconds_to_apogee*PARTICLE_PHYSICS_GRAVITY
+  let fuze=seconds_to_apogee-Math.random()*0.5;
+  
+  
+  let px = 0;
+  let py = h;
+  let vx=0;
+  while (1){
+    vx=(Math.random()*2-1)*100;
+    px=planned_explosion_X-vx*fuze;
+    if (px>0 && px<w){
+      break;
+    }
+  }
+  
+  
+  let e= new FireworkEntity();
+  e.position=new Vector2(px,py);
+  e.velocity=new Vector2(vx,-vy);
+  e.gravity=PARTICLE_PHYSICS_GRAVITY;
+  e.fuze_seconds=fuze;
+  e.lifetime=fuze+0.01;
+  e.radius=20;
+  e.life_size_power=0.5;
+  e.inner_color="#FFFFFF";
+  e.border_feather=5;
+  e.glow_color="#FF0000";
+  e.glow_radius=30;
+  e.edge_color="#FF000000";
+  
+  entity_array.push(e);
+}
+
+function spawn_firework_burst(center=null,initial_velocity=null){
+  if (location===null){
+    center=new Vector2(Math.random()*600,Math.random()*300);
+  }
+  if (initial_velocity===null){
+    initial_velocity=new Vector2(0,0);
+  }
+  for (let i=0;i<50;i++){
+    let e=new GlowingCircleEntity();
+    e.position=center.add(Vector2.random().multiply(30));
+    e.velocity=Vector2.random().multiply(1000).add(initial_velocity);
+    e.drag_coefficient_quadratic=0.010;
+    e.gravity=PARTICLE_PHYSICS_GRAVITY;
+    e.radius=10;
+    e.lifetime=2.0;
+    e.life_size_power=3.0;
+    e.inner_color="#FFFFFF";
+    e.border_feather=2;
+    e.glow_color="#00FF00";
+    e.glow_radius=10;
+    e.edge_color="#00FF0000";
+    entity_array.push(e);
+  }
+  flash_anim_trigger();
+}
+
+class CanvasState{
+  context;
+  width;
+  height;
+  offset=new Vector2();
+}
+
+const c2d = canvas_fireworks.getContext("2d");
+let cs = new CanvasState();
+cs.context=c2d;
+cs.offset=new Vector2(0,0);
+function refresh_fireworks_canvas(dt){
+  let w=canvas_fireworks.width;
+  let h=canvas_fireworks.height;
+  cs.width=w;
+  cs.height=h;
+  for (const e of entity_array){
+    e.tick(dt);
+  }
+  
+  entity_array=entity_array.filter((e)=>{
+    if (!e.alive()) return false;
+    if (e.position.x<0 || e.position.x>w) return false
+    if (e.position.y<0 || e.position.y>h) return false
+    return true;
+  });
+  
+  //console.log("#Entities: "+entity_array.length);
+  
+  c2d.clearRect(0,0,w,h);
+  for (const e of entity_array){
+    e.render(cs);
+  }
+}
+
+
+
+let star_container_resize_observer = new ResizeObserver(() =>{
+  populate_stars();
+});
+star_container_resize_observer.observe(container_stars);
+
+let icc_resize_observer = new ResizeObserver(() =>{
+  
+});
+icc_resize_observer.observe(intro_content_container);
+
+let in_sky_mode=true;
+function transition_sky(){
+  in_sky_mode=true;
+  let animation_out=[{ opacity: "1.0" },{ opacity: "0.0" } ];
+  let animation_in=[{ opacity: "0.0" },{ opacity: "1.0" } ];
+  let animation_opt={duration: 500,fill:"forwards"};
+  logo_image_orig.animate(animation_out,animation_opt);
+  hmr_image_ground.animate(animation_out,animation_opt);
+  hmr_image_base.animate(animation_in,animation_opt);
+  intro_content_container.classList.remove("activated");
+  afterscroll_container.classList.remove("activated");
+  lang_btn.classList.remove("activated");
+  sidebar_hide();
+  ticket.classList.remove("activated");
+}
+function transition_ground(){
+  in_sky_mode=false;
+  let animation_out=[{ opacity: "1.0" },{ opacity: "0.0" } ];
+  let animation_in=[{ opacity: "0.0" },{ opacity: "1.0" } ];
+  let animation_opt={duration: 500,fill:"forwards"};
+  logo_image_orig.animate(animation_in,animation_opt);
+  hmr_image_ground.animate(animation_in,animation_opt);
+  hmr_image_base.animate(animation_out,animation_opt);
+  //hmr_image_flash01.animate(animation_out,animation_opt);
+  intro_content_container.classList.add("activated");
+  afterscroll_container.classList.add("activated");
+  lang_btn.classList.add("activated");
+  window.setTimeout(()=>{
+    if (!in_sky_mode) sidebar_intro_animate();},100);
+  window.setTimeout(()=>{
+    if (!in_sky_mode) ticket.classList.add("activated");},1000);
+}
+/*
+function sidebar_intro_animate(){
+  sia.style.display="block";
+  let anim1=sia.animate(
+    [{opacity:0.0,transform:"translate(0,0)"},
+     {opacity:0.5,transform:"translate(0,-50px)"},
+     {opacity:1.0,transform:"translate(0,0)"}],
+    {duration:700,delay:0,easing:"cubic-bezier(0,.3,1,.7)"})
+  let anim3=siai.animate(
+    [{transform:"scale(0.5) rotate(-180deg)"},
+     {transform:"scale(1.2) rotate(360deg)"}],
+     {duration:700,delay:0,easing:"linear"})
+  let anim4=sidebar.animate(
+    [{transform:"scale(0.0) rotate(-180deg)"},
+     {transform:"scale(1.0) rotate(0)"}],
+    {duration:300,delay:700,easing:"ease-out"})
+  let anim5=sidebar.animate(
+    [{maxHeight:"0"},
+     {maxHeight:"calc(100vh - 64px)"}],
+    {duration:1000,delay:1000,easing:"ease-in-out"})
+  
+  sidebar.style.display="none";
+  sidebar.style.maxHeight="0";
+  anim3.onfinish=(e)=>{
+    sidebar.style.display="flex";
+    sia.style.display="none";
+  };
+  anim5.onfinish=(e)=>{
+    sidebar.style.maxHeight="calc(100vh - 64px)";
+  }
+}*/
+function sidebar_intro_animate(){
+  sia.style.display="block";
+  
+  const animation_frame_count=16;
+  const actual_size_x=lmsa.clientWidth;
+  const actual_size_y=lmsa.clientHeight;
+  console.log(`ASX ${actual_size_x} ASY ${actual_size_y} AFC ${animation_frame_count}`)
+  lmsa.style.backgroundSize=`${actual_size_x*animation_frame_count}px ${actual_size_y}px`;
+  
+  let anim1=lmsa.animate(
+    [{backgroundPositionX:"0"},{backgroundPositionX:"100%"}],
+    {duration:1200,delay:0,easing:`steps(${animation_frame_count-1})`})
+  let anim2=lmsa.animate(
+    [{opacity:"0.0"},{opacity:"1.0"}],
+    {duration:500,delay:0,easing:"linear"})
+  let anim3=lmsa.animate(
+    [{transform:"translate(0,+100px)"},{transform:""}],
+    {duration:1000,delay:0,easing:"cubic-bezier(.18,.58,.6,.99)"})
+  let anim4=sidebar.animate(
+    [{transform:"scale(0.0)"},
+     {transform:"scale(1.0)"}],
+    {duration:400,delay:1100,easing:"ease-out"})
+  let anim5=sidebar.animate(
+    [{maxHeight:"0"},
+     {maxHeight:"calc(100vh - 64px)"}],
+    {duration:1000,delay:1500,easing:"ease-in-out"})
+  
+  sidebar.style.transform="scale(0)";
+  sidebar.style.display="flex";
+  sidebar.style.maxHeight="0";
+  anim1.onfinish=(e)=>{
+    sia.style.display="none";
+  };
+  anim4.onfinish=(e)=>{
+    sidebar.style.transform="";
+  };
+  
+  anim5.onfinish=(e)=>{
+    sidebar.style.maxHeight="calc(100vh - 64px)";
+  }
+}
+function sidebar_hide(){
+  let anim1=sidebar.animate(
+    [{marginLeft:"0"},
+     {marginLeft:"-160px"}],
+    {duration:500,delay:0,easing:"ease-in"})
+  anim1.onfinish = (e)=>{
+    sidebar.style.display="none";
+    sidebar.style.marginLeft="0";
+  }
+}
+
+function flash_anim_trigger(){
+  if (!in_sky_mode) return;
+  let animation_kf=[{ opacity: "1.0" },{ opacity: "0.0" } ];
+  let animation_opt={duration: 600+Math.random()*200,
+     easing:"cubic-bezier(1.0, 0.0, 0.8, 1.0)",
+     fill:"forwards",
+     direction:"normal",
+     iterations: 1};
+  hmr_image_flash01.animate(animation_kf,animation_opt);
+  logo_image_flash01.animate(animation_kf,animation_opt);
+  /*container_ground.animate(
+    [{ backgroundColor: "#144814" },
+    { backgroundColor: "#104010" } ],
+    animation_opt);*/
+}
+
+let fireworks_enabled=true;
+function launch_firework_periodic(){
+  if (fireworks_enabled) spawn_firework_rocket();
+  window.setTimeout(launch_firework_periodic,Math.random()*2500+500);
+}
+launch_firework_periodic();
+
+let last_t=NaN;
+function animationCallback(time) {
+  if (canvas_fireworks.width!=wsd.clientWidth)
+    canvas_fireworks.width=wsd.clientWidth;
+  if (canvas_fireworks.height!=wsd.clientHeight)
+    canvas_fireworks.height=wsd.clientHeight;
+  if (isNaN(last_t)) last_t=time;
+  let dt=(time-last_t)/1000;
+  last_t=time;
+  if (dt>1.0) dt=1.0;
+  refresh_fireworks_canvas(dt);
+  requestAnimationFrame(animationCallback);
+}
+requestAnimationFrame(animationCallback);
+
+//TODO change this JS-based animation to
+// a CSS-based animation with "animation-timeline: scroll()" 
+let scroll_last=content_scroller.scrollTop;
+content_scroller.addEventListener("scroll", (e) => { 
+  //console.log("Scroll"+e);
+  let scroll_pixels=content_scroller.scrollTop;
+  let scroll_maxium=logo_spacer.clientHeight+screen_blanker.clientHeight;
+  let scroll_progress_ratio=scroll_pixels/scroll_maxium;
+  let scroll_delta=scroll_pixels-scroll_last;
+  scroll_last=scroll_pixels;
+  
+  scroll_progress_ratio=Math.min(Math.max(scroll_progress_ratio,0),1);
+  
+  if (scroll_progress_ratio>0.95){
+    if (in_sky_mode) transition_ground();
+  }else{
+    if (!in_sky_mode) transition_sky();
+  }
+  fireworks_enabled=scroll_progress_ratio<0.5;
+  
+  //console.log(`Scroll ${scroll_pixels} (delta ${scroll_delta}, ratio ${scroll_progress_ratio})`);
+  
+  cs.offset=new Vector2(0,-scroll_progress_ratio*100);
+  container_stars.style.top=-scroll_progress_ratio*100+"px";
+  container_ground.style.bottom=`calc( -50vh + ${scroll_progress_ratio}*50vh)`;
+  //container_ground.style.bottom=scroll_progress*1.5+"px";
+})
+
+let current_lang="ko";
+let all_langs=["ko","en"];
+function apply_lang(code){
+  current_lang=code;
+  for (const lang of all_langs){
+    let all_elements=document.querySelectorAll(".lang-"+lang);
+    for (const e of all_elements){
+      if (lang===current_lang) e.style.display="inline";
+      else e.style.display="none";
+    }
+  }
+}
+
+lang_btn.onclick= ()=>{
+  if (current_lang=="ko") apply_lang("en");
+  else apply_lang("ko");
+}
+apply_lang("ko");
+</script>
+</body>
+</html>
