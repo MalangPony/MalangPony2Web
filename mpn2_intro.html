@@ -30,15 +30,15 @@
         </div>
       </div>
       <div id="sidebar" style="pointer-events:auto;display:none;">
-        <a href="#">
+        <a href="#" onclick="sidebar_clicked('home');">
           <span class="lang-en">Home</span>
           <span class="lang-ko">홈</span>
         </a>
-        <a href="#">
+        <a href="#" onclick="sidebar_clicked('about');">
           <span class="lang-en">About</span>
           <span class="lang-ko">개요</span>
         </a>
-        <a href="#">
+        <a href="#" onclick="sidebar_clicked('coc');">
           <span class="lang-en">Code of Conduct</span>
           <span class="lang-ko">규칙</span>
         </a>
@@ -130,6 +130,7 @@
     
   </div>
   <canvas id="canvas-fireworks" class="fullsize" style="z-index:-996;"></canvas>
+  <div class="fullsize" id="parallax-image-container" style="z-index:-992;"></div>
   <div id="container-ground" style="z-index:-997;">
     <img id="ground-texture" src="MPN2-Prototype-Image-ground.png" style="width:100%;height:100%;">
   </div>
@@ -164,6 +165,8 @@ const ticket = document.getElementById("ticket");
 const lmsa = document.getElementById("letter-magic-spritesheet-animation");
 
 const lang_btn = document.getElementById("lang-btn");
+
+const parallax_image_container = document.getElementById("parallax-image-container");
 function create_star_SVG(color){
   let svg=document.createElementNS("http://www.w3.org/2000/svg", "svg");
   //svg.setAttribute('width', '100');
@@ -275,7 +278,7 @@ class Vector2{
   add(v){
     return new Vector2(this.x+v.x,this.y+v.y);
   }
-  invert(v){
+  invert(){
     return new Vector2(-this.x,-this.y);
   }
   subtract(v){
@@ -304,7 +307,54 @@ class Vector2{
     while (1){
       let v=new Vector2(Math.random()*2-1,Math.random()*2-1);
       if (v.length()>1.0) continue;
-      //return v.normalize();
+      return v;
+    }
+  }
+}
+class Vector3{
+  // 3D Vector. Immutable.
+  #x;#y;#z;
+  constructor(x=0,y=0,z=0){
+    this.#x=x;
+    this.#y=y;
+    this.#z=z;
+  }
+  get x(){ return this.#x; }
+  get y(){ return this.#y; }
+  get z(){ return this.#z; }
+  add(v){
+    return new Vector3(this.x+v.x,this.y+v.y,this.z+v.z);
+  }
+  invert(){
+    return new Vector3(-this.x,-this.y,-this.z);
+  }
+  subtract(v){
+    return this.add(v.invert());
+  }
+  multiply(n){
+    return new Vector3(this.x*n,this.y*n,this.z*n);
+  }
+  divide(n){
+    return this.multiply(1/n);
+  }
+  length(){
+    return Math.sqrt(this.x*this.x+this.y*this.y+this.z*this.z);
+  }
+  normalize(){
+    let len=this.length();
+    if (len<0.0000001) return new Vector3(0,0,0);
+    else return this.divide(len);
+  }
+  toString(){
+    return "V3D("+this.x.toFixed(3)+","+this.y.toFixed(3)+","+this.z.toFixed(3)+")";
+  }
+  projectXY(){
+    return new Vector2(this.x,this.y)
+  }
+  static random(){
+    while (1){
+      let v=new Vector3(Math.random()*2-1,Math.random()*2-1,Math.random()*2-1);
+      if (v.length()>1.0) continue;
       return v;
     }
   }
@@ -673,7 +723,7 @@ function sidebar_intro_animate(){
   const animation_frame_count=16;
   const actual_size_x=lmsa.clientWidth;
   const actual_size_y=lmsa.clientHeight;
-  console.log(`ASX ${actual_size_x} ASY ${actual_size_y} AFC ${animation_frame_count}`)
+  //console.log(`ASX ${actual_size_x} ASY ${actual_size_y} AFC ${animation_frame_count}`)
   lmsa.style.backgroundSize=`${actual_size_x*animation_frame_count}px ${actual_size_y}px`;
   
   let anim1=lmsa.animate(
@@ -683,7 +733,7 @@ function sidebar_intro_animate(){
     [{opacity:"0.0"},{opacity:"1.0"}],
     {duration:500,delay:0,easing:"linear"})
   let anim3=lmsa.animate(
-    [{transform:"translate(0,+100px)"},{transform:""}],
+    [{transform:"translate(0,+100px)"},{transform:"none"}],
     {duration:1000,delay:0,easing:"cubic-bezier(.18,.58,.6,.99)"})
   let anim4=sidebar.animate(
     [{transform:"scale(0.0)"},
@@ -742,7 +792,23 @@ function launch_firework_periodic(){
 }
 launch_firework_periodic();
 
+function polynomialEaseIn(x,power){
+  return Math.pow(x,power);
+}
+function polynomialEaseOut(x,power){
+  return 1-polynomialEaseIn(1-x,power)
+}
+function polynomialEase(x,power){
+  if (x<0.5) return polynomialEaseIn(x*2,power)*0.5;
+  else return polynomialEaseOut((x-0.5)*2,power)*0.5+0.5;
+}
 let last_t=NaN;
+let camera_being_animated=false;
+let camera_anim_position_start=null;
+let camera_anim_position_end=null;
+let camera_anim_time_duration=0;
+let camera_anim_time_remaining=0;
+
 function animationCallback(time) {
   if (canvas_fireworks.width!=wsd.clientWidth)
     canvas_fireworks.width=wsd.clientWidth;
@@ -753,18 +819,49 @@ function animationCallback(time) {
   last_t=time;
   if (dt>1.0) dt=1.0;
   refresh_fireworks_canvas(dt);
+  
+  if (camera_being_animated){
+    camera_anim_time_remaining-=dt;
+    if (camera_anim_time_remaining<0){
+      camera_being_animated=false;
+      parallax_camera=camera_anim_position_end;
+    }else{
+      let anim_ratio = 1-(camera_anim_time_remaining/camera_anim_time_duration);
+      anim_ratio=polynomialEase(anim_ratio,3);
+      parallax_camera=camera_anim_position_end.subtract(camera_anim_position_start).multiply(anim_ratio).add(camera_anim_position_start);
+    }
+  }
+  
+  parallax_camera=new Vector3(
+    parallax_camera.x,
+    (1-scroll_progress)*500,
+    parallax_camera.z
+  );
+  
+  recalculate_parallax_images();
+  
   requestAnimationFrame(animationCallback);
 }
 requestAnimationFrame(animationCallback);
 
+function camera_animate_to(loc){
+  camera_being_animated=true;
+  camera_anim_position_start=parallax_camera;
+  camera_anim_position_end=loc;
+  camera_anim_time_duration=1.0;
+  camera_anim_time_remaining=camera_anim_time_duration;
+}
+
 //TODO change this JS-based animation to
 // a CSS-based animation with "animation-timeline: scroll()" 
+let scroll_progress=0;
 let scroll_last=content_scroller.scrollTop;
 content_scroller.addEventListener("scroll", (e) => { 
   //console.log("Scroll"+e);
   let scroll_pixels=content_scroller.scrollTop;
   let scroll_maxium=logo_spacer.clientHeight+screen_blanker.clientHeight;
   let scroll_progress_ratio=scroll_pixels/scroll_maxium;
+  scroll_progress=scroll_progress_ratio;
   let scroll_delta=scroll_pixels-scroll_last;
   scroll_last=scroll_pixels;
   
@@ -782,8 +879,7 @@ content_scroller.addEventListener("scroll", (e) => {
   cs.offset=new Vector2(0,-scroll_progress_ratio*100);
   container_stars.style.top=-scroll_progress_ratio*100+"px";
   container_ground.style.bottom=`calc( -50vh + ${scroll_progress_ratio}*50vh)`;
-  //container_ground.style.bottom=scroll_progress*1.5+"px";
-})
+});
 
 let current_lang="ko";
 let all_langs=["ko","en"];
@@ -803,6 +899,170 @@ lang_btn.onclick= ()=>{
   else apply_lang("ko");
 }
 apply_lang("ko");
+
+class ParallaxImage{
+  // Note that this is the coordinate of BOTTOM CENTER.
+  location = new Vector3();
+  dimensions = new Vector2();
+  type;
+  src;
+  constructor(loc,dim,type,src){
+    this.location=loc;
+    this.dimensions=dim;
+    this.type=type;
+    this.src=src;
+  }
+  solve(camera_location = new Vector3()){
+    let relative_location = this.location.subtract(camera_location);
+    // 0% at 100, 100% at 500
+    let opacity=(relative_location.z-100)/400;
+    if (opacity<0) opacity=0;
+    if (opacity>1) opacity=1;
+    
+    if (opacity<=0) return {"render":false};
+    
+    // intrinsic size at 100. 50% scale at 200.
+    let xy_multiplier = 500/relative_location.z;
+    
+    let scaled_dim = this.dimensions.multiply(xy_multiplier);
+    let offset_location = relative_location.multiply(xy_multiplier).projectXY();
+    
+    return {
+      "render":true,
+      "opacity":opacity,
+      "x":offset_location.x,
+      "y":offset_location.y+(relative_location.z)*0.3,
+      "w":scaled_dim.x,
+      "h":scaled_dim.y
+    };
+  }
+  toString(){
+    return "ParallaxImage(LOC="+this.location+", DIM="+this.dimensions+", TYP="+this.type+", SRC="+this.src+")";
+  }
+}
+
+parallax_images=[
+  new ParallaxImage(
+    new Vector3(0,0,500),
+    new Vector2(Infinity,-1),
+    "solid","#301010"),
+  new ParallaxImage(
+    new Vector3(-200,0,0),
+    new Vector2(200,200),
+    "solid","#FF0000"),
+  new ParallaxImage(
+    new Vector3(200,0,0),
+    new Vector2(200,200),
+    "solid","#00FF00"),
+  new ParallaxImage(
+    new Vector3(100,0,200),
+    new Vector2(200,200),
+    "solid","#0000FF"),
+  
+];
+pimg_doms=[];
+
+parallax_images.sort((a,b)=>{return b.location.z-a.location.z})
+
+let parallax_camera = new Vector3(0,0,-500);
+
+function populate_parallax_images(){
+  // Clear all DOM
+  parallax_image_container.replaceChildren();
+  pimg_doms=[];
+  
+  // Add DOMs
+  zi=0;
+  for (const pimg of parallax_images){
+    zi++;
+    //console.log("Create PIMG "+pimg);
+    let e=null;
+    if (pimg.type=="image"){
+      e=document.createElement("img");
+      e.src=pimg.src;
+    }else if (pimg.type=="solid"){
+      e=document.createElement("div");
+      e.style.backgroundColor=pimg.src;
+    }else{
+      console.log("ERROR 817");
+    }
+    e.style.position="absolute";
+    e.style.zIndex=zi;
+    e.style.display="none";
+    parallax_image_container.appendChild(e);
+    pimg_doms.push(e);
+  }
+}
+populate_parallax_images();
+function recalculate_parallax_images(){
+  if (parallax_images.length != pimg_doms.length){
+    console.log("ERROR 623")
+  }
+  let n=parallax_images.length;
+  let containerW=parallax_image_container.clientWidth;
+  let containerH=parallax_image_container.clientHeight;
+  for (let i=0;i<n;i++){
+    let dom = pimg_doms[i];
+    let pimg=parallax_images[i];
+    
+    let solve_result=pimg.solve(parallax_camera);
+    
+    //console.log("SR "+i+" / "+JSON.stringify(solve_result));
+    if (solve_result.render===false){
+      dom.style.display="none";
+    }
+    else{
+      dom.style.display="block";
+      if (!Number.isFinite(pimg.dimensions.x)){
+        dom.style.width="100%";
+        dom.style.left="0";
+      }else{
+
+        dom.style.width=solve_result.w+"px";
+        dom.style.left=(containerW/2+solve_result.x-solve_result.w/2)+"px";
+        
+      }
+      if (!Number.isFinite(pimg.dimensions.y)){
+        dom.style.height="100%";
+        dom.style.bottom="0";
+      }else if (pimg.dimensions.y<0){
+        if (solve_result.y<0){
+          dom.style.display="none";
+        }else{
+          dom.style.height=solve_result.y+"px";
+          dom.style.bottom="0";
+        }
+      }else if (solve_result.h<0){
+        dom.style.display="none";
+      }else{
+        dom.style.height=solve_result.h+"px";
+        dom.style.bottom=solve_result.y+"px";
+      }
+      
+    
+    }
+  }
+}
+
+/*
+function recalculate_camera_position(){
+  let scroll_amount=content_scroller.scrollTop;
+  let scroll_maximum=intro_content_container.clientHeight-content_scroller.clientHeight;
+  let scroll_bottom=scroll_maximum-scroll_amount;
+  parallax_camera=new Vector3(
+    Math.sin(Date.now()/500)*100,
+    scroll_bottom,
+    parallax_camera.z);
+}
+recalculate_parallax_images();
+*/
+
+function sidebar_clicked(x){
+  if (x==="home") camera_animate_to(new Vector3(0,0,-500));
+  else if (x==="about") camera_animate_to(new Vector3(200,0,-500));
+  else if (x==="coc") camera_animate_to(new Vector3(0,0,-100));
+  else console.log("Sidebar Click Unknown "+x)
+}
 </script>
 </body>
 </html>
