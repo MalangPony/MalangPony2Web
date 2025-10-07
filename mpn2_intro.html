@@ -144,9 +144,6 @@
   </div>
   <canvas id="canvas-fireworks" class="fullsize" style="z-index:-996;"></canvas>
   <div class="fullsize" id="parallax-image-container" style="z-index:-992;"></div>
-  <div id="container-ground" style="z-index:-997;">
-    <img id="ground-texture" src="MPN2-Prototype-Image-ground.png" style="width:100%;height:100%;">
-  </div>
   <div id="container-stars" style="z-index:-998;"></div>
   <div id="sky-bg" class="fullsize" style="z-index:-999;"></div>
 </div>
@@ -166,7 +163,6 @@ const logo_image_flash01 = document.getElementById("logo-flash01");
 const logo_image_orig = document.getElementById("logo-orig");
 
 const content_scroller =document.getElementById("content-scroller");
-const container_ground =document.getElementById("container-ground");
 const logo_spacer = document.getElementById("mpn-logo-spacer");
 const screen_blanker=document.getElementById("screen-blanker");
 const afterscroll_container=document.getElementById("afterscroll-content-container");
@@ -843,7 +839,7 @@ function animationCallback(time) {
   
   parallax_camera=new Vector3(
     parallax_camera.x,
-    (1-scroll_progress)*500,
+    (1-scroll_progress)*1000,
     parallax_camera.z
   );
   
@@ -887,7 +883,6 @@ content_scroller.addEventListener("scroll", (e) => {
   
   cs.offset=new Vector2(0,-scroll_progress_ratio*100);
   container_stars.style.top=-scroll_progress_ratio*100+"px";
-  container_ground.style.bottom=`calc( -50vh + ${scroll_progress_ratio}*50vh)`;
 });
 
 let current_lang="ko";
@@ -951,22 +946,36 @@ class ParallaxImage{
 }
 
 parallax_images=[
+  // Ground
   new ParallaxImage(
-    new Vector3(0,0,500),
+    new Vector3(0,-300,1000),
     new Vector2(Infinity,-1),
-    "solid","#301010"),
+    "solid","#0e3108"),
+  //FS
   new ParallaxImage(
-    new Vector3(-200,0,0),
-    new Vector2(200,200),
-    "solid","#FF0000"),
+    new Vector3(-200,0,-100),
+    new Vector2(200,200*(326/500)),
+    "image","MPN2-Prototype-Image-D2489678.png"),
+  //TS
   new ParallaxImage(
     new Vector3(200,0,0),
-    new Vector2(200,200),
-    "solid","#00FF00"),
+    new Vector2(200,200*(370/500)),
+    "image","MPN2-Prototype-Image-D1408232.png"),
+  //RD
   new ParallaxImage(
     new Vector3(100,0,200),
-    new Vector2(200,200),
-    "solid","#0000FF"),
+    new Vector2(200,200*(500/469)),
+    "image","MPN2-Prototype-Image-D926915.png"),
+  //Table
+  new ParallaxImage(
+    new Vector3(0,0,0),
+    new Vector2(200,200*(500/1050)),
+    "image","MPN2-Prototype-Image-D1467319-E1.png"),
+  //Cannon
+  new ParallaxImage(
+    new Vector3(-400,0,300),
+    new Vector2(200,200*(458/500)),
+    "image","MPN2-Prototype-Image-D1718519.png"),
   
 ];
 pimg_doms=[];
@@ -1022,6 +1031,7 @@ function recalculate_parallax_images(){
     }
     else{
       dom.style.display="block";
+      dom.style.opacity=solve_result.opacity;
       if (!Number.isFinite(pimg.dimensions.x)){
         dom.style.width="100%";
         dom.style.left="0";
