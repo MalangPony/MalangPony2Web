@@ -196,11 +196,17 @@ background: linear-gradient(0deg,#101050,#303070)
 #sidebar.rolled-up{
   max-height:0;
 }
-#sidebar > a{
+.sb-link{
   text-align:center;
-  text-decoration:none;
   font-weight:700;
   color:#644a20;
+  cursor:pointer;
+}
+.sb-link-active{
+}
+.sb-link-disabled{
+  opacity:0.3;
+  cursor:unset;
 }
 #ticket{
   /*border:5px solid #b37c0f; 

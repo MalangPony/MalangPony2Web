@@ -29,54 +29,54 @@
         </div>
       </div>
       <div id="sidebar" style="pointer-events:auto;display:none;">
-        <a href="#" onclick="sidebar_clicked('home');">
+        <div onclick="sidebar_clicked('home');" class="sb-link sb-link-active">
           <span class="lang-en">Home</span>
           <span class="lang-ko">홈</span>
-        </a>
-        <a href="#" onclick="sidebar_clicked('about');">
+        </div>
+        <div onclick="sidebar_clicked('about');" class="sb-link sb-link-active">
           <span class="lang-en">About</span>
           <span class="lang-ko">개요</span>
-        </a>
-        <a href="#" onclick="sidebar_clicked('coc');">
+        </div>
+        <div onclick="sidebar_clicked('coc');" class="sb-link sb-link-active">
           <span class="lang-en">Code of Conduct</span>
           <span class="lang-ko">규칙</span>
-        </a>
-        <a href="#">
+        </div>
+        <div onclick="sidebar_clicked('register');" class="sb-link sb-link-disabled">
           <span class="lang-en">Registration</span>
           <span class="lang-ko">등록</span>
-        </a>
-        <a href="#">
+        </div>
+        <div onclick="sidebar_clicked('timetable');" class="sb-link sb-link-disabled">
           <span class="lang-en">Timetable</span>
           <span class="lang-ko">시간표</span>
-        </a>
-        <a href="#">
+        </div>
+        <div onclick="sidebar_clicked('directions');" class="sb-link sb-link-disabled">
           <span class="lang-en">Directions</span>
           <span class="lang-ko">오시는 길</span>
-        </a>
-        <a href="#">
+        </div>
+        <div onclick="sidebar_clicked('conbook');" class="sb-link sb-link-disabled">
           <span class="lang-en">Conbook</span>
           <span class="lang-ko">콘북</span>
-        </a>
-        <a href="#">
+        </div>
+        <div onclick="sidebar_clicked('news');" class="sb-link sb-link-disabled">
           <span class="lang-en">News</span>
           <span class="lang-ko">소식</span>
-        </a>
-        <a href="#">
+        </div>
+        <div onclick="sidebar_clicked('sponsors');" class="sb-link sb-link-disabled">
           <span class="lang-en">Sponsors</span>
           <span class="lang-ko">스폰서</span>
-        </a>
-        <a href="#">
+        </div>
+        <div onclick="sidebar_clicked('involved');" class="sb-link sb-link-disabled">
           <span class="lang-en">Get Involved</span>
           <span class="lang-ko">모집</span>
-        </a>
-        <a href="#">
+        </div>
+        <div onclick="sidebar_clicked('mascot');" class="sb-link sb-link-disabled">
           <span class="lang-en">Our Mascot</span>
           <span class="lang-ko">마스코트</span>
-        </a>
-        <a href="#">
+        </div>
+        <div onclick="sidebar_clicked('staff');" class="sb-link sb-link-disabled">
           <span class="lang-en">Staff</span>
           <span class="lang-ko">스태프</span>
-        </a>
+        </div>
       </div>
     </div>
     
@@ -128,13 +128,13 @@
           </div>
         </div>
         <div id="page-about" style="display:none;">
-          <div style="font-size:64px;font-weight:700;color:#FFFFFF;text-align:center;">
+          <div style="margin-top:64px;font-size:64px;font-weight:700;color:#FFFFFF;text-align:center;">
             <span class="lang-en">About!!!</span>
             <span class="lang-ko">개요다!!!</span>
           </div>
         </div>
         <div id="page-coc" style="display:none;">
-          <div style="font-size:64px;font-weight:700;color:#FFFFFF;text-align:center;">
+          <div style="margin-top:64px;font-size:64px;font-weight:700;color:#FFFFFF;text-align:center;">
             <span class="lang-en">Code of Conduct!!!</span>
             <span class="lang-ko">규칙이다!!!</span>
           </div>
@@ -1142,12 +1142,17 @@ function page_transition(name){
   
   currently_on_page=name;
 }
+
+let camera_locations={
+  home:new Vector3(0,0,-500),
+  about:new Vector3(200,0,-500),
+  coc:new Vector3(0,0,-100)
+}
 function sidebar_clicked(x){
   page_transition(x);
-  if (x==="home") camera_animate_to(new Vector3(0,0,-500));
-  else if (x==="about") camera_animate_to(new Vector3(200,0,-500));
-  else if (x==="coc") camera_animate_to(new Vector3(0,0,-100));
-  else console.log("Sidebar Click Unknown "+x)
+  let camloc=camera_locations[x];
+  if (camloc !== undefined) camera_animate_to(camloc);
+  window.location.hash = x;
 }
 </script>
 </body>
