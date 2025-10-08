@@ -111,7 +111,6 @@
             <span class="lang-en">Malfoy!!!</span>
             <span class="lang-ko">말포이!!!</span>
           </div>
-          
           <div style="font-size:1.2em;font-weight:400;color:#FFFFFF;text-align:left;margin-top:32px;">
             <p>
               <span class="lang-en">Hello Bronies.</span>
@@ -940,10 +939,51 @@ let camera_anim_position_end=null;
 let camera_anim_time_duration=0;
 let camera_anim_time_remaining=0;
 
-let CAMERA_MOUSE_NUDGE_ENABLED=true;
+
+let dbp=document.getElementById("debug-print");
+// either "NO", "GYRO" or "MOUSE"
+let CAMERA_NUDGE_MODE="MOUSE";
+
+let mq_pointer=window.matchMedia("(pointer:fine)");
+if (!mq_pointer.matches) CAMERA_NUDGE_MODE="GYRO";
+
+console.log("Cam Nudge Mode: "+CAMERA_NUDGE_MODE);
+
+function limit(low,x,high){
+  if (x<low) return low;
+  if (x>high) return high;
+  return x
+}
+let gyro_data=Vector2.ZERO;
+//https://stackoverflow.com/questions/69216465/the-simplest-way-to-solve-gimbal-lock-when-using-deviceorientation-events-in-jav#comment138275927_75897568
+window.ondeviceorientation = (e) => {
+  let alpha=e.alpha;
+  let beta = e.beta;
+  let gamma = e.gamma;
+  
+  const degtorad = Math.PI / 180; // Degree-to-Radian conversion
+  let cX = Math.cos( beta  * degtorad );
+  let cY = Math.cos( gamma * degtorad );
+  let cZ = Math.cos( alpha * degtorad );
+  let sX = Math.sin( beta  * degtorad );
+  let sY = Math.sin( gamma * degtorad );
+  let sZ = Math.sin( alpha * degtorad );
+
+  let m13 = cY * sZ * sX + cZ * sY;
+  let m23 = sZ * sY - cZ * cY * sX;
+
+  gyro_data=new Vector2(m23,m13);
+}
+
 let mouse_location=new Vector2(wsd.clientWidth/2,wsd.clientHeight/2);
+let mouse_screen_relative_location = Vector2.ZERO;
 window.onmousemove= (e)=>{
+  let screen_size = new Vector2(wsd.clientWidth,wsd.clientHeight);
   mouse_location=new Vector2(e.clientX,e.clientY);
+  mouse_screen_relative_location = new Vector2(
+    ((e.clientX/wsd.clientWidth)-0.5)*2,
+    ((e.clientY/wsd.clientHeight)-0.5)*2
+  );
 }
 let camera_nudge_lerped=Vector2.ZERO;
 
@@ -978,19 +1018,26 @@ function animationCallback(time) {
     }
   }
   
-  if (CAMERA_MOUSE_NUDGE_ENABLED){
-    let screen_size = new Vector2(wsd.clientWidth,wsd.clientHeight);
-    let mouse_screen_relative_location = mouse_location.subtract(screen_size.multiply(0.5));
-    let camera_nudge = mouse_screen_relative_location.multiply(-0.05);
-    camera_nudge=new Vector2(camera_nudge.x,-camera_nudge.y);
-    let lerp_fac=2.0;
+  
+  if (CAMERA_NUDGE_MODE==="NO"){
+    camera_nudge_lerped = Vector2.ZERO;
+  }else{
+    let camera_nudge=Vector2.ZERO;
+    if (CAMERA_NUDGE_MODE==="MOUSE"){
+      camera_nudge= mouse_screen_relative_location.multiply(20);
+      camera_nudge=new Vector2(camera_nudge.x,-camera_nudge.y);
+    }
+    else if (CAMERA_NUDGE_MODE==="GYRO"){
+      camera_nudge= gyro_data.multiply(50);
+      camera_nudge=new Vector2(-camera_nudge.x,camera_nudge.y);
+    }
+    let lerp_fac=3.0;
     let lerp_raw_distance = camera_nudge.subtract(camera_nudge_lerped);
-    let lerp_delta = lerp_raw_distance.multiply(dt*3.0);
+    let lerp_delta = lerp_raw_distance.multiply(min(dt*lerp_fac,1.0));
     let speed = lerp_delta.length()/dt; //pixels per second
     if (speed<5) lerp_delta=Vector2.ZERO;//lerp_raw_distance;
     camera_nudge_lerped=camera_nudge_lerped.add(lerp_delta);
-  }else camera_nudge_lerped = Vector2.ZERO;
-  
+  }
   
   recalculate_parallax_images(
     new Vector3(
