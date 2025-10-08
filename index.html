@@ -143,15 +143,16 @@
     </div>
     
   </div>
-  <canvas id="canvas-fireworks" class="fullsize" style="z-index:-996;"></canvas>
+  
   <div class="fullsize" id="parallax-image-container" style="z-index:-992;"></div>
-  <div id="container-stars" style="z-index:-998;"></div>
+  <canvas id="canvas-fireworks" class="fullsize" style="z-index:-996;"></canvas>
+  <canvas id="canvas-stars" class="fullsize" style="z-index:-998;"></canvas>
   <div id="sky-bg" class="fullsize" style="z-index:-999;"></div>
 </div>
 <script>
 const wsd = document.getElementById("whole-screen-div");
 const canvas_fireworks = document.getElementById("canvas-fireworks");
-//const canvas_stars = document.getElementById("canvas-stars");
+const canvas_stars = document.getElementById("canvas-stars");
 const container_stars = document.getElementById("container-stars");
 const intro_content_container=document.getElementById("intro-content-container");
 
@@ -176,104 +177,112 @@ const lmsa = document.getElementById("letter-magic-spritesheet-animation");
 const lang_btn = document.getElementById("lang-btn");
 
 const parallax_image_container = document.getElementById("parallax-image-container");
-function create_star_SVG(color){
-  let svg=document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  //svg.setAttribute('width', '100');
-  //svg.setAttribute('height', '100');
-  svg.setAttribute('viewBox', '0 0 100 100');
-  var path = document.createElementNS("http://www.w3.org/2000/svg", 'path');
-  path.setAttribute('d', `
-    M 46.443599,0.27739779 
-    C 53.601876,29.626335 60.704491,
-    41.998754 97.450313,
-    50.8273 69.055811,
-    58.462803 54.94261,
-    72.705504 48.500162,
-    98.236694 46.591286,
-    75.807426 32.657703,
-    58.737772 1.161283,
-    50.625059 31.464656,
-    45.614272 40.955586,
-    34.398516 46.443599,
-    0.27739779 Z`);
-  path.setAttribute('style', 
-    `fill:${color};
-     stroke:none;
-     stroke-width:6.61458;
-     stroke-linejoin:miter;
-     stroke-miterlimit:10;
-     paint-order:stroke fill markers;
-     fill-opacity:1`);
-  svg.appendChild(path);
-  return svg
-}
-function create_star_element(){
-  let star_layer_container = document.createElement("div");
-  
-  let star_solid = create_star_SVG("hsl(60, 30%, 70%)");
-  let star_glow = create_star_SVG("hsl(60, 20%, 100%)");
-  //svg.setAttribute('style',"filter:drop-shadow(0 0 5px #FF0000);");
-  //svg.setAttribute('class',"bg-star");
-  
-  star_solid.style.position="absolute";
-  star_solid.style.zIndex=2;
-  
-  star_glow.style.position="absolute";
-  star_glow.style.zIndex=5;
-  star_glow.style.filter="blur(3px)";
-  
-  star_glow.animate(
-    [{ opacity: "1.0" },{ opacity: "0.0" } ],
-    {duration: 500+Math.random()*500,
-     direction:"alternate",
-     iterations: Infinity});
-  
-  star_layer_container.appendChild(star_solid);
-  star_layer_container.appendChild(star_glow);
-  return star_layer_container;
-}
+
 
 const star_density_reciprocal=10000; // One star every X pixels
 
-// Oh boy! I hope nobody with a 10K pixel monitor views my page!
-// Kid named 4K screen at 33% magnification:
-const max_pixels_x=10000; 
-const max_pixels_y=5000;
-
 // Pre-calculate star locations and attributes
 let star_definitions=[];
-let max_star_count = max_pixels_x*max_pixels_y/star_density_reciprocal;
-for (let i=0;i<max_star_count;i++){
-  star_definitions.push({
-    "x":max_pixels_x*Math.random(),
-    "y":max_pixels_y*Math.random(),
-    "intensity":Math.random(),
-    "size":Math.random()*5+5})
-}
+let star_def_area_w=0;
+let star_def_area_h=0;
+let STARS_MAX_SCROLL=100;
+let stars_scroll_pixels=0;
 
-
-function populate_stars(){
-  //Remove all children
-  container_stars.replaceChildren();
-  let maxX=container_stars.clientWidth;
-  let maxY = container_stars.clientHeight;
-  let star_count=0;
-  for (const sd of star_definitions){
-    if (sd.x<maxX && sd.y<maxY){
-      star_count++;
-      let se=create_star_element();
-      se.style.position="absolute";
-      se.style.width=sd.size+"px";
-      se.style.height=sd.size+"px";
-      se.style.top=sd.y-sd.size+"px";
-      se.style.left=sd.x-sd.size+"px";
-      se.style.transform="rotate("+Math.random()*360+"deg)";
-      container_stars.appendChild(se);
-    }
+function spawn_stars(
+    count,minX,maxX,minY,maxY){
+    // min is inclusive, max is exclusive.
+  for (let i=0;i<count;i++){
+    star_definitions.push({
+      "x":minX+(maxX-minX-1)*Math.random(),
+      "y":minY+(maxY-minY-1)*Math.random(),
+      "size":Math.random(),
+      "sine_period":Math.random()*1.0+2.0,
+      "sine_phase":Math.random()})
   }
-  console.log("Star Count: "+star_count);
 }
-populate_stars();
+
+function resize_star_area(new_w,new_h){
+  console.log(`Star Area Changed: ${new_w} ${new_h}`)
+  let old_area=star_def_area_h*star_def_area_w;
+  
+  if (new_w<star_def_area_w){
+    // Contract X
+    star_definitions=star_definitions.filter((sd)=>{
+      return (sd.x<new_w);
+    });
+    star_def_area_w=new_w;
+  }else if (new_w>star_def_area_w){
+    //Expand X
+    let new_area = new_w*star_def_area_h;
+    let stars_to_spawn_r = (new_area-old_area)/star_density_reciprocal;
+    let stars_to_spawn_i=Math.floor(stars_to_spawn_r);
+    let stars_to_spawn_f=stars_to_spawn_r-stars_to_spawn_i;
+    let stars_to_spawn=0;
+    if (stars_to_spawn_f>Math.random()) stars_to_spawn=stars_to_spawn_i+1;
+    else stars_to_spawn=stars_to_spawn_i;
+    spawn_stars(
+      stars_to_spawn,
+      star_def_area_w,new_w,
+      0,star_def_area_h);
+    star_def_area_w=new_w;
+  }
+  
+  if (new_h<star_def_area_h){
+    // Contract Y
+    star_definitions=star_definitions.filter((sd)=>{
+      return (sd.y<new_h);
+    });
+    star_def_area_h=new_h;
+  }else if (new_h>star_def_area_h){
+    //Expand Y
+    let new_area = new_h*star_def_area_w;
+    let stars_to_spawn_r = (new_area-old_area)/star_density_reciprocal;
+    let stars_to_spawn_i=Math.floor(stars_to_spawn_r);
+    let stars_to_spawn_f=stars_to_spawn_r-stars_to_spawn_i;
+    let stars_to_spawn=0;
+    if (stars_to_spawn_f>Math.random()) stars_to_spawn=stars_to_spawn_i+1;
+    else stars_to_spawn=stars_to_spawn_i;
+    spawn_stars(
+      stars_to_spawn,
+      0,star_def_area_w,
+      star_def_area_h,new_h);
+    star_def_area_h=new_h;
+  }
+}
+
+
+const sc2d = canvas_stars.getContext("2d");
+function refresh_stars_canvas(dt){
+  let w=canvas_stars.width;
+  let h=canvas_stars.height;
+  
+  if ((w!=star_def_area_w) || ((h+STARS_MAX_SCROLL)!=star_def_area_h)){
+    resize_star_area(w,h+STARS_MAX_SCROLL);
+  }
+  
+  sc2d.clearRect(0,0,w,h);
+  
+  for (const sd of star_definitions){
+    let x=sd.x;
+    let y=sd.y-stars_scroll_pixels;
+    if ((y<0) || (y>h)) continue;
+    sd.sine_phase+=(dt/sd.sine_period);
+    // Discard integer part
+    sd.sine_phase=sd.sine_phase-Math.floor(sd.sine_phase);
+    let sine_value = Math.sin(2*Math.PI*sd.sine_phase)*0.5+0.5;
+    let size=1.0+sd.size*1.0+sine_value*0.5;
+    draw_glowing_circle(
+      sc2d,
+      x,y,
+      "hsla(  0,   0%, 100%, 0.9)",
+      "hsla( 60, 100%,  50%, 0.3)",
+      "hsla( 60, 100%, 100%, 0.0)",
+      size,size*0.5,1.0+sine_value*2.0
+    )
+  
+  }
+  
+}
 
 class Vector2{
   // 2D Vector. Immutable.
@@ -426,6 +435,33 @@ class Entity{
   }
 }
 
+function draw_glowing_circle(
+    c2d,
+    x,y,
+    color_inner,color_glow,color_edge,
+    radius,border_feather,glow_radius){
+
+  const total_r=radius+glow_radius;
+  
+  const gradient=c2d.createRadialGradient(
+    x,y,0,
+    x,y,total_r);
+  let stop1=(radius-border_feather)/total_r;
+  let stop2=(radius+border_feather)/total_r;
+  let stop3=1.0;
+  //console.log(color_inner);
+  gradient.addColorStop(stop1,color_inner);
+  //console.log(color_glow);
+  gradient.addColorStop(stop2,color_glow);
+  //console.log(color_edge);
+  gradient.addColorStop(stop3,color_edge);
+    
+  c2d.fillStyle=gradient;
+  c2d.beginPath();
+  c2d.arc(x,y,total_r,0,2*Math.PI);
+  c2d.fill();
+}
+
 class GlowingCircleEntity extends Entity{
   radius;
   inner_color;
@@ -459,25 +495,14 @@ class GlowingCircleEntity extends Entity{
       this.life_size_power);
     //console.log("RL "+this.#remaining_life+" | SM "+size_multiplier);
     
-    const unscaled_r=this.radius+this.glow_radius
-    const total_r=unscaled_r*size_multiplier;
-    
-    const gradient=cs.context.createRadialGradient(
-      draw_position.x,draw_position.y,0,
-      draw_position.x,draw_position.y,total_r);
-    let stop1=(this.radius-this.border_feather)/unscaled_r;
-    let stop2=(this.radius+this.border_feather)/unscaled_r;
-    let stop3=1.0;
-    gradient.addColorStop(stop1,this.inner_color);
-    gradient.addColorStop(stop2,this.glow_color);
-    gradient.addColorStop(stop3,this.edge_color);
-      
-    cs.context.fillStyle=gradient;
-    //c2d.fillStyle="#FF0000";
-    //console.log("Rendering... "+this.position+" | "+total_r+" | "+stop1+" | "+stop2+" | "+stop3);
-    cs.context.beginPath();
-    cs.context.arc(draw_position.x,draw_position.y,total_r,0,2*Math.PI);
-    cs.context.fill();
+    draw_glowing_circle(
+      cs.context,
+      draw_position.x,draw_position.y,
+      this.inner_color,this.glow_color,this.edge_color,
+      this.radius*size_multiplier,
+      this.border_feather*size_multiplier,
+      this.glow_radius*size_multiplier
+    );
   }
 }
 class FireworkEntity extends GlowingCircleEntity{
@@ -623,9 +648,9 @@ class CanvasState{
   offset=new Vector2();
 }
 
-const c2d = canvas_fireworks.getContext("2d");
+const fc2d = canvas_fireworks.getContext("2d");
 let cs = new CanvasState();
-cs.context=c2d;
+cs.context=fc2d;
 cs.offset=new Vector2(0,0);
 function refresh_fireworks_canvas(dt){
   let w=canvas_fireworks.width;
@@ -645,23 +670,12 @@ function refresh_fireworks_canvas(dt){
   
   //console.log("#Entities: "+entity_array.length);
   
-  c2d.clearRect(0,0,w,h);
+  fc2d.clearRect(0,0,w,h);
   for (const e of entity_array){
     e.render(cs);
   }
 }
 
-
-
-let star_container_resize_observer = new ResizeObserver(() =>{
-  populate_stars();
-});
-star_container_resize_observer.observe(container_stars);
-
-let icc_resize_observer = new ResizeObserver(() =>{
-  
-});
-icc_resize_observer.observe(intro_content_container);
 
 let in_sky_mode=true;
 function transition_sky(){
@@ -820,11 +834,19 @@ function animationCallback(time) {
     canvas_fireworks.width=wsd.clientWidth;
   if (canvas_fireworks.height!=wsd.clientHeight)
     canvas_fireworks.height=wsd.clientHeight;
+  
+  if (canvas_stars.width!=wsd.clientWidth)
+    canvas_stars.width=wsd.clientWidth;
+  if (canvas_stars.height!=wsd.clientHeight)
+    canvas_stars.height=wsd.clientHeight;
+  
+  
   if (isNaN(last_t)) last_t=time;
   let dt=(time-last_t)/1000;
   last_t=time;
   if (dt>1.0) dt=1.0;
   refresh_fireworks_canvas(dt);
+  refresh_stars_canvas(dt);
   
   if (camera_being_animated){
     camera_anim_time_remaining-=dt;
@@ -883,7 +905,7 @@ content_scroller.addEventListener("scroll", (e) => {
   console.log(`Scroll ${scroll_pixels} delta ${scroll_delta}, ratio ${scroll_progress_ratio}`);
   
   cs.offset=new Vector2(0,-scroll_progress_ratio*100);
-  container_stars.style.top=-scroll_progress_ratio*100+"px";
+  stars_scroll_pixels=scroll_progress_ratio*100;
 });
 
 let current_lang="ko";
