@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-<!-- TODO add OG tags -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -349,6 +348,7 @@ class Vector2{
       return v;
     }
   }
+  static ZERO = new Vector2(0,0);
 }
 class Vector3{
   // 3D Vector. Immutable.
@@ -397,6 +397,7 @@ class Vector3{
       return v;
     }
   }
+  static ZERO = new Vector3(0,0,0);
 }
 
 class EntityPhysicsParameters{
@@ -939,6 +940,13 @@ let camera_anim_position_end=null;
 let camera_anim_time_duration=0;
 let camera_anim_time_remaining=0;
 
+let CAMERA_MOUSE_NUDGE_ENABLED=true;
+let mouse_location=new Vector2(wsd.clientWidth/2,wsd.clientHeight/2);
+window.onmousemove= (e)=>{
+  mouse_location=new Vector2(e.clientX,e.clientY);
+}
+let camera_nudge_lerped=Vector2.ZERO;
+
 function animationCallback(time) {
   if (canvas_fireworks.width!=wsd.clientWidth)
     canvas_fireworks.width=wsd.clientWidth;
@@ -970,13 +978,26 @@ function animationCallback(time) {
     }
   }
   
-  parallax_camera=new Vector3(
-    parallax_camera.x,
-    (1-scroll_progress)*1000,
-    parallax_camera.z
-  );
+  if (CAMERA_MOUSE_NUDGE_ENABLED){
+    let screen_size = new Vector2(wsd.clientWidth,wsd.clientHeight);
+    let mouse_screen_relative_location = mouse_location.subtract(screen_size.multiply(0.5));
+    let camera_nudge = mouse_screen_relative_location.multiply(-0.05);
+    camera_nudge=new Vector2(camera_nudge.x,-camera_nudge.y);
+    let lerp_fac=2.0;
+    let lerp_raw_distance = camera_nudge.subtract(camera_nudge_lerped);
+    let lerp_delta = lerp_raw_distance.multiply(dt*3.0);
+    let speed = lerp_delta.length()/dt; //pixels per second
+    if (speed<5) lerp_delta=Vector2.ZERO;//lerp_raw_distance;
+    camera_nudge_lerped=camera_nudge_lerped.add(lerp_delta);
+  }else camera_nudge_lerped = Vector2.ZERO;
   
-  recalculate_parallax_images();
+  
+  recalculate_parallax_images(
+    new Vector3(
+      parallax_camera.x+camera_nudge_lerped.x,
+      (1-scroll_progress)*1000+camera_nudge_lerped.y,
+      parallax_camera.z
+    ));
   
   requestAnimationFrame(animationCallback);
 }
@@ -1149,7 +1170,7 @@ function populate_parallax_images(){
   }
 }
 populate_parallax_images();
-function recalculate_parallax_images(){
+function recalculate_parallax_images(camera_location){
   if (parallax_images.length != pimg_doms.length){
     console.log("ERROR 623")
   }
@@ -1160,7 +1181,7 @@ function recalculate_parallax_images(){
     let dom = pimg_doms[i];
     let pimg=parallax_images[i];
     
-    let solve_result=pimg.solve(parallax_camera);
+    let solve_result=pimg.solve(camera_location);
     
     //console.log("SR "+i+" / "+JSON.stringify(solve_result));
     if (solve_result.render===false){
