@@ -267,10 +267,11 @@ background: linear-gradient(0deg,#101050,#303070)
 }
 
 #afterscroll-content-container > div{
+    /*
 	position:absolute;
 	top:0;
 	left:0;
-	right:0;
+	right:0;*/
 	display:flex;
 	flex-direction:column;
 	align-items:center;

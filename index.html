@@ -102,7 +102,7 @@
       
       <div id="afterscroll-content-container">
         <div id="page-home" style="">
-          <img id="logo-orig" src="MPN2-Prototype-Image-LogoPlain.png" style="padding-left:64px;padding-right:64px;margin-top:64px;max-width:600px;align-self:center;">
+          <img id="logo-orig" src="MPN2-Prototype-Image-LogoPlain.png" style="margin-left:64px;margin-right:64px;max-width:min(600px , 100%);align-self:center;">
           
           <div style="font-size:64px;font-weight:700;color:#FFFFFF;text-align:center;">
             <span class="lang-en">Malfoy!!!</span>
@@ -889,11 +889,12 @@ content_scroller.addEventListener("scroll", (e) => {
   let scroll_pixels=content_scroller.scrollTop;
   let scroll_maxium=screen_blanker.clientHeight;
   let scroll_progress_ratio=scroll_pixels/scroll_maxium;
-  scroll_progress=scroll_progress_ratio;
+  
   let scroll_delta=scroll_pixels-scroll_last;
   scroll_last=scroll_pixels;
   
   scroll_progress_ratio=Math.min(Math.max(scroll_progress_ratio,0),1);
+  scroll_progress=scroll_progress_ratio;
   
   if (scroll_progress_ratio>0.95){
     if (in_sky_mode) transition_ground();
@@ -1110,20 +1111,33 @@ function page_transition(name){
   if (target===null) return;
   //console.log("PT 3");
   
+  /*
   let anim1=last.animate(
     [{ opacity: "1.0" },{ opacity: "0.0" } ],
     {duration: 500});
   anim1.onfinish= () => {
     last.style.display="none";
+    target.style.display="flex";
+    target.style.opacity="0";
   }
-  
-  target.style.display="flex";
-  target.style.opacity="0";
   let anim2=target.animate(
     [{ opacity: "0.0" },{ opacity: "1.0" } ],
     {duration: 500,delay:500});
   anim2.onfinish= () => {
     target.style.opacity="1.0";
+  }*/
+  
+  let anim3=intro_content_container.animate(
+    [{ opacity: "1.0" },{ opacity: "0.0" }],
+    {duration: 500,delay:0});
+  anim3.onfinish= () => {
+    last.style.display="none";
+    target.style.display="flex";
+  }
+  let anim4=intro_content_container.animate(
+    [{ opacity: "0.0" },{ opacity: "1.0" }],
+    {duration: 500,delay:500});
+  anim4.onfinish= () => {
   }
   
   currently_on_page=name;
