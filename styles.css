@@ -20,6 +20,7 @@
 *{
 	margin:0;
 	padding:0;
+    box-sizing: border-box;
 }
 html{
 	width:100%;
@@ -73,7 +74,7 @@ canvas{
   height:120vh;
 }
 #screen-blanker{
-  height:60vh;
+  height:100vh;
 }
 #afterscroll-content-container{
   min-height:100vh;
@@ -104,8 +105,9 @@ canvas{
   z-index:5;
 }
 #mpn-logo-spacer{
-  align-self:flex-start;
-  padding:6vh;
+  position:absolute;
+  top:6vh;
+  left:6vh;
 }
 #mpn_logo_container{
   width:50vw;
@@ -168,7 +170,7 @@ background: linear-gradient(0deg,#101050,#303070)
   border:3px solid #d3bf84; 
   /*background-color:#fcedb6;*/
   /*margin-left:-160px;*/
-  width:100px;
+  width:160px;
   /*height:min(512px,calc(100vh - 64px));*/
   max-height:calc(100vh - 64px);
   flex-direction:column;
@@ -206,8 +208,8 @@ background: linear-gradient(0deg,#101050,#303070)
   background-size: contain;
   background-repeat:no-repeat;
   background-position: center;
-  width:160px;
-  height:100px;
+  width:240px;
+  height:160px;
   font-size:24px;
   display:flex;
   justify-content: center;

@@ -864,7 +864,7 @@ let scroll_last=content_scroller.scrollTop;
 content_scroller.addEventListener("scroll", (e) => { 
   //console.log("Scroll"+e);
   let scroll_pixels=content_scroller.scrollTop;
-  let scroll_maxium=logo_spacer.clientHeight+screen_blanker.clientHeight;
+  let scroll_maxium=screen_blanker.clientHeight;
   let scroll_progress_ratio=scroll_pixels/scroll_maxium;
   scroll_progress=scroll_progress_ratio;
   let scroll_delta=scroll_pixels-scroll_last;
@@ -879,7 +879,7 @@ content_scroller.addEventListener("scroll", (e) => {
   }
   fireworks_enabled=scroll_progress_ratio<0.5;
   
-  //console.log(`Scroll ${scroll_pixels} (delta ${scroll_delta}, ratio ${scroll_progress_ratio})`);
+  console.log(`Scroll ${scroll_pixels} delta ${scroll_delta}, ratio ${scroll_progress_ratio}`);
   
   cs.offset=new Vector2(0,-scroll_progress_ratio*100);
   container_stars.style.top=-scroll_progress_ratio*100+"px";
@@ -1077,15 +1077,15 @@ recalculate_parallax_images();
 */
 let currently_on_page="home";
 function page_transition(name){
-  console.log("PT "+name)
+  //console.log("PT "+name)
   if (name===currently_on_page) return;
-  console.log("PT 1");
+  //console.log("PT 1");
   let last=document.getElementById("page-"+currently_on_page);
   if (last===null) return;
-  console.log("PT 2");
+  //console.log("PT 2");
   let target=document.getElementById("page-"+name);
   if (target===null) return;
-  console.log("PT 3");
+  //console.log("PT 3");
   
   let anim1=last.animate(
     [{ opacity: "1.0" },{ opacity: "0.0" } ],
