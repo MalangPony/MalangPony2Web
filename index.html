@@ -21,13 +21,13 @@
     <img id="hmr-base" src="MPN2-Prototype-Image-Hanmari2.png" style="z-index:1;">
   </div>
   <div id="stickies" class="fullsize" style="z-index:80;pointer-events:none;">
-    <div id="sidebar-positioner" class="fullsize" style="z-index:10;">
-      <div id="sidebar-animation-container">
-        <div id="sidebar-intro-anim" style="width:320px; height:320px; margin-left:-80px; display:none;">
+    <div id="sidebar-animation-container">
+        <div id="sidebar-intro-anim" style="display:none;">
           <!--<img id="sidebar-intro-anim-image" src="MPN2-Prototype-Image-Scroll2.png" style="max-width:100%;max-height:100%;">-->
           <div id="letter-magic-spritesheet-animation"></div>
         </div>
       </div>
+    <div id="sidebar-positioner" class="fullsize" style="z-index:10;">
       <div id="sidebar" style="pointer-events:auto;display:none;">
         <div onclick="sidebar_clicked('home');" class="sb-link sb-link-active">
           <span class="lang-en">Home</span>
@@ -88,7 +88,7 @@
     </div>
     
     <div id="sb-button-positioner" class="fullsize" style="z-index:5;">
-      <img src="MPN2-Prototype-Image-Scroll2.png" id="sb-btn" style="pointer-events:auto;"> 
+      <img src="MPN2-Prototype-Image-Scroll2.png" id="sb-btn" style="pointer-events:auto;display:none;"> 
     </div>
   </div>
   <div id="content-scroller">
@@ -711,7 +711,8 @@ function transition_sky(){
   afterscroll_container.classList.remove("activated");
   lang_btn.classList.remove("activated");
   sb_btn.classList.remove("activated");
-  sidebar_hide();
+  if (mobile_mode) sidebar_button_hide_mobile();
+  else sidebar_hide();
 }
 function transition_ground(){
   in_sky_mode=false;
@@ -727,7 +728,10 @@ function transition_ground(){
   lang_btn.classList.add("activated");
   sb_btn.classList.add("activated");
   window.setTimeout(()=>{
-    if ((!in_sky_mode) && (!mobile_mode)) sidebar_intro_animate();},100);
+    if (!in_sky_mode) {
+      if (mobile_mode) sidebar_button_animate_mobile();
+      else sidebar_intro_animate();
+    }},100);
 }
 /*
 function sidebar_intro_animate(){
@@ -760,7 +764,7 @@ function sidebar_intro_animate(){
     sidebar.style.maxHeight="calc(100vh - 64px)";
   }
 }*/
-function sidebar_intro_animate(){
+function sidebar_magic_animate(){
   sia.style.display="block";
   
   const animation_frame_count=16;
@@ -774,10 +778,18 @@ function sidebar_intro_animate(){
     {duration:1200,delay:0,easing:`steps(${animation_frame_count-1})`})
   let anim2=lmsa.animate(
     [{opacity:"0.0"},{opacity:"1.0"}],
-    {duration:500,delay:0,easing:"linear"})
+    {duration:500,delay:0,easing:"linear"});
   let anim3=lmsa.animate(
     [{transform:"translate(0,+100px)"},{transform:"none"}],
     {duration:1000,delay:0,easing:"cubic-bezier(.18,.58,.6,.99)"})
+  anim1.onfinish=(e)=>{
+    sia.style.display="none";
+  };
+}
+function sidebar_intro_animate(){
+  sidebar_magic_animate();
+  
+  
   let anim4=sidebar.animate(
     [{transform:"scale(0.0)"},
      {transform:"scale(1.0)"}],
@@ -790,9 +802,7 @@ function sidebar_intro_animate(){
   sidebar.style.transform="scale(0)";
   sidebar.style.display="flex";
   sidebar.style.maxHeight="0";
-  anim1.onfinish=(e)=>{
-    sia.style.display="none";
-  };
+  
   anim4.onfinish=(e)=>{
     sidebar.style.transform="none";
   };
@@ -801,21 +811,62 @@ function sidebar_intro_animate(){
     sidebar.style.maxHeight="calc(100vh - 64px)";
   }
 }
+function sidebar_button_animate_mobile(){
+  sidebar_magic_animate();
+  
+  let anim4=sb_btn.animate(
+    [{transform:"scale(0.0)"},
+     {transform:"scale(1.0)"}],
+    {duration:400,delay:1100,easing:"ease-out"})
+  
+  sb_btn.style.display="block";
+  sb_btn.style.transform="scale(0.0)";
+  
+  anim4.onfinish=(e)=>{
+    sb_btn.style.transform="none";
+  };  
+}
+function sidebar_button_hide_mobile(){
+  let anim1=sb_btn.animate(
+    [{marginLeft:"16px"},
+     {marginLeft:"-160px"}],
+    {duration:500,delay:0,easing:"ease-in"})
+  anim1.onfinish = (e)=>{
+    sb_btn.style.display="none";
+    sb_btn.style.marginLeft="16px";
+  }
+}
 function sidebar_intro_animate_mobile(){
   sidebar.style.transform="none";
   sidebar.style.display="flex";
-  sidebar.style.maxHeight="0";
+  
   let anim4=sidebar.animate(
     [{opacity:"0"},
      {opacity:"1"}],
     {duration:300,delay:0,easing:"ease-out"});
+  let anim2=sidebar.animate(
+    [{maxWidth:"0"},
+     {maxWidth:"100vw"}],
+    {duration:300,delay:0,easing:"ease-in-out"});
+  anim2.onfinish= ()=>{
+    sidebar.style.maxWidth="100vw";
+  }
+  sidebar.style.maxHeight="0";
   let anim5=sidebar.animate(
     [{maxHeight:"0"},
-     {maxHeight:"calc(100vh - 64px)"}],
-    {duration:500,delay:0,easing:"ease-in-out"});
+     {maxHeight:"100vh"}],
+    {duration:300,delay:000,easing:"ease-in-out"});
   anim5.onfinish= ()=>{
-    sidebar.style.maxHeight="calc(100vh - 64px)";
-  }
+    sidebar.style.maxHeight="100vh";
+  };
+  let anim6=sb_btn.animate(
+    [{opacity:1},
+     {opacity:0}],
+    {duration:300,delay:0,easing:"linear"})
+  sb_btn.style.opacity=1;
+  anim6.onfinish=(e)=>{
+    sb_btn.style.opacity=0;
+  };  
 }
 function sidebar_hide(){
   let anim1=sidebar.animate(
@@ -835,6 +886,15 @@ function sidebar_hide_mobile(){
   anim1.onfinish = (e)=>{
     sidebar.style.display="none";
   }
+  
+  let anim4=sb_btn.animate(
+    [{opacity:0},
+     {opacity:1}],
+    {duration:300,delay:0,easing:"linear"})
+  sb_btn.style.opacity=0;
+  anim4.onfinish=(e)=>{
+    sb_btn.style.opacity=1;
+  };  
 }
 function sidebar_hide_instant(){
   sidebar.style.display="none";
@@ -1237,9 +1297,13 @@ let mq_mobile=window.matchMedia("(width <= 640px)");
 let mobile_mode=mq_mobile.matches;
 function mobile_enter(){
   sidebar_hide_instant();
+  sidebar_button_animate_mobile();
 }
 function mobile_leave(){
-  if (!in_sky_mode) sidebar_intro_animate();
+  if (!in_sky_mode) {
+  sidebar_intro_animate();
+  sidebar_button_hide_mobile();
+  }
 }
 
 mq_mobile.onchange= ()=>{
