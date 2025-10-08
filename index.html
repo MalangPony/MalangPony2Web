@@ -934,6 +934,9 @@ function camera_animate_to(loc){
 // a CSS-based animation with "animation-timeline: scroll()" 
 let scroll_progress=0;
 let scroll_last=content_scroller.scrollTop;
+function forceScrollDown(){
+  content_scroller.scrollTop=screen_blanker.clientHeight;
+}
 content_scroller.addEventListener("scroll", (e) => { 
   //console.log("Scroll"+e);
   let scroll_pixels=content_scroller.scrollTop;
@@ -1150,6 +1153,22 @@ function recalculate_camera_position(){
 recalculate_parallax_images();
 */
 let currently_on_page="home";
+function page_transition_instant(name){
+
+  if (name===currently_on_page) return;
+
+  let last=document.getElementById("page-"+currently_on_page);
+  if (last===null) return;
+
+  let target=document.getElementById("page-"+name);
+  if (target===null) return;
+
+  last.style.display="none";
+  target.style.display="flex";
+  target.style.opacity=1.0;
+  
+  currently_on_page=name;
+}
 function page_transition(name){
   if (mobile_mode) sidebar_hide_mobile();
   
@@ -1210,6 +1229,9 @@ function sidebar_clicked(x){
 }
 
 
+
+
+
 let mq_mobile=window.matchMedia("(width <= 640px)");
 
 let mobile_mode=mq_mobile.matches;
@@ -1227,6 +1249,18 @@ mq_mobile.onchange= ()=>{
   else mobile_leave();
 };
 sb_btn.onclick=sidebar_intro_animate_mobile;
+
+if (window.location.hash != ""){
+  let hash_location=window.location.hash.substring(1);
+  console.log("From URL hash, jump to page "+hash_location);
+  let camloc=camera_locations[hash_location];
+  if (camloc !== undefined) {
+    // Valid page location
+    parallax_camera=camloc; // Jump camera
+    forceScrollDown();
+    page_transition_instant(hash_location);
+  }
+}
 
 </script>
 </body>
