@@ -25,11 +25,13 @@
 html{
 	width:100%;
 	height:100%;
+    
 }
 body{
 	width:100%;
 	height:100%;
 	font-family:NPS;
+    font-size:16px;
 }
 
 .fullsize{
@@ -165,7 +167,20 @@ background: linear-gradient(0deg,#101050,#303070)
   align-items:center;
   width:100%;
   height:100%;
-  padding-left:max(32px,calc((100vw - 1000px) / 2 - 60px));
+  margin-left:max(32px,calc((100vw - 1000px) / 2 - 60px));
+  position:relative;
+}
+#sidebar-animation-container{
+  position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  right:0;
+  z-index:2;
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  justify-content:flex-start;
 }
 #sidebar{
   border:3px solid #d3bf84; 
@@ -217,7 +232,7 @@ background: linear-gradient(0deg,#101050,#303070)
   background-position: center;
   width:240px;
   height:160px;
-  font-size:24px;
+  font-size:1.5em;
   display:flex;
   justify-content: center;
   align-items: center;
@@ -238,30 +253,19 @@ background: linear-gradient(0deg,#101050,#303070)
   height:100%;
   background-image:url("MPN2-Prototype-Image-LetterMagicSpSht.png");
 }
-#sidebar-animation-container{
-  position:absolute;
-  left:0;
-  top:0;
-  bottom:0;
-  right:0;
-  z-index:2;
-  display:flex;
-  flex-direction:row;
-  align-items:center;
-  justify-content:flex-start;
-}
+
 #langswitch-positioner{
   display:flex;
   flex-direction:row;
   justify-content:flex-end;
-  align-items:flex-start
+  align-items:flex-start;
 }
 #lang-btn{
   background-color:#FFF;
   color:#000;
   font-weight:700;
-  font-size:16px;
-  margin:12px;
+  font-size:1.0em;
+  margin:16px;
   padding:8px;
   border-radius:8px;
   cursor:pointer;
@@ -269,6 +273,26 @@ background: linear-gradient(0deg,#101050,#303070)
   transition: all 1s;
 }
 #lang-btn.activated{
+  opacity:1.0;
+}
+
+#sb-button-positioner{
+  display:flex;
+  flex-direction:row;
+  justify-content:flex-start;
+  align-items:flex-start;
+}
+#sb-btn{
+  margin:16px;
+  width:96px;
+  height:96px;
+  cursor:pointer;
+  opacity:0;
+  transition: all 1s;
+  display:none;
+  object-fit: contain;
+}
+#sb-btn.activated{
   opacity:1.0;
 }
 
@@ -282,5 +306,64 @@ background: linear-gradient(0deg,#101050,#303070)
 	flex-direction:column;
 	align-items:center;
 	justify-content:flex-start;
-	padding:32px;
+	padding-top:32px;
+    padding-bottom:32px;
+}
+
+/* Responsive Section */
+/* Targeting down to 300px. */
+
+/* Mobile mode */
+@media (width<640px) {
+  #sb-btn{
+    display:block;
+  }
+  #sidebar-positioner{
+    display:flex;
+    flex-direction:row;
+    justify-content:center;
+    align-items:center;
+    width:100%;
+    height:100%;
+    margin-left:0;
+  }
+  #sidebar{
+    width:100vw;
+    height:100vh;
+    font-size:1.5em;
+    justify-content:space-evenly;
+  }
+  #intro-content-container{
+    width:calc(100% - 64px);
+  }
+  #afterscroll-content-container{
+    padding-left:32px;
+    padding-right:32px;
+  }
+}
+
+/* Smaller Mobiles */
+@media (width<480px) {
+}
+
+/* Ridiculously Small Mobiles */
+@media (width<360px) {
+}
+
+/* Mobile ladder */
+/* PC <-640-> Big Mobile <-480-> Small Mobile <-360-> Ridiculous <-300-> I give up */
+@media (width>=480px) and (width<640px) {
+  body{
+    font-size:20px;
+  }
+}
+@media (width>=360px) and (width<480px) {
+  body{
+    font-size:20px;
+  }
+}
+@media (width<360px) {
+  body{
+    font-size:16px;
+  }
 }

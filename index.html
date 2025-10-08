@@ -21,9 +21,9 @@
     <img id="hmr-base" src="MPN2-Prototype-Image-Hanmari2.png" style="z-index:1;">
   </div>
   <div id="stickies" class="fullsize" style="z-index:80;pointer-events:none;">
-    <div id="sidebar-positioner" class="fullsize" >
+    <div id="sidebar-positioner" class="fullsize" style="z-index:10;">
       <div id="sidebar-animation-container">
-        <div id="sidebar-intro-anim" style="width:320px; height:320px; margin-left:-60px; display:none;">
+        <div id="sidebar-intro-anim" style="width:320px; height:320px; margin-left:-80px; display:none;">
           <!--<img id="sidebar-intro-anim-image" src="MPN2-Prototype-Image-Scroll2.png" style="max-width:100%;max-height:100%;">-->
           <div id="letter-magic-spritesheet-animation"></div>
         </div>
@@ -80,11 +80,15 @@
       </div>
     </div>
     
-    <div id="langswitch-positioner" class="fullsize" >
+    <div id="langswitch-positioner" class="fullsize"  style="z-index:5;">
       <div id="lang-btn"  style="pointer-events:auto;">
         <span class="lang-en">한국어</span>
         <span class="lang-ko">English</span>
       </div>
+    </div>
+    
+    <div id="sb-button-positioner" class="fullsize" style="z-index:5;">
+      <img src="MPN2-Prototype-Image-Scroll2.png" id="sb-btn" style="pointer-events:auto;"> 
     </div>
   </div>
   <div id="content-scroller">
@@ -104,12 +108,12 @@
         <div id="page-home" style="">
           <img id="logo-orig" src="MPN2-Prototype-Image-LogoPlain.png" style="margin-left:64px;margin-right:64px;max-width:min(600px , 100%);align-self:center;">
           
-          <div style="font-size:64px;font-weight:700;color:#FFFFFF;text-align:center;">
+          <div style="font-size:3.0em;font-weight:700;color:#FFFFFF;text-align:center;">
             <span class="lang-en">Malfoy!!!</span>
             <span class="lang-ko">말포이!!!</span>
           </div>
           
-          <div style="font-size:24px;font-weight:400;color:#FFFFFF;text-align:left;padding-left:64px;padding-right:128px;margin-top:32px;">
+          <div style="font-size:1.2em;font-weight:400;color:#FFFFFF;text-align:left;margin-top:32px;">
             <p>
               <span class="lang-en">Hello Bronies.</span>
               <span class="lang-ko">안녕하세요 브로니 여러분.</span>
@@ -128,13 +132,13 @@
           </div>
         </div>
         <div id="page-about" style="display:none;">
-          <div style="margin-top:64px;font-size:64px;font-weight:700;color:#FFFFFF;text-align:center;">
+          <div style="margin-top:64px;font-size:3.0em;font-weight:700;color:#FFFFFF;text-align:center;">
             <span class="lang-en">About!!!</span>
             <span class="lang-ko">개요다!!!</span>
           </div>
         </div>
         <div id="page-coc" style="display:none;">
-          <div style="margin-top:64px;font-size:64px;font-weight:700;color:#FFFFFF;text-align:center;">
+          <div style="margin-top:64px;font-size:3.0em;font-weight:700;color:#FFFFFF;text-align:center;">
             <span class="lang-en">Code of Conduct!!!</span>
             <span class="lang-ko">규칙이다!!!</span>
           </div>
@@ -175,6 +179,7 @@ const siai =document.getElementById("sidebar-intro-anim-image");
 const lmsa = document.getElementById("letter-magic-spritesheet-animation");
 
 const lang_btn = document.getElementById("lang-btn");
+const sb_btn = document.getElementById("sb-btn");
 
 const parallax_image_container = document.getElementById("parallax-image-container");
 
@@ -689,6 +694,7 @@ function transition_sky(){
   intro_content_container.classList.remove("activated");
   afterscroll_container.classList.remove("activated");
   lang_btn.classList.remove("activated");
+  sb_btn.classList.remove("activated");
   sidebar_hide();
 }
 function transition_ground(){
@@ -703,8 +709,9 @@ function transition_ground(){
   intro_content_container.classList.add("activated");
   afterscroll_container.classList.add("activated");
   lang_btn.classList.add("activated");
+  sb_btn.classList.add("activated");
   window.setTimeout(()=>{
-    if (!in_sky_mode) sidebar_intro_animate();},100);
+    if ((!in_sky_mode) && (!mobile_mode)) sidebar_intro_animate();},100);
 }
 /*
 function sidebar_intro_animate(){
@@ -771,10 +778,26 @@ function sidebar_intro_animate(){
     sia.style.display="none";
   };
   anim4.onfinish=(e)=>{
-    sidebar.style.transform="";
+    sidebar.style.transform="none";
   };
   
   anim5.onfinish=(e)=>{
+    sidebar.style.maxHeight="calc(100vh - 64px)";
+  }
+}
+function sidebar_intro_animate_mobile(){
+  sidebar.style.transform="none";
+  sidebar.style.display="flex";
+  sidebar.style.maxHeight="0";
+  let anim4=sidebar.animate(
+    [{opacity:"0"},
+     {opacity:"1"}],
+    {duration:300,delay:0,easing:"ease-out"});
+  let anim5=sidebar.animate(
+    [{maxHeight:"0"},
+     {maxHeight:"calc(100vh - 64px)"}],
+    {duration:500,delay:0,easing:"ease-in-out"});
+  anim5.onfinish= ()=>{
     sidebar.style.maxHeight="calc(100vh - 64px)";
   }
 }
@@ -788,7 +811,18 @@ function sidebar_hide(){
     sidebar.style.marginLeft="0";
   }
 }
-
+function sidebar_hide_mobile(){
+  let anim1=sidebar.animate(
+    [{opacity:1},
+     {opacity:0}],
+    {duration:300,delay:0,easing:"linear"})
+  anim1.onfinish = (e)=>{
+    sidebar.style.display="none";
+  }
+}
+function sidebar_hide_instant(){
+  sidebar.style.display="none";
+}
 function flash_anim_trigger(){
   if (!in_sky_mode) return;
   let animation_kf=[{ opacity: "1.0" },{ opacity: "0.0" } ];
@@ -903,7 +937,7 @@ content_scroller.addEventListener("scroll", (e) => {
   }
   fireworks_enabled=scroll_progress_ratio<0.5;
   
-  console.log(`Scroll ${scroll_pixels} delta ${scroll_delta}, ratio ${scroll_progress_ratio}`);
+  //console.log(`Scroll ${scroll_pixels} delta ${scroll_delta}, ratio ${scroll_progress_ratio}`);
   
   cs.offset=new Vector2(0,-scroll_progress_ratio*100);
   stars_scroll_pixels=scroll_progress_ratio*100;
@@ -1101,6 +1135,8 @@ recalculate_parallax_images();
 */
 let currently_on_page="home";
 function page_transition(name){
+  if (mobile_mode) sidebar_hide_mobile();
+  
   //console.log("PT "+name)
   if (name===currently_on_page) return;
   //console.log("PT 1");
@@ -1110,6 +1146,7 @@ function page_transition(name){
   let target=document.getElementById("page-"+name);
   if (target===null) return;
   //console.log("PT 3");
+  
   
   /*
   let anim1=last.animate(
@@ -1154,6 +1191,26 @@ function sidebar_clicked(x){
   if (camloc !== undefined) camera_animate_to(camloc);
   window.location.hash = x;
 }
+
+
+let mq_mobile=window.matchMedia("(width <= 640px)");
+
+let mobile_mode=mq_mobile.matches;
+function mobile_enter(){
+  sidebar_hide_instant();
+}
+function mobile_leave(){
+  if (!in_sky_mode) sidebar_intro_animate();
+}
+
+mq_mobile.onchange= ()=>{
+  let match=mq_mobile.matches;
+  mobile_mode=match;
+  if (match) mobile_enter();
+  else mobile_leave();
+};
+sb_btn.onclick=sidebar_intro_animate_mobile;
+
 </script>
 </body>
 </html>
