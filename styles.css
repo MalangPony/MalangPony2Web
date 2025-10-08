@@ -167,7 +167,7 @@ background: linear-gradient(0deg,#101050,#303070)
   align-items:center;
   width:100%;
   height:100%;
-  margin-left:max(32px,calc((100vw - 1000px) / 2 - 60px));
+  margin-left:max(8px,calc((100vw - 1000px) / 2 - 60px));
   position:relative;
 }
 #sidebar-animation-container{
@@ -306,10 +306,13 @@ background: linear-gradient(0deg,#101050,#303070)
 	flex-direction:column;
 	align-items:center;
 	justify-content:flex-start;
-	padding-top:32px;
-    padding-bottom:32px;
+	margin-top:32px;
+    margin-bottom:32px;
 }
-
+#bsky-outer{
+  /*box-shadow: 0 0 8px #FFFFFFC0;*/
+  background-color: #FFFFFF;
+}
 /* Responsive Section */
 /* Targeting down to 300px. */
 

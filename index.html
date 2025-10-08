@@ -57,7 +57,7 @@
           <span class="lang-en">Conbook</span>
           <span class="lang-ko">콘북</span>
         </div>
-        <div onclick="sidebar_clicked('news');" class="sb-link sb-link-disabled">
+        <div onclick="sidebar_clicked('news');" class="sb-link sb-link-active">
           <span class="lang-en">News</span>
           <span class="lang-ko">소식</span>
         </div>
@@ -143,6 +143,19 @@
             <span class="lang-ko">규칙이다!!!</span>
           </div>
         </div>
+        <div id="page-news" style="display:none;">
+          <div style="margin-top:64px;font-size:3.0em;font-weight:700;color:#FFFFFF;text-align:center;margin-bottom:32px;">
+            <span class="lang-en">NEWS!!!</span>
+            <span class="lang-ko">소식이다!!!</span>
+          </div>
+          <div id="bsky-outer">
+            <bsky-embed 
+              username="malangpony.bsky.social"
+              load-more="true"
+              disable-autoplay="true"
+              ></bsky-embed>
+          </div>
+        </div>
       </div>
     </div>
     
@@ -153,6 +166,9 @@
   <canvas id="canvas-stars" class="fullsize" style="z-index:-998;"></canvas>
   <div id="sky-bg" class="fullsize" style="z-index:-999;"></div>
 </div>
+<script type="module" src="https://cdn.jsdelivr.net/npm/bsky-embed/dist/bsky-embed.es.js" async></script>
+
+
 <script>
 const wsd = document.getElementById("whole-screen-div");
 const canvas_fireworks = document.getElementById("canvas-fireworks");
@@ -1183,7 +1199,8 @@ function page_transition(name){
 let camera_locations={
   home:new Vector3(0,0,-500),
   about:new Vector3(200,0,-500),
-  coc:new Vector3(0,0,-100)
+  coc:new Vector3(0,0,-100),
+  news:new Vector3(0,0,-800),
 }
 function sidebar_clicked(x){
   page_transition(x);
