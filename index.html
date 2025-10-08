@@ -96,8 +96,10 @@
         <img id="logo-orig" src="MPN2-Prototype-Image-LogoPlain.png" style="z-index:3;opacity:0;">
         <img id="logo-flash01" src="MPN2-Prototype-Image-LogoGlow.png" style="z-index:2;opacity:0;">
         <img id="logo-base" src="MPN2-Prototype-Image-LogoDark.png" style="z-index:1;">
-        
       </div>
+    </div>
+    <div id="scroll-inviter-container">
+      <div id="scroll-inviter" style="font-size:4em;color:#FFF;">▼</div>
     </div>
     <div id="intro-content-container">
       
@@ -197,6 +199,8 @@ const sb_btn = document.getElementById("sb-btn");
 
 const parallax_image_container = document.getElementById("parallax-image-container");
 
+const scroll_inviter_container = document.getElementById("scroll-inviter-container");
+const scroll_inviter = document.getElementById("scroll-inviter");
 
 const star_density_reciprocal=10000; // One star every X pixels
 
@@ -1061,6 +1065,7 @@ function camera_animate_to(loc){
 //TODO change this JS-based animation to
 // a CSS-based animation with "animation-timeline: scroll()" 
 let scroll_progress=0;
+let scroll_inviter_active=true;
 function forceScrollDown(){
   if (sky_disabled) return;
   content_scroller.scrollTop=screen_blanker.clientHeight;
@@ -1075,6 +1080,12 @@ content_scroller.addEventListener("scroll", (e) => {
     scroll_progress_ratio=scroll_pixels/scroll_maxium;
   }
   
+  if (scroll_inviter_active && (scroll_progress_ratio>0.3)){
+    scroll_inviter_container.animate(
+    [{ opacity: "1.0" },{ opacity: "0.0" } ],
+    {duration: 500,fill:"forwards"});
+    scroll_inviter_active=false;
+  }
   
   scroll_progress_ratio=Math.min(Math.max(scroll_progress_ratio,0),1);
   scroll_progress=scroll_progress_ratio;
@@ -1322,11 +1333,13 @@ let sky_disabled=false;
 function sky_disable(){
   screen_blanker.style.display="none";
   mpn_logo_container.style.display="none";
+  scroll_inviter_container.style.display="none";
   sky_disabled=true;
 }
 function sky_enable(){
   screen_blanker.style.display="block";
   mpn_logo_container.style.display="block";
+  scroll_inviter_container.style.display="block";
   sky_disabled=false;
   forceScrollDown();
 }

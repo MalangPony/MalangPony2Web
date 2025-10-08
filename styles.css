@@ -142,6 +142,29 @@ canvas{
   bottom:0;
   right:0;
 }
+#scroll-inviter-container{
+  position:absolute;
+  bottom:15vh;
+  left:25vw;
+}
+@keyframes scroll-inviter-anim{
+  from{
+    margin-bottom:0px;
+    opacity:0.5;
+  }
+  to{
+    margin-bottom:24px;
+    opacity:0.4;
+  }
+  
+}
+#scroll-inviter{
+  animation-name:scroll-inviter-anim;
+  animation-direction:alternate;
+  animation-duration:1.5s;
+  animation-iteration-count:infinite;
+  animation-timing-function: ease-in-out;
+}
 #sky-bg{
 background: linear-gradient(0deg,#101050,#303070)
 }
