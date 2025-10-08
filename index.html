@@ -28,7 +28,7 @@
       </div>
     <div id="sidebar-positioner" class="fullsize" style="z-index:10;">
       <div id="sidebar" style="pointer-events:auto;display:none;">
-        <div onclick="sidebar_clicked('home');" class="sb-link sb-link-active">
+        <div onclick="sidebar_clicked('intro');" class="sb-link sb-link-active">
           <span class="lang-en">Home</span>
           <span class="lang-ko">홈</span>
         </div>
@@ -104,7 +104,7 @@
       <div id="screen-blanker"></div>
       
       <div id="afterscroll-content-container">
-        <div id="page-home" style="">
+        <div id="page-intro" style="">
           <img id="logo-orig" src="MPN2-Prototype-Image-LogoPlain.png" style="margin-left:64px;margin-right:64px;max-width:min(600px , 100%);align-self:center;">
           
           <div style="font-size:3.0em;font-weight:700;color:#FFFFFF;text-align:center;">
@@ -1033,7 +1033,7 @@ function animationCallback(time) {
     }
     let lerp_fac=3.0;
     let lerp_raw_distance = camera_nudge.subtract(camera_nudge_lerped);
-    let lerp_delta = lerp_raw_distance.multiply(min(dt*lerp_fac,1.0));
+    let lerp_delta = lerp_raw_distance.multiply(Math.min(dt*lerp_fac,1.0));
     let speed = lerp_delta.length()/dt; //pixels per second
     if (speed<5) lerp_delta=Vector2.ZERO;//lerp_raw_distance;
     camera_nudge_lerped=camera_nudge_lerped.add(lerp_delta);
@@ -1316,7 +1316,7 @@ function recalculate_camera_position(){
 }
 recalculate_parallax_images();
 */
-let currently_on_page="home";
+let currently_on_page="intro";
 function page_transition_instant(name){
 
   if (name===currently_on_page) return;
@@ -1380,7 +1380,7 @@ function page_transition(name){
 }
 
 let camera_locations={
-  home:new Vector3(0,0,-500),
+  intro:new Vector3(0,0,-500),
   about:new Vector3(200,0,-500),
   coc:new Vector3(0,0,-100),
   news:new Vector3(0,0,-800),
@@ -1388,8 +1388,13 @@ let camera_locations={
 function sidebar_clicked(x){
   page_transition(x);
   let camloc=camera_locations[x];
-  if (camloc !== undefined) camera_animate_to(camloc);
-  window.location.hash = x;
+  if (camloc === undefined) return;
+  camera_animate_to(camloc);
+  //window.location.hash = x;
+  // Edge case for the intro page
+  let url=window.location.origin+"/"+x;
+  if (x==="intro") url=window.location.origin;
+  window.history.pushState({},"",url);
 }
 
 
@@ -1418,15 +1423,18 @@ mq_mobile.onchange= ()=>{
 };
 sb_btn.onclick=sidebar_intro_animate_mobile;
 
-if (window.location.hash != ""){
-  let hash_location=window.location.hash.substring(1);
-  console.log("From URL hash, jump to page "+hash_location);
-  let camloc=camera_locations[hash_location];
+if (window.location.pathname != ""){
+  let path_location=window.location.pathname.substring(1);
+  
+  let camloc=camera_locations[path_location];
   if (camloc !== undefined) {
+    console.log("From URL, going to page: "+path_location);
     // Valid page location
     parallax_camera=camloc; // Jump camera
     forceScrollDown();
-    page_transition_instant(hash_location);
+    page_transition_instant(path_location);
+  }else{
+    console.log("From URL, invalid page: "+path_location);
   }
 }
 

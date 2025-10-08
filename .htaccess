@@ -1,0 +1,5 @@
+RewriteEngine on
+RewriteRule intro index.html
+RewriteRule about index.html
+RewriteRule coc index.html
+RewriteRule news index.html
