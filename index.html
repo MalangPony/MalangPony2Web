@@ -1101,13 +1101,49 @@ function apply_lang(code){
       else e.style.display="none";
     }
   }
+  // Save to cookie
+  document.cookie="language="+code;
 }
 
 lang_btn.onclick= ()=>{
   if (current_lang=="ko") apply_lang("en");
   else apply_lang("ko");
 }
-apply_lang("ko");
+
+let lang_from_cookie=null;
+const cookieValue = document.cookie.split("; ").find((row) => row.startsWith("language="))?.split("=")[1];
+console.log("language cookie value: "+cookieValue);
+if (cookieValue!==undefined) {
+  if (all_langs.includes(cookieValue)) lang_from_cookie=cookieValue;
+  else console.log("Error: Language cookie value invalid!");
+}
+
+let lang_from_environment=null;
+for (const lang of navigator.languages){
+  for (const langcode of all_langs){
+    if (lang.startsWith(langcode)){
+      lang_from_environment=langcode;
+      break;
+    }
+  }
+  if (lang_from_environment !== null) break;
+}
+console.log("Language detected from environment: "+lang_from_environment);
+
+
+if (lang_from_cookie !== null) {
+  console.log("Apply language from cookie: "+lang_from_cookie);
+  apply_lang(lang_from_cookie);
+} else if (lang_from_environment !== null){
+  console.log("Apply language from environment: "+lang_from_environment);
+  apply_lang(lang_from_environment);
+}else{
+  console.log("Language fallback to EN");
+  apply_lang("en");
+}
+
+
+
 
 class ParallaxImage{
   // Note that this is the coordinate of BOTTOM CENTER.
