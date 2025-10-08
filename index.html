@@ -1061,18 +1061,20 @@ function camera_animate_to(loc){
 //TODO change this JS-based animation to
 // a CSS-based animation with "animation-timeline: scroll()" 
 let scroll_progress=0;
-let scroll_last=content_scroller.scrollTop;
 function forceScrollDown(){
+  if (sky_disabled) return;
   content_scroller.scrollTop=screen_blanker.clientHeight;
 }
 content_scroller.addEventListener("scroll", (e) => { 
   //console.log("Scroll"+e);
-  let scroll_pixels=content_scroller.scrollTop;
-  let scroll_maxium=screen_blanker.clientHeight;
-  let scroll_progress_ratio=scroll_pixels/scroll_maxium;
+  let scroll_progress_ratio=1;
   
-  let scroll_delta=scroll_pixels-scroll_last;
-  scroll_last=scroll_pixels;
+  if (!sky_disabled) {
+    let scroll_pixels=content_scroller.scrollTop;
+    let scroll_maxium=screen_blanker.clientHeight;
+    scroll_progress_ratio=scroll_pixels/scroll_maxium;
+  }
+  
   
   scroll_progress_ratio=Math.min(Math.max(scroll_progress_ratio,0),1);
   scroll_progress=scroll_progress_ratio;
@@ -1084,7 +1086,6 @@ content_scroller.addEventListener("scroll", (e) => {
   }
   fireworks_enabled=scroll_progress_ratio<0.5;
   
-  //console.log(`Scroll ${scroll_pixels} delta ${scroll_delta}, ratio ${scroll_progress_ratio}`);
   
   cs.offset=new Vector2(0,-scroll_progress_ratio*100);
   stars_scroll_pixels=scroll_progress_ratio*100;
@@ -1316,6 +1317,20 @@ function recalculate_camera_position(){
 }
 recalculate_parallax_images();
 */
+
+let sky_disabled=false;
+function sky_disable(){
+  screen_blanker.style.display="none";
+  mpn_logo_container.style.display="none";
+  sky_disabled=true;
+}
+function sky_enable(){
+  screen_blanker.style.display="block";
+  mpn_logo_container.style.display="block";
+  sky_disabled=false;
+  forceScrollDown();
+}
+
 let currently_on_page="intro";
 function page_transition_instant(name){
 
@@ -1332,6 +1347,8 @@ function page_transition_instant(name){
   target.style.opacity=1.0;
   
   currently_on_page=name;
+  if (currently_on_page==="intro") sky_enable();
+  else sky_disable();
 }
 function page_transition(name){
   if (mobile_mode) sidebar_hide_mobile();
@@ -1369,6 +1386,8 @@ function page_transition(name){
   anim3.onfinish= () => {
     last.style.display="none";
     target.style.display="flex";
+    if (name==="intro") sky_enable();
+    else sky_disable();
   }
   let anim4=intro_content_container.animate(
     [{ opacity: "0.0" },{ opacity: "1.0" }],
@@ -1391,10 +1410,17 @@ function sidebar_clicked(x){
   if (camloc === undefined) return;
   camera_animate_to(camloc);
   //window.location.hash = x;
-  // Edge case for the intro page
-  let url=window.location.origin+"/"+x;
-  if (x==="intro") url=window.location.origin;
-  window.history.pushState({},"",url);
+  
+  if (window.location.protocol==="file:"){
+    console.log("Not rewriting URL because we're in a file URL.")
+  }else{
+    let url=window.location.origin+"/"+x;
+    // Edge case for the intro page
+    if (x==="intro") url=window.location.origin;
+    window.history.pushState({},"",url);
+  }
+  
+
 }
 
 
