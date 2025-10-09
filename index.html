@@ -86,8 +86,14 @@
       </div>
     </div>
     
-    <div id="sb-button-positioner" class="fullsize" style="z-index:5;">
+    <div id="sb-button-positioner" class="fullsize" style="z-index:6;">
       <img src="MPN2-Prototype-Image-Scroll2.png" id="sb-btn" style="pointer-events:auto;display:none;"> 
+    </div>
+    
+    <div id="debug-print-area" style="z-index:99;background-color:#00000040;color:#88FF8880;position:absolute;top:0;left:0;width:100px;height:50px;font-size:10px;font-family:monospace;font-weight:700;padding:4px;">
+      <div id="debug-print-fps">-</div>
+      <div id="debug-print-stars">-</div>
+      <div id="debug-print-particles">-</div>
     </div>
   </div>
   <div id="content-scroller">
@@ -202,6 +208,10 @@ const parallax_image_container = document.getElementById("parallax-image-contain
 const scroll_inviter_container = document.getElementById("scroll-inviter-container");
 const scroll_inviter = document.getElementById("scroll-inviter");
 
+const debug_print_fps=document.getElementById("debug-print-fps");
+const debug_print_stars=document.getElementById("debug-print-stars");
+const debug_print_particles=document.getElementById("debug-print-particles");
+
 const star_density_reciprocal=10000; // One star every X pixels
 
 // Pre-calculate star locations and attributes
@@ -304,6 +314,8 @@ function refresh_stars_canvas(dt){
     )
   
   }
+  
+  debug_print_stars.innerHTML="Stars x"+star_definitions.length
   
 }
 
@@ -699,6 +711,8 @@ function refresh_fireworks_canvas(dt){
   for (const e of entity_array){
     e.render(cs);
   }
+  
+  debug_print_particles.innerHTML="Particles x"+entity_array.length
 }
 
 
@@ -951,6 +965,8 @@ let CAMERA_NUDGE_MODE="MOUSE";
 let mq_pointer=window.matchMedia("(pointer:fine)");
 if (!mq_pointer.matches) CAMERA_NUDGE_MODE="GYRO";
 
+//CAMERA_NUDGE_MODE="NO";
+
 console.log("Cam Nudge Mode: "+CAMERA_NUDGE_MODE);
 
 function limit(low,x,high){
@@ -991,7 +1007,16 @@ window.onmousemove= (e)=>{
 }
 let camera_nudge_lerped=Vector2.ZERO;
 
+let frame_times=[];
 function animationCallback(time) {
+  frame_times.push(time);
+  while (frame_times[0]+1000<time){
+    let fps=(frame_times.length-1)/(time-frame_times[0])*1000;
+    debug_print_fps.innerHTML="Anim "+fps.toFixed(2)+" FPS";
+    frame_times=[];
+  }
+  
+
   if (canvas_fireworks.width!=wsd.clientWidth)
     canvas_fireworks.width=wsd.clientWidth;
   if (canvas_fireworks.height!=wsd.clientHeight)
@@ -1069,6 +1094,9 @@ let scroll_inviter_active=true;
 function forceScrollDown(){
   if (sky_disabled) return;
   content_scroller.scrollTop=screen_blanker.clientHeight;
+}
+function forceScrollUp(){
+  content_scroller.scrollTop=0;
 }
 content_scroller.addEventListener("scroll", (e) => { 
   //console.log("Scroll"+e);
@@ -1335,6 +1363,7 @@ function sky_disable(){
   mpn_logo_container.style.display="none";
   scroll_inviter_container.style.display="none";
   sky_disabled=true;
+  forceScrollUp();
 }
 function sky_enable(){
   screen_blanker.style.display="block";
