@@ -176,6 +176,13 @@
 
 
 <script>
+// Tunable parameters
+const OPTION_CAMERA_NUDGE_ENABLED=true;
+const OPTION_HIDE_HANMARI_ON_NONINTRO_PAGES=false;
+const OPTION_CAMERA_NUDGE_MOUSE_SENSITIVITY=1.0;
+const OPTION_CAMERA_NUDGE_GYRO_SENSITIVITY=1.0;
+const OPTION_STAR_DENSITY_MULTIPLIER=1.0;
+
 const wsd = document.getElementById("whole-screen-div");
 const canvas_fireworks = document.getElementById("canvas-fireworks");
 const canvas_stars = document.getElementById("canvas-stars");
@@ -212,7 +219,9 @@ const debug_print_fps=document.getElementById("debug-print-fps");
 const debug_print_stars=document.getElementById("debug-print-stars");
 const debug_print_particles=document.getElementById("debug-print-particles");
 
-const star_density_reciprocal=10000; // One star every X pixels
+const hanmari_image_container = document.getElementById("hmr-image-container");
+
+const star_density_reciprocal=10000/OPTION_STAR_DENSITY_MULTIPLIER; // One star every X pixels
 
 // Pre-calculate star locations and attributes
 let star_definitions=[];
@@ -965,7 +974,8 @@ let CAMERA_NUDGE_MODE="MOUSE";
 let mq_pointer=window.matchMedia("(pointer:fine)");
 if (!mq_pointer.matches) CAMERA_NUDGE_MODE="GYRO";
 
-//CAMERA_NUDGE_MODE="NO";
+if (!OPTION_CAMERA_NUDGE_ENABLED)
+  CAMERA_NUDGE_MODE="NO";
 
 console.log("Cam Nudge Mode: "+CAMERA_NUDGE_MODE);
 
@@ -1053,11 +1063,13 @@ function animationCallback(time) {
   }else{
     let camera_nudge=Vector2.ZERO;
     if (CAMERA_NUDGE_MODE==="MOUSE"){
-      camera_nudge= mouse_screen_relative_location.multiply(20);
+      camera_nudge= mouse_screen_relative_location.multiply(
+        20*OPTION_CAMERA_NUDGE_MOUSE_SENSITIVITY);
       camera_nudge=new Vector2(camera_nudge.x,-camera_nudge.y);
     }
     else if (CAMERA_NUDGE_MODE==="GYRO"){
-      camera_nudge= gyro_data.multiply(50);
+      camera_nudge= gyro_data.multiply(
+        50*OPTION_CAMERA_NUDGE_GYRO_SENSITIVITY);
       camera_nudge=new Vector2(-camera_nudge.x,camera_nudge.y);
     }
     let lerp_fac=3.0;
@@ -1357,6 +1369,33 @@ function recalculate_camera_position(){
 recalculate_parallax_images();
 */
 
+function hide_hanmari(){
+  hanmari_image_container.style.opacity=1.0;
+  let anim3=hanmari_image_container.animate(
+    [{ opacity: "1.0" },{ opacity: "0.0" }],
+    {duration: 500,delay:0});
+  anim3.onfinish= () => {
+    hanmari_image_container.style.display="none";
+  }
+}
+function hide_hanmari_instant(){
+  hanmari_image_container.style.display="none";
+}
+function show_hanmari(){
+  hanmari_image_container.style.display="block";
+  hanmari_image_container.style.opacity=0.0;
+  let anim3=hanmari_image_container.animate(
+    [{ opacity: "0.0" },{ opacity: "1.0" }],
+    {duration: 500,delay:0});
+  anim3.onfinish= () => {
+    hanmari_image_container.style.opacity=1.0;
+  }
+}
+function show_hanmari_instant(){
+  hanmari_image_container.style.display="block";
+  hanmari_image_container.style.opacity=1.0;
+}
+
 let sky_disabled=false;
 function sky_disable(){
   screen_blanker.style.display="none";
@@ -1389,8 +1428,14 @@ function page_transition_instant(name){
   target.style.opacity=1.0;
   
   currently_on_page=name;
-  if (currently_on_page==="intro") sky_enable();
-  else sky_disable();
+  if (currently_on_page==="intro") {
+    sky_enable();
+    show_hanmari_instant();
+  }else {
+    sky_disable();
+    if (OPTION_HIDE_HANMARI_ON_NONINTRO_PAGES)
+      hide_hanmari_instant();
+  }
 }
 function page_transition(name){
   if (mobile_mode) sidebar_hide_mobile();
@@ -1421,7 +1466,10 @@ function page_transition(name){
   anim2.onfinish= () => {
     target.style.opacity="1.0";
   }*/
-  
+  if (name!=="intro" && OPTION_HIDE_HANMARI_ON_NONINTRO_PAGES) 
+    hide_hanmari();
+    
+    
   let anim3=intro_content_container.animate(
     [{ opacity: "1.0" },{ opacity: "0.0" }],
     {duration: 500,delay:0});
@@ -1430,6 +1478,8 @@ function page_transition(name){
     target.style.display="flex";
     if (name==="intro") sky_enable();
     else sky_disable();
+    if (name==="intro" && OPTION_HIDE_HANMARI_ON_NONINTRO_PAGES) 
+      show_hanmari();
   }
   let anim4=intro_content_container.animate(
     [{ opacity: "0.0" },{ opacity: "1.0" }],
