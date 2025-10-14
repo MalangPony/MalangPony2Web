@@ -126,6 +126,15 @@ canvas{
   height:100%;
   object-fit:contain;
 }
+#l2d-container{
+  width:60vw;
+  height:min(40vw,50vh);
+  position:absolute;
+  right:0;
+  bottom:0;
+  z-index:22;
+  pointer-events:none;
+}
 #hmr-image-container{
   width:60vw;
   height:min(40vw,50vh);
