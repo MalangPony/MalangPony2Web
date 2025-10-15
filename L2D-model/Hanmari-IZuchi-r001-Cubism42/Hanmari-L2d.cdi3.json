@@ -1,0 +1,175 @@
+{
+	"Version": 3,
+	"Parameters": [
+		{
+			"Id": "ParamAngleX",
+			"GroupId": "",
+			"Name": "각도 X"
+		},
+		{
+			"Id": "ParamAngleY",
+			"GroupId": "",
+			"Name": "각도 Y"
+		},
+		{
+			"Id": "ParamAngleZ",
+			"GroupId": "",
+			"Name": "각도 Z"
+		},
+		{
+			"Id": "ParamEyeLOpen",
+			"GroupId": "",
+			"Name": "왼쪽 눈 깜빡임"
+		},
+		{
+			"Id": "ParamEyeBallX",
+			"GroupId": "",
+			"Name": "눈 X"
+		},
+		{
+			"Id": "ParamEyeBallY",
+			"GroupId": "",
+			"Name": "눈 Y"
+		},
+		{
+			"Id": "ParamMouthOpenY",
+			"GroupId": "",
+			"Name": "입 여닫기"
+		},
+		{
+			"Id": "ParamBodyAngleX",
+			"GroupId": "",
+			"Name": "몸의 회전 X"
+		},
+		{
+			"Id": "ParamBodyAngleY",
+			"GroupId": "",
+			"Name": "몸의 회전 Y"
+		},
+		{
+			"Id": "ParamBodyAngleZ",
+			"GroupId": "",
+			"Name": "몸의 회전 Z"
+		},
+		{
+			"Id": "ParamBreath",
+			"GroupId": "",
+			"Name": "호흡"
+		},
+		{
+			"Id": "Param10",
+			"GroupId": "",
+			"Name": "모자장식1"
+		},
+		{
+			"Id": "Param11",
+			"GroupId": "",
+			"Name": "모자장식2"
+		},
+		{
+			"Id": "Param12",
+			"GroupId": "",
+			"Name": "모자장식3"
+		},
+		{
+			"Id": "ParamHairFront",
+			"GroupId": "",
+			"Name": "머리 흔들림 앞"
+		},
+		{
+			"Id": "Param",
+			"GroupId": "",
+			"Name": "파라미터15"
+		},
+		{
+			"Id": "Param14",
+			"GroupId": "",
+			"Name": "파라미터26"
+		},
+		{
+			"Id": "ParamHairSide",
+			"GroupId": "",
+			"Name": "머리 흔들림 옆"
+		},
+		{
+			"Id": "Param2",
+			"GroupId": "",
+			"Name": "파라미터16"
+		},
+		{
+			"Id": "Param4",
+			"GroupId": "",
+			"Name": "댕기x"
+		},
+		{
+			"Id": "Param3",
+			"GroupId": "",
+			"Name": "댕기y"
+		},
+		{
+			"Id": "Param5",
+			"GroupId": "",
+			"Name": "옷"
+		},
+		{
+			"Id": "Param6",
+			"GroupId": "",
+			"Name": "리본"
+		},
+		{
+			"Id": "Param7",
+			"GroupId": "",
+			"Name": "꼬리"
+		},
+		{
+			"Id": "Param8",
+			"GroupId": "",
+			"Name": "꼬리2"
+		},
+		{
+			"Id": "Param9",
+			"GroupId": "",
+			"Name": "꼬리3"
+		},
+		{
+			"Id": "Param13",
+			"GroupId": "",
+			"Name": "파라미터25"
+		}
+	],
+	"ParameterGroups": [],
+	"Parts": [
+		{
+			"Id": "Part",
+			"Name": "마리"
+		},
+		{
+			"Id": "Part2",
+			"Name": "상반신"
+		},
+		{
+			"Id": "Part7",
+			"Name": "하반신"
+		},
+		{
+			"Id": "Part3",
+			"Name": "머리"
+		},
+		{
+			"Id": "Part8",
+			"Name": "리본"
+		},
+		{
+			"Id": "Part4",
+			"Name": "입"
+		},
+		{
+			"Id": "Part5",
+			"Name": "눈"
+		},
+		{
+			"Id": "Part6",
+			"Name": "모자"
+		}
+	]
+}
