@@ -127,7 +127,7 @@ canvas{
   object-fit:contain;
 }
 #l2d-container{
-  width:60vw;
+  width:min(40vw,50vh);
   height:min(40vw,50vh);
   position:absolute;
   right:0;

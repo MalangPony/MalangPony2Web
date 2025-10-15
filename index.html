@@ -182,32 +182,20 @@
 <script src="https://cdn.jsdelivr.net/npm/pixi.js@6/dist/browser/pixi.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/pixi-live2d-display/dist/index.min.js"></script>
 
-<script>
-const l2d_container = document.getElementById("l2d-container");
-const l2d_canvas = document.getElementById("l2d-canvas");
-
-const cubism4Model =
-  "L2D-model/Hanmari-IZuchi-r001-Cubism42/Hanmari-L2d.model3.json";
-
-(async function main() {
-  const app = new PIXI.Application({
-    view:l2d_canvas,
-    autoStart: true,
-    backgroundAlpha: 0, 
-    resizeTo:l2d_container
-  });
-
-  const model4 = await PIXI.live2d.Live2DModel.from(cubism4Model);
-
-  app.stage.addChild(model4);
-
-  model4.scale.set(0.25);
-})();
-</script>
+<!-- Ethically sourced, home-grown spaghetti -->
+<script type="module" src="l2d.js"></script>
 <script type="module" src="main.js"></script>
 <script type="module">
   import { sidebar_clicked } from "./main.js";
   window.sidebar_clicked = sidebar_clicked;
+</script>
+
+<script>
+// For debugging
+let L2D;
+import('./l2d.js').then(m => L2D = m);
+
+
 </script>
 
 </body>
