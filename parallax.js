@@ -1,14 +1,29 @@
+/*
+ * JS module handling the parallax scene in the background.
+ * 
+ * This implements a faux-3D environment in a 2D HTML layout space.
+ */
+// Modules
 import { Vector2, Vector3 } from "./vectors.js";
 import * as Config  from "./config.js";
 
+// DOM definitions
 const wsd = document.getElementById("whole-screen-div");
 const parallax_image_container = document.getElementById("parallax-image-container");
 
+// A Parallax-affected image.
+// This behaves like a object in 3D space.
 class ParallaxImage{
   // Note that this is the coordinate of BOTTOM CENTER.
+  // Z moves away and from the screen.
+  // X is left and right.
+  // Y is up and down. +Y is UP.
   location = new Vector3();
+  // X,Y dimensions
   dimensions = new Vector2();
+  // Either "image" or "solid"
   type;
+  // For Images, the source image src. For Solids, a CSS color.
   src;
   constructor(loc,dim,type,src){
     this.location=loc;
@@ -16,18 +31,21 @@ class ParallaxImage{
     this.type=type;
     this.src=src;
   }
+  // A crude 3D projection into 2D space.
+  // The math is probably wrong, but it's convincing enough.
   solve(camera_location = new Vector3()){
     let relative_location = this.location.subtract(camera_location);
+    
+    // Fade image if too close to camera.
     // 0% at 100, 100% at 500
     let opacity=(relative_location.z-100)/400;
     if (opacity<0) opacity=0;
     if (opacity>1) opacity=1;
-    
     if (opacity<=0) return {"render":false};
     
+    // Calculate size and location.
     // intrinsic size at 100. 50% scale at 200.
     let xy_multiplier = 500/relative_location.z;
-    
     let scaled_dim = this.dimensions.multiply(xy_multiplier);
     let offset_location = relative_location.multiply(xy_multiplier).projectXY();
     
@@ -45,6 +63,7 @@ class ParallaxImage{
   }
 }
 
+// Define images.
 let parallax_images=[
   // Ground
   new ParallaxImage(
@@ -78,11 +97,16 @@ let parallax_images=[
     "image","MPN2-Prototype-Image-D1718519.png"),
   
 ];
+// The DOM elements that correspond to each Parallax image.
+// The indices should match.
 let pimg_doms=[];
 
+// Sort by Z coordinates.
+// We assume Z does not change.
+// Otherwise, the draw order will be wrong.
 parallax_images.sort((a,b)=>{return b.location.z-a.location.z})
 
-
+// Create DOM elements representing each parallax image.
 function populate_parallax_images(){
   // Clear all DOM
   parallax_image_container.replaceChildren();
@@ -91,8 +115,8 @@ function populate_parallax_images(){
   // Add DOMs
   let zi=0;
   for (const pimg of parallax_images){
+    // Z-Index increases monotonicaly. This assumes the image list is Z-sorted.
     zi++;
-    //console.log("Create PIMG "+pimg);
     let e=null;
     if (pimg.type=="image"){
       e=document.createElement("img");
@@ -103,6 +127,7 @@ function populate_parallax_images(){
     }else{
       console.log("ERROR 817");
     }
+    // All images are absolutely-positioned.
     e.style.position="absolute";
     e.style.zIndex=zi;
     e.style.display="none";
@@ -111,20 +136,26 @@ function populate_parallax_images(){
   }
 }
 populate_parallax_images();
+
+// Recalculate image positions from camera position.
 function recalculate_parallax_images(camera_location){
+  // Something is very wrong here.
   if (parallax_images.length != pimg_doms.length){
     console.log("ERROR 623")
   }
   let n=parallax_images.length;
   let containerW=parallax_image_container.clientWidth;
   let containerH=parallax_image_container.clientHeight;
+  
+  // For each parallax image...
   for (let i=0;i<n;i++){
     let dom = pimg_doms[i];
     let pimg=parallax_images[i];
     
+    // Let ParallaxImage::solve do the maths.
     let solve_result=pimg.solve(camera_location);
     
-    //console.log("SR "+i+" / "+JSON.stringify(solve_result));
+    // Mostly straightforward. Apply solve results to CSS.
     if (solve_result.render===false){
       dom.style.display="none";
     }
@@ -156,8 +187,6 @@ function recalculate_parallax_images(camera_location){
         dom.style.height=solve_result.h+"px";
         dom.style.bottom=solve_result.y+"px";
       }
-      
-    
     }
   }
 }
@@ -165,19 +194,25 @@ function recalculate_parallax_images(camera_location){
 // either "NO", "GYRO" or "MOUSE"
 let CAMERA_NUDGE_MODE="MOUSE";
 
+// This should match a mouse-environment.
+// If there is no mouse, try using the gyro.
 let mq_pointer=window.matchMedia("(pointer:fine)");
 if (!mq_pointer.matches) CAMERA_NUDGE_MODE="GYRO";
 
+// Of course, if config calls for no nudge, disable the nudge.
 if (!Config.OPTION_CAMERA_NUDGE_ENABLED)
   CAMERA_NUDGE_MODE="NO";
 
 console.log("Cam Nudge Mode: "+CAMERA_NUDGE_MODE);
 
+// Convenience function
 function limit(low,x,high){
   if (x<low) return low;
   if (x>high) return high;
   return x
 }
+
+// Gyro data projected to a 2D range.
 let gyro_data=Vector2.ZERO;
 //https://stackoverflow.com/questions/69216465/the-simplest-way-to-solve-gimbal-lock-when-using-deviceorientation-events-in-jav#comment138275927_75897568
 window.ondeviceorientation = (e) => {
@@ -199,6 +234,7 @@ window.ondeviceorientation = (e) => {
   gyro_data=new Vector2(m23,m13);
 }
 
+// Mouse location in the 0~1 range.
 let mouse_location=new Vector2(wsd.clientWidth/2,wsd.clientHeight/2);
 let mouse_screen_relative_location = Vector2.ZERO;
 window.onmousemove= (e)=>{
@@ -209,18 +245,16 @@ window.onmousemove= (e)=>{
     ((e.clientY/wsd.clientHeight)-0.5)*2
   );
 }
-let camera_nudge_lerped=Vector2.ZERO;
 
-
-
+// The camera location.
 let parallax_camera = new Vector3(0,0,-500);
 
+// Variables and functions for cam animation.
 let camera_being_animated=false;
 let camera_anim_position_start=null;
 let camera_anim_position_end=null;
 let camera_anim_time_duration=0;
 let camera_anim_time_remaining=0;
-
 export function camera_animate_to(loc){
   camera_being_animated=true;
   camera_anim_position_start=parallax_camera;
@@ -229,13 +263,14 @@ export function camera_animate_to(loc){
   camera_anim_time_remaining=camera_anim_time_duration;
 }
 
+// Should be called by the main JS.
 let scroll_progress=0;
 export function set_scroll_progress(f){
   scroll_progress=f;
 }
 
 
-
+// Simple polynomial easing functions.
 function polynomialEaseIn(x,power){
   return Math.pow(x,power);
 }
@@ -247,8 +282,10 @@ function polynomialEase(x,power){
   else return polynomialEaseOut((x-0.5)*2,power)*0.5+0.5;
 }
 
+let camera_nudge_lerped=Vector2.ZERO;
 export function animationTick(dt){
-    if (camera_being_animated){
+  // Animate camera
+  if (camera_being_animated){
     camera_anim_time_remaining-=dt;
     if (camera_anim_time_remaining<0){
       camera_being_animated=false;
@@ -260,10 +297,13 @@ export function animationTick(dt){
     }
   }
   
-  
+  // Calculate camera nudge
   if (CAMERA_NUDGE_MODE==="NO"){
+    // Nudge disabled
     camera_nudge_lerped = Vector2.ZERO;
   }else{
+    
+    // Apply nudge multipliers
     let camera_nudge=Vector2.ZERO;
     if (CAMERA_NUDGE_MODE==="MOUSE"){
       camera_nudge= mouse_screen_relative_location.multiply(
@@ -275,14 +315,23 @@ export function animationTick(dt){
         50*Config.OPTION_CAMERA_NUDGE_GYRO_SENSITIVITY);
       camera_nudge=new Vector2(-camera_nudge.x,camera_nudge.y);
     }
+    
+    // We lerp the camera nudge, to make it move smoothly.
     let lerp_fac=3.0;
     let lerp_raw_distance = camera_nudge.subtract(camera_nudge_lerped);
     let lerp_delta = lerp_raw_distance.multiply(Math.min(dt*lerp_fac,1.0));
     let speed = lerp_delta.length()/dt; //pixels per second
-    if (speed<5) lerp_delta=Vector2.ZERO;//lerp_raw_distance;
+    // The image locations can only be a whole number.
+    // Therefore, when the speed is too low,
+    // the image will look stuttery because it snaps to integer coordinates.
+    // So we just stop moving when the speed is less than 5px/s
+    if (speed<5) lerp_delta=Vector2.ZERO;
+    
+    // Apply camera location
     camera_nudge_lerped=camera_nudge_lerped.add(lerp_delta);
   }
   
+  // Recalculate parallax with the new camera location
   recalculate_parallax_images(
     new Vector3(
       parallax_camera.x+camera_nudge_lerped.x,

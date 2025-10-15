@@ -1,6 +1,7 @@
 
 export class Vector2{
   // 2D Vector. Immutable.
+  // Mostly self-explainatory.
   #x;#y;
   constructor(x=0,y=0){
     this.#x=x;
@@ -47,6 +48,7 @@ export class Vector2{
 }
 export class Vector3{
   // 3D Vector. Immutable.
+  // Mostly self-explainatory.
   #x;#y;#z;
   constructor(x=0,y=0,z=0){
     this.#x=x;

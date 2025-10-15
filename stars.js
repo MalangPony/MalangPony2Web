@@ -1,13 +1,20 @@
+/*
+ * JS Module handling the stars in the background.
+ * 
+ */
+
+// Module imports
 import * as Config  from "./config.js";
 import * as Graphics  from "./graphics.js";
 
+// DOM definitions
 const wsd = document.getElementById("whole-screen-div");
 const canvas_stars = document.getElementById("canvas-stars");
 const container_stars = document.getElementById("container-stars");
 const debug_print_stars=document.getElementById("debug-print-stars");
 
-const star_density_reciprocal=10000/Config.OPTION_STAR_DENSITY_MULTIPLIER; // One star every X pixels
-//console.log("SDM "+Config.OPTION_STAR_DENSITY_MULTIPLIER);
+// One star every X pixels
+const star_density_reciprocal=10000/Config.OPTION_STAR_DENSITY_MULTIPLIER;
 
 // Pre-calculate star locations and attributes
 let star_definitions=[];
@@ -16,10 +23,11 @@ let star_def_area_h=0;
 let STARS_MAX_SCROLL=100;
 let stars_scroll_pixels=0;
 
+// Spawn [count] stars in the given coordinates.
+// min is inclusive, max is exclusive.
 function spawn_stars(
     count,minX,maxX,minY,maxY){
-    // min is inclusive, max is exclusive.
-  //console.log(`Spawn Stars: ${count} in X ${minX} - ${maxX}, Y ${minY} - ${maxY}`);
+
   for (let i=0;i<count;i++){
     star_definitions.push({
       "x":minX+(maxX-minX-1)*Math.random(),
@@ -30,6 +38,8 @@ function spawn_stars(
   }
 }
 
+// Handle canvas resize.
+// We only populate or remove stars in the areas that were affected.
 function resize_star_area(new_w,new_h){
   console.log(`Star Area Changed: ${new_w} ${new_h}`)
   let old_area=star_def_area_h*star_def_area_w;
@@ -45,11 +55,17 @@ function resize_star_area(new_w,new_h){
     let new_area = new_w*star_def_area_h;
     let stars_to_spawn_r = (new_area-old_area)/star_density_reciprocal;
     let stars_to_spawn_i=Math.floor(stars_to_spawn_r);
+    
+    // This probably isn't needed, but in case we want to spawn, say 1.5 stars,
+    // we spawn 1 star and spawn another with a 50% probablilty.
+    // This makes sure that even if the screen is resized slowly, the results
+    // will be more or less correct.
     let stars_to_spawn_f=stars_to_spawn_r-stars_to_spawn_i;
     let stars_to_spawn=0;
-    //console.log("SDR "+star_density_reciprocal)
     if (stars_to_spawn_f>Math.random()) stars_to_spawn=stars_to_spawn_i+1;
     else stars_to_spawn=stars_to_spawn_i;
+    
+    // Do the actual spawning.
     spawn_stars(
       stars_to_spawn,
       star_def_area_w,new_w,
@@ -57,6 +73,7 @@ function resize_star_area(new_w,new_h){
     star_def_area_w=new_w;
   }
   
+  // The logic for Y is the same as X.
   if (new_h<star_def_area_h){
     // Contract Y
     star_definitions=star_definitions.filter((sd)=>{
@@ -80,6 +97,7 @@ function resize_star_area(new_w,new_h){
   }
 }
 
+// This should be called from the main JS file.
 export function set_scroll_progress(f){
   stars_scroll_pixels=f*100;
 }
@@ -90,14 +108,17 @@ function refresh_stars_canvas(dt){
   let w=canvas_stars.width;
   let h=canvas_stars.height;
   
+  // Check if resize is needed
   if ((w!=star_def_area_w) || ((h+STARS_MAX_SCROLL)!=star_def_area_h)){
     resize_star_area(w,h+STARS_MAX_SCROLL);
   }
   
+  // Clear canvas.
   sc2d.clearRect(0,0,w,h);
   
-  //console.log("Stars.js: Drawing "+star_definitions.length+" stars...");
   
+  // Draw all the stars.
+  // The stars flicker in a sine wave.
   for (const sd of star_definitions){
     let x=sd.x;
     let y=sd.y-stars_scroll_pixels;
@@ -115,14 +136,14 @@ function refresh_stars_canvas(dt){
       "hsla( 60, 100%, 100%, 0.0)",
       size,size*0.5,1.0+sine_value*2.0
     )
-  
   }
   
   debug_print_stars.innerHTML="Stars x"+star_definitions.length
-  
 }
 
+// This should be called every frame, from main JS.
 export function animationTick(dt){
+  // Set canvas size to cover the full screen.
   if (canvas_stars.width!=wsd.clientWidth)
     canvas_stars.width=wsd.clientWidth;
   if (canvas_stars.height!=wsd.clientHeight)

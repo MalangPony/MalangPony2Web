@@ -1,4 +1,4 @@
-// Tunable parameters
+// Tunable parameters.
 export const OPTION_CAMERA_NUDGE_ENABLED=true;
 export const OPTION_HIDE_HANMARI_ON_NONINTRO_PAGES=false;
 export const OPTION_CAMERA_NUDGE_MOUSE_SENSITIVITY=1.0;

@@ -25,7 +25,6 @@
   <div id="stickies" class="fullsize" style="z-index:80;pointer-events:none;">
     <div id="sidebar-animation-container">
         <div id="sidebar-intro-anim" style="display:none;">
-          <!--<img id="sidebar-intro-anim-image" src="MPN2-Prototype-Image-Scroll2.png" style="max-width:100%;max-height:100%;">-->
           <div id="letter-magic-spritesheet-animation"></div>
         </div>
       </div>
@@ -180,74 +179,8 @@
 <script type="module" src="https://cdn.jsdelivr.net/npm/bsky-embed/dist/bsky-embed.es.js" async></script>
 <script src="https://cdn.jsdelivr.net/gh/dylanNew/live2d/webgl/Live2D/lib/live2d.min.js"></script>
 <script src="CubismSDK/live2dcubismcore.min.js"></script>
-<!--
-<script src="https://cdn.jsdelivr.net/npm/pixi.js@8.14.0/dist/pixi.min.js"></script>
--->
 <script src="https://cdn.jsdelivr.net/npm/pixi.js@6/dist/browser/pixi.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/pixi-live2d-display/dist/index.min.js"></script>
-<!--
-<script type="module">
-import * as PIXI from 'pixi.js';
-import { Live2DModel } from 'pixi-live2d-display';
-
-// expose PIXI to window so that this plugin is able to
-// reference window.PIXI.Ticker to automatically update Live2D models
-window.PIXI = PIXI;
-
-let ltc = document.getElementById("l2d-test-canvas");
-
-(async function () {
-  const app = new PIXI.Application({
-    view: ltc
-  });
-
-  const model = await Live2DModel.from('hiyori_free_en/runtime/hiyori_free_t08.model3.json');
-
-  app.stage.addChild(model);
-
-  // transforms
-  model.x = 100;
-  model.y = 100;
-  model.rotation = Math.PI;
-  model.skew.x = Math.PI;
-  model.scale.set(2, 2);
-  model.anchor.set(0.5, 0.5);
-
-  // interaction
-  model.on('hit', (hitAreas) => {
-    if (hitAreas.includes('body')) {
-      model.motion('tap_body');
-    }
-  });
-})();
-
-</script>-->
-<!--
-<script>
-const cubism2Model =
-  "https://cdn.jsdelivr.net/gh/guansss/pixi-live2d-display/test/assets/shizuku/shizuku.model.json";
-const cubism4Model =
-  "https://cdn.jsdelivr.net/gh/guansss/pixi-live2d-display/test/assets/haru/haru_greeter_t03.model3.json";
-
-(async function main() {
-  const app = new PIXI.Application({
-    view: document.getElementById("l2d-test-canvas"),
-    autoStart: true,
-    resizeTo: window
-  });
-
-  const model2 = await PIXI.live2d.Live2DModel.from(cubism2Model);
-  const model4 = await PIXI.live2d.Live2DModel.from(cubism4Model);
-
-  app.stage.addChild(model2);
-  app.stage.addChild(model4);
-
-  model2.scale.set(0.3);
-  model4.scale.set(0.25);
-
-  model4.x = 300;
-})();
-</script>-->
 <!--
 <script>
 const l2d_container = document.getElementById("l2d-container");
