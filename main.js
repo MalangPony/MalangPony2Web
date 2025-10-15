@@ -3,7 +3,7 @@ import * as Config  from "./config.js";
 import * as Fireworks from "./fireworks.js";
 import * as Stars from "./stars.js";
 import * as Parallax from "./parallax.js";
-
+import * as L2D from "./l2d.js";
 
 const wsd = document.getElementById("whole-screen-div");
 
@@ -249,6 +249,7 @@ function sidebar_hide_instant(){
   sidebar.style.display="none";
 }
 
+/*
 function flash_anim_trigger(){
   if (!in_sky_mode) return;
   let animation_kf=[{ opacity: "1.0" },{ opacity: "0.0" } ];
@@ -259,12 +260,12 @@ function flash_anim_trigger(){
      iterations: 1};
   hmr_image_flash01.animate(animation_kf,animation_opt);
   logo_image_flash01.animate(animation_kf,animation_opt);
-  /*container_ground.animate(
-    [{ backgroundColor: "#144814" },
-    { backgroundColor: "#104010" } ],
-    animation_opt);*/
 }
-Fireworks.add_burst_callback(flash_anim_trigger);
+*/
+let firework_exploded=false;
+Fireworks.add_burst_callback(()=>{
+  firework_exploded=true;
+});
 
 
 
@@ -272,7 +273,7 @@ Fireworks.add_burst_callback(flash_anim_trigger);
 
 let dbp=document.getElementById("debug-print");
 
-
+let last_firework_explosion_time=-1000;
 let last_t=NaN;
 let frame_times=[];
 function animationCallback(time) {
@@ -283,11 +284,24 @@ function animationCallback(time) {
     frame_times=[];
   }
   
-  
   if (isNaN(last_t)) last_t=time;
   let dt=(time-last_t)/1000;
   last_t=time;
   if (dt>1.0) dt=1.0;
+  
+  
+  if (firework_exploded){
+    last_firework_explosion_time=time;
+    firework_exploded=false;
+  }
+  let time_from_last_firework_explosion=(time-last_firework_explosion_time)/1000;
+  let firework_light_factor=1-(time_from_last_firework_explosion/1.5);
+  if (firework_light_factor<0) firework_light_factor=0;
+  if (firework_light_factor>1) firework_light_factor=1;
+  firework_light_factor=Math.pow(firework_light_factor,1.0);
+  L2D.set_lighten_strength(firework_light_factor);
+  hmr_image_flash01.style.opacity=firework_light_factor;
+  logo_image_flash01.style.opacity=firework_light_factor;
   
   Stars.animationTick(dt);
   Fireworks.animationTick(dt);
@@ -338,7 +352,11 @@ content_scroller.addEventListener("scroll", (e) => {
   Stars.set_scroll_progress(scroll_progress_ratio);
   Fireworks.set_scroll_progress(scroll_progress_ratio);
   
-  
+  let darken_strength=1-((scroll_progress_ratio-0.8)*5);
+  if (darken_strength<0) darken_strength=0;
+  if (darken_strength>1) darken_strength=1.0;
+  //console.log("DS "+darken_strength);
+  L2D.set_darken_strength(darken_strength);
   
 });
 
