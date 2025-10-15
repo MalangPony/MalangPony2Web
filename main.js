@@ -306,6 +306,7 @@ function animationCallback(time) {
   Stars.animationTick(dt);
   Fireworks.animationTick(dt);
   Parallax.animationTick(dt);
+  L2D.animationTick(dt);
   
   requestAnimationFrame(animationCallback);
 }
@@ -357,6 +358,7 @@ content_scroller.addEventListener("scroll", (e) => {
   if (darken_strength>1) darken_strength=1.0;
   //console.log("DS "+darken_strength);
   L2D.set_darken_strength(darken_strength);
+  L2D.set_staring_strength(1-darken_strength);
   
 });
 

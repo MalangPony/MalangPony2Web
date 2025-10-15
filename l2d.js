@@ -1,4 +1,7 @@
 import * as Config  from "./config.js";
+//import * as CubismDefaultParamIDs from "@cubism/cubismdefaultparameterid";
+
+//export let cdpi = CubismDefaultParamIDs;
 
 const l2d_container = document.getElementById("l2d-container");
 const l2d_canvas = document.getElementById("l2d-canvas");
@@ -303,12 +306,25 @@ export function look_at(x,y){
 // Yes, I know this is not a good idea.
 // Source: https://github.com/guansss/pixi-live2d-display/blob/master/src/cubism-common/FocusController.ts
 export let focus_controller=null;
+let core_model=null;
+let internal_model=null;
 // Called once the model is loaded
 function tweak_internals(){
-	focus_controller=model.internalModel.focusController;
+	internal_model=model.internalModel;
+	focus_controller=internal_model.focusController;
+	core_model=internal_model.coreModel;
 }
 function get_model_focus_controller(){
 	return focus_controller
+}
+function setX(angle){
+	core_model.addParameterValueById(internal_model.idParamAngleZ,angle);
+}
+function setY(angle){
+	core_model.addParameterValueById(internal_model.idParamAngleZ,angle);
+}
+function setZ(angle){
+	core_model.addParameterValueById(internal_model.idParamAngleZ,angle);
 }
 
 // We use the FocusController::focus() instead of Live2DModel::focus()
@@ -320,7 +336,10 @@ export function look_at(x,y){
 	get_model_focus_controller().focus(x,y);
 }
 
-
+// Staring at the mouse.
+let eye_position_mouse=[0,0];
+// Staring at the sky
+let eye_position_sky=[-0.5,0.5];
 window.addEventListener("mousemove",(e)=>{
 	// All coordinates are in viewport coords.
 	
@@ -351,10 +370,22 @@ window.addEventListener("mousemove",(e)=>{
 	if (y<-1) y=-1;
 	if (y>1) y=1;
 	
-	look_at(x,y);
+	eye_position_mouse=[x,y];
+	console.log("MouseMove "+x+","+y);
 });
 // .body is needed for Firefox apperently
 document.body.addEventListener("mouseleave",(e)=>{
 	//Reset eye if mouse left the window
-	look_at(0,0);
+	eye_position_mouse=[0,0];
 });
+// Should be called by the main JS.
+let stare_strength=0;
+export function set_staring_strength(f){
+  stare_strength=f;
+}
+export function animationTick(dt){
+	look_at(
+		eye_position_mouse[0]*stare_strength+eye_position_sky[0]*(1-stare_strength),
+		eye_position_mouse[1]*stare_strength+eye_position_sky[1]*(1-stare_strength)
+	)
+}
