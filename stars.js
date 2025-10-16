@@ -6,6 +6,7 @@
 // Module imports
 import * as Config  from "./config.js";
 import * as Graphics  from "./graphics.js";
+import * as PerformanceManager from "./perfmanager.js";
 
 // DOM definitions
 const wsd = document.getElementById("whole-screen-div");
@@ -109,36 +110,44 @@ function refresh_stars_canvas(dt){
   let h=canvas_stars.height;
   
   // Check if resize is needed
+  let resized=false;
   if ((w!=star_def_area_w) || ((h+STARS_MAX_SCROLL)!=star_def_area_h)){
     resize_star_area(w,h+STARS_MAX_SCROLL);
+    resized=true;
   }
   
-  // Clear canvas.
-  sc2d.clearRect(0,0,w,h);
-  
-  
-  // Draw all the stars.
-  // The stars flicker in a sine wave.
-  for (const sd of star_definitions){
-    let x=sd.x;
-    let y=sd.y-stars_scroll_pixels;
-    if ((y<0) || (y>h)) continue;
-    sd.sine_phase+=(dt/sd.sine_period);
-    // Discard integer part
-    sd.sine_phase=sd.sine_phase-Math.floor(sd.sine_phase);
-    let sine_value = Math.sin(2*Math.PI*sd.sine_phase)*0.5+0.5;
-    let size=1.0+sd.size*1.0+sine_value*0.5;
-    Graphics.draw_glowing_circle(
-      sc2d,
-      x,y,
-      "hsla(  0,   0%, 100%, 0.9)",
-      "hsla( 60, 100%,  50%, 0.3)",
-      "hsla( 60, 100%, 100%, 0.0)",
-      size,size*0.5,1.0+sine_value*2.0
-    )
+  let animated = (Config.OPTION_ENABLE_ANIMATED_STARS 
+       && PerformanceManager.check_feature_enabled(
+            PerformanceManager.Feature.ANIMATED_STARS))
+
+  if (animated || resized){
+    // Clear canvas.
+    sc2d.clearRect(0,0,w,h);
+    
+    
+    // Draw all the stars.
+    // The stars flicker in a sine wave.
+    for (const sd of star_definitions){
+      let x=sd.x;
+      let y=sd.y-stars_scroll_pixels;
+      if ((y<0) || (y>h)) continue;
+      sd.sine_phase+=(dt/sd.sine_period);
+      // Discard integer part
+      sd.sine_phase=sd.sine_phase-Math.floor(sd.sine_phase);
+      let sine_value = Math.sin(2*Math.PI*sd.sine_phase)*0.5+0.5;
+      let size=1.0+sd.size*1.0+sine_value*0.5;
+      Graphics.draw_glowing_circle(
+        sc2d,
+        x,y,
+        "hsla(  0,   0%, 100%, 0.9)",
+        "hsla( 60, 100%,  50%, 0.3)",
+        "hsla( 60, 100%, 100%, 0.0)",
+        size,size*0.5,1.0+sine_value*2.0
+      )
+    }
   }
   
-  debug_print_stars.innerHTML="Stars x"+star_definitions.length
+  debug_print_stars.innerHTML="Stars x"+star_definitions.length+(animated?" (Animated)":" (Static)");
 }
 
 // This should be called every frame, from main JS.

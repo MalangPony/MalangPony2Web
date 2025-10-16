@@ -11,6 +11,7 @@ const wsd = document.getElementById("whole-screen-div");
 
 const intro_content_container=document.getElementById("intro-content-container");
 
+const hmr_container= document.getElementById("hmr-image-container");
 const hmr_image_base = document.getElementById("hmr-base");
 const hmr_image_flash01 = document.getElementById("hmr-flash01");
 const hmr_image_ground = document.getElementById("hmr-ground");
@@ -44,6 +45,9 @@ const debug_print_fps=document.getElementById("debug-print-fps");
 const hanmari_image_container = document.getElementById("hmr-image-container");
 
 
+if (!Config.OPTION_ENABLE_STATIC_HANMARI){
+  hmr_container.style.display="none";
+}
 
 
 
@@ -54,8 +58,10 @@ function transition_sky(){
   let animation_in=[{ opacity: "0.0" },{ opacity: "1.0" } ];
   let animation_opt={duration: 500,fill:"forwards"};
   logo_image_orig.animate(animation_out,animation_opt);
-  hmr_image_ground.animate(animation_out,animation_opt);
-  hmr_image_base.animate(animation_in,animation_opt);
+  if (Config.OPTION_ENABLE_STATIC_HANMARI){
+    hmr_image_ground.animate(animation_out,animation_opt);
+    hmr_image_base.animate(animation_in,animation_opt);
+  }
   intro_content_container.classList.remove("activated");
   afterscroll_container.classList.remove("activated");
   lang_btn.classList.remove("activated");
@@ -69,9 +75,11 @@ function transition_ground(){
   let animation_in=[{ opacity: "0.0" },{ opacity: "1.0" } ];
   let animation_opt={duration: 500,fill:"forwards"};
   logo_image_orig.animate(animation_in,animation_opt);
-  hmr_image_ground.animate(animation_in,animation_opt);
-  hmr_image_base.animate(animation_out,animation_opt);
-  //hmr_image_flash01.animate(animation_out,animation_opt);
+  if (Config.OPTION_ENABLE_STATIC_HANMARI){
+    hmr_image_ground.animate(animation_in,animation_opt);
+    hmr_image_base.animate(animation_out,animation_opt);
+    hmr_image_flash01.animate(animation_out,animation_opt);
+  }
   intro_content_container.classList.add("activated");
   afterscroll_container.classList.add("activated");
   lang_btn.classList.add("activated");
@@ -300,8 +308,11 @@ function animationCallback(time) {
   if (firework_light_factor>1) firework_light_factor=1;
   firework_light_factor=Math.pow(firework_light_factor,1.0);
   L2D.set_lighten_strength(firework_light_factor);
-  hmr_image_flash01.style.opacity=firework_light_factor;
+  if (Config.OPTION_ENABLE_STATIC_HANMARI){
+    hmr_image_flash01.style.opacity=firework_light_factor;
+  }
   logo_image_flash01.style.opacity=firework_light_factor;
+  
   
   Stars.animationTick(dt);
   Fireworks.animationTick(dt);
@@ -334,10 +345,13 @@ content_scroller.addEventListener("scroll", (e) => {
   }
   
   if (scroll_inviter_active && (scroll_progress_ratio>0.3)){
-    scroll_inviter_container.animate(
+    let anim=scroll_inviter_container.animate(
     [{ opacity: "1.0" },{ opacity: "0.0" } ],
     {duration: 500,fill:"forwards"});
     scroll_inviter_active=false;
+    anim.onfinish=()=>{
+      scroll_inviter_container.style.display="none";
+    }
   }
   
   scroll_progress_ratio=Math.min(Math.max(scroll_progress_ratio,0),1);

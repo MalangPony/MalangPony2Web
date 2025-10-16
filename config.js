@@ -1,7 +1,15 @@
 // Tunable parameters.
+// These will not change during runtime.
 export const OPTION_CAMERA_NUDGE_ENABLED=true;
 export const OPTION_HIDE_HANMARI_ON_NONINTRO_PAGES=false;
 export const OPTION_CAMERA_NUDGE_MOUSE_SENSITIVITY=1.0;
 export const OPTION_CAMERA_NUDGE_GYRO_SENSITIVITY=1.0;
 export const OPTION_STAR_DENSITY_MULTIPLIER=1.0;
 export const OPTION_L2D_EYE_FOLLOW_SENSITIVITY=1.0;
+
+export const OPTION_ENABLE_L2D_HANMARI=true;
+export const OPTION_ENABLE_STATIC_HANMARI=false;
+export const OPTION_ENABLE_PARALLAX_BG=true;
+export const OPTION_ENABLE_ANIMATED_STARS=true;
+export const OPTION_ENABLE_FIREWORKS=true;
+export const OPTION_ENABLE_L2D_FILTERS=true;

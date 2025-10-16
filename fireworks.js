@@ -8,12 +8,12 @@
 import { Vector2, Vector3 } from "./vectors.js";
 import * as Config  from "./config.js";
 import * as Graphics  from "./graphics.js";
+import * as PerformanceManager from "./perfmanager.js";
 
 // DOM definitions
 const wsd = document.getElementById("whole-screen-div");
 const canvas_fireworks = document.getElementById("canvas-fireworks");
 const debug_print_particles=document.getElementById("debug-print-particles");
-
 
 // Represents a physics-based object in the simulation
 class Entity{
@@ -148,9 +148,11 @@ class FireworkEntity extends GlowingCircleEntity{
       this.distance_travelled_without_particle+=
         old_position.subtract(new_position).length();
       let particleN=0;
+      let particle_highcount=PerformanceManager.check_feature_enabled(
+        PerformanceManager.Feature.FIREWORKS_HIGHCOUNT);
       while (this.distance_travelled_without_particle>0){
         // Spawn particle every 5 pixels
-        this.distance_travelled_without_particle-=5;
+        this.distance_travelled_without_particle-=(particle_highcount?5:10);
         
         // Spawn the actual smoke particle
         let e=new GlowingCircleEntity();
@@ -266,13 +268,16 @@ export function add_burst_callback(f){
 // Spawn the firework explosion
 // Just spawning a bunch of GlowingCircleEntities with a random velocity.
 function spawn_firework_burst(center=null,initial_velocity=null){
+  let particle_highcount=PerformanceManager.check_feature_enabled(
+    PerformanceManager.Feature.FIREWORKS_HIGHCOUNT);
+  
   if (location===null){
     center=new Vector2(Math.random()*600,Math.random()*300);
   }
   if (initial_velocity===null){
     initial_velocity=new Vector2(0,0);
   }
-  for (let i=0;i<50;i++){
+  for (let i=0;i<(particle_highcount?50:20);i++){
     let e=new GlowingCircleEntity();
     e.position=center.add(Vector2.random().multiply(30));
     e.velocity=Vector2.random().multiply(1000).add(initial_velocity);
@@ -307,6 +312,15 @@ const fc2d = canvas_fireworks.getContext("2d");
 let cs = new CanvasState();
 cs.context=fc2d;
 cs.offset=new Vector2(0,0);
+
+PerformanceManager.register_feature_disable_callback(
+  PerformanceManager.Feature.FIREWORKS,()=>{
+    entity_array=[];
+    canvas_fireworks.width=0;
+    canvas_fireworks.height=0;
+    debug_print_particles.innerHTML="FW Disabled.";
+  }
+);
 
 // Main re-draw loop
 function refresh_fireworks_canvas(dt){
@@ -353,13 +367,16 @@ export function set_fireworks_enabled(b){
 
 // Launch fireworks.
 function launch_firework_periodic(){
-  if (fireworks_enabled) spawn_firework_rocket();
+  if (fireworks_enabled && Config.OPTION_ENABLE_FIREWORKS && PerformanceManager.check_feature_enabled(PerformanceManager.Feature.FIREWORKS)) spawn_firework_rocket();
   window.setTimeout(launch_firework_periodic,Math.random()*2500+500);
 }
 launch_firework_periodic();
 
 // Should be called by the main JS.
 export function animationTick(dt){
+  if (!Config.OPTION_ENABLE_FIREWORKS) return;
+  if (!PerformanceManager.check_feature_enabled(
+    PerformanceManager.Feature.FIREWORKS)) return;
   
   if (canvas_fireworks.width!=wsd.clientWidth)
     canvas_fireworks.width=wsd.clientWidth;

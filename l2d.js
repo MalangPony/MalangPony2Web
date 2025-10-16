@@ -1,4 +1,6 @@
 import * as Config  from "./config.js";
+import * as PerformanceManager from "./perfmanager.js";
+
 //import * as CubismDefaultParamIDs from "@cubism/cubismdefaultparameterid";
 
 //export let cdpi = CubismDefaultParamIDs;
@@ -7,16 +9,35 @@ const l2d_container = document.getElementById("l2d-container");
 const l2d_canvas = document.getElementById("l2d-canvas");
 
 
-const app = new PIXI.Application({
-	view:l2d_canvas,
-	autoStart: true,
-	backgroundAlpha: 0, 
-	resizeTo:l2d_container
-});
+let app;
+if (Config.OPTION_ENABLE_L2D_HANMARI){
+	app = new PIXI.Application({
+		view:l2d_canvas,
+		autoStart: true,
+		backgroundAlpha: 0, 
+		resizeTo:l2d_container,
+		sharedTicker:true
+	});
+}
 
-export const model = PIXI.live2d.Live2DModel.fromSync(
-	"L2D-model/Hanmari-IZuchi-r001-Cubism42/Hanmari-L2d.model3.json",
-	{autoInteract:false});
+export let model = null;
+if (Config.OPTION_ENABLE_L2D_HANMARI){
+	model=PIXI.live2d.Live2DModel.fromSync(
+		"L2D-model/Hanmari-IZuchi-r001-Cubism42/Hanmari-L2d.model3.json",
+		{autoInteract:false});
+}
+
+// Stop/Start main draw loop on feature disable/enable.
+PerformanceManager.register_feature_disable_callback(
+	PerformanceManager.Feature.HANMARI_L2D, ()=>{
+		PIXI.Ticker.shared.stop();
+	}
+);
+PerformanceManager.register_feature_enable_callback(
+	PerformanceManager.Feature.HANMARI_L2D, ()=>{
+		PIXI.Ticker.shared.start();
+	}
+);
 
 /*
 const VERTEX_SHADER=`
@@ -92,6 +113,10 @@ class EdgeGlowFilter extends PIXI.Filter{
 	}
 }
 */
+if (Config.OPTION_ENABLE_L2D_HANMARI){
+
+
+
 class CopyFilter extends PIXI.Filter{
 }
 const DARKENER_FRAGMENT_SHADER=`
@@ -276,23 +301,32 @@ class CompositeFilter extends PIXI.Filter{
 			PIXI.CLEAR_MODES.CLEAR, _currentState)
 	}
 }
-
-let cf=new CompositeFilter();
+if (Config.OPTION_ENABLE_L2D_FILTERS)
+	var cf=new CompositeFilter();
+}
 let is_loaded=false;
-model.once("load", ()=>{
+model?.once("load", ()=>{
 	app.stage.addChild(model);
 	model.scale.set(0.25);
 	is_loaded=true;
 	tweak_internals();
 	//model.filters=[new PIXI.filters.BlurFilter(3)];
-	
-	model.filters=[cf];
+	if (Config.OPTION_ENABLE_L2D_FILTERS)
+		model.filters=[cf];
 });
 
 export function set_lighten_strength(f){
+	if (!Config.OPTION_ENABLE_L2D_HANMARI) return;
+	if (!PerformanceManager.check_feature_enabled(
+		PerformanceManager.Feature.HANMARI_L2D)) return;
+	if (!Config.OPTION_ENABLE_L2D_FILTERS) return;
 	cf.lighten_strength=f;
 }
 export function set_darken_strength(f){
+	if (!Config.OPTION_ENABLE_L2D_HANMARI) return;
+	if (!PerformanceManager.check_feature_enabled(
+		PerformanceManager.Feature.HANMARI_L2D)) return;
+	if (!Config.OPTION_ENABLE_L2D_FILTERS) return;
 	cf.darken_strength=f;
 }
 
@@ -340,6 +374,7 @@ export function look_at(x,y){
 let eye_position_mouse=[0,0];
 // Staring at the sky
 let eye_position_sky=[-0.5,0.5];
+if (Config.OPTION_ENABLE_L2D_HANMARI){
 window.addEventListener("mousemove",(e)=>{
 	// All coordinates are in viewport coords.
 	
@@ -371,19 +406,28 @@ window.addEventListener("mousemove",(e)=>{
 	if (y>1) y=1;
 	
 	eye_position_mouse=[x,y];
-	console.log("MouseMove "+x+","+y);
+	//console.log("MouseMove "+x+","+y);
 });
+}
+if (Config.OPTION_ENABLE_L2D_HANMARI){
 // .body is needed for Firefox apperently
 document.body.addEventListener("mouseleave",(e)=>{
 	//Reset eye if mouse left the window
 	eye_position_mouse=[0,0];
 });
+}
 // Should be called by the main JS.
 let stare_strength=0;
 export function set_staring_strength(f){
-  stare_strength=f;
+	if (!Config.OPTION_ENABLE_L2D_HANMARI) return;
+	if (!PerformanceManager.check_feature_enabled(
+		PerformanceManager.Feature.HANMARI_L2D)) return;
+	stare_strength=f;
 }
 export function animationTick(dt){
+	if (!Config.OPTION_ENABLE_L2D_HANMARI) return;
+	if (!PerformanceManager.check_feature_enabled(
+		PerformanceManager.Feature.HANMARI_L2D)) return;
 	look_at(
 		eye_position_mouse[0]*stare_strength+eye_position_sky[0]*(1-stare_strength),
 		eye_position_mouse[1]*stare_strength+eye_position_sky[1]*(1-stare_strength)

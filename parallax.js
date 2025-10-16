@@ -6,6 +6,7 @@
 // Modules
 import { Vector2, Vector3 } from "./vectors.js";
 import * as Config  from "./config.js";
+import * as PerformanceManager from "./perfmanager.js";
 
 // DOM definitions
 const wsd = document.getElementById("whole-screen-div");
@@ -135,7 +136,8 @@ function populate_parallax_images(){
     pimg_doms.push(e);
   }
 }
-populate_parallax_images();
+if (Config.OPTION_ENABLE_PARALLAX_BG)
+  populate_parallax_images();
 
 // Recalculate image positions from camera position.
 function recalculate_parallax_images(camera_location){
@@ -192,6 +194,7 @@ function recalculate_parallax_images(camera_location){
 }
 
 // either "NO", "GYRO" or "MOUSE"
+// This will not change during runtime.
 let CAMERA_NUDGE_MODE="MOUSE";
 
 // This should match a mouse-environment.
@@ -202,7 +205,8 @@ if (!mq_pointer.matches) CAMERA_NUDGE_MODE="GYRO";
 // Of course, if config calls for no nudge, disable the nudge.
 if (!Config.OPTION_CAMERA_NUDGE_ENABLED)
   CAMERA_NUDGE_MODE="NO";
-
+if (!Config.OPTION_ENABLE_PARALLAX_BG)
+  CAMERA_NUDGE_MODE="NO";
 console.log("Cam Nudge Mode: "+CAMERA_NUDGE_MODE);
 
 // Convenience function
@@ -215,35 +219,45 @@ function limit(low,x,high){
 // Gyro data projected to a 2D range.
 let gyro_data=Vector2.ZERO;
 //https://stackoverflow.com/questions/69216465/the-simplest-way-to-solve-gimbal-lock-when-using-deviceorientation-events-in-jav#comment138275927_75897568
-window.ondeviceorientation = (e) => {
-  let alpha=e.alpha;
-  let beta = e.beta;
-  let gamma = e.gamma;
-  
-  const degtorad = Math.PI / 180; // Degree-to-Radian conversion
-  let cX = Math.cos( beta  * degtorad );
-  let cY = Math.cos( gamma * degtorad );
-  let cZ = Math.cos( alpha * degtorad );
-  let sX = Math.sin( beta  * degtorad );
-  let sY = Math.sin( gamma * degtorad );
-  let sZ = Math.sin( alpha * degtorad );
+if (CAMERA_NUDGE_MODE==="GYRO"){
+  window.ondeviceorientation = (e) => {
+    if (!PerformanceManager.check_feature_enabled(
+      PerformanceManager.Feature.PARALLAX_ANIMATED))
+        return;
+    let alpha=e.alpha;
+    let beta = e.beta;
+    let gamma = e.gamma;
+    
+    const degtorad = Math.PI / 180; // Degree-to-Radian conversion
+    let cX = Math.cos( beta  * degtorad );
+    let cY = Math.cos( gamma * degtorad );
+    let cZ = Math.cos( alpha * degtorad );
+    let sX = Math.sin( beta  * degtorad );
+    let sY = Math.sin( gamma * degtorad );
+    let sZ = Math.sin( alpha * degtorad );
 
-  let m13 = cY * sZ * sX + cZ * sY;
-  let m23 = sZ * sY - cZ * cY * sX;
+    let m13 = cY * sZ * sX + cZ * sY;
+    let m23 = sZ * sY - cZ * cY * sX;
 
-  gyro_data=new Vector2(m23,m13);
+    gyro_data=new Vector2(m23,m13);
+  }
 }
 
 // Mouse location in the 0~1 range.
 let mouse_location=new Vector2(wsd.clientWidth/2,wsd.clientHeight/2);
 let mouse_screen_relative_location = Vector2.ZERO;
+if (CAMERA_NUDGE_MODE==="MOUSE"){
 window.onmousemove= (e)=>{
+  if (!PerformanceManager.check_feature_enabled(
+    PerformanceManager.Feature.PARALLAX_ANIMATED))
+      return;
   let screen_size = new Vector2(wsd.clientWidth,wsd.clientHeight);
   mouse_location=new Vector2(e.clientX,e.clientY);
   mouse_screen_relative_location = new Vector2(
     ((e.clientX/wsd.clientWidth)-0.5)*2,
     ((e.clientY/wsd.clientHeight)-0.5)*2
   );
+}
 }
 
 // The camera location.
@@ -282,8 +296,27 @@ function polynomialEase(x,power){
   else return polynomialEaseOut((x-0.5)*2,power)*0.5+0.5;
 }
 
+PerformanceManager.register_feature_disable_callback(
+  PerformanceManager.Feature.PARALLAX_GROUND,()=>{
+    parallax_image_container.style.display="none";
+    if (camera_being_animated){
+      camera_being_animated=false;
+      parallax_camera=camera_anim_position_end;
+    }
+  }
+);
+PerformanceManager.register_feature_enable_callback(
+  PerformanceManager.Feature.PARALLAX_GROUND,()=>{
+    parallax_image_container.style.display="block";
+  }
+);
+
 let camera_nudge_lerped=Vector2.ZERO;
 export function animationTick(dt){
+  if (!Config.OPTION_ENABLE_PARALLAX_BG) return;
+  if (!PerformanceManager.check_feature_enabled(
+      PerformanceManager.Feature.PARALLAX_GROUND)) return;
+  
   // Animate camera
   if (camera_being_animated){
     camera_anim_time_remaining-=dt;
@@ -305,12 +338,14 @@ export function animationTick(dt){
     
     // Apply nudge multipliers
     let camera_nudge=Vector2.ZERO;
-    if (CAMERA_NUDGE_MODE==="MOUSE"){
+    if (!PerformanceManager.check_feature_enabled(
+      PerformanceManager.Feature.PARALLAX_ANIMATED)){
+        // Pass. Leave nudge at 0,0
+    }else if (CAMERA_NUDGE_MODE==="MOUSE"){
       camera_nudge= mouse_screen_relative_location.multiply(
         20*Config.OPTION_CAMERA_NUDGE_MOUSE_SENSITIVITY);
       camera_nudge=new Vector2(camera_nudge.x,-camera_nudge.y);
-    }
-    else if (CAMERA_NUDGE_MODE==="GYRO"){
+    }else if (CAMERA_NUDGE_MODE==="GYRO"){
       camera_nudge= gyro_data.multiply(
         50*Config.OPTION_CAMERA_NUDGE_GYRO_SENSITIVITY);
       camera_nudge=new Vector2(-camera_nudge.x,camera_nudge.y);
