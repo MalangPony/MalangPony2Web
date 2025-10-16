@@ -26,11 +26,13 @@ if (Config.OPTION_ENABLE_L2D_HANMARI){
 PerformanceManager.register_feature_disable_callback(
 	PerformanceManager.Feature.HANMARI_L2D, ()=>{
 		PIXI.Ticker.shared.stop();
+		l2d_container.style.display="none";
 	}
 );
 PerformanceManager.register_feature_enable_callback(
 	PerformanceManager.Feature.HANMARI_L2D, ()=>{
 		PIXI.Ticker.shared.start();
+		l2d_container.style.display="block";
 	}
 );
 
