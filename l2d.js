@@ -233,13 +233,27 @@ if (Config.OPTION_ENABLE_L2D_HANMARI){
 let is_loaded=false;
 model?.once("load", ()=>{
 	app.stage.addChild(model);
-	model.scale.set(0.25);
 	is_loaded=true;
 	load_internals();
 	//model.filters=[new PIXI.filters.BlurFilter(3)];
 	if (Config.OPTION_ENABLE_L2D_FILTERS)
 		model.filters=[cf];
+	auto_resize_model();
 });
+
+function auto_resize_model(){
+	if (!is_loaded) return;
+	let w=l2d_container.clientWidth;
+	let h=l2d_container.clientHeight;
+	let min=w<h?w:h;
+	model.scale.set(min/1700);
+	model.position.x=0;
+	model.position.y=0;
+}
+let rso= new ResizeObserver(()=>{
+	auto_resize_model();
+});
+rso.observe(l2d_container);
 
 export function set_lighten_strength(f){
 	if (!Config.OPTION_ENABLE_L2D_HANMARI) return;
