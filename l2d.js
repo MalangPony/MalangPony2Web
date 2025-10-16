@@ -352,6 +352,7 @@ if (Config.OPTION_ENABLE_L2D_HANMARI){
 	document.body.addEventListener("mouseleave",(e)=>{
 		//Reset eye if mouse left the window
 		eye_position_mouse=[0,0];
+		//console.log("MouseLeave");
 	});
 }
 // Should be called by the main JS.

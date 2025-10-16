@@ -35,10 +35,17 @@ const scroll_inviter_container = document.getElementById("scroll-inviter-contain
 const scroll_inviter = document.getElementById("scroll-inviter");
 
 const debug_print_fps=document.getElementById("debug-print-fps");
+const debug_print_featurelevel=document.getElementById("debug-print-fl");
+const debug_print_features=document.getElementById("debug-print-features");
 
 const hanmari_image_container = document.getElementById("hmr-image-container");
 
 const l2d_container = document.getElementById("l2d-container");
+
+const debug_btn_perf_increment = document.getElementById(
+	"debug-button-feature-increment");
+const debug_btn_perf_decrement = document.getElementById(
+	"debug-button-feature-decrement");
 
 if (!Config.OPTION_ENABLE_STATIC_HANMARI){
   hmr_container.style.display="none";
@@ -268,6 +275,8 @@ function animationCallback(time) {
   }
   logo_image_flash01.style.opacity=firework_light_factor;
   
+  debug_print_featurelevel.innerHTML = "Feature Level "+PerformanceManager.get_feature_level();
+  debug_print_features.innerHTML = PerformanceManager.generate_feature_list();
   
   Stars.animationTick(dt);
   Fireworks.animationTick(dt);
@@ -545,3 +554,12 @@ if (window.location.pathname != ""){
     console.log("From URL, invalid page: "+path_location);
   }
 }
+
+debug_btn_perf_increment.addEventListener("click", (e) => {
+  //console.log("FL+");
+	PerformanceManager.increment_feature_level();
+});
+debug_btn_perf_decrement.addEventListener("click", (e) => {
+  //console.log("FL-");
+	PerformanceManager.decrement_feature_level();
+});
