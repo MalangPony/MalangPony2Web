@@ -343,7 +343,7 @@ function recursiveAnimFrameFunc(t){
   // If FULL_FRAMERATE feature not active...
   if (!PerformanceManager.check_feature_enabled(
     PerformanceManager.Feature.FULL_FRAMERATE)){
-    if (dt>0.05){ // Only call if less than 50Hz
+    if (dt>20){ // Only call if more than 20ms passed (50Hz)
       animationCallback(t);
       raff_last_rendered_t=t;
     }
