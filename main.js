@@ -47,9 +47,33 @@ const debug_btn_perf_increment = document.getElementById(
 const debug_btn_perf_decrement = document.getElementById(
 	"debug-button-feature-decrement");
 
-if (!Config.OPTION_ENABLE_STATIC_HANMARI){
+// Is Non-animated Hanmari enabled?
+// Only enable if L2D Hanmari is NOT on the screen!
+
+// Initial values
+let static_hanmari_enabled=false;
+if (Config.OPTION_ENABLE_L2D_HANMARI){
   hmr_container.style.display="none";
+}else{
+  hmr_container.style.display="block";
+  static_hanmari_enabled=true;
 }
+
+// Change callbacks
+PerformanceManager.register_feature_disable_callback(
+	PerformanceManager.Feature.HANMARI_L2D, ()=>{
+		hmr_container.style.display="block";
+        static_hanmari_enabled=true;
+	}
+);
+PerformanceManager.register_feature_enable_callback(
+	PerformanceManager.Feature.HANMARI_L2D, ()=>{
+      if (Config.OPTION_ENABLE_L2D_HANMARI){
+        hmr_container.style.display="none";
+        static_hanmari_enabled=false;
+      }
+	}
+);
 
 let in_sky_mode=true;
 function transition_sky(){
@@ -58,9 +82,12 @@ function transition_sky(){
   let animation_in=[{ opacity: "0.0" },{ opacity: "1.0" } ];
   let animation_opt={duration: 500,fill:"forwards"};
   logo_image_orig.animate(animation_out,animation_opt);
-  if (Config.OPTION_ENABLE_STATIC_HANMARI){
+  if (static_hanmari_enabled){
     hmr_image_ground.animate(animation_out,animation_opt);
     hmr_image_base.animate(animation_in,animation_opt);
+  }else{
+    hmr_image_ground.style.opacity="0.0";
+    hmr_image_base.style.opacity="1.0";
   }
   intro_content_container.classList.remove("activated");
   afterscroll_container.classList.remove("activated");
@@ -75,10 +102,14 @@ function transition_ground(){
   let animation_in=[{ opacity: "0.0" },{ opacity: "1.0" } ];
   let animation_opt={duration: 500,fill:"forwards"};
   logo_image_orig.animate(animation_in,animation_opt);
-  if (Config.OPTION_ENABLE_STATIC_HANMARI){
+  if (static_hanmari_enabled){
     hmr_image_ground.animate(animation_in,animation_opt);
     hmr_image_base.animate(animation_out,animation_opt);
     hmr_image_flash01.animate(animation_out,animation_opt);
+  }else{
+    hmr_image_ground.style.opacity="1.0";
+    hmr_image_base.style.opacity="0.0";
+    hmr_image_flash01.style.opacity="0.0";
   }
   intro_content_container.classList.add("activated");
   afterscroll_container.classList.add("activated");
@@ -270,7 +301,7 @@ function animationCallback(time) {
   if (firework_light_factor>1) firework_light_factor=1;
   firework_light_factor=Math.pow(firework_light_factor,1.0);
   L2D.set_lighten_strength(firework_light_factor);
-  if (Config.OPTION_ENABLE_STATIC_HANMARI){
+  if (static_hanmari_enabled){
     hmr_image_flash01.style.opacity=firework_light_factor;
   }
   logo_image_flash01.style.opacity=firework_light_factor;
