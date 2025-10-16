@@ -218,6 +218,12 @@ if (Config.OPTION_ENABLE_L2D_HANMARI){
 				filterManager, 
 				texBlurred, final_out, 
 				PIXI.CLEAR_MODES.CLEAR, _currentState)
+			
+			// Clean up intermediate textures
+			texDarkened.destroy(true);
+			texLightened.destroy(true);
+			texBlurIntermediate.destroy(true);
+			texBlurred.destroy(true);
 		}
 	}
 	if (Config.OPTION_ENABLE_L2D_FILTERS)
