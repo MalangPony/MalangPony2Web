@@ -348,20 +348,10 @@ function animationCallback(time) {
   while (ac_tt_hist.length>100) ac_tt_hist.shift();
 }
 
-let skip_counter=0;
-let frame_skip=0;
-PerformanceManager.register_feature_disable_callback(
-	PerformanceManager.Feature.FULL_FRAMERATE, ()=>{
-		frame_skip=1;
-	}
-);
-PerformanceManager.register_feature_enable_callback(
-	PerformanceManager.Feature.FULL_FRAMERATE, ()=>{
-		frame_skip=0;
-	}
-);
+
 let raff_last_rendered_t=-1000;
 function recursiveAnimFrameFunc(t){
+  /*
   let dt=(t-raff_last_rendered_t);
   // If FULL_FRAMERATE feature not active...
   if (!PerformanceManager.check_feature_enabled(
@@ -373,8 +363,8 @@ function recursiveAnimFrameFunc(t){
   }else {
     animationCallback(t);
     raff_last_rendered_t=t;
-  }
-  
+  }*/
+  animationCallback(t);
   requestAnimationFrame(recursiveAnimFrameFunc);
 }
 requestAnimationFrame(recursiveAnimFrameFunc);

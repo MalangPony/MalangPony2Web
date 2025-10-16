@@ -16,7 +16,7 @@ export class Feature{
 	static HANMARI_L2D = 30;
 	static L2D_FILTERS=31;
 	static ANIMATED_STARS = 40; 
-	static FULL_FRAMERATE=50;
+	//static FULL_FRAMERATE=50;
 }
 
 // Populate variables.
