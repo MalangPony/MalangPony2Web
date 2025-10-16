@@ -38,6 +38,7 @@ const scroll_inviter = document.getElementById("scroll-inviter");
 const debug_print_fps=document.getElementById("debug-print-fps");
 const debug_print_fps2=document.getElementById("debug-print-fps2");
 const debug_print_fps3=document.getElementById("debug-print-fps3");
+const debug_print_acms=document.getElementById("debug-print-acms");
 const debug_print_featurelevel=document.getElementById("debug-print-fl");
 const debug_print_features=document.getElementById("debug-print-features");
 
@@ -281,9 +282,16 @@ window.setInterval(()=>{
 window.setInterval(()=>{
   debug_print_fps3.innerHTML="PIXI/L2D 1s: "+L2D.fpsc.fps_1sec().toFixed(2)+" FPS";
 },500);
+window.setInterval(()=>{
+  if (ac_tt_hist.length<1) return;
+  let avg = ac_tt_hist.reduce((a,b)=>a+b,0)/ac_tt_hist.length;
+  debug_print_acms.innerHTML="Anim CB taking "+avg.toFixed(2)+" ms"
+},500);
+
+let ac_tt_hist=[];
 function animationCallback(time) {
   fpsc_primary_anim_callback.frame();
-
+  let cb_start_t=performance.now();
   /*
   frame_times.push(time);
   if (frame_times[0]+1000<time){
@@ -335,7 +343,9 @@ function animationCallback(time) {
   Parallax.animationTick(dt);
   L2D.animationTick(dt);
   
-  
+  let cb_time_taken=performance.now()-cb_start_t;
+  ac_tt_hist.push(cb_time_taken);
+  while (ac_tt_hist.length>100) ac_tt_hist.shift();
 }
 
 let skip_counter=0;
