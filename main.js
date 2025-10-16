@@ -283,9 +283,31 @@ function animationCallback(time) {
   Parallax.animationTick(dt);
   L2D.animationTick(dt);
   
-  requestAnimationFrame(animationCallback);
+  
 }
-requestAnimationFrame(animationCallback);
+
+let skip_counter=0;
+let frame_skip=0;
+PerformanceManager.register_feature_disable_callback(
+	PerformanceManager.Feature.FULL_FRAMERATE, ()=>{
+		frame_skip=1;
+	}
+);
+PerformanceManager.register_feature_enable_callback(
+	PerformanceManager.Feature.FULL_FRAMERATE, ()=>{
+		frame_skip=0;
+	}
+);
+function recursiveAnimFrameFunc(t){
+  if (skip_counter>=frame_skip){
+    animationCallback(t);
+    skip_counter=0;
+  }else{
+    skip_counter++;
+  }
+  requestAnimationFrame(recursiveAnimFrameFunc);
+}
+requestAnimationFrame(recursiveAnimFrameFunc);
 
 
 //TODO change this JS-based animation to
