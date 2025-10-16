@@ -7,8 +7,6 @@ import * as L2D from "./l2d.js";
 
 const wsd = document.getElementById("whole-screen-div");
 
-
-
 const intro_content_container=document.getElementById("intro-content-container");
 
 const hmr_container= document.getElementById("hmr-image-container");
@@ -33,14 +31,10 @@ const lmsa = document.getElementById("letter-magic-spritesheet-animation");
 const lang_btn = document.getElementById("lang-btn");
 const sb_btn = document.getElementById("sb-btn");
 
-
-
 const scroll_inviter_container = document.getElementById("scroll-inviter-container");
 const scroll_inviter = document.getElementById("scroll-inviter");
 
 const debug_print_fps=document.getElementById("debug-print-fps");
-
-
 
 const hanmari_image_container = document.getElementById("hmr-image-container");
 
@@ -48,8 +42,6 @@ const hanmari_image_container = document.getElementById("hmr-image-container");
 if (!Config.OPTION_ENABLE_STATIC_HANMARI){
   hmr_container.style.display="none";
 }
-
-
 
 let in_sky_mode=true;
 function transition_sky(){
@@ -90,37 +82,7 @@ function transition_ground(){
       else sidebar_intro_animate();
     }},100);
 }
-/*
-function sidebar_intro_animate(){
-  sia.style.display="block";
-  let anim1=sia.animate(
-    [{opacity:0.0,transform:"translate(0,0)"},
-     {opacity:0.5,transform:"translate(0,-50px)"},
-     {opacity:1.0,transform:"translate(0,0)"}],
-    {duration:700,delay:0,easing:"cubic-bezier(0,.3,1,.7)"})
-  let anim3=siai.animate(
-    [{transform:"scale(0.5) rotate(-180deg)"},
-     {transform:"scale(1.2) rotate(360deg)"}],
-     {duration:700,delay:0,easing:"linear"})
-  let anim4=sidebar.animate(
-    [{transform:"scale(0.0) rotate(-180deg)"},
-     {transform:"scale(1.0) rotate(0)"}],
-    {duration:300,delay:700,easing:"ease-out"})
-  let anim5=sidebar.animate(
-    [{maxHeight:"0"},
-     {maxHeight:"calc(100vh - 64px)"}],
-    {duration:1000,delay:1000,easing:"ease-in-out"})
-  
-  sidebar.style.display="none";
-  sidebar.style.maxHeight="0";
-  anim3.onfinish=(e)=>{
-    sidebar.style.display="flex";
-    sia.style.display="none";
-  };
-  anim5.onfinish=(e)=>{
-    sidebar.style.maxHeight="calc(100vh - 64px)";
-  }
-}*/
+
 function sidebar_magic_animate(){
   sia.style.display="block";
   
@@ -257,26 +219,10 @@ function sidebar_hide_instant(){
   sidebar.style.display="none";
 }
 
-/*
-function flash_anim_trigger(){
-  if (!in_sky_mode) return;
-  let animation_kf=[{ opacity: "1.0" },{ opacity: "0.0" } ];
-  let animation_opt={duration: 600+Math.random()*200,
-     easing:"cubic-bezier(1.0, 0.0, 0.8, 1.0)",
-     fill:"forwards",
-     direction:"normal",
-     iterations: 1};
-  hmr_image_flash01.animate(animation_kf,animation_opt);
-  logo_image_flash01.animate(animation_kf,animation_opt);
-}
-*/
 let firework_exploded=false;
 Fireworks.add_burst_callback(()=>{
   firework_exploded=true;
 });
-
-
-
 
 
 let dbp=document.getElementById("debug-print");
@@ -335,7 +281,6 @@ function forceScrollUp(){
   content_scroller.scrollTop=0;
 }
 content_scroller.addEventListener("scroll", (e) => { 
-  //console.log("Scroll"+e);
   let scroll_progress_ratio=1;
   
   if (!sky_disabled) {
@@ -370,7 +315,6 @@ content_scroller.addEventListener("scroll", (e) => {
   let darken_strength=1-((scroll_progress_ratio-0.8)*5);
   if (darken_strength<0) darken_strength=0;
   if (darken_strength>1) darken_strength=1.0;
-  //console.log("DS "+darken_strength);
   L2D.set_darken_strength(darken_strength);
   L2D.set_staring_strength(1-darken_strength);
   
@@ -428,21 +372,6 @@ if (lang_from_cookie !== null) {
   apply_lang("en");
 }
 
-
-
-
-/*
-function recalculate_camera_position(){
-  let scroll_amount=content_scroller.scrollTop;
-  let scroll_maximum=intro_content_container.clientHeight-content_scroller.clientHeight;
-  let scroll_bottom=scroll_maximum-scroll_amount;
-  parallax_camera=new Vector3(
-    Math.sin(Date.now()/500)*100,
-    scroll_bottom,
-    parallax_camera.z);
-}
-recalculate_parallax_images();
-*/
 
 function hide_hanmari(){
   hanmari_image_container.style.opacity=1.0;
@@ -515,32 +444,14 @@ function page_transition_instant(name){
 function page_transition(name){
   if (mobile_mode) sidebar_hide_mobile();
   
-  //console.log("PT "+name)
   if (name===currently_on_page) return;
-  //console.log("PT 1");
+
   let last=document.getElementById("page-"+currently_on_page);
   if (last===null) return;
-  //console.log("PT 2");
+
   let target=document.getElementById("page-"+name);
   if (target===null) return;
-  //console.log("PT 3");
   
-  
-  /*
-  let anim1=last.animate(
-    [{ opacity: "1.0" },{ opacity: "0.0" } ],
-    {duration: 500});
-  anim1.onfinish= () => {
-    last.style.display="none";
-    target.style.display="flex";
-    target.style.opacity="0";
-  }
-  let anim2=target.animate(
-    [{ opacity: "0.0" },{ opacity: "1.0" } ],
-    {duration: 500,delay:500});
-  anim2.onfinish= () => {
-    target.style.opacity="1.0";
-  }*/
   if (name!=="intro" && Config.OPTION_HIDE_HANMARI_ON_NONINTRO_PAGES) 
     hide_hanmari();
     
@@ -586,12 +497,7 @@ export function sidebar_clicked(x){
     if (x==="intro") url=window.location.origin;
     window.history.pushState({},"",url);
   }
-  
-
 }
-
-
-
 
 
 let mq_mobile=window.matchMedia("(width <= 640px)");

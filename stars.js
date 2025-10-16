@@ -42,7 +42,7 @@ function spawn_stars(
 // Handle canvas resize.
 // We only populate or remove stars in the areas that were affected.
 function resize_star_area(new_w,new_h){
-  console.log(`Star Area Changed: ${new_w} ${new_h}`)
+  console.log(`Star Area Changed: ${new_w} ${new_h}`);
   let old_area=star_def_area_h*star_def_area_w;
   
   if (new_w<star_def_area_w){
