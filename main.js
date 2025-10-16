@@ -4,6 +4,7 @@ import * as Fireworks from "./fireworks.js";
 import * as Stars from "./stars.js";
 import * as Parallax from "./parallax.js";
 import * as L2D from "./l2d.js";
+import {FPS_Counter} from "./utils.js";
 
 const wsd = document.getElementById("whole-screen-div");
 
@@ -36,6 +37,7 @@ const scroll_inviter = document.getElementById("scroll-inviter");
 
 const debug_print_fps=document.getElementById("debug-print-fps");
 const debug_print_fps2=document.getElementById("debug-print-fps2");
+const debug_print_fps3=document.getElementById("debug-print-fps3");
 const debug_print_featurelevel=document.getElementById("debug-print-fl");
 const debug_print_features=document.getElementById("debug-print-features");
 
@@ -269,9 +271,20 @@ let dbp=document.getElementById("debug-print");
 
 let last_firework_explosion_time=-1000;
 let last_t=NaN;
-let frame_times=[];
-let frame_times_10s=[];
+let fpsc_primary_anim_callback=new FPS_Counter();
+window.setInterval(()=>{
+  debug_print_fps.innerHTML="AnimCB 1s: "+fpsc_primary_anim_callback.fps_1sec().toFixed(2)+" FPS";
+},500);
+window.setInterval(()=>{
+  debug_print_fps2.innerHTML="AnimCB 10s: "+fpsc_primary_anim_callback.fps_10sec().toFixed(2)+" FPS";
+},2000);
+window.setInterval(()=>{
+  debug_print_fps3.innerHTML="PIXI/L2D 1s: "+L2D.fpsc.fps_1sec().toFixed(2)+" FPS";
+},500);
 function animationCallback(time) {
+  fpsc_primary_anim_callback.frame();
+
+  /*
   frame_times.push(time);
   if (frame_times[0]+1000<time){
     let fps=(frame_times.length-1)/(time-frame_times[0])*1000;
@@ -283,7 +296,7 @@ function animationCallback(time) {
     let fps=(frame_times_10s.length-1)/(time-frame_times_10s[0])*1000;
     debug_print_fps2.innerHTML="10s avg: "+fps.toFixed(2)+" FPS";
     frame_times_10s=[];
-  }
+  }*/
   
   if (isNaN(last_t)) last_t=time;
   let dt=(time-last_t)/1000;

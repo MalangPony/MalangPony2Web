@@ -1,5 +1,6 @@
 import * as Config  from "./config.js";
 import * as PerformanceManager from "./perfmanager.js";
+import {FPS_Counter} from "./utils.js";
 
 const l2d_container = document.getElementById("l2d-container");
 const l2d_canvas = document.getElementById("l2d-canvas");
@@ -35,6 +36,13 @@ PerformanceManager.register_feature_enable_callback(
 		l2d_container.style.display="block";
 	}
 );
+
+export let fpsc = new FPS_Counter();
+if (Config.OPTION_ENABLE_L2D_HANMARI){
+	PIXI.Ticker.shared.add(()=>{
+		fpsc.frame();
+	});
+}
 
 if (Config.OPTION_ENABLE_L2D_HANMARI){
 	class CopyFilter extends PIXI.Filter{
