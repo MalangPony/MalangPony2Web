@@ -329,13 +329,21 @@ PerformanceManager.register_feature_enable_callback(
 		frame_skip=0;
 	}
 );
+let raff_last_rendered_t=-1000;
 function recursiveAnimFrameFunc(t){
-  if (skip_counter>=frame_skip){
+  let dt=(t-raff_last_rendered_t);
+  // If FULL_FRAMERATE feature not active...
+  if (!PerformanceManager.check_feature_enabled(
+    PerformanceManager.Feature.FULL_FRAMERATE)){
+    if (dt>0.05){ // Only call if less than 50Hz
+      animationCallback(t);
+      raff_last_rendered_t=t;
+    }
+  }else {
     animationCallback(t);
-    skip_counter=0;
-  }else{
-    skip_counter++;
+    raff_last_rendered_t=t;
   }
+  
   requestAnimationFrame(recursiveAnimFrameFunc);
 }
 requestAnimationFrame(recursiveAnimFrameFunc);
