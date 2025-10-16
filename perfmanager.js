@@ -9,7 +9,8 @@
 export class Feature{
 	static JAVASCRIPT = 1;
 	static FIREWORKS = 10;
-	static FIREWORKS_HIGHCOUNT=11;
+	static FIREWORKS_HIRES=11;
+	static FIREWORKS_HIGHCOUNT=12;
 	static PARALLAX_GROUND = 20;
 	static PARALLAX_ANIMATED=21;
 	static HANMARI_L2D = 30;

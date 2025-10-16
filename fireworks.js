@@ -195,9 +195,9 @@ const PARTICLE_PHYSICS_GRAVITY=300;
 
 
 let last_explosion_location=new Vector2();
-function spawn_firework_rocket(){
-  let h=canvas_fireworks.height;
-  let w=canvas_fireworks.width;
+function spawn_firework_rocket(cs){
+  let h=cs.height;
+  let w=cs.width;
   
   let planned_explosion_X=0;
   let planned_explosion_Y=0;
@@ -232,12 +232,13 @@ function spawn_firework_rocket(){
   let px = 0;
   let py = h;
   let vx=0;
-  while (1){
+  for (let i=0;i<10;i++){
     vx=(Math.random()*2-1)*100;
     px=planned_explosion_X-vx*fuze;
     if (px>0 && px<w){
       break;
     }
+    if (i==9) console.log(`HVNF ${w} ${h} ${px} ${vx}`);
   }
   
   // Actually spawn the firework entity.
@@ -301,9 +302,11 @@ function spawn_firework_burst(center=null,initial_velocity=null){
 
 // Class for holding canvas state. 
 class CanvasState{
-  context;
-  width;
-  height;
+  context=null;
+  get width(){return this.logicalW;};
+  get height(){return this.logicalH;};
+  pixelW=0;pixelH=0;
+  logicalW=0;logicalH=0;
   offset=new Vector2();
 }
 
@@ -324,10 +327,34 @@ PerformanceManager.register_feature_disable_callback(
 
 // Main re-draw loop
 function refresh_fireworks_canvas(dt){
-  let w=canvas_fireworks.width;
-  let h=canvas_fireworks.height;
-  cs.width=w;
-  cs.height=h;
+  let containerW=wsd.clientWidth;
+  if (!containerW) containerW=1; // Check for false-ish values
+  let containerH=wsd.clientHeight;
+  if (!containerH) containerH=1;
+  let canvas_hires=PerformanceManager.check_feature_enabled(
+    PerformanceManager.Feature.FIREWORKS_HIRES);
+  let resolution_multiplier=canvas_hires?1.0:0.5;
+  let targetW=Math.round(containerW*resolution_multiplier);
+  let targetH=Math.round(containerH*resolution_multiplier);
+  let pixelW=targetW;
+  let pixelH=targetH;
+  let logicalW=containerW;
+  let logicalH=containerH;
+  
+  if (canvas_fireworks.width!=targetW)
+    canvas_fireworks.width=targetW;
+  if (canvas_fireworks.height!=targetH)
+    canvas_fireworks.height=targetH;
+  
+  canvas_fireworks.style.width=containerW+"px";
+  canvas_fireworks.style.height=containerH+"px";
+  
+  cs.context.save();
+  cs.context.scale(resolution_multiplier,resolution_multiplier);
+  cs.logicalW=logicalW;
+  cs.logicalH=logicalH;
+  cs.pixelW=pixelW;
+  cs.pixelH=pixelH;
   
   // Tick all entities
   for (const e of entity_array){
@@ -337,18 +364,19 @@ function refresh_fireworks_canvas(dt){
   // Kill any entities that went off-screen.
   entity_array=entity_array.filter((e)=>{
     if (!e.alive()) return false;
-    if (e.position.x<0 || e.position.x>w) return false
-    if (e.position.y<0 || e.position.y>h) return false
+    if (e.position.x<0 || e.position.x>logicalW) return false
+    if (e.position.y<0 || e.position.y>logicalH) return false
     return true;
   });
   
   // Clear canvas
-  fc2d.clearRect(0,0,w,h);
+  fc2d.clearRect(0,0,logicalW,logicalH);
   
   // Render all entities
   for (const e of entity_array){
     e.render(cs);
   }
+  cs.context.restore();
   
   debug_print_particles.innerHTML="Particles x"+entity_array.length
 }
@@ -367,7 +395,7 @@ export function set_fireworks_enabled(b){
 
 // Launch fireworks.
 function launch_firework_periodic(){
-  if (fireworks_enabled && Config.OPTION_ENABLE_FIREWORKS && PerformanceManager.check_feature_enabled(PerformanceManager.Feature.FIREWORKS)) spawn_firework_rocket();
+  if (fireworks_enabled && Config.OPTION_ENABLE_FIREWORKS && PerformanceManager.check_feature_enabled(PerformanceManager.Feature.FIREWORKS)) spawn_firework_rocket(cs);
   window.setTimeout(launch_firework_periodic,Math.random()*2500+500);
 }
 launch_firework_periodic();
@@ -377,12 +405,7 @@ export function animationTick(dt){
   if (!Config.OPTION_ENABLE_FIREWORKS) return;
   if (!PerformanceManager.check_feature_enabled(
     PerformanceManager.Feature.FIREWORKS)) return;
-  
-  if (canvas_fireworks.width!=wsd.clientWidth)
-    canvas_fireworks.width=wsd.clientWidth;
-  if (canvas_fireworks.height!=wsd.clientHeight)
-    canvas_fireworks.height=wsd.clientHeight;
-  
+
   refresh_fireworks_canvas(dt);
   
 }
