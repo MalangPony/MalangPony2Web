@@ -238,10 +238,24 @@ model?.once("load", ()=>{
 	is_loaded=true;
 	load_internals();
 	//model.filters=[new PIXI.filters.BlurFilter(3)];
-	if (Config.OPTION_ENABLE_L2D_FILTERS)
+	if (Config.OPTION_ENABLE_L2D_FILTERS && PerformanceManager.check_feature_enabled(PerformanceManager.Feature.L2D_FILTERS))
 		model.filters=[cf];
 	auto_resize_model();
 });
+
+PerformanceManager.register_feature_disable_callback(
+	PerformanceManager.Feature.L2D_FILTERS, ()=>{
+		if (!is_loaded) return;
+		model.filters=[];
+	}
+);
+PerformanceManager.register_feature_enable_callback(
+	PerformanceManager.Feature.L2D_FILTERS, ()=>{
+		if (!is_loaded) return;
+		if (Config.OPTION_ENABLE_L2D_FILTERS)
+			model.filters=[cf];
+	}
+);
 
 function auto_resize_model(){
 	if (!is_loaded) return;

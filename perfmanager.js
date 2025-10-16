@@ -13,6 +13,7 @@ export class Feature{
 	static PARALLAX_GROUND = 20;
 	static PARALLAX_ANIMATED=21;
 	static HANMARI_L2D = 30;
+	static L2D_FILTERS=31;
 	static ANIMATED_STARS = 40; 
 	static CANVAS_FULL_FRAMERATE=50;
 }
