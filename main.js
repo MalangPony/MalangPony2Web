@@ -35,6 +35,7 @@ const scroll_inviter_container = document.getElementById("scroll-inviter-contain
 const scroll_inviter = document.getElementById("scroll-inviter");
 
 const debug_print_fps=document.getElementById("debug-print-fps");
+const debug_print_fps2=document.getElementById("debug-print-fps2");
 const debug_print_featurelevel=document.getElementById("debug-print-fl");
 const debug_print_features=document.getElementById("debug-print-features");
 
@@ -269,12 +270,19 @@ let dbp=document.getElementById("debug-print");
 let last_firework_explosion_time=-1000;
 let last_t=NaN;
 let frame_times=[];
+let frame_times_10s=[];
 function animationCallback(time) {
   frame_times.push(time);
-  while (frame_times[0]+1000<time){
+  if (frame_times[0]+1000<time){
     let fps=(frame_times.length-1)/(time-frame_times[0])*1000;
-    debug_print_fps.innerHTML="Anim "+fps.toFixed(2)+" FPS";
+    debug_print_fps.innerHTML="1s avg: "+fps.toFixed(2)+" FPS";
     frame_times=[];
+  }
+  frame_times_10s.push(time);
+  if (frame_times_10s[0]+10000<time){
+    let fps=(frame_times_10s.length-1)/(time-frame_times_10s[0])*1000;
+    debug_print_fps2.innerHTML="10s avg: "+fps.toFixed(2)+" FPS";
+    frame_times_10s=[];
   }
   
   if (isNaN(last_t)) last_t=time;
