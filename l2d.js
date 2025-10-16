@@ -5,6 +5,8 @@ import {FPS_Counter} from "./utils.js";
 const l2d_container = document.getElementById("l2d-container");
 const l2d_canvas = document.getElementById("l2d-canvas");
 
+
+PIXI.Ticker.shared.autoStart=false;
 let app = null;
 if (Config.OPTION_ENABLE_L2D_HANMARI){
 	app = new PIXI.Application({
@@ -15,6 +17,7 @@ if (Config.OPTION_ENABLE_L2D_HANMARI){
 		sharedTicker:true
 	});
 }
+PIXI.Ticker.shared.stop();
 
 export let model = null;
 if (Config.OPTION_ENABLE_L2D_HANMARI){
@@ -26,16 +29,23 @@ if (Config.OPTION_ENABLE_L2D_HANMARI){
 // Stop/Start main draw loop on feature disable/enable.
 PerformanceManager.register_feature_disable_callback(
 	PerformanceManager.Feature.HANMARI_L2D, ()=>{
-		PIXI.Ticker.shared.stop();
+		//PIXI.Ticker.shared.stop();
 		l2d_container.style.display="none";
 	}
 );
 PerformanceManager.register_feature_enable_callback(
 	PerformanceManager.Feature.HANMARI_L2D, ()=>{
-		PIXI.Ticker.shared.start();
+		//PIXI.Ticker.shared.start();
 		l2d_container.style.display="block";
 	}
 );
+
+
+function pixi_manual_update(){
+	if (PerformanceManager.check_feature_enabled(
+			PerformanceManager.Feature.HANMARI_L2D))
+		PIXI.Ticker.shared.update();
+}
 
 export let fpsc = new FPS_Counter();
 if (Config.OPTION_ENABLE_L2D_HANMARI){
@@ -393,4 +403,5 @@ export function animationTick(dt){
 		eye_position_mouse[0]*stare_strength+eye_position_sky[0]*(1-stare_strength),
 		eye_position_mouse[1]*stare_strength+eye_position_sky[1]*(1-stare_strength)
 	)
+	pixi_manual_update();
 }
