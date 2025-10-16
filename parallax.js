@@ -140,7 +140,19 @@ if (Config.OPTION_ENABLE_PARALLAX_BG)
   populate_parallax_images();
 
 // Recalculate image positions from camera position.
+let last_camera_position=null;
 function recalculate_parallax_images(camera_location){
+  
+  // Don't bother doing any of this if camera didn't move.
+  let cam_movement_distance=10000000;
+  if (last_camera_position !== null){
+    let cam_delta = last_camera_position.subtract(camera_location);
+    cam_movement_distance=cam_delta.length();
+  }
+  last_camera_position=camera_location;
+  if (cam_movement_distance<0.0001) return;
+  
+  
   // Something is very wrong here.
   if (parallax_images.length != pimg_doms.length){
     console.log("ERROR 623")
