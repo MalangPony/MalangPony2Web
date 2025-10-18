@@ -1,0 +1,76 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "마리live2d.moc3",
+		"Textures": [
+			"마리live2d.2048/texture_00.png"
+		],
+		"Physics": "마리live2d.physics3.json",
+		"DisplayInfo": "마리live2d.cdi3.json",
+		"Motions": {
+			"Tilt": [
+				{
+					"File": "anim/갸우뚱.motion3.json",
+					"FadeInTime": 0.1,
+					"FadeOutTime": 0.1
+				}
+			],
+			"Random": [
+				{
+					"File": "anim/랜덤 재생.motion3.json",
+					"FadeInTime": 0.1,
+					"FadeOutTime": 0.1
+				}
+			],
+			"Clicked": [
+				{
+					"File": "anim/클릭.motion3.json",
+					"FadeInTime": 0.1,
+					"FadeOutTime": 0.1
+				}
+			],
+			"ClickAlt": [
+				{
+					"File": "anim/뾰잉.motion3.json",
+					"FadeInTime": 0.1,
+					"FadeOutTime": 0.1
+				}
+			],
+			"Idle": [
+				{
+					"File": "anim/Blink.motion3.json",
+					"FadeInTime": 0.1,
+					"FadeOutTime": 0.1
+				},
+				{
+					"File": "anim/WaitMedium.motion3.json",
+					"FadeInTime": 0.1,
+					"FadeOutTime": 0.1
+				},
+				{
+					"File": "anim/WaitLong.motion3.json",
+					"FadeInTime": 0.1,
+					"FadeOutTime": 0.1
+				},
+				{
+					"File": "anim/WaitShort.motion3.json",
+					"FadeInTime": 0.1,
+					"FadeOutTime": 0.1
+				}
+			]
+		}
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": []
+		},
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": []
+		}
+	],
+	"HitAreas": []
+}

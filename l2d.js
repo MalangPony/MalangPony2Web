@@ -22,7 +22,7 @@ PIXI.Ticker.shared.stop();
 export let model = null;
 if (Config.OPTION_ENABLE_L2D_HANMARI){
 	model=PIXI.live2d.Live2DModel.fromSync(
-		"L2D-model/Hanmari-IZuchi-r001-Cubism42/Hanmari-L2d.model3.json",
+		"L2D-model/Hanmari-IZuchi/마리live2d.model3.json",
 		{autoInteract:false});
 }
 
@@ -322,15 +322,61 @@ function get_model_focus_controller(){
 	return focus_controller;
 }
 function setX(angle){
+	if (!is_loaded) return;
 	core_model.addParameterValueById(internal_model.idParamAngleZ,angle);
 }
 function setY(angle){
+	if (!is_loaded) return;
 	core_model.addParameterValueById(internal_model.idParamAngleZ,angle);
 }
 function setZ(angle){
+	if (!is_loaded) return;
 	core_model.addParameterValueById(internal_model.idParamAngleZ,angle);
 }
+/*
+export function stopMotion(){
+	if (!is_loaded) return;
+	return internal_model.motionManager.stopAllMotions();
+}
+export function playMotion(motion_name){
+	if (!is_loaded) return;
+	return internal_model.motionManager.startRandomMotion(motion_name);
+}
+export function playMotionImmediate(motion_name){
+	if (!is_loaded) return;
+	stopMotion();
+	return playMotion(motion_name);
+}*/
 
+let playing_motion_priority=-100;
+let queued_motion_group_name="";
+export function playMotion(motion_name,priority=0){
+	if (!is_loaded) return;
+	if (!internal_model.motionManager.playing 
+			|| (internal_model.motionManager.state.currentGroup !== queued_motion_group_name)
+			|| (priority>=playing_motion_priority)){
+		// If not playing, or has higher (or equal) priority
+		internal_model.motionManager.stopAllMotions();
+		playing_motion_priority=priority;
+		queued_motion_group_name=motion_name;
+		return internal_model.motionManager.startRandomMotion(motion_name);
+	}
+}
+
+let click_counter=0;
+l2d_canvas.style.pointerEvents="auto";
+l2d_canvas.addEventListener("click",()=>{
+	click_counter++;
+	if (click_counter>=10){
+		playMotion("ClickAlt",10);
+		click_counter=0;
+	}
+	else{
+		playMotion("Clicked",5);
+	}
+});
+window.setInterval(()=>{
+	click_counter=Math.max(0,click_counter-1);},1000);
 // We use the FocusController::focus() instead of Live2DModel::focus()
 // Because the Live2DModel's focus() always goes full tilt in the mouse direction
 // And thus we can't look gently or reset the eye position.
