@@ -5,7 +5,7 @@ import {FPS_Counter} from "./utils.js";
 const l2d_container = document.getElementById("l2d-container");
 const l2d_canvas = document.getElementById("l2d-canvas");
 
-
+// PIXI Setup.
 PIXI.Ticker.shared.autoStart=false;
 let app = null;
 if (Config.OPTION_ENABLE_L2D_HANMARI){
@@ -17,8 +17,16 @@ if (Config.OPTION_ENABLE_L2D_HANMARI){
 		sharedTicker:true
 	});
 }
+// Disable internal ticker. We will update fully manually.
 PIXI.Ticker.shared.stop();
+// This function should be called every frame.
+function pixi_manual_update(){
+	if (PerformanceManager.check_feature_enabled(
+			PerformanceManager.Feature.HANMARI_L2D))
+		PIXI.Ticker.shared.update();
+}
 
+// Load model. Disable default eye tracking.
 export let model = null;
 if (Config.OPTION_ENABLE_L2D_HANMARI){
 	model=PIXI.live2d.Live2DModel.fromSync(
@@ -41,12 +49,6 @@ PerformanceManager.register_feature_enable_callback(
 );
 
 
-function pixi_manual_update(){
-	if (PerformanceManager.check_feature_enabled(
-			PerformanceManager.Feature.HANMARI_L2D))
-		PIXI.Ticker.shared.update();
-}
-
 export let fpsc = new FPS_Counter();
 if (Config.OPTION_ENABLE_L2D_HANMARI){
 	PIXI.Ticker.shared.add(()=>{
@@ -54,7 +56,9 @@ if (Config.OPTION_ENABLE_L2D_HANMARI){
 	});
 }
 
+// Setup PIXI Filters
 if (Config.OPTION_ENABLE_L2D_HANMARI){
+	// Just an empty filter.
 	class CopyFilter extends PIXI.Filter{
 	}
 
@@ -76,6 +80,9 @@ if (Config.OPTION_ENABLE_L2D_HANMARI){
 			currentColor.a);
 	}
 	`
+	// Applies below formula to all pixels. RGB=0.0~1.0
+	// outRGB = inRGB * multiplier + lift
+	// Alpha is unaffected.
 	class LinearFilter extends PIXI.Filter{
 		constructor(){
 			super(PIXI.Filter.defaultVertexSrc,
@@ -119,6 +126,7 @@ if (Config.OPTION_ENABLE_L2D_HANMARI){
 		gl_FragColor = mix(colorA, colorB, mixRatio);
 	}
 	`
+	// Mix imageA and imageB, mix ratio determined by input's alpha channel.
 	class MixByAlphaFilter extends PIXI.Filter{
 		constructor(){
 			super(PIXI.Filter.defaultVertexSrc,
@@ -169,7 +177,9 @@ if (Config.OPTION_ENABLE_L2D_HANMARI){
 		
 		// How dark should the shadows get? 0.0~1.0
 		darken_factor=0.5;
-		// 
+		// Apply exponent to alpha channel after blur.
+		// Makes it easy to tweak how the edge looks
+		// without having to up the blur radius.
 		alpha_ramp_exponent=4.0;
 		// Lit-up area RGB = original RGB * (1+factor) + lift
 		lighten_factor=0.5;
@@ -240,6 +250,9 @@ if (Config.OPTION_ENABLE_L2D_HANMARI){
 				PIXI.CLEAR_MODES.CLEAR, _currentState)
 			
 			// Clean up intermediate textures
+			// Without these, we get memory leakage!
+			// Such memory leaks result in weird performance degradation
+			// that doesn't show up easily in process monitors.
 			texDarkened.destroy(true);
 			texLightened.destroy(true);
 			texBlurIntermediate.destroy(true);
@@ -261,6 +274,7 @@ model?.once("load", ()=>{
 	auto_resize_model();
 });
 
+// PerfManager L2D Filters
 PerformanceManager.register_feature_disable_callback(
 	PerformanceManager.Feature.L2D_FILTERS, ()=>{
 		if (!is_loaded) return;
@@ -275,6 +289,7 @@ PerformanceManager.register_feature_enable_callback(
 	}
 );
 
+// Automatically try to fit the model in the canvas.
 function auto_resize_model(){
 	if (!is_loaded) return;
 	let w=l2d_container.clientWidth;
@@ -289,6 +304,7 @@ let rso= new ResizeObserver(()=>{
 });
 rso.observe(l2d_container);
 
+// Change filter parameters.
 export function set_lighten_strength(f){
 	if (!Config.OPTION_ENABLE_L2D_HANMARI) return;
 	if (!PerformanceManager.check_feature_enabled(
@@ -350,12 +366,17 @@ export function playMotionImmediate(motion_name){
 
 let playing_motion_priority=-100;
 let queued_motion_group_name="";
+// Play motion. Selects a random animation in the motion_name group.
+// If the currently playing motion has lower OR EQUAL priority,
+// the currently playing motion is immediately stopped.
+// This makes it so that if playMotion is called with the same priority rapidly,
+// We get rapidly playing motion. (It's funnier this way, I promise)
 export function playMotion(motion_name,priority=0){
 	if (!is_loaded) return;
-	if (!internal_model.motionManager.playing 
-			|| (internal_model.motionManager.state.currentGroup !== queued_motion_group_name)
-			|| (priority>=playing_motion_priority)){
-		// If not playing, or has higher (or equal) priority
+	if (!internal_model.motionManager.playing // If we aren't playing any motion
+			|| (internal_model.motionManager.state.currentGroup 
+				!== queued_motion_group_name)  // If we are playing something other than the last queued motion. (We are probably playing the idle animation)
+			|| (priority>=playing_motion_priority)){ // If higher or equal priority
 		internal_model.motionManager.stopAllMotions();
 		playing_motion_priority=priority;
 		queued_motion_group_name=motion_name;
