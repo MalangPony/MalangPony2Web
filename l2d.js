@@ -363,9 +363,10 @@ export function playMotion(motion_name,priority=0){
 	}
 }
 
+
 let click_counter=0;
-l2d_canvas.style.pointerEvents="auto";
-l2d_canvas.addEventListener("click",()=>{
+// Do something else if clicked more than 10 times.
+function hanmari_clicked(){
 	click_counter++;
 	if (click_counter>=10){
 		playMotion("ClickAlt",10);
@@ -374,9 +375,35 @@ l2d_canvas.addEventListener("click",()=>{
 	else{
 		playMotion("Clicked",5);
 	}
-});
+}
+// The click counter decays by 1 every second.
 window.setInterval(()=>{
 	click_counter=Math.max(0,click_counter-1);},1000);
+
+
+// The below code would be more straightforward...
+/*
+l2d_canvas.style.pointerEvents="auto";
+l2d_canvas.addEventListener("click",hanmari_clicked);
+*/
+// BUT we use the code below to detect clicks instead
+// because if we use the code above, all mouse events will be captured
+// by the canvas if the pointer is over the canvas.
+// This makes it so you can't scroll the page if you are hovering over the canvas.
+// So we use the event listener on the window object since that doesn't
+// prevent any mouse events from reaching other elements.
+window.addEventListener("click",(e)=>{
+	if (!Config.OPTION_ENABLE_L2D_HANMARI) return;
+	if (!PerformanceManager.check_feature_enabled(
+		PerformanceManager.Feature.HANMARI_L2D)) return;
+	let bbox=l2d_canvas.getBoundingClientRect();
+	if ((e.clientX>bbox.left) && (e.clientX<bbox.right) && (e.clientY>bbox.top) && (e.clientY<bbox.bottom)) {
+		hanmari_clicked();
+		e.stopPropagation();
+	}
+});
+
+
 // We use the FocusController::focus() instead of Live2DModel::focus()
 // Because the Live2DModel's focus() always goes full tilt in the mouse direction
 // And thus we can't look gently or reset the eye position.
