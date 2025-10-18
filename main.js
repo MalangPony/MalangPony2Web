@@ -280,7 +280,9 @@ window.setInterval(()=>{
   debug_print_fps2.innerHTML="AnimCB 10s: "+fpsc_primary_anim_callback.fps_10sec().toFixed(2)+" FPS";
 },2000);
 window.setInterval(()=>{
-  debug_print_fps3.innerHTML="PIXI/L2D 1s: "+L2D.fpsc.fps_1sec().toFixed(2)+" FPS";
+  let fps_str=L2D.fpsc.fps_1sec().toFixed(2);
+  if (fps_str==="NaN") fps_str="---";
+  debug_print_fps3.innerHTML="PIXI/L2D 1s: "+fps_str+" FPS";
 },500);
 window.setInterval(()=>{
   if (ac_tt_hist.length<1) return;

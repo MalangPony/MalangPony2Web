@@ -14,7 +14,7 @@ export class FPS_Counter{
 		let window_start_ms=performance.now()-window_ms;
 		let frame_count=0;
 		let index=this.frame_times_ms.length-1;
-		if (index<0) return -1;
+		if (index<0) return NaN;
 		let end_ms=this.frame_times_ms[index];
 		let start_ms=0;
 		while (index>=0){
@@ -25,7 +25,7 @@ export class FPS_Counter{
 			frame_count++;
 		}
 		frame_count--; // we are counting intervals between frames, so...
-		if (frame_count<1) return -2;
+		if (frame_count<1) return NaN;
 		return (end_ms-start_ms)/frame_count;
 	}
 	calculate_fps(window_ms){
