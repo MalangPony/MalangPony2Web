@@ -8,15 +8,16 @@
 // 'Enum' of features that can be turned on/off.
 export class Feature{
 	static JAVASCRIPT = 1;
-	static FIREWORKS = 10;
-	static FIREWORKS_HIRES=11;
-	static FIREWORKS_HIGHCOUNT=12;
-	static PARALLAX_GROUND = 20;
-	static PARALLAX_ANIMATED=21;
-	static HANMARI_L2D = 30;
-	static L2D_FILTERS=31;
-	static ANIMATED_STARS = 40; 
-	//static FULL_FRAMERATE=50;
+	static CSS_FILT_DROP_SHADOWS=11;
+	static CSS_FILT_ICC_BACKBLUR=12;
+	static FIREWORKS = 50;
+	static FIREWORKS_HIRES=51;
+	static FIREWORKS_HIGHCOUNT=52;
+	static PARALLAX_GROUND = 60;
+	static PARALLAX_ANIMATED=61;
+	static HANMARI_L2D = 70;
+	static L2D_FILTERS=71;
+	static ANIMATED_STARS = 80; 
 }
 
 // Populate variables.
@@ -29,7 +30,6 @@ for (const k of Object.keys(Feature)){
 	enable_callbacks[v]=[];
 	disable_callbacks[v]=[];
 	current_state[v]=true;
-	//console.log(k+":"+v);
 	values.push(v);
 }
 

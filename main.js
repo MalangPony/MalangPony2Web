@@ -79,6 +79,27 @@ PerformanceManager.register_feature_enable_callback(
 	}
 );
 
+
+// CSS Filters
+PerformanceManager.register_feature_disable_callback(
+  PerformanceManager.Feature.CSS_FILT_DROP_SHADOWS, ()=>{
+    ticket.classList.remove("css-filters");
+    sidebar.classList.remove("css-filters");
+  });
+PerformanceManager.register_feature_enable_callback(
+  PerformanceManager.Feature.CSS_FILT_DROP_SHADOWS, ()=>{
+     ticket.classList.add("css-filters");
+    sidebar.classList.add("css-filters");
+  });
+PerformanceManager.register_feature_disable_callback(
+  PerformanceManager.Feature.CSS_FILT_ICC_BACKBLUR, ()=>{
+    intro_content_container.classList.remove("css-filters");
+  });
+PerformanceManager.register_feature_enable_callback(
+  PerformanceManager.Feature.CSS_FILT_ICC_BACKBLUR, ()=>{
+    intro_content_container.classList.add("css-filters");
+  });
+
 let in_sky_mode=true;
 function transition_sky(){
   in_sky_mode=true;
