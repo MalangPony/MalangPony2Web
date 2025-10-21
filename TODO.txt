@@ -15,5 +15,3 @@ Create rest of the pages
 Pages BG white okay? Maybe black? dropshadows?
 Lang button avoid scrollbar
 A low-power device warning when feature level is low?
-Scroll bug in Firefox Mobile. Sticky elements were scrolled.
-Make BG full-screen for mobile

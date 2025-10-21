@@ -354,6 +354,7 @@ background: linear-gradient(0deg,#101050,#303070)
   /*box-shadow: 0 0 8px #FFFFFFC0;*/
   background-color: #FFFFFF;
 }
+
 /* Responsive Section */
 /* Targeting down to 300px. */
 
@@ -389,7 +390,7 @@ background: linear-gradient(0deg,#101050,#303070)
     justify-content:space-evenly;
   }
   #intro-content-container{
-    width:calc(100% - 64px);
+    width:100%;
   }
   #afterscroll-content-container{
     padding-left:32px;
