@@ -7,17 +7,36 @@
 
 // 'Enum' of features that can be turned on/off.
 export class Feature{
-	static JAVASCRIPT = 1;
-	static CSS_FILT_DROP_SHADOWS=11;
-	static CSS_FILT_ICC_BACKBLUR=12;
-	static FIREWORKS = 50;
-	static FIREWORKS_HIRES=51;
-	static FIREWORKS_HIGHCOUNT=52;
-	static PARALLAX_GROUND = 60;
-	static PARALLAX_ANIMATED=61;
-	static HANMARI_L2D = 70;
-	static L2D_FILTERS=71;
+	// Lowest level. Everything is disabled.
+	static LOWEST = 1;
+	
+	// Basic feature set. These are the core visual features.
+	static FIREWORKS = 10;
+	static PARALLAX_GROUND = 11;
+	
+	// L2D is heavy, so it has a lower priority.
+	static HANMARI_L2D = 20;
+	
+	// Refinement features. 
+	// Makes things look nicer, but not strictly required.
+	static CSS_FILT_DROP_SHADOWS=50;
+	
+	static FIREWORKS_HIGHCOUNT=51;
+	
+	static L2D_FILTERS=52;
+	
+	static FIREWORKS_HIRES=53;
+	
+	static CSS_FILT_ICC_BACKBLUR=56;
+	
+	static PARALLAX_ANIMATED=57;
+	
+	// Extra features.
+	// Technically makes things prettier, but barely noticable.
 	static ANIMATED_STARS = 80; 
+	
+	// The highest level. Everything is enabled.
+	static FULL=99;
 }
 
 // Populate variables.
@@ -33,11 +52,76 @@ for (const k of Object.keys(Feature)){
 	values.push(v);
 }
 
+/*
+ * TODO we need a way to fix feature oscillations.
+ * For example, if a feature is so heavy that it can take a 60FPS down to 15FPS,
+ * It will start an oscillation with the auto-adjust.
+ * How do we detect this? How do we stop this?
+ * 
+ */
 
+// Start disabling features under this FPS
+const FEATURE_DISABLE_THRESHOLD_FPS=20;
+// Start enabling features when over this FPS
+const FEATURE_ENABLE_THRESHOLD_FPS = 50;
+function step_feature_level(current_fps){
+	if (current_fps<FEATURE_DISABLE_THRESHOLD_FPS) decrement_feature_level();
+	else if (current_fps>FEATURE_ENABLE_THRESHOLD_FPS) increment_feature_level();
+}
+function guess_feature_level(current_fps){
+	// This is totally guessing 
+	if (current_fps>50) set_feature_level(Feature.FULL);
+	else if (current_fps>40) set_feature_level(Feature.L2D_FILTERS);
+	else if (current_fps>30) set_feature_level(Feature.PARALLAX_GROUND);
+	else if (current_fps>20) set_feature_level(Feature.FIREWORKS);
+	else set_feature_level(Feature.LOWEST);
+}
 
-function report_frame_time(ms){
-	//TODO automatically turn features on/off with respect to 
-	// the frame rate.
+let frame_times=[];
+let feature_last_adjusted=NaN;
+const FEATURE_ADJUST_INTERVAL=500;
+let auto_adjust_feature_level=true;
+export function disable_auto_adjust(){
+	auto_adjust_feature_level=false;
+}
+export function enable_auto_adjust(){
+	auto_adjust_feature_level=true;
+}
+export function toggle_auto_adjust(){
+	auto_adjust_feature_level=!auto_adjust_feature_level;
+}
+export function is_auto_adjust_enabled(){
+	return auto_adjust_feature_level;
+}
+// MUST be called on every animationCallback frame.
+export function report_frame_time(ms){
+	frame_times.push(ms);
+	while (frame_times.length>11) frame_times.shift();
+
+	if (auto_adjust_feature_level){
+		// Calculate FPS
+		let fps_avg = NaN;
+		if (frame_times.length>10){
+			let fp_last=frame_times[frame_times.length-1];
+			let fp_first=frame_times[0];
+			let fp_intervals = frame_times.length-1;
+			let milliseconds_per_frame=(fp_last-fp_first)/fp_intervals;
+			fps_avg=1000/milliseconds_per_frame;
+		}
+		
+		// Only run if we have a valid FPS.
+		if (!isNaN(fps_avg)){
+			// Never adjusted. BUT we have an FPS.
+			// Which means, this is our first adjust!
+			if (isNaN(feature_last_adjusted)){
+				guess_feature_level(fps_avg);
+				feature_last_adjusted=ms;
+			}else if ((ms-feature_last_adjusted)>FEATURE_ADJUST_INTERVAL){
+				step_feature_level(fps_avg);
+				feature_last_adjusted=ms;
+			}
+		}
+	}
 }
 
 
@@ -55,7 +139,9 @@ function feature_disable(feature){
 	for (const f of disable_callbacks[feature]) f();
 }
 
+// Initialize to higest feature level.
 let feature_level=values[values.length-1];
+
 // Enable all features up to the given level,
 // and disable all features above that level.
 export function set_feature_level(level){

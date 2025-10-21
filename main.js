@@ -41,6 +41,8 @@ const debug_print_fps3=document.getElementById("debug-print-fps3");
 const debug_print_acms=document.getElementById("debug-print-acms");
 const debug_print_featurelevel=document.getElementById("debug-print-fl");
 const debug_print_features=document.getElementById("debug-print-features");
+const debug_print_faa=document.getElementById("debug-print-faa");
+
 
 const hanmari_image_container = document.getElementById("hmr-image-container");
 
@@ -50,6 +52,8 @@ const debug_btn_perf_increment = document.getElementById(
 	"debug-button-feature-increment");
 const debug_btn_perf_decrement = document.getElementById(
 	"debug-button-feature-decrement");
+const debug_btn_perf_auto = document.getElementById(
+	"debug-button-feature-auto");
 
 // Is Non-animated Hanmari enabled?
 // Only enable if L2D Hanmari is NOT on the screen!
@@ -334,6 +338,8 @@ function animationCallback(time) {
   last_t=time;
   if (dt>1.0) dt=1.0;
   
+  PerformanceManager.report_frame_time(time);
+  
   let width_wholescreen=wsd.clientWidth;
   let width_scroller=content_scroller.clientWidth;
   let scrollbar_width=width_wholescreen-width_scroller;
@@ -360,6 +366,7 @@ function animationCallback(time) {
   
   debug_print_featurelevel.innerHTML = "Feature Level "+PerformanceManager.get_feature_level();
   debug_print_features.innerHTML = PerformanceManager.generate_feature_list();
+  debug_print_faa.innerHTML = PerformanceManager.is_auto_adjust_enabled()?"ON":"OFF";
   
   Stars.animationTick(dt);
   Fireworks.animationTick(dt);
@@ -667,4 +674,8 @@ debug_btn_perf_increment.addEventListener("click", (e) => {
 debug_btn_perf_decrement.addEventListener("click", (e) => {
   //console.log("FL-");
 	PerformanceManager.decrement_feature_level();
+});
+debug_btn_perf_auto.addEventListener("click", (e) => {
+  //console.log("FL-");
+	PerformanceManager.toggle_auto_adjust();
 });
