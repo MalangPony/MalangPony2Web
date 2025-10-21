@@ -15,3 +15,4 @@ Create rest of the pages
 Pages BG white okay? Maybe black? dropshadows?
 Lang button avoid scrollbar
 A low-power device warning when feature level is low?
+Directional light fx (create normal map...?)

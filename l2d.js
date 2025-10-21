@@ -273,6 +273,7 @@ model?.once("load", ()=>{
 	auto_resize_model();
 });
 
+
 // PerfManager L2D Filters
 PerformanceManager.register_feature_disable_callback(
 	PerformanceManager.Feature.L2D_FILTERS, ()=>{
@@ -409,17 +410,39 @@ export function playMotion(motion_name,priority=0){
 	}
 }
 
+// Call with the canvas-local coordinates of the click.
+// Will return true if the collision check succeeded.
+function canvas_clicked(relX,relY){
+	let canvas_coord_X=l2d_canvas.width*relX;
+	let canvas_coord_Y=l2d_canvas.height*relY;
+
+	if (!is_loaded) return;
+	if (!Config.OPTION_ENABLE_L2D_HANMARI) return;
+	if (!PerformanceManager.check_feature_enabled(
+		PerformanceManager.Feature.HANMARI_L2D)) return;
+	
+	let hit_areas=model.hitTest(canvas_coord_X,canvas_coord_Y);
+	if (hit_areas.length>0){
+		console.log("PHA "+hit_areas[0]);
+		hanmari_clicked(hit_areas[0]);
+		return true;
+	}
+	return false;
+}
 
 let click_counter=0;
-// Do something else if clicked more than 10 times.
-function hanmari_clicked(){
+// Play special animation if clicked more than 10 times.
+function hanmari_clicked(region){
 	click_counter++;
 	if (click_counter>=10){
-		playMotion("ClickAlt",10);
+		playMotion("Tilt",10);
 		click_counter=0;
-	}
-	else{
+	}else if (region=="Body"){
 		playMotion("Clicked",5);
+	}else if (region=="Head"){
+		playMotion("ClickAlt",5);
+	}else{
+		console.log("Invalid click region: "+region);
 	}
 }
 // The click counter decays by 1 every second.
@@ -443,9 +466,16 @@ window.addEventListener("click",(e)=>{
 	if (!PerformanceManager.check_feature_enabled(
 		PerformanceManager.Feature.HANMARI_L2D)) return;
 	let bbox=l2d_canvas.getBoundingClientRect();
-	if ((e.clientX>bbox.left) && (e.clientX<bbox.right) && (e.clientY>bbox.top) && (e.clientY<bbox.bottom)) {
-		hanmari_clicked();
-		e.stopPropagation();
+	let localX=e.clientX-bbox.left;
+	let localY=e.clientY-bbox.top;
+	let w=bbox.width;
+	let h=bbox.height;
+	let relativeX=localX/w;
+	let relativeY=localY/h;
+	if ((localX>0) && (localX<w) && (localY>0) && (localY<h)) {
+		let valid_hit=canvas_clicked(relativeX,relativeY);
+		//hanmari_clicked();
+		if (valid_hit) e.stopPropagation();
 	}
 });
 

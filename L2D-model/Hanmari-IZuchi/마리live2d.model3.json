@@ -64,7 +64,9 @@
 		{
 			"Target": "Parameter",
 			"Name": "EyeBlink",
-			"Ids": []
+			"Ids": [
+				"ParamEyeLOpen"
+			]
 		},
 		{
 			"Target": "Parameter",
@@ -72,5 +74,14 @@
 			"Ids": []
 		}
 	],
-	"HitAreas": []
+	"HitAreas": [
+		{
+			"Id": "HitArea",
+			"Name": "Head"
+		},
+		{
+			"Id": "HitArea2",
+			"Name": "Body"
+		}
+	]
 }
