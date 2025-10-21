@@ -515,11 +515,22 @@ export function set_staring_strength(f){
 	stare_strength=f;
 }
 
+// Pause rendering without any cleanup.
+// Intended to be used when hanmari is hidden by the parent.
+// (main.js > hide_hanmari() and the like)
+let render_paused=false;
+export function pause_render(){
+	render_paused=true;
+}
+export function unpause_render(){
+	render_paused=false;
+}
+
 export function animationTick(dt){
 	if (!Config.OPTION_ENABLE_L2D_HANMARI) return;
 	if (!PerformanceManager.check_feature_enabled(
 		PerformanceManager.Feature.HANMARI_L2D)) return;
-	
+	if (render_paused) return;
 	
 	look_at(
 		eye_position_mouse[0]*stare_strength+eye_position_sky[0]*(1-stare_strength),

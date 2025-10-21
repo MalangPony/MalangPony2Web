@@ -45,6 +45,7 @@ const debug_print_faa=document.getElementById("debug-print-faa");
 
 
 const hanmari_image_container = document.getElementById("hmr-image-container");
+const master_hanmari_container = document.getElementById("master-hanmari-container");
 
 const l2d_container = document.getElementById("l2d-container");
 
@@ -504,30 +505,34 @@ if (lang_from_cookie !== null) {
 
 
 function hide_hanmari(){
-  hanmari_image_container.style.opacity=1.0;
-  let anim3=hanmari_image_container.animate(
+  master_hanmari_container.style.opacity=1.0;
+  let anim3=master_hanmari_container.animate(
     [{ opacity: "1.0" },{ opacity: "0.0" }],
     {duration: 500,delay:0});
   anim3.onfinish= () => {
-    hanmari_image_container.style.display="none";
+    master_hanmari_container.style.display="none";
+    L2D.pause_render();
   }
 }
 function hide_hanmari_instant(){
-  hanmari_image_container.style.display="none";
+  master_hanmari_container.style.display="none";
+  L2D.pause_render();
 }
 function show_hanmari(){
-  hanmari_image_container.style.display="block";
-  hanmari_image_container.style.opacity=0.0;
-  let anim3=hanmari_image_container.animate(
+  master_hanmari_container.style.display="block";
+  master_hanmari_container.style.opacity=0.0;
+  L2D.unpause_render();
+  let anim3=master_hanmari_container.animate(
     [{ opacity: "0.0" },{ opacity: "1.0" }],
     {duration: 500,delay:0});
   anim3.onfinish= () => {
-    hanmari_image_container.style.opacity=1.0;
+    master_hanmari_container.style.opacity=1.0;
   }
 }
 function show_hanmari_instant(){
-  hanmari_image_container.style.display="block";
-  hanmari_image_container.style.opacity=1.0;
+  master_hanmari_container.style.display="block";
+  master_hanmari_container.style.opacity=1.0;
+  L2D.unpause_render();
 }
 
 let sky_disabled=false;

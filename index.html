@@ -13,14 +13,16 @@
 <body>
 <div id="whole-screen-div" class="fullsize">
   
-  <div id="l2d-container" >
-    <canvas id="l2d-canvas" style="width:100%;height:100%;"></canvas>
-  </div>
-  
-  <div id="hmr-image-container">
-    <img id="hmr-ground" src="MPN2-Prototype-Image-Hanmari4.png" style="z-index:3;opacity:0;">
-    <img id="hmr-flash01" src="MPN2-Prototype-Image-Hanmari3.png" style="z-index:2;opacity:0;">
-    <img id="hmr-base" src="MPN2-Prototype-Image-Hanmari2.png" style="z-index:1;">
+  <div id="master-hanmari-container" class="fullsize" style="z-index:20;pointer-events:none;">
+    <div id="l2d-container" >
+      <canvas id="l2d-canvas" style="width:100%;height:100%;"></canvas>
+    </div>
+    
+    <div id="hmr-image-container">
+      <img id="hmr-ground" src="MPN2-Prototype-Image-Hanmari4.png" style="z-index:3;opacity:0;">
+      <img id="hmr-flash01" src="MPN2-Prototype-Image-Hanmari3.png" style="z-index:2;opacity:0;">
+      <img id="hmr-base" src="MPN2-Prototype-Image-Hanmari2.png" style="z-index:1;">
+    </div>
   </div>
   <div id="stickies" class="fullsize" style="z-index:80;pointer-events:none;">
     <div id="sidebar-animation-container">
