@@ -459,7 +459,10 @@ function canvas_clicked(relX,relY){
 	
 	let hit_areas=model.hitTest(canvas_coord_X,canvas_coord_Y);
 	if (hit_areas.length>0){
-		hanmari_clicked(hit_areas[0]);
+		if (currently_on_ground){
+			// TODO maybe add click anim for sky state as well?
+			hanmari_clicked(hit_areas[0]);
+		}
 		return true;
 	}
 	return false;
@@ -508,7 +511,6 @@ window.addEventListener("click",(e)=>{
 	let relativeY=localY/h;
 	if ((localX>0) && (localX<w) && (localY>0) && (localY<h)) {
 		let valid_hit=canvas_clicked(relativeX,relativeY);
-		//hanmari_clicked();
 		if (valid_hit) e.stopPropagation();
 	}
 });
@@ -615,7 +617,10 @@ export function pause_render(){
 export function unpause_render(){
 	render_paused=false;
 }
-
+// X,Y is in -1 to +1
+export function set_sky_eye_position(x,y){
+	eye_position_sky=[x,y];
+}
 export function animationTick(dt){
 	if (!Config.OPTION_ENABLE_L2D_HANMARI) return;
 	if (!PerformanceManager.check_feature_enabled(

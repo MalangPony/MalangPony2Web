@@ -39,3 +39,14 @@ export class FPS_Counter{
 	}
 	
 }
+
+export function linear_map(input_min,input_max,x,out_min,out_max,clamp=true){
+	let range_input=input_max-input_min;
+	let range_output=out_max-out_min;
+	let ratio=(x-input_min)/range_input;
+	
+	if (clamp && (ratio<0)) ratio=0;
+	if (clamp && (ratio>1)) ratio=1;
+	
+	return ratio*range_output+out_min;
+}

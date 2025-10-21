@@ -4,7 +4,7 @@ import * as Fireworks from "./fireworks.js";
 import * as Stars from "./stars.js";
 import * as Parallax from "./parallax.js";
 import * as L2D from "./l2d.js";
-import {FPS_Counter} from "./utils.js";
+import {FPS_Counter,linear_map} from "./utils.js";
 
 const wsd = document.getElementById("whole-screen-div");
 
@@ -375,6 +375,18 @@ function animationCallback(time) {
   Fireworks.animationTick(dt);
   Parallax.animationTick(dt);
   L2D.animationTick(dt);
+  
+  Fireworks.update_attention(dt);
+  // 0~1 value. X increasing to right, Y increasing to bottom
+  let fw_attn_pos=Fireworks.get_lerped_attention_position_relative();
+  // -1~+1 value. X increasing to right, Y increasing to top.
+  // Since hanmari is looking back-ish, X should be inverted (i think?)
+  let sky_eye_pos=new Vector2(
+    linear_map(1,0,fw_attn_pos.x,-0.8,-0.0),
+    linear_map(1,0,fw_attn_pos.y,-0.7,+0.7));
+  //console.log("FW Attn Pos "+JSON.stringify(fw_attn_pos));
+  //console.log("L2D Sky eyepos "+JSON.stringify(sky_eye_pos));
+  L2D.set_sky_eye_position(sky_eye_pos.x,sky_eye_pos.y)
   
   let cb_time_taken=performance.now()-cb_start_t;
   ac_tt_hist.push(cb_time_taken);

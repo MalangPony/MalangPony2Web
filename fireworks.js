@@ -407,5 +407,65 @@ export function animationTick(dt){
     PerformanceManager.Feature.FIREWORKS)) return;
 
   refresh_fireworks_canvas(dt);
-  
+  update_attention(dt);
+}
+
+
+let attention_hold_remaining=-1;
+let attention_position = Vector2.ZERO;
+let attention_position_lerped=Vector2.ZERO;
+let tracking_object=null;
+export function update_attention(dt){
+  let tracking_object_is_alive=false;
+  let new_tracking_target_candidate=null;
+  for (const e of entity_array){
+    if (tracking_object===e) tracking_object_is_alive=true;
+    if (e instanceof FireworkEntity){
+      if (new_tracking_target_candidate===null){
+        new_tracking_target_candidate=e;
+      }
+    }
+  }
+  if (tracking_object_is_alive) {
+    // Tracking object is alive. Track that object.
+    attention_position=tracking_object.position;
+    // Reset attention remaining.
+    attention_hold_remaining=0.2;
+  }else{
+    attention_hold_remaining-=dt;
+    if (attention_hold_remaining<0){
+      // Previous attention ran out.
+      // Try to move attention to another object.
+      if (new_tracking_target_candidate!==null){
+        tracking_object=new_tracking_target_candidate;
+        attention_position=tracking_object.position;
+      }else{
+        // No objects to track. Default to screen center.
+        attention_position=new Vector2(cs.pixelW/2,cs.pixelH/2);
+      }
+    }else{
+      // The object is dead, but we are still fixated on that object.
+      // Hold the attention position (do nothing)
+    }
+  }
+  //console.log("UU"+attention_position_lerped+attention_position+"dt"+dt);
+  // lerp calculation
+  attention_position_lerped=Vector2.lerp(
+    attention_position_lerped,
+    attention_position,
+    dt*1.5
+  );
+  //console.log("APL "+attention_position_lerped);
+}
+// Returns position in canvas-space.
+export function get_lerped_attention_position(){
+  //console.log("GLAP APL "+attention_position_lerped);
+  return attention_position_lerped;
+}
+export function get_lerped_attention_position_relative(){
+  let apl = get_lerped_attention_position();
+  return new Vector2(
+    apl.x/canvas_fireworks.width,
+    apl.y/canvas_fireworks.height
+  );
 }

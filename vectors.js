@@ -44,6 +44,14 @@ export class Vector2{
       return v;
     }
   }
+  static lerp_unconstrained(a,b,factor){
+    return a.multiply(1-factor).add(b.multiply(factor));
+  }
+  static lerp(a,b,factor){
+    if (factor<0) return a;
+    if (factor>1) return b;
+    return this.lerp_unconstrained(a,b,factor);
+  }
   static ZERO = new Vector2(0,0);
 }
 export class Vector3{

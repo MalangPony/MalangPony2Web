@@ -16,3 +16,4 @@ Pages BG white okay? Maybe black? dropshadows?
 Lang button avoid scrollbar
 A low-power device warning when feature level is low?
 Directional light fx (create normal map...?)
+Hanmari ignores clicks in sky mode. Maybe fix this?
