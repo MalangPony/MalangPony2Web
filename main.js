@@ -183,7 +183,7 @@ function sidebar_intro_animate(){
     {duration:400,delay:1100,easing:"ease-out"})
   let anim5=sidebar.animate(
     [{maxHeight:"0"},
-     {maxHeight:"calc(100vh - 64px)"}],
+     {maxHeight:"calc(100dvh - 64px)"}],
     {duration:1000,delay:1500,easing:"ease-in-out"})
   
   sidebar.style.transform="scale(0)";
@@ -195,7 +195,7 @@ function sidebar_intro_animate(){
   };
   
   anim5.onfinish=(e)=>{
-    sidebar.style.maxHeight="calc(100vh - 64px)";
+    sidebar.style.maxHeight="calc(100dvh - 64px)";
   }
 }
 function sidebar_button_animate_mobile(){
@@ -241,10 +241,10 @@ function sidebar_intro_animate_mobile(){
   sidebar.style.maxHeight="0";
   let anim5=sidebar.animate(
     [{maxHeight:"0"},
-     {maxHeight:"100vh"}],
+     {maxHeight:"100dvh"}],
     {duration:300,delay:0,easing:"ease-in-out"});
   anim5.onfinish= ()=>{
-    sidebar.style.maxHeight="100vh";
+    sidebar.style.maxHeight="100dvh";
   };
   let anim6=sb_btn.animate(
     [{opacity:1},

@@ -83,14 +83,11 @@ canvas{
 	overflow-y:scroll;
 	overflow-x:hidden;
 }
-#initial-screen-spacer{
-  height:120vh;
-}
 #screen-blanker{
-  height:100vh;
+  height:100lvh;
 }
 #afterscroll-content-container{
-  min-height:100vh;
+  min-height:100svh;
   align-self:stretch;
   display:flex;
   flex-direction:column;
@@ -119,12 +116,12 @@ canvas{
 }
 #mpn-logo-spacer{
   position:absolute;
-  top:min(6vh,6vw);
-  left:min(6vh,6vw);
+  top:6lvmin;
+  left:6lvmin;
 }
 #mpn_logo_container{
-  width:min(100vh,80vw);
-  height:min(50vh,40vw);
+  width:min(100lvh,80vw);
+  height:min(50lvh,40vw);
   position:relative;
 }
 #mpn_logo_container > img{
@@ -138,8 +135,8 @@ canvas{
   object-fit:contain;
 }
 #l2d-container{
-  width:min(40vw,50vh);
-  height:min(40vw,50vh);
+  width:min(40vw,50lvh);
+  height:min(40vw,50lvh);
   position:absolute;
   right:0;
   bottom:0;
@@ -147,8 +144,8 @@ canvas{
   pointer-events:none;
 }
 #hmr-image-container{
-  width:60vw;
-  height:min(40vw,50vh);
+  width:min(40vw,50lvh);
+  height:min(40vw,50lvh);
   position:absolute;
   right:0;
   bottom:0;
@@ -164,7 +161,7 @@ canvas{
 }
 #scroll-inviter-container{
   position:absolute;
-  bottom:15vh;
+  bottom:15lvh;
   left:25vw;
 }
 @keyframes scroll-inviter-anim{
@@ -193,14 +190,14 @@ background: linear-gradient(0deg,#101050,#303070)
   position:absolute;
   left:0;
   right:0;
-  height:50vh;
-  bottom:-50vh;
+  height:50lvh;
+  bottom:-50lvh;
 }
 #container-stars{
   position:absolute;
   left:0;
   right:0;
-  height:calc(100vh + 200px);
+  height:calc(100lvh + 200px);
   top:0;
 }
 #sidebar-positioner{
@@ -232,16 +229,12 @@ background: linear-gradient(0deg,#101050,#303070)
 }
 #sidebar{
   border:3px solid #d3bf84; 
-  /*background-color:#fcedb6;*/
-  /*margin-left:-160px;*/
   width:160px;
-  /*height:min(512px,calc(100vh - 64px));*/
-  max-height:calc(100vh - 64px);
+  max-height:calc(100dvh - 64px);
   flex-direction:column;
   justify-content:center;
   align-items:center;
   gap:8px;
-  
   
   padding-left:16px;
   padding-right:24px;
@@ -389,7 +382,7 @@ background: linear-gradient(0deg,#101050,#303070)
   }
   #sidebar{
     width:calc(100vw - 64px);
-    height:calc(100vh - 64px);
+    height:calc(100dvh - 64px);
     margin-left:32px;
     margin-top:32px;
     font-size:1.5em;
