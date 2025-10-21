@@ -395,6 +395,14 @@ background: linear-gradient(0deg,#101050,#303070)
     padding-left:32px;
     padding-right:32px;
   }
+  #l2d-container{
+    width:min(70vw,40lvh);
+    height:min(70vw,40lvh);
+  }
+  #hmr-image-container{
+    width:min(70vw,40lvh);
+    height:min(70vw,40lvh);
+  }
 }
 
 /* Smaller Mobiles */
