@@ -57,15 +57,21 @@ canvas{
 	transition-duration:0.5s;
 }
 
+/* Is box-shadow performance-intensive? idk */
 #intro-content-container.activated{
-  background-color:#FFFFFF20;
+  background-color:#FFFFFF30;
   box-shadow:0 0 10px #FFFFFF40;
 }
 #intro-content-container.css-filters{
   
 }
-#intro-content-container.css-filters.activated{
+/* If CSS filter enabled - use blur() */
+#intro-content-container.activated.css-filters{
   backdrop-filter: blur(3px);
+}
+/* If CSS filter disabled - just darken the background more. */
+#intro-content-container.activated:not(.css-filters){
+  background-color:#FFFFFF40;
 }
 #content-scroller{
 	position:absolute;
