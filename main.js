@@ -572,7 +572,7 @@ function page_transition_instant(name){
     show_hanmari_instant();
   }else {
     sky_disable();
-    if (config.OPTION_HIDE_HANMARI_ON_NONINTRO_PAGES)
+    if (Config.OPTION_HIDE_HANMARI_ON_NONINTRO_PAGES)
       hide_hanmari_instant();
   }
 }
@@ -664,7 +664,7 @@ if (window.location.pathname != ""){
   if (camloc !== undefined) {
     console.log("From URL, going to page: "+path_location);
     // Valid page location
-    parallax_camera=camloc; // Jump camera
+    Parallax.camera_jump_to(camloc); // Jump camera
     forceScrollDown();
     page_transition_instant(path_location);
   }else{

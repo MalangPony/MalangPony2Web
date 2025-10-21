@@ -281,12 +281,18 @@ let camera_anim_position_start=null;
 let camera_anim_position_end=null;
 let camera_anim_time_duration=0;
 let camera_anim_time_remaining=0;
+// Move camera with a smooth animation
 export function camera_animate_to(loc){
   camera_being_animated=true;
   camera_anim_position_start=parallax_camera;
   camera_anim_position_end=loc;
   camera_anim_time_duration=1.0;
   camera_anim_time_remaining=camera_anim_time_duration;
+}
+// Move camera instantly
+export function camera_jump_to(loc){
+  camera_being_animated=false;
+  parallax_camera=loc;
 }
 
 // Should be called by the main JS.
