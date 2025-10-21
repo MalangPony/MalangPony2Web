@@ -46,8 +46,7 @@ const debug_print_faa=document.getElementById("debug-print-faa");
 
 const hanmari_image_container = document.getElementById("hmr-image-container");
 const master_hanmari_container = document.getElementById("master-hanmari-container");
-
-const l2d_container = document.getElementById("l2d-container");
+const stickies_container = document.getElementById("stickies");
 
 const debug_btn_perf_increment = document.getElementById(
 	"debug-button-feature-increment");
@@ -345,10 +344,11 @@ function animationCallback(time) {
   let width_scroller=content_scroller.clientWidth;
   let scrollbar_width=width_wholescreen-width_scroller;
   if (scrollbar_width>50){
-    console.log("Uh scrollbar width>50px? Seems sus.");
+    //console.log("Scrollbar width>50px? Seems sus.");
     scrollbar_width=50;
   }
-  l2d_container.style.marginRight=scrollbar_width+"px";
+  master_hanmari_container.style.marginRight=scrollbar_width+"px";
+  stickies_container.style.marginRight=scrollbar_width+"px";
   
   if (firework_exploded){
     last_firework_explosion_time=time;
