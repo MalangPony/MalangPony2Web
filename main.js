@@ -124,6 +124,7 @@ function transition_sky(){
   sb_btn.classList.remove("activated");
   if (mobile_mode) sidebar_button_hide_mobile();
   else sidebar_hide();
+  L2D.transition_sky();
 }
 function transition_ground(){
   in_sky_mode=false;
@@ -149,6 +150,7 @@ function transition_ground(){
       if (mobile_mode) sidebar_button_animate_mobile();
       else sidebar_intro_animate();
     }},100);
+  L2D.transition_ground();
 }
 
 function sidebar_magic_animate(){

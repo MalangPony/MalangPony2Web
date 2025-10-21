@@ -30,6 +30,7 @@ export let model = null;
 if (Config.OPTION_ENABLE_L2D_HANMARI){
 	model=PIXI.live2d.Live2DModel.fromSync(
 		"L2D-model/Hanmari-IZuchi/마리live2d.model3.json",
+		//"L2D-model/Hanmari-IZuchi-r006d/Hanmari-L2D_Half.model3.json",
 		{autoInteract:false});
 }
 
@@ -271,6 +272,7 @@ model?.once("load", ()=>{
 	if (Config.OPTION_ENABLE_L2D_FILTERS && PerformanceManager.check_feature_enabled(PerformanceManager.Feature.L2D_FILTERS))
 		model.filters=[cf];
 	auto_resize_model();
+	apply_ground_sky(true);
 });
 
 
@@ -354,11 +356,13 @@ export function set_darken_strength(f){
 export let focus_controller=null;
 let core_model=null;
 let internal_model=null;
+let motion_manager=null;
 // Called once the model is loaded
 function load_internals(){
 	internal_model=model.internalModel;
 	focus_controller=internal_model.focusController;
 	core_model=internal_model.coreModel;
+	motion_manager=internal_model.motionManager;
 }
 function get_model_focus_controller(){
 	return focus_controller;
@@ -392,23 +396,55 @@ export function playMotionImmediate(motion_name){
 
 let playing_motion_priority=-100;
 let queued_motion_group_name="";
+let requeue_available_after=-1;
 // Play motion. Selects a random animation in the motion_name group.
 // If the currently playing motion has lower OR EQUAL priority,
 // the currently playing motion is immediately stopped.
 // This makes it so that if playMotion is called with the same priority rapidly,
 // We get rapidly playing motion. (It's funnier this way, I promise)
-export function playMotion(motion_name,priority=0){
-	if (!is_loaded) return;
-	if (!internal_model.motionManager.playing // If we aren't playing any motion
-			|| (internal_model.motionManager.state.currentGroup 
-				!== queued_motion_group_name)  // If we are playing something other than the last queued motion. (We are probably playing the idle animation)
-			|| (priority>=playing_motion_priority)){ // If higher or equal priority
-		internal_model.motionManager.stopAllMotions();
+// If requeuable_after is set, this animation can only be overwritten
+// BY THE SAME ANIMATION (if animation is different, this limit is not applied)
+// only after requeuable_after milliseconds.
+// This is mostly done to make spam-clicking less jittery.
+// Returns true if motion was actually played.
+export function playMotion(motion_name,priority=0,requeuable_after=-1){
+	if (!is_loaded) return false;
+	let t=performance.now();
+	if (!motion_manager.playing // If we aren't playing any motion
+			|| (motion_manager.state.currentGroup 
+				!== queued_motion_group_name)  // OR, if we are playing something other than the last queued motion. (We are probably playing the idle animation)
+			|| (priority>=playing_motion_priority)){ // OR, if higher or equal priority
+		if (queued_motion_group_name===motion_name){
+			if (t<requeue_available_after) return false;
+		}
+		motion_manager.stopAllMotions();
 		playing_motion_priority=priority;
 		queued_motion_group_name=motion_name;
-		return internal_model.motionManager.startRandomMotion(motion_name);
+		if (requeuable_after>0) requeue_available_after=t+requeuable_after;
+		motion_manager.startRandomMotion(motion_name);
+		return true;
 	}
+	return false;
 }
+// Play motion, overriding everything.
+// The priority will be reset. 
+export function playMotionNow(motion_name){
+	playing_motion_priority=0;
+	queued_motion_group_name="";
+	requeue_available_after=-1;
+	motion_manager.stopAllMotions();
+	motion_manager.startRandomMotion(motion_name);
+}
+/*
+// Override the idle motion group. Defaults to "Idle".
+// A random motion from the group will be queued in after the current motion is done.
+export function set_idle_motion(group_name){
+	if (!is_loaded) return;
+	if (!Config.OPTION_ENABLE_L2D_HANMARI) return;
+	if (!PerformanceManager.check_feature_enabled(
+		PerformanceManager.Feature.HANMARI_L2D)) return;
+	motion_manager.groups.idle=group_name;
+}*/
 
 // Call with the canvas-local coordinates of the click.
 // Will return true if the collision check succeeded.
@@ -423,7 +459,6 @@ function canvas_clicked(relX,relY){
 	
 	let hit_areas=model.hitTest(canvas_coord_X,canvas_coord_Y);
 	if (hit_areas.length>0){
-		console.log("PHA "+hit_areas[0]);
 		hanmari_clicked(hit_areas[0]);
 		return true;
 	}
@@ -431,23 +466,22 @@ function canvas_clicked(relX,relY){
 }
 
 let click_counter=0;
-// Play special animation if clicked more than 10 times.
+// Play special animation if clicked more than 5 times.
 function hanmari_clicked(region){
-	click_counter++;
-	if (click_counter>=10){
-		playMotion("Tilt",10);
+	if (click_counter>=5){
+		playMotion("Tilt",10,500);
 		click_counter=0;
 	}else if (region=="Body"){
-		playMotion("Clicked",5);
+		if (playMotion("ClickAlt",5,500)) click_counter++;;
 	}else if (region=="Head"){
-		playMotion("ClickAlt",5);
+		if (playMotion("Clicked",5,300)) click_counter++;;
 	}else{
 		console.log("Invalid click region: "+region);
 	}
 }
-// The click counter decays by 1 every second.
+// The click counter decays by 1 every 2 seconds.
 window.setInterval(()=>{
-	click_counter=Math.max(0,click_counter-1);},1000);
+	click_counter=Math.max(0,click_counter-1);},2000);
 
 
 // The below code would be more straightforward...
@@ -459,8 +493,8 @@ l2d_canvas.addEventListener("click",hanmari_clicked);
 // because if we use the code above, all mouse events will be captured
 // by the canvas if the pointer is over the canvas.
 // This makes it so you can't scroll the page if you are hovering over the canvas.
-// So we use the event listener on the window object since that doesn't
-// prevent any mouse events from reaching other elements.
+// So we use the event listener on the window object 
+// since that doesn't prevent any mouse events from reaching other elements.
 window.addEventListener("click",(e)=>{
 	if (!Config.OPTION_ENABLE_L2D_HANMARI) return;
 	if (!PerformanceManager.check_feature_enabled(
@@ -543,6 +577,32 @@ export function set_staring_strength(f){
 	if (!PerformanceManager.check_feature_enabled(
 		PerformanceManager.Feature.HANMARI_L2D)) return;
 	stare_strength=f;
+}
+
+// We do this in two parts, so this won't break even if 
+// transition_*() functions are called before the model is loaded.
+let currently_on_ground=false;
+export function transition_ground(){
+	currently_on_ground=true;
+	apply_ground_sky();
+}
+export function transition_sky(){
+	currently_on_ground=false;
+	apply_ground_sky();
+}
+function apply_ground_sky(instant=false){
+	if (!is_loaded) return;
+	if (!Config.OPTION_ENABLE_L2D_HANMARI) return;
+	if (currently_on_ground){
+		if (!instant) playMotionNow("SkyToGround");
+		else playMotionNow("IdleGround");
+		motion_manager.groups.idle="IdleGround";
+	}
+	else{
+		if (!instant) playMotionNow("GroundToSky");
+		else playMotionNow("IdleSky");
+		motion_manager.groups.idle="IdleSky";
+	}
 }
 
 // Pause rendering without any cleanup.

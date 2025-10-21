@@ -36,7 +36,7 @@
 					"FadeOutTime": 0.1
 				}
 			],
-			"Idle": [
+			"IdleGround": [
 				{
 					"File": "anim/Blink.motion3.json",
 					"FadeInTime": 0.1,
@@ -57,6 +57,27 @@
 					"FadeInTime": 0.1,
 					"FadeOutTime": 0.1
 				}
+			],
+			"IdleSky": [
+				{
+					"File": "anim/SkyStare.motion3.json",
+					"FadeInTime": 0.1,
+					"FadeOutTime": 0.1
+				}
+			],
+			"SkyToGround": [
+				{
+					"File": "anim/Sky2Ground.motion3.json",
+					"FadeInTime": 0.1,
+					"FadeOutTime": 0.1
+				}
+			],
+			"GroundToSky": [
+				{
+					"File": "anim/Ground2Sky.motion3.json",
+					"FadeInTime": 0.1,
+					"FadeOutTime": 0.1
+				}
 			]
 		}
 	},
@@ -64,9 +85,7 @@
 		{
 			"Target": "Parameter",
 			"Name": "EyeBlink",
-			"Ids": [
-				"ParamEyeLOpen"
-			]
+			"Ids": []
 		},
 		{
 			"Target": "Parameter",
