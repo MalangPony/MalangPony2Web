@@ -20,16 +20,13 @@ export class Feature{
 	// Refinement features. 
 	// Makes things look nicer, but not strictly required.
 	static CSS_FILT_DROP_SHADOWS=50;
+	static FIREWORKS_HIRES=51;
+	static L2D_HIRES=52;
 	
-	static FIREWORKS_HIGHCOUNT=51;
-	
-	static L2D_FILTERS=52;
-	
-	static FIREWORKS_HIRES=53;
-	
-	static CSS_FILT_ICC_BACKBLUR=56;
-	
-	static PARALLAX_ANIMATED=57;
+	static FIREWORKS_HIGHCOUNT=60;
+	static L2D_FILTERS=61;
+	static CSS_FILT_ICC_BACKBLUR=62;
+	static PARALLAX_ANIMATED=63;
 	
 	// Extra features.
 	// Technically makes things prettier, but barely noticable.
@@ -72,7 +69,7 @@ function guess_feature_level(current_fps){
 	// This is totally guessing 
 	if (current_fps>50) set_feature_level(Feature.FULL);
 	else if (current_fps>40) set_feature_level(Feature.L2D_FILTERS);
-	else if (current_fps>30) set_feature_level(Feature.PARALLAX_GROUND);
+	else if (current_fps>30) set_feature_level(Feature.HANMARI_L2D);
 	else if (current_fps>20) set_feature_level(Feature.FIREWORKS);
 	else set_feature_level(Feature.LOWEST);
 }
@@ -94,9 +91,19 @@ export function is_auto_adjust_enabled(){
 	return auto_adjust_feature_level;
 }
 // MUST be called on every animationCallback frame.
+let page_started_time=NaN;
 export function report_frame_time(ms){
 	frame_times.push(ms);
 	while (frame_times.length>11) frame_times.shift();
+	
+	let page_start_enough_time_passed=false;
+	if (isNaN(page_started_time)) {
+		page_started_time=ms;
+	}else{
+		let time_since_page_start=ms-page_started_time;
+		if (time_since_page_start>500) page_start_enough_time_passed=true;
+	}
+	
 
 	if (auto_adjust_feature_level){
 		// Calculate FPS
@@ -111,9 +118,9 @@ export function report_frame_time(ms){
 		
 		// Only run if we have a valid FPS.
 		if (!isNaN(fps_avg)){
-			// Never adjusted. BUT we have an FPS.
-			// Which means, this is our first adjust!
-			if (isNaN(feature_last_adjusted)){
+			// Never adjusted. BUT we have an FPS. AND enough time has passed.
+			// Do the first adjust.
+			if (isNaN(feature_last_adjusted) && page_start_enough_time_passed){
 				guess_feature_level(fps_avg);
 				feature_last_adjusted=ms;
 			}else if ((ms-feature_last_adjusted)>FEATURE_ADJUST_INTERVAL){

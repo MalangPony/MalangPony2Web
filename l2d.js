@@ -7,13 +7,12 @@ const l2d_canvas = document.getElementById("l2d-canvas");
 
 // PIXI Setup.
 PIXI.Ticker.shared.autoStart=false;
-let app = null;
+export let app = null;
 if (Config.OPTION_ENABLE_L2D_HANMARI){
 	app = new PIXI.Application({
 		view:l2d_canvas,
 		autoStart: true,
 		backgroundAlpha: 0, 
-		resizeTo:l2d_container,
 		sharedTicker:true
 	});
 }
@@ -289,20 +288,46 @@ PerformanceManager.register_feature_enable_callback(
 	}
 );
 
+
+
+// Canvas Pixel Multiplier
+let resolution_multiplier=1.0;
+export function set_resolution_multiplier(f){
+	resolution_multiplier=f;
+	resize_canvas_to_fit();
+	auto_resize_model();
+}
+function resize_canvas_to_fit(){
+	let w=l2d_container.clientWidth;
+	let h=l2d_container.clientHeight;
+	app.renderer.resize(
+		Math.round(w*resolution_multiplier),
+		Math.round(h*resolution_multiplier))
+};
+PerformanceManager.register_feature_disable_callback(
+	PerformanceManager.Feature.L2D_HIRES, ()=>{
+		set_resolution_multiplier(0.5);});
+PerformanceManager.register_feature_enable_callback(
+	PerformanceManager.Feature.L2D_HIRES, ()=>{
+		set_resolution_multiplier(1.0);});
+
 // Automatically try to fit the model in the canvas.
 function auto_resize_model(){
 	if (!is_loaded) return;
 	let w=l2d_container.clientWidth;
 	let h=l2d_container.clientHeight;
 	let min=w<h?w:h;
-	model.scale.set(min/1700);
+	model.scale.set(min/1700*resolution_multiplier);
 	model.position.x=0;
 	model.position.y=0;
 }
 let rso= new ResizeObserver(()=>{
+	resize_canvas_to_fit();
 	auto_resize_model();
 });
 rso.observe(l2d_container);
+resize_canvas_to_fit();
+auto_resize_model();
 
 // Change filter parameters.
 export function set_lighten_strength(f){
@@ -489,10 +514,13 @@ export function set_staring_strength(f){
 		PerformanceManager.Feature.HANMARI_L2D)) return;
 	stare_strength=f;
 }
+
 export function animationTick(dt){
 	if (!Config.OPTION_ENABLE_L2D_HANMARI) return;
 	if (!PerformanceManager.check_feature_enabled(
 		PerformanceManager.Feature.HANMARI_L2D)) return;
+	
+	
 	look_at(
 		eye_position_mouse[0]*stare_strength+eye_position_sky[0]*(1-stare_strength),
 		eye_position_mouse[1]*stare_strength+eye_position_sky[1]*(1-stare_strength)
