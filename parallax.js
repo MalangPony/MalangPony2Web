@@ -7,6 +7,7 @@
 import { Vector2, Vector3 } from "./vectors.js";
 import * as Config  from "./config.js";
 import * as PerformanceManager from "./perfmanager.js";
+import * as ParallaxData from "./parallax_data.js";
 
 // DOM definitions
 const wsd = document.getElementById("whole-screen-div");
@@ -64,40 +65,24 @@ class ParallaxImage{
   }
 }
 
-// Define images.
-let parallax_images=[
-  // Ground
-  new ParallaxImage(
-    new Vector3(0,-300,1000),
-    new Vector2(Infinity,-1),
-    "solid","#0e3108"),
-  //FS
-  new ParallaxImage(
-    new Vector3(-200,0,-100),
-    new Vector2(200,200*(326/500)),
-    "image","MPN2-Prototype-Image-D2489678.png"),
-  //TS
-  new ParallaxImage(
-    new Vector3(200,0,0),
-    new Vector2(200,200*(370/500)),
-    "image","MPN2-Prototype-Image-D1408232.png"),
-  //RD
-  new ParallaxImage(
-    new Vector3(100,0,200),
-    new Vector2(200,200*(500/469)),
-    "image","MPN2-Prototype-Image-D926915.png"),
-  //Table
-  new ParallaxImage(
-    new Vector3(0,0,0),
-    new Vector2(200,200*(500/1050)),
-    "image","MPN2-Prototype-Image-D1467319-E1.png"),
-  //Cannon
-  new ParallaxImage(
-    new Vector3(-400,0,300),
-    new Vector2(200,200*(458/500)),
-    "image","MPN2-Prototype-Image-D1718519.png"),
-  
-];
+// Parse data from ParallaxData.js
+let parallax_images=[];
+for (const dat of ParallaxData.images){
+  parallax_images.push(
+    new ParallaxImage(
+      new Vector3(dat.location[0],dat.location[1],dat.location[2]),
+      new Vector2(dat.size[0],dat.size[1]),
+      dat.type,dat.src)
+  )
+}
+
+let camera_locations={};
+for (const k in ParallaxData.camera_locations){
+  const v=ParallaxData.camera_locations[k];
+  camera_locations[k]=new Vector3(v[0],v[1],v[2]);
+}
+
+
 // The DOM elements that correspond to each Parallax image.
 // The indices should match.
 let pimg_doms=[];
@@ -293,6 +278,23 @@ export function camera_animate_to(loc){
 export function camera_jump_to(loc){
   camera_being_animated=false;
   parallax_camera=loc;
+}
+
+// Move camera to location name
+export function camera_animate_to_name(location_name){
+  if (!(location_name in camera_locations))
+    console.log("Invalid location name: "+location_name)
+  else
+    camera_animate_to(camera_locations[location_name]);
+}
+export function camera_jump_to_name(location_name){
+  if (!(location_name in camera_locations))
+    console.log("Invalid location name: "+location_name)
+  else
+    camera_jump_to(camera_locations[location_name]);
+}
+export function name_defined_in_camera_locations(name){
+  return (name in camera_locations);
 }
 
 // Should be called by the main JS.

@@ -5,6 +5,7 @@ import * as Stars from "./stars.js";
 import * as Parallax from "./parallax.js";
 import * as L2D from "./l2d.js";
 import {FPS_Counter,linear_map} from "./utils.js";
+import * as ParallaxData from "./parallax_data.js";
 
 const wsd = document.getElementById("whole-screen-div");
 
@@ -625,17 +626,12 @@ function page_transition(name){
   currently_on_page=name;
 }
 
-let camera_locations={
-  intro:new Vector3(0,0,-500),
-  about:new Vector3(200,0,-500),
-  coc:new Vector3(0,0,-100),
-  news:new Vector3(0,0,-800),
-}
+
+
 export function sidebar_clicked(x){
   page_transition(x);
-  let camloc=camera_locations[x];
-  if (camloc === undefined) return;
-  Parallax.camera_animate_to(camloc);
+  if (!Parallax.name_defined_in_camera_locations(x)) return;
+  Parallax.camera_animate_to_name(x);
   //window.location.hash = x;
   
   if (window.location.protocol==="file:"){
@@ -674,11 +670,10 @@ sb_btn.onclick=sidebar_intro_animate_mobile;
 if (window.location.pathname != ""){
   let path_location=window.location.pathname.substring(1);
   
-  let camloc=camera_locations[path_location];
-  if (camloc !== undefined) {
+  if (Parallax.name_defined_in_camera_locations(path_location)) {
     console.log("From URL, going to page: "+path_location);
     // Valid page location
-    Parallax.camera_jump_to(camloc); // Jump camera
+    Parallax.camera_jump_to_name(path_location); // Jump camera
     forceScrollDown();
     page_transition_instant(path_location);
   }else{
