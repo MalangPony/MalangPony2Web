@@ -326,6 +326,7 @@ PerformanceManager.register_feature_disable_callback(
 );
 
 // Main re-draw loop
+let firework_next_fire_timer=0;
 function refresh_fireworks_canvas(dt){
   let containerW=wsd.clientWidth;
   if (!containerW) containerW=1; // Check for false-ish values
@@ -355,6 +356,23 @@ function refresh_fireworks_canvas(dt){
   cs.logicalH=logicalH;
   cs.pixelW=pixelW;
   cs.pixelH=pixelH;
+  
+  // Firework launch
+  firework_next_fire_timer-=dt;
+  if (firework_next_fire_timer<=0){
+    if (fireworks_enabled 
+      && Config.OPTION_ENABLE_FIREWORKS 
+      && PerformanceManager.check_feature_enabled(
+        PerformanceManager.Feature.FIREWORKS)){
+      spawn_firework_rocket(cs);
+      
+      firework_next_fire_timer=Math.random()*2.5+0.5;
+    }else{
+      // We want to fire a firework, but it is disabled.
+      // Keep the timer at 0 so it will be fired the moment it is enabled.
+      firework_next_fire_timer=0;
+    }
+  }
   
   // Tick all entities
   for (const e of entity_array){
@@ -392,13 +410,6 @@ let fireworks_enabled=true;
 export function set_fireworks_enabled(b){
   fireworks_enabled=b;
 }
-
-// Launch fireworks.
-function launch_firework_periodic(){
-  if (fireworks_enabled && Config.OPTION_ENABLE_FIREWORKS && PerformanceManager.check_feature_enabled(PerformanceManager.Feature.FIREWORKS)) spawn_firework_rocket(cs);
-  window.setTimeout(launch_firework_periodic,Math.random()*2500+500);
-}
-launch_firework_periodic();
 
 // Should be called by the main JS.
 export function animationTick(dt){

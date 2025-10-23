@@ -1,19 +1,16 @@
 firework art
-Hanmari click easter egg
 add OG tags
 honor prefers-reduced-motion
 Do something about the ground
 Assume all features start disabled.
 Stars move only if animated? is this right?
-direct page load (from URL) is broken
-limit firework launches per frame (when tab paused)
 Create alternatives for all disablable features
 Save perf level in cookie (maybe)
 Firework colors randomize
 Do something about feature oscillation
 Create rest of the pages
 Pages BG white okay? Maybe black? dropshadows?
-Lang button avoid scrollbar
 A low-power device warning when feature level is low?
 Directional light fx (create normal map...?)
 Hanmari ignores clicks in sky mode. Maybe fix this?
+Workaround for mouseleave event not firing sometimes
