@@ -19,9 +19,9 @@
     </div>
     
     <div id="hmr-image-container">
-      <img id="hmr-ground" src="MPN2-Prototype-Image-Hanmari4.png" style="z-index:3;opacity:0;">
-      <img id="hmr-flash01" src="MPN2-Prototype-Image-Hanmari3.png" style="z-index:2;opacity:0;">
-      <img id="hmr-base" src="MPN2-Prototype-Image-Hanmari2.png" style="z-index:1;">
+      <img id="hmr-ground" src="sprites-prototype/MPN2-Prototype-Image-Hanmari4.png" style="z-index:3;opacity:0;">
+      <img id="hmr-flash01" src="sprites-prototype/MPN2-Prototype-Image-Hanmari3.png" style="z-index:2;opacity:0;">
+      <img id="hmr-base" src="sprites-prototype/MPN2-Prototype-Image-Hanmari2.png" style="z-index:1;">
     </div>
   </div>
   <div id="stickies" class="fullsize" style="z-index:80;pointer-events:none;">
@@ -91,7 +91,7 @@
     </div>
     
     <div id="sb-button-positioner" class="fullsize" style="z-index:6;">
-      <img src="MPN2-Prototype-Image-Scroll2.png" id="sb-btn" style="pointer-events:auto;display:none;"> 
+      <img src="sprites-prototype/MPN2-Prototype-Image-Scroll2.png" id="sb-btn" style="pointer-events:auto;display:none;"> 
     </div>
     
     <div id="debug-print-area" style="z-index:99;background-color:#00000040;color:#88FF8880;position:absolute;bottom:0;left:0;width:160px;font-size:10px;font-family:monospace;font-weight:700;padding:4px;display:flex;flex-direction:column-reverse;">
@@ -118,9 +118,9 @@
   <div id="content-scroller">
     <div id="mpn-logo-spacer">
       <div id="mpn_logo_container">
-        <img id="logo-orig" src="MPN2-Prototype-Image-LogoPlain.png" style="z-index:3;opacity:0;">
-        <img id="logo-flash01" src="MPN2-Prototype-Image-LogoGlow.png" style="z-index:2;opacity:0;">
-        <img id="logo-base" src="MPN2-Prototype-Image-LogoDark.png" style="z-index:1;">
+        <img id="logo-orig" src="sprites-prototype/MPN2-Prototype-Image-LogoPlain.png" style="z-index:3;opacity:0;">
+        <img id="logo-flash01" src="sprites-prototype/MPN2-Prototype-Image-LogoGlow.png" style="z-index:2;opacity:0;">
+        <img id="logo-base" src="sprites-prototype/MPN2-Prototype-Image-LogoDark.png" style="z-index:1;">
       </div>
     </div>
     <!-- 
@@ -144,7 +144,7 @@
       
       <div id="afterscroll-content-container">
         <div id="page-intro" style="">
-          <img id="logo-orig" src="MPN2-Prototype-Image-LogoPlain.png" style="margin-left:64px;margin-right:64px;max-width:min(600px , 100%);align-self:center;">
+          <img id="logo-orig" src="sprites-prototype/MPN2-Prototype-Image-LogoPlain.png" style="margin-left:64px;margin-right:64px;max-width:min(600px , 100%);align-self:center;">
           
           <div style="font-size:3.0em;font-weight:700;color:#FFFFFF;text-align:center;">
             <span class="lang-en">Malfoy!!!</span>
@@ -214,20 +214,20 @@
 
 
 <!-- Ethically sourced, home-grown spaghetti -->
-<script type="module" src="l2d.js"></script>
-<script type="module" src="main.js"></script>
-<script type="module" src="perfmanager.js"></script>
+<script type="module" src="./js/l2d.js"></script>
+<script type="module" src="./js/main.js"></script>
+<script type="module" src="./js/perfmanager.js"></script>
 <script type="module">
-  import { sidebar_clicked } from "./main.js";
+  import { sidebar_clicked } from "./js/main.js";
   window.sidebar_clicked = sidebar_clicked;
 </script>
 
 <script>
 // For debugging
 let L2D;
-import('./l2d.js').then(m => L2D = m);
+import('./js/l2d.js').then(m => L2D = m);
 let PerformanceManager;
-import('./perfmanager.js').then(m => PerformanceManager = m);
+import('./js/perfmanager.js').then(m => PerformanceManager = m);
 </script>
 
 </body>

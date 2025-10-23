@@ -10,31 +10,31 @@ export let images=[
 		location:[-200,0,-100],
 		size:[200,200*(326/500)],
 		type:"image",
-		src:"MPN2-Prototype-Image-D2489678.png"
+		src:"sprites-prototype/MPN2-Prototype-Image-D2489678.png"
 	},
 	{	
 		location:[200,0,0],
 		size:[200,200*(370/500)],
 		type:"image",
-		src:"MPN2-Prototype-Image-D1408232.png"
+		src:"sprites-prototype/MPN2-Prototype-Image-D1408232.png"
 	},
 	{	
 		location:[100,0,200],
 		size:[200,200*(500/469)],
 		type:"image",
-		src:"MPN2-Prototype-Image-D926915.png"
+		src:"sprites-prototype/MPN2-Prototype-Image-D926915.png"
 	},
 	{	
 		location:[0,0,0],
 		size:[200,200*(500/1050)],
 		type:"image",
-		src:"MPN2-Prototype-Image-D1467319-E1.png"
+		src:"sprites-prototype/MPN2-Prototype-Image-D1467319-E1.png"
 	},
 	{	
 		location:[-400,0,300],
 		size:[200,200*(458/500)],
 		type:"image",
-		src:"MPN2-Prototype-Image-D1718519.png"
+		src:"sprites-prototype/MPN2-Prototype-Image-D1718519.png"
 	},
 	/*
 	{	

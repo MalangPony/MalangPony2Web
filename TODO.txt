@@ -1,4 +1,4 @@
-firework art
+firework art <- This is harder than it sounds due to aerodynamic drag simulation.
 add OG tags
 honor prefers-reduced-motion
 Do something about the ground
