@@ -1,6 +1,7 @@
 import * as Config  from "./config.js";
 import * as PerformanceManager from "./perfmanager.js";
 import {FPS_Counter} from "./utils.js";
+import { Vector2, Vector3 } from "./vectors.js";
 
 const l2d_container = document.getElementById("l2d-container");
 const l2d_canvas = document.getElementById("l2d-canvas");
@@ -403,20 +404,34 @@ let requeue_available_after=-1;
 // This makes it so that if playMotion is called with the same priority rapidly,
 // We get rapidly playing motion. (It's funnier this way, I promise)
 // If requeuable_after is set, this animation can only be overwritten
-// BY THE SAME ANIMATION (if animation is different, this limit is not applied)
+// BY AN ANIMATION WITH THE SAME PRIORITY (if priority differs, this limit is not applied)
 // only after requeuable_after milliseconds.
 // This is mostly done to make spam-clicking less jittery.
 // Returns true if motion was actually played.
 export function playMotion(motion_name,priority=0,requeuable_after=-1){
 	if (!is_loaded) return false;
 	let t=performance.now();
-	if (!motion_manager.playing // If we aren't playing any motion
-			|| (motion_manager.state.currentGroup 
-				!== queued_motion_group_name)  // OR, if we are playing something other than the last queued motion. (We are probably playing the idle animation)
-			|| (priority>=playing_motion_priority)){ // OR, if higher or equal priority
-		if (queued_motion_group_name===motion_name){
-			if (t<requeue_available_after) return false;
-		}
+	// Are we playing ANYTHING?
+	let playing_anything=motion_manager.playing ;
+	// Are we plaing the animation we queued?
+	// If not, we might be playing an idle animation.
+	let same_anim=(motion_manager.state.currentGroup == queued_motion_group_name);
+	// Are we playing the queued animation?
+	let playing_queued=playing_anything && same_anim;
+	// Are we trying to play a higher-priority animation?
+	let higher_priority=(priority>playing_motion_priority);
+	// Or an equal-priority animation?
+	let equal_priority=(priority===playing_motion_priority);
+	// If equal priority, can we overwrite?
+	let overwritable=(t>=requeue_available_after);
+	
+	// Actually determine if we should play this animation.
+	let queueing_success=false;
+	if (!playing_queued) queueing_success=true;
+	if (higher_priority) queueing_success=true;
+	if (equal_priority && overwritable)queueing_success=true;
+	
+	if (queueing_success){ 
 		motion_manager.stopAllMotions();
 		playing_motion_priority=priority;
 		queued_motion_group_name=motion_name;
@@ -468,19 +483,107 @@ function canvas_clicked(relX,relY){
 	return false;
 }
 
+let last_action;
+let random_action_interval;
+// Call this whenever there's an activity.
+// This will delay the random motion.
+function activity_report(){
+	last_action=performance.now();
+}
+// Re-roll the random action timer.
+function rand_interval_roll(){
+	random_action_interval=(
+		Config.OPTION_L2D_RANDOM_ACTION_MIN_INTERVAL_SECONDS+
+		Config.OPTION_L2D_RANDOM_ACTION_RAND_ADD_SECONDS*Math.random()
+		)*1000;
+}
+// A page load is an activity.
+activity_report();
+rand_interval_roll();
+
+// Mouse movement activity.
+// In order to filter out small movements we use the following algorithm:
+// Every time a mouse movement event is received, we add the normalized 
+// movement distance to an accumulator.
+// When an accumulator reaches a threshold value, an activity event is fired.
+// The accumulator decays in a fixed speed, to reject small constant mouse jitters.
+
+// Below three constants were chosen arbitrarily.
+const MOUSE_DISTANCE_MULTIPLIER=20.0;
+const DECAY_PER_SECOND=0.5;
+const ACCUMULATOR_THRESHOLD=1.0;
+
+let eye_movement_accumulator=0;
+let mousePositionLast=Vector2.ZERO;
+let mouseEventLastTime=performance.now();
+window.addEventListener("mousemove",(e)=>{
+	// Calculate time delta
+	let t=performance.now();
+	let dt=(t-mouseEventLastTime)/1000;
+	mouseEventLastTime=t;
+	
+	// Calculate mouse delta
+	let mouse=new Vector2(e.clientX,e.clientY)
+	let delta = mouse.subtract(mousePositionLast);
+	mousePositionLast=mouse;
+	
+	// Calculate distance
+	let screen_dimension_ballpark=Math.min(window.innerHeight,window.innerWidth);
+	if (!screen_dimension_ballpark) {
+		console.log("Window size invalid");
+		screen_dimension_ballpark=1000;
+	}
+	let distance=delta.length();
+	let distance_normalized=distance/screen_dimension_ballpark;
+	
+	// Add movement to accumulator
+	eye_movement_accumulator+=distance_normalized*MOUSE_DISTANCE_MULTIPLIER;
+	
+	// Subtract decay to accumulator
+	let decay_factor=DECAY_PER_SECOND*Math.min(dt,1.0);
+	eye_movement_accumulator-=decay_factor;
+	if (eye_movement_accumulator<0) eye_movement_accumulator=0;
+	
+	//console.log("EMA "+eye_movement_accumulator.toFixed(5));
+	// Fire activity report when above threshold
+	if (eye_movement_accumulator>ACCUMULATOR_THRESHOLD) {
+		//console.log("Mouse activity!")
+		activity_report();
+		eye_movement_accumulator=0;
+	}
+});
+
+
+// Check and play random motion.
+function hanmari_random_action_check(){
+	let t=performance.now();
+	if (t>last_action+random_action_interval){
+		if (!currently_on_ground) return;
+		let r=Math.random();
+		
+		if (r<0.33) playMotion("Random",1,100);
+		else if (r<0.66) playMotion("Surprised",1,100);
+		else playMotion("Tilt",1,100);
+		
+		activity_report();
+		rand_interval_roll();
+	}
+}
+
 let click_counter=0;
 // Play special animation if clicked more than 5 times.
 function hanmari_clicked(region){
 	if (click_counter>=5){
-		playMotion("Tilt",10,500);
+		playMotion("Annoyed",10,500);
 		click_counter=0;
 	}else if (region=="Body"){
-		if (playMotion("ClickAlt",5,500)) click_counter++;;
+		if (playMotion("ClickAlt",5,300)) click_counter++;;
 	}else if (region=="Head"){
 		if (playMotion("Clicked",5,300)) click_counter++;;
 	}else{
 		console.log("Invalid click region: "+region);
 	}
+	activity_report();
 }
 // The click counter decays by 1 every 2 seconds.
 window.setInterval(()=>{
@@ -529,9 +632,12 @@ export function look_at(x,y){
 let eye_position_mouse=[0,0];
 // Staring at the sky
 let eye_position_sky=[-0.5,0.5];
+
+
 if (Config.OPTION_ENABLE_L2D_HANMARI){
 	window.addEventListener("mousemove",(e)=>{
 		// All coordinates are in viewport coords.
+		let t=performance.now();
 		
 		// Bounding box of the canvas.
 		let bcr=l2d_canvas.getBoundingClientRect();
@@ -605,6 +711,7 @@ function apply_ground_sky(instant=false){
 		else playMotionNow("IdleSky");
 		motion_manager.groups.idle="IdleSky";
 	}
+	activity_report();
 }
 
 // Pause rendering without any cleanup.
@@ -631,5 +738,6 @@ export function animationTick(dt){
 		eye_position_mouse[0]*stare_strength+eye_position_sky[0]*(1-stare_strength),
 		eye_position_mouse[1]*stare_strength+eye_position_sky[1]*(1-stare_strength)
 	)
+	hanmari_random_action_check();
 	pixi_manual_update();
 }

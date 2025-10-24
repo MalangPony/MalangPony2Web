@@ -1,10 +1,10 @@
 {
 	"Version": 3,
 	"Meta": {
-		"PhysicsSettingCount": 16,
-		"TotalInputCount": 62,
-		"TotalOutputCount": 16,
-		"VertexCount": 35,
+		"PhysicsSettingCount": 15,
+		"TotalInputCount": 58,
+		"TotalOutputCount": 15,
+		"VertexCount": 33,
 		"Fps": 60,
 		"EffectiveForces": {
 			"Gravity": {
@@ -27,58 +27,54 @@
 			},
 			{
 				"Id": "PhysicsSetting3",
-				"Name": "갈기3"
-			},
-			{
-				"Id": "PhysicsSetting4",
 				"Name": "땋머1"
 			},
 			{
-				"Id": "PhysicsSetting5",
+				"Id": "PhysicsSetting4",
 				"Name": "땋머2"
 			},
 			{
-				"Id": "PhysicsSetting6",
+				"Id": "PhysicsSetting5",
 				"Name": "댕기1"
 			},
 			{
-				"Id": "PhysicsSetting7",
+				"Id": "PhysicsSetting6",
 				"Name": "댕기2"
 			},
 			{
-				"Id": "PhysicsSetting8",
+				"Id": "PhysicsSetting7",
 				"Name": "옷"
 			},
 			{
-				"Id": "PhysicsSetting9",
+				"Id": "PhysicsSetting8",
 				"Name": "리본"
 			},
 			{
-				"Id": "PhysicsSetting10",
+				"Id": "PhysicsSetting9",
 				"Name": "꼬리1"
 			},
 			{
-				"Id": "PhysicsSetting11",
+				"Id": "PhysicsSetting10",
 				"Name": "꼬맂"
 			},
 			{
-				"Id": "PhysicsSetting12",
+				"Id": "PhysicsSetting11",
 				"Name": "꼬리"
 			},
 			{
-				"Id": "PhysicsSetting13",
+				"Id": "PhysicsSetting12",
 				"Name": "모자장식1"
 			},
 			{
-				"Id": "PhysicsSetting14",
+				"Id": "PhysicsSetting13",
 				"Name": "모자장식2"
 			},
 			{
-				"Id": "PhysicsSetting15",
+				"Id": "PhysicsSetting14",
 				"Name": "모자장식3"
 			},
 			{
-				"Id": "PhysicsSetting16",
+				"Id": "PhysicsSetting15",
 				"Name": "ZZZ"
 			}
 		]
@@ -333,94 +329,6 @@
 				{
 					"Destination": {
 						"Target": "Parameter",
-						"Id": "Param14"
-					},
-					"VertexIndex": 1,
-					"Scale": 1,
-					"Weight": 100,
-					"Type": "Angle",
-					"Reflect": false
-				}
-			],
-			"Vertices": [
-				{
-					"Position": {
-						"X": 0,
-						"Y": 0
-					},
-					"Mobility": 1,
-					"Delay": 1,
-					"Acceleration": 1,
-					"Radius": 0
-				},
-				{
-					"Position": {
-						"X": 0,
-						"Y": 15
-					},
-					"Mobility": 0.95,
-					"Delay": 0.8,
-					"Acceleration": 1.5,
-					"Radius": 15
-				}
-			],
-			"Normalization": {
-				"Position": {
-					"Minimum": -10,
-					"Default": 0,
-					"Maximum": 10
-				},
-				"Angle": {
-					"Minimum": -10,
-					"Default": 0,
-					"Maximum": 10
-				}
-			}
-		},
-		{
-			"Id": "PhysicsSetting4",
-			"Input": [
-				{
-					"Source": {
-						"Target": "Parameter",
-						"Id": "ParamAngleX"
-					},
-					"Weight": 60,
-					"Type": "X",
-					"Reflect": false
-				},
-				{
-					"Source": {
-						"Target": "Parameter",
-						"Id": "ParamAngleZ"
-					},
-					"Weight": 60,
-					"Type": "Angle",
-					"Reflect": false
-				},
-				{
-					"Source": {
-						"Target": "Parameter",
-						"Id": "ParamBodyAngleX"
-					},
-					"Weight": 40,
-					"Type": "X",
-					"Reflect": false
-				},
-				{
-					"Source": {
-						"Target": "Parameter",
-						"Id": "ParamBodyAngleZ"
-					},
-					"Weight": 40,
-					"Type": "Angle",
-					"Reflect": false
-				}
-			],
-			"Output": [
-				{
-					"Destination": {
-						"Target": "Parameter",
 						"Id": "ParamHairSide"
 					},
 					"VertexIndex": 1,
@@ -466,7 +374,7 @@
 			}
 		},
 		{
-			"Id": "PhysicsSetting5",
+			"Id": "PhysicsSetting4",
 			"Input": [
 				{
 					"Source": {
@@ -563,7 +471,7 @@
 			}
 		},
 		{
-			"Id": "PhysicsSetting6",
+			"Id": "PhysicsSetting5",
 			"Input": [
 				{
 					"Source": {
@@ -651,7 +559,7 @@
 			}
 		},
 		{
-			"Id": "PhysicsSetting7",
+			"Id": "PhysicsSetting6",
 			"Input": [
 				{
 					"Source": {
@@ -748,7 +656,7 @@
 			}
 		},
 		{
-			"Id": "PhysicsSetting8",
+			"Id": "PhysicsSetting7",
 			"Input": [
 				{
 					"Source": {
@@ -818,7 +726,7 @@
 			}
 		},
 		{
-			"Id": "PhysicsSetting9",
+			"Id": "PhysicsSetting8",
 			"Input": [
 				{
 					"Source": {
@@ -906,7 +814,7 @@
 			}
 		},
 		{
-			"Id": "PhysicsSetting10",
+			"Id": "PhysicsSetting9",
 			"Input": [
 				{
 					"Source": {
@@ -994,7 +902,7 @@
 			}
 		},
 		{
-			"Id": "PhysicsSetting11",
+			"Id": "PhysicsSetting10",
 			"Input": [
 				{
 					"Source": {
@@ -1082,7 +990,7 @@
 			}
 		},
 		{
-			"Id": "PhysicsSetting12",
+			"Id": "PhysicsSetting11",
 			"Input": [
 				{
 					"Source": {
@@ -1152,7 +1060,7 @@
 			}
 		},
 		{
-			"Id": "PhysicsSetting13",
+			"Id": "PhysicsSetting12",
 			"Input": [
 				{
 					"Source": {
@@ -1240,7 +1148,7 @@
 			}
 		},
 		{
-			"Id": "PhysicsSetting14",
+			"Id": "PhysicsSetting13",
 			"Input": [
 				{
 					"Source": {
@@ -1328,7 +1236,7 @@
 			}
 		},
 		{
-			"Id": "PhysicsSetting15",
+			"Id": "PhysicsSetting14",
 			"Input": [
 				{
 					"Source": {
@@ -1426,7 +1334,7 @@
 			}
 		},
 		{
-			"Id": "PhysicsSetting16",
+			"Id": "PhysicsSetting15",
 			"Input": [
 				{
 					"Source": {

@@ -10,73 +10,61 @@
 		"Motions": {
 			"Tilt": [
 				{
-					"File": "anim/갸우뚱.motion3.json",
-					"FadeInTime": 0.1,
-					"FadeOutTime": 0.1
+					"File": "anim/갸우뚱.motion3.json"
 				}
 			],
 			"Random": [
 				{
-					"File": "anim/랜덤 재생.motion3.json",
-					"FadeInTime": 0.1,
-					"FadeOutTime": 0.1
+					"File": "anim/랜덤 재생.motion3.json"
 				}
 			],
 			"Clicked": [
 				{
-					"File": "anim/클릭.motion3.json",
-					"FadeInTime": 0.1,
-					"FadeOutTime": 0.1
+					"File": "anim/클릭.motion3.json"
 				}
 			],
 			"ClickAlt": [
 				{
-					"File": "anim/뾰잉.motion3.json",
-					"FadeInTime": 0.1,
-					"FadeOutTime": 0.1
+					"File": "anim/뾰잉.motion3.json"
 				}
 			],
 			"IdleGround": [
 				{
-					"File": "anim/Blink.motion3.json",
-					"FadeInTime": 0.1,
-					"FadeOutTime": 0.1
+					"File": "anim/Blink.motion3.json"
 				},
 				{
-					"File": "anim/WaitMedium.motion3.json",
-					"FadeInTime": 0.1,
-					"FadeOutTime": 0.1
+					"File": "anim/WaitLong.motion3.json"
 				},
 				{
-					"File": "anim/WaitLong.motion3.json",
-					"FadeInTime": 0.1,
-					"FadeOutTime": 0.1
+					"File": "anim/WaitMedium.motion3.json"
 				},
 				{
-					"File": "anim/WaitShort.motion3.json",
-					"FadeInTime": 0.1,
-					"FadeOutTime": 0.1
+					"File": "anim/WaitShort.motion3.json"
 				}
 			],
 			"IdleSky": [
 				{
-					"File": "anim/SkyStare.motion3.json",
-					"FadeInTime": 0.1,
-					"FadeOutTime": 0.1
+					"File": "anim/SkyStare.motion3.json"
 				}
 			],
 			"SkyToGround": [
 				{
-					"File": "anim/Sky2Ground.motion3.json",
-					"FadeInTime": 0.1,
-					"FadeOutTime": 0.1
+					"File": "anim/Sky2Ground.motion3.json"
 				}
 			],
 			"GroundToSky": [
 				{
-					"File": "anim/Ground2Sky.motion3.json",
-					"FadeInTime": 0.1,
-					"FadeOutTime": 0.1
+					"File": "anim/Ground2Sky.motion3.json"
+				}
+			],
+			"Surprised": [
+				{
+					"File": "anim/헤까닥.motion3.json"
+				}
+			],
+			"Annoyed": [
+				{
+					"File": "anim/화남.motion3.json"
 				}
 			]
 		}

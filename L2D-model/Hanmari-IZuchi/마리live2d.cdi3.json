@@ -22,6 +22,11 @@
 			"Name": "왼쪽 눈 깜빡임"
 		},
 		{
+			"Id": "Param15",
+			"GroupId": "",
+			"Name": "왼쪽 눈썹 각도"
+		},
+		{
 			"Id": "ParamEyeBallX",
 			"GroupId": "",
 			"Name": "눈 X"
@@ -32,9 +37,24 @@
 			"Name": "눈 Y"
 		},
 		{
+			"Id": "Param16",
+			"GroupId": "",
+			"Name": "눈동자"
+		},
+		{
+			"Id": "ParamMouthForm",
+			"GroupId": "",
+			"Name": "입 변형"
+		},
+		{
 			"Id": "ParamMouthOpenY",
 			"GroupId": "",
 			"Name": "입 여닫기"
+		},
+		{
+			"Id": "Param14",
+			"GroupId": "",
+			"Name": "입x"
 		},
 		{
 			"Id": "ParamBodyAngleX",
@@ -80,11 +100,6 @@
 			"Id": "Param",
 			"GroupId": "",
 			"Name": "파라미터15"
-		},
-		{
-			"Id": "Param14",
-			"GroupId": "",
-			"Name": "파라미터26"
 		},
 		{
 			"Id": "ParamHairSide",
