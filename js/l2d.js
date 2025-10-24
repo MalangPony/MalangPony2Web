@@ -487,7 +487,7 @@ let last_action;
 let random_action_interval;
 // Call this whenever there's an activity.
 // This will delay the random motion.
-function activity_report(){
+function postpone_random_motion(){
 	last_action=performance.now();
 }
 // Re-roll the random action timer.
@@ -498,8 +498,12 @@ function rand_interval_roll(){
 		)*1000;
 }
 // A page load is an activity.
-activity_report();
+postpone_random_motion();
 rand_interval_roll();
+
+function calculate_seconds_since_last_activity(){
+	return (performance.now()-last_action)/1000;
+}
 
 // Mouse movement activity.
 // In order to filter out small movements we use the following algorithm:
@@ -509,13 +513,14 @@ rand_interval_roll();
 // The accumulator decays in a fixed speed, to reject small constant mouse jitters.
 
 // Below three constants were chosen arbitrarily.
-const MOUSE_DISTANCE_MULTIPLIER=20.0;
-const DECAY_PER_SECOND=0.5;
+const MOUSE_DISTANCE_MULTIPLIER=50.0;
+const DECAY_PER_SECOND=1.0;
 const ACCUMULATOR_THRESHOLD=1.0;
 
-let eye_movement_accumulator=0;
+let mouse_movement_accumulator=0;
 let mousePositionLast=Vector2.ZERO;
 let mouseEventLastTime=performance.now();
+let last_significant_mouse_movement=performance.now();
 window.addEventListener("mousemove",(e)=>{
 	// Calculate time delta
 	let t=performance.now();
@@ -537,21 +542,32 @@ window.addEventListener("mousemove",(e)=>{
 	let distance_normalized=distance/screen_dimension_ballpark;
 	
 	// Add movement to accumulator
-	eye_movement_accumulator+=distance_normalized*MOUSE_DISTANCE_MULTIPLIER;
+	mouse_movement_accumulator+=distance_normalized*MOUSE_DISTANCE_MULTIPLIER;
 	
 	// Subtract decay to accumulator
 	let decay_factor=DECAY_PER_SECOND*Math.min(dt,1.0);
-	eye_movement_accumulator-=decay_factor;
-	if (eye_movement_accumulator<0) eye_movement_accumulator=0;
+	mouse_movement_accumulator-=decay_factor;
+	if (mouse_movement_accumulator<0) mouse_movement_accumulator=0;
 	
-	//console.log("EMA "+eye_movement_accumulator.toFixed(5));
+	//console.log("EMA "+mouse_movement_accumulator.toFixed(5));
 	// Fire activity report when above threshold
-	if (eye_movement_accumulator>ACCUMULATOR_THRESHOLD) {
+	if (mouse_movement_accumulator>ACCUMULATOR_THRESHOLD) {
 		//console.log("Mouse activity!")
-		activity_report();
-		eye_movement_accumulator=0;
+		postpone_random_motion();
+		last_significant_mouse_movement=t;
+		mouse_movement_accumulator=0;
 	}
 });
+// A click is always significant.
+window.addEventListener("click",(e)=>{
+	let t=performance.now();
+	postpone_random_motion();
+	last_significant_mouse_movement=t;
+});
+// Used for timing out eye tracking.
+function seconds_since_last_significant_mouse_movement(){
+	return (performance.now()-last_significant_mouse_movement)/1000;
+}
 
 
 // Check and play random motion.
@@ -565,7 +581,7 @@ function hanmari_random_action_check(){
 		else if (r<0.66) playMotion("Surprised",1,100);
 		else playMotion("Tilt",1,100);
 		
-		activity_report();
+		postpone_random_motion();
 		rand_interval_roll();
 	}
 }
@@ -583,7 +599,7 @@ function hanmari_clicked(region){
 	}else{
 		console.log("Invalid click region: "+region);
 	}
-	activity_report();
+	postpone_random_motion();
 }
 // The click counter decays by 1 every 2 seconds.
 window.setInterval(()=>{
@@ -633,9 +649,12 @@ let eye_position_mouse=[0,0];
 // Staring at the sky
 let eye_position_sky=[-0.5,0.5];
 
-
+function is_mouse_tracking_timed_out(){
+	return seconds_since_last_significant_mouse_movement()>3.0;
+}
 if (Config.OPTION_ENABLE_L2D_HANMARI){
 	window.addEventListener("mousemove",(e)=>{
+		if (is_mouse_tracking_timed_out()) return;
 		// All coordinates are in viewport coords.
 		let t=performance.now();
 		
@@ -665,7 +684,6 @@ if (Config.OPTION_ENABLE_L2D_HANMARI){
 		y*=Config.OPTION_L2D_EYE_FOLLOW_SENSITIVITY;
 		if (y<-1) y=-1;
 		if (y>1) y=1;
-		
 		eye_position_mouse=[x,y];
 		//console.log("MouseMove "+x+","+y);
 	});
@@ -711,7 +729,7 @@ function apply_ground_sky(instant=false){
 		else playMotionNow("IdleSky");
 		motion_manager.groups.idle="IdleSky";
 	}
-	activity_report();
+	postpone_random_motion();
 }
 
 // Pause rendering without any cleanup.
@@ -734,6 +752,7 @@ export function animationTick(dt){
 		PerformanceManager.Feature.HANMARI_L2D)) return;
 	if (render_paused) return;
 	
+	if (is_mouse_tracking_timed_out()) eye_position_mouse=[0,0];
 	look_at(
 		eye_position_mouse[0]*stare_strength+eye_position_sky[0]*(1-stare_strength),
 		eye_position_mouse[1]*stare_strength+eye_position_sky[1]*(1-stare_strength)
