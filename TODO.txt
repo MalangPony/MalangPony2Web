@@ -1,5 +1,4 @@
 firework art <- This is harder than it sounds due to aerodynamic drag simulation.
-add OG tags
 honor prefers-reduced-motion
 Do something about the ground
 Assume all features start disabled.
@@ -14,3 +13,9 @@ A low-power device warning when feature level is low?
 Directional light fx (create normal map...?)
 Hanmari ignores clicks in sky mode. Maybe fix this?
 Workaround for mouseleave event not firing sometimes
+
+RIGHT BEFORE PUSH TO PROD
+Change all domains (testing.malangpony) to a PHP expression (<?php echo $webroot;?>)
+
+AFTER PUSH TO PROD
+Check OpenGraph working
