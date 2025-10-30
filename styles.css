@@ -91,7 +91,7 @@ canvas{
   align-self:stretch;
   display:flex;
   flex-direction:column;
-  filter:brightness(50%);
+  filter:brightness(30%);
   transition-property: filter;
   transition-duration:0.5s;
   padding-left:64px;
