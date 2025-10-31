@@ -154,6 +154,7 @@ function transition_ground(){
   L2D.transition_ground();
 }
 
+// Spike Magic
 function sidebar_magic_animate(){
   sia.style.display="block";
   
@@ -176,9 +177,11 @@ function sidebar_magic_animate(){
     sia.style.display="none";
   };
 }
+
+// After magic_animate, open up the scroll
 function sidebar_intro_animate(){
   sidebar_magic_animate();
-  
+  sidebar_collapse_and_unlock();
   
   let anim4=sidebar.animate(
     [{transform:"scale(0.0)"},
@@ -199,8 +202,11 @@ function sidebar_intro_animate(){
   
   anim5.onfinish=(e)=>{
     sidebar.style.maxHeight="calc(100dvh - 64px)";
+    
   }
 }
+
+// Pop in the sidebar button
 function sidebar_button_animate_mobile(){
   sidebar_magic_animate();
   
@@ -216,6 +222,8 @@ function sidebar_button_animate_mobile(){
     sb_btn.style.transform="none";
   };  
 }
+
+// Hide the sidebar button
 function sidebar_button_hide_mobile(){
   let anim1=sb_btn.animate(
     [{marginLeft:"16px"},
@@ -226,9 +234,13 @@ function sidebar_button_hide_mobile(){
     sb_btn.style.marginLeft="16px";
   }
 }
+
+// Open up the scroll in fullscreen
 function sidebar_intro_animate_mobile(){
   sidebar.style.transform="none";
   sidebar.style.display="flex";
+  
+  sidebar_expand_and_lock();
   
   let anim4=sidebar.animate(
     [{opacity:"0"},
@@ -258,6 +270,8 @@ function sidebar_intro_animate_mobile(){
     sb_btn.style.opacity=0;
   };  
 }
+
+// Desktop mode, hide scroll
 function sidebar_hide(){
   let anim1=sidebar.animate(
     [{marginLeft:"0"},
@@ -268,6 +282,8 @@ function sidebar_hide(){
     sidebar.style.marginLeft="0";
   }
 }
+
+// Mobile mode, hide fullscreen scroll
 function sidebar_hide_mobile(){
   let anim1=sidebar.animate(
     [{opacity:1},
@@ -693,3 +709,67 @@ debug_btn_perf_auto.addEventListener("click", (e) => {
   //console.log("FL-");
 	PerformanceManager.toggle_auto_adjust();
 });
+
+
+// Sidebar expansion
+let sidebar_category_interactive=true;
+const sbccs=document.querySelectorAll(".sb-category-container");
+console.log("SBCCS");
+console.log(sbccs);
+for (const clicked_sbcc of sbccs){
+  const clicked_header_icon=clicked_sbcc.querySelector(".sbch-icon");
+  const clicked_header=clicked_sbcc.querySelector(".sb-category-header");
+  const clicked_content=clicked_sbcc.querySelector(".sb-category-content");
+  clicked_header_icon.innerHTML="▶";
+  clicked_header.addEventListener("click",()=>{
+    if (!sidebar_category_interactive) return;
+    //console.log("Click"+clicked_header.innerHTML);
+    //console.log("CurrentContne");
+    //console.log(clicked_content);
+    for (const other_sbcc of sbccs){
+      const other_header_icon=other_sbcc.querySelector(".sbch-icon");
+      const other_header=other_sbcc.querySelector(".sb-category-header");
+      const other_content=other_sbcc.querySelector(".sb-category-content");
+      if (other_sbcc===clicked_sbcc){
+        //console.log("-> Match");
+        if (other_content.classList.contains("sbcc-expanded")){
+          other_content.classList.remove("sbcc-expanded");
+          other_header_icon.innerHTML="▶";
+        }else{
+          other_content.classList.add("sbcc-expanded");
+          other_header_icon.innerHTML="▼";
+        }
+      }else {
+        other_content.classList.remove("sbcc-expanded");
+        other_header_icon.innerHTML="▶";
+      }
+    }
+  });
+}
+
+function sidebar_expand_all(){
+  for (const other_sbcc of sbccs){
+    const header_icon=other_sbcc.querySelector(".sbch-icon");
+    const header=other_sbcc.querySelector(".sb-category-header");
+    const content=other_sbcc.querySelector(".sb-category-content");
+    content.classList.add("sbcc-expanded");
+    header_icon.innerHTML="▼";
+  }
+}
+function sidebar_expand_and_lock(){
+  sidebar_expand_all();
+  sidebar_category_interactive=false;
+}
+function sidebar_collapse_all(){
+  for (const other_sbcc of sbccs){
+    const header_icon=other_sbcc.querySelector(".sbch-icon");
+    const header=other_sbcc.querySelector(".sb-category-header");
+    const content=other_sbcc.querySelector(".sb-category-content");
+    content.classList.remove("sbcc-expanded");
+    header_icon.innerHTML="▶";
+  }
+}
+function sidebar_collapse_and_unlock(){
+  sidebar_collapse_all();
+  sidebar_category_interactive=true;
+}
