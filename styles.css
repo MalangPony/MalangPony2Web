@@ -234,27 +234,36 @@ background: linear-gradient(0deg,#101050,#303070)
   border:3px solid #d3bf84; 
   width:200px;
   max-height:calc(100dvh - 64px);
+  
+  border-image-source: url("sprites-prototype/MPN2-Prototype-Image-Scroll.png");
+  border-image-width:60px;
+  border-image-outset:0px;
+  border-image-slice: 550 445 445 420 fill;
+}
+#sidebar.css-filters{
+  filter:drop-shadow(8px 8px 10px #00000080);
+}
+#sidebar-content{
+  overflow-x:hidden;
+  overflow-y:hidden;
+  
+  margin-left:24px;
+  /* The reason why we use both margins and padings 
+   * is because overflow cut-off is only affected by the margin box.
+   * by mixing and matching margins and paddings, we can position the element
+   * and the cut-off. */
+  margin-top:24px;
+  padding-top:16px;
+  margin-right:24px;
+  margin-bottom:32px;
+  padding-bottom:8px;
+  
+  display:flex;
   flex-direction:column;
   justify-content:center;
   align-items:flex-start;
   text-align:left;
   gap:8px;
-  
-  padding-left:24px;
-  padding-right:24px;
-  padding-top:40px;
-  padding-bottom:40px;
-  border-image-source: url("sprites-prototype/MPN2-Prototype-Image-Scroll.png");
-  border-image-width:60px;
-  border-image-outset:0px;
-  border-image-slice: 550 445 445 420 fill;
-  
-  overflow:hidden;
-  
-  display:flex;
-}
-#sidebar.css-filters{
-  filter:drop-shadow(8px 8px 10px #00000080);
 }
 .sb-category-container{
   display:flex;
@@ -420,13 +429,8 @@ background: linear-gradient(0deg,#101050,#303070)
     display:block;
   }
   #sidebar-positioner{
-    display:flex;
-    flex-direction:row;
     justify-content:flex-start;
     align-items:flex-start;
-    width:100%;
-    height:100%;
-    margin-left:0;
   }
   #sidebar-animation-container{
     align-items:flex-start;
@@ -438,10 +442,21 @@ background: linear-gradient(0deg,#101050,#303070)
     margin-top:-60px;
   }
   #sidebar{
-    width:calc(100vw - 64px);
-    height:calc(100dvh - 64px);
-    margin-left:32px;
-    margin-top:32px;
+    width:calc(100vw - 32px);
+    height:calc(100dvh - 32px);
+    margin-top:16px;
+    margin-left:16px;
+  }
+  #sidebar-content{
+    position:absolute;
+    top: 40px;
+    bottom: 40px;
+    left: 32px;
+    right: 32px;
+    
+    margin:0;
+    padding:0;
+    
     font-size:1.5em;
     justify-content:space-evenly;
     overflow-y:scroll;

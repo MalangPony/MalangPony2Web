@@ -186,15 +186,15 @@ function sidebar_intro_animate(){
   let anim4=sidebar.animate(
     [{transform:"scale(0.0)"},
      {transform:"scale(1.0)"}],
-    {duration:400,delay:1100,easing:"ease-out"})
+    {duration:400,delay:1100,easing:"ease-out"});
   let anim5=sidebar.animate(
-    [{maxHeight:"0"},
+    [{maxHeight:"64px"},
      {maxHeight:"calc(100dvh - 64px)"}],
-    {duration:1000,delay:1500,easing:"ease-in-out"})
+    {duration:1000,delay:1500,easing:"ease-in-out"});
   
   sidebar.style.transform="scale(0)";
   sidebar.style.display="flex";
-  sidebar.style.maxHeight="0";
+  sidebar.style.maxHeight="64px";
   
   anim4.onfinish=(e)=>{
     sidebar.style.transform="none";
