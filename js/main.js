@@ -7,6 +7,8 @@ import * as L2D from "./l2d.js";
 import {FPS_Counter,linear_map} from "./utils.js";
 import * as ParallaxData from "./parallax_data.js";
 
+const body_dom = document.querySelector("body");
+
 const wsd = document.getElementById("whole-screen-div");
 
 const intro_content_container=document.getElementById("intro-content-container");
@@ -30,7 +32,7 @@ const sia = document.getElementById("sidebar-intro-anim");
 const siai =document.getElementById("sidebar-intro-anim-image");
 const lmsa = document.getElementById("letter-magic-spritesheet-animation");
 
-const lang_btn = document.getElementById("lang-btn");
+const lang_btn = document.getElementById("langswitch-btn");
 const sb_btn = document.getElementById("sb-btn");
 
 const scroll_inviter_container = document.getElementById("scroll-inviter-container");
@@ -486,13 +488,23 @@ let current_lang="ko";
 let all_langs=["ko","en"];
 function apply_lang(code){
   current_lang=code;
+  
+  // Hide/show all .lang-{en,kr} spans.
   for (const lang of all_langs){
-    let all_elements=document.querySelectorAll(".lang-"+lang);
+    let all_elements=document.querySelectorAll(".langspan-"+lang);
     for (const e of all_elements){
       if (lang===current_lang) e.style.display="inline";
       else e.style.display="none";
     }
   }
+  
+  // Add .langmode-* class to body.
+  // This is used in some CSS rules.
+  for (const lang of all_langs){
+    if (lang===current_lang) body_dom.classList.add("langmode-"+lang);
+    else body_dom.classList.remove("langmode-"+lang);
+  }
+  
   // Save to cookie
   document.cookie="language="+code;
 }

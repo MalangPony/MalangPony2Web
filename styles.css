@@ -232,13 +232,20 @@ background: linear-gradient(0deg,#101050,#303070)
 }
 #sidebar{
   border:3px solid #d3bf84; 
-  width:200px;
+  
   max-height:calc(100dvh - 64px);
   
   border-image-source: url("sprites-prototype/MPN2-Prototype-Image-Scroll.png");
   border-image-width:60px;
   border-image-outset:0px;
   border-image-slice: 550 445 445 420 fill;
+}
+
+.langmode-en #sidebar{
+  width:240px;
+}
+.langmode-ko #sidebar{
+  width:190px;
 }
 #sidebar.css-filters{
   filter:drop-shadow(8px 8px 10px #00000080);
@@ -348,7 +355,6 @@ background: linear-gradient(0deg,#101050,#303070)
   transition-duration:0.5s;
   transition-timing-function: ease-in-out;
   transform:rotate(10deg);
-  
 }
 #ticket:hover{
   transform:rotate(0deg);
@@ -371,7 +377,7 @@ background: linear-gradient(0deg,#101050,#303070)
   justify-content:flex-end;
   align-items:flex-start;
 }
-#lang-btn{
+#langswitch-btn{
   background-color:#FFF;
   color:#000;
   font-weight:700;
@@ -383,7 +389,7 @@ background: linear-gradient(0deg,#101050,#303070)
   opacity:0;
   transition: all 1s;
 }
-#lang-btn.activated{
+#langswitch-btn.activated{
   opacity:1.0;
 }
 
@@ -441,7 +447,10 @@ background: linear-gradient(0deg,#101050,#303070)
     margin-left:-60px; 
     margin-top:-60px;
   }
-  #sidebar{
+  
+  /* The below rule has two identical ID selectors in order to raise the specificity.
+   * This is to override the class+ID selector that was declared above.*/
+  #sidebar#sidebar{
     width:calc(100vw - 32px);
     height:calc(100dvh - 32px);
     margin-top:16px;
