@@ -655,8 +655,17 @@ function page_transition(name){
 }
 
 
+// Setup sidebar buttons
+let sidebar_buttons_active=document.querySelectorAll(".sb-link-active");
+for (const sb of sidebar_buttons_active){
+  let pageid=sb.getAttribute("pageid");
+  sb.addEventListener("click",()=>{
+    sidebar_clicked(pageid);
+  });
+  
+}
 
-export function sidebar_clicked(x){
+function sidebar_clicked(x){
   page_transition(x);
   if (!Parallax.name_defined_in_camera_locations(x)) return;
   Parallax.camera_animate_to_name(x);
