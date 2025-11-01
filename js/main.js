@@ -618,6 +618,8 @@ function page_transition_instant(name){
     if (Config.OPTION_HIDE_HANMARI_ON_NONINTRO_PAGES)
       hide_hanmari_instant();
   }
+  
+  sidebar_buttons_activate(name);
 }
 function page_transition(name){
   if (mobile_mode) sidebar_hide_mobile();
@@ -633,7 +635,8 @@ function page_transition(name){
   if (name!=="intro" && Config.OPTION_HIDE_HANMARI_ON_NONINTRO_PAGES) 
     hide_hanmari();
     
-    
+  sidebar_buttons_activate(name);
+  
   let anim3=intro_content_container.animate(
     [{ opacity: "1.0" },{ opacity: "0.0" }],
     {duration: 500,delay:0});
@@ -662,7 +665,14 @@ for (const sb of sidebar_buttons_active){
   sb.addEventListener("click",()=>{
     sidebar_clicked(pageid);
   });
-  
+}
+
+function sidebar_buttons_activate(pageid_active){
+  for (const sb of sidebar_buttons_active){
+    let pageid=sb.getAttribute("pageid");
+    if (pageid===pageid_active) sb.classList.add("sb-link-selected");
+    else sb.classList.remove("sb-link-selected");
+  }
 }
 
 function sidebar_clicked(x){

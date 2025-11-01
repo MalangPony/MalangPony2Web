@@ -336,6 +336,9 @@ background: linear-gradient(0deg,#101050,#303070)
   opacity:0.3;
   cursor:unset;
 }
+.sb-link-selected{
+  color:#000000;
+}
 #ticket{
   /*border:5px solid #b37c0f; 
   background-color:#fcdd41;*/
