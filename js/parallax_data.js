@@ -49,5 +49,6 @@ export let camera_locations={
 	intro:[0,0,-500],
 	about:[200,0,-500],
 	coc:[0,0,-100],
-	news:[0,0,-800]
+	news:[0,0,-800],
+	timetable:[-500,0,-500]
 }

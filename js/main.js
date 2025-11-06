@@ -6,6 +6,7 @@ import * as Parallax from "./parallax.js";
 import * as L2D from "./l2d.js";
 import {FPS_Counter,linear_map} from "./utils.js";
 import * as ParallaxData from "./parallax_data.js";
+import * as Timetable from "./timetable.js";
 
 const body_dom = document.querySelector("body");
 
@@ -57,6 +58,8 @@ const debug_btn_perf_decrement = document.getElementById(
 	"debug-button-feature-decrement");
 const debug_btn_perf_auto = document.getElementById(
 	"debug-button-feature-auto");
+
+const timetable_container = document.getElementById("ttable-container");
 
 // Is Non-animated Hanmari enabled?
 // Only enable if L2D Hanmari is NOT on the screen!
@@ -804,3 +807,9 @@ function sidebar_collapse_and_unlock(){
   sidebar_collapse_all();
   sidebar_category_interactive=true;
 }
+
+Timetable.get_timetable_data().then((d)=>{
+  console.log("TT Promise resolved at main.js");
+  timetable_container.appendChild(d["dom"]);
+  apply_lang(current_lang);
+})
