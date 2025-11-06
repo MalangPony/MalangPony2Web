@@ -58,10 +58,20 @@ function reject(reason){
 }
 
 
-const tt_start_t=parse_time("8:00");
+const tt_start_t=parse_time("8:20");
 const tt_block_gap=2;
 const tt_px_per_minute=0.8;
 const tt_tick_px=1.5;
+const tt_cg_top_extension=48;
+const tt_cg_bottom_extension=6;
+const tt_cg_side_extension=4;
+const tt_cg_label_textsize=24;
+const tt_time_label_textsize=12;
+const tt_block_border_width=4;
+const tt_block_expanded_height=120;
+const tt_block_expanded_width=300;
+const tt_close_button_size=32;
+const tt_close_button_padding=2;
 // For scalibilty, all units should be in em.
 function px2em(p){
 	return (p/16)+"em";
@@ -76,7 +86,8 @@ function timetable_build(ttd){
 	
 	let blocks=ttd.blocks;
 	let columns=ttd.columns;
-	let categories=ttd.categories;
+	let cpresets=ttd.color_presets;
+	let cgroups=ttd.column_groups;
 	
 	
 	let column_x_coords={};
@@ -84,10 +95,18 @@ function timetable_build(ttd){
 	let column_vertical={};
 	let column_widths={};
 	let column_expand_direction={};
-	let x=0;
 	
+	let cgroup_left={};
+	let cgroup_right={};
+	
+	let x=0;
 	let max_x=0;
 	let max_y=0;
+	
+	for (const cg of cgroups){
+		cgroup_left[cg.name] =+1000000;
+		cgroup_right[cg.name]=-1000000;
+	}
 	
 	for (const col of columns){
 		if (col.type=="spacer") x+=col.width;
@@ -97,17 +116,39 @@ function timetable_build(ttd){
 			column_textsizes[col.name]=col.text_size;
 			column_vertical[col.name]=col.text_vertical;
 			column_expand_direction[col.name]=col.expand_direction;
+			
+			let left=x;
+			let right=x+col.width;
 			x+=col.width;
+			
+			if (left<cgroup_left[col.group])
+				cgroup_left[col.group]=left;
+			if (right>cgroup_right[col.group])
+				cgroup_right[col.group]=right;
+			
 		}else{
 			console.log("Invalid column"+JSON.stringify(col));
 		}
 		if (x>max_x) max_x=x;
 	}
 	
-	let category_colors={}
-	for(const cat of categories){
-		category_colors[cat.name]=cat.color;
+	let color_presets={}
+	for(const cp of cpresets){
+		color_presets[cp.name]=cp.color;
 	}
+	
+	/* Z-Index allocation
+	 * 
+	 * 5 Time tick line
+	 * 6 Time tick text
+	 * 
+	 * 50 Column Groups outline
+	 * 51 Column groups text
+	 * 
+	 * 80 Block outline
+	 * 90 Blocks, initial
+	 * 100+ Mouse-Overed Blocks
+	 */
 	
 	let exit_functions=[];
 	let time_ticks=new Set();
@@ -125,12 +166,12 @@ function timetable_build(ttd){
 		let duration=end_time-start_time;
 		
 		// Get pre-parsed data
-		let vertical=column_vertical[block.location];
-		let base_x=column_x_coords[block.location];
-		let base_width=column_widths[block.location];
-		let text_size=column_textsizes[block.location];
-		let bg_color=category_colors[block.category];
-		let expand_direction=column_expand_direction[block.location];
+		let vertical=column_vertical[block.column];
+		let base_x=column_x_coords[block.column];
+		let base_width=column_widths[block.column];
+		let text_size=column_textsizes[block.column];
+		let bg_color=color_presets[block.color_preset];
+		let expand_direction=column_expand_direction[block.column];
 		
 		// Child DOM elements
 		let block_dom=document.createElement("div");
@@ -154,8 +195,8 @@ function timetable_build(ttd){
 		closebtn_dom.style.position="absolute";
 		closebtn_dom.style.top=0;
 		closebtn_dom.style.right=0;
-		closebtn_dom.style.width=px2em(32);
-		closebtn_dom.style.height=px2em(32);
+		closebtn_dom.style.width=px2em(tt_close_button_size);
+		closebtn_dom.style.height=px2em(tt_close_button_size);
 		closebtn_dom.style.zIndex=+1;
 		closebtn_dom.classList.add("hidden");
 		
@@ -163,10 +204,10 @@ function timetable_build(ttd){
 		close_svg.setAttributeNS(null,"viewBox","0 -960 960 960");
 		close_svg.setAttribute("fill","#000000");
 		close_svg.style.position="absolute";
-		close_svg.style.top=px2em(2);
-		close_svg.style.bottom=px2em(2);
-		close_svg.style.left=px2em(2);
-		close_svg.style.right=px2em(2);
+		close_svg.style.top=   px2em(tt_close_button_padding);
+		close_svg.style.bottom=px2em(tt_close_button_padding);
+		close_svg.style.left=  px2em(tt_close_button_padding);
+		close_svg.style.right= px2em(tt_close_button_padding);
 		let svg_path=document.createElementNS("http://www.w3.org/2000/svg","path");
 		svg_path.setAttribute("d","m256-168-88-88 224-224-224-224 88-88 224 224 224-224 88 88-224 224 224 224-88 88-224-224-224 224Z");
 		close_svg.appendChild(svg_path);
@@ -207,7 +248,7 @@ function timetable_build(ttd){
 		
 		// Positioning and size
 		let x=base_x;
-		let y=start_time_relative*tt_px_per_minute;
+		let y=start_time_relative*tt_px_per_minute+tt_cg_top_extension;
 		let w=base_width;
 		let h=duration*tt_px_per_minute;
 		
@@ -226,14 +267,14 @@ function timetable_build(ttd){
 			w-=tt_block_gap;
 		}
 		
-		block_dom.style.zIndex=+30;
+		block_dom.style.zIndex=+90;
 		block_dom.style.position="absolute";
 		block_dom.style.top=px2em(y);
 		block_dom.style.left=px2em(x);
 		block_dom.style.height=px2em(h);
 		block_dom.style.width=px2em(w);
 		
-		outline_dom.style.zIndex=+10;
+		outline_dom.style.zIndex=+80;
 		outline_dom.style.position="absolute";
 		outline_dom.style.top=px2em(y);
 		outline_dom.style.left=px2em(x);
@@ -242,7 +283,7 @@ function timetable_build(ttd){
 		outline_dom.style.opacity=0;
 		//outline_dom.style.backgroundColor="#FFF";
 		
-		max_y=Math.max(max_y,end_time_relative*tt_px_per_minute);
+		max_y=Math.max(max_y,y+h);
 		
 		// Expand animation
 		let expX=x;
@@ -250,15 +291,15 @@ function timetable_build(ttd){
 		let expW=w;
 		let expH=h;
 		if (expand_direction==="L"){
-			expX-=(300-w);
-			expW=300;
+			expX-=(tt_block_expanded_width-w);
+			expW=tt_block_expanded_width;
 		}else if (expand_direction==="R"){
-			expW=300;
+			expW=tt_block_expanded_width;
 		}
-		if (expH<120) expH=120;
-		if (expH>120){
-			let shrinkage=h-120;
-			expH=120;
+		if (expH<tt_block_expanded_height) expH=tt_block_expanded_height;
+		if (expH>tt_block_expanded_height){
+			let shrinkage=h-tt_block_expanded_height;
+			expH=tt_block_expanded_height;
 			expY+=shrinkage/2;
 		}
 		
@@ -423,7 +464,7 @@ function timetable_build(ttd){
 		block_dom.style.backgroundColor=bg_color;
 		outline_dom.style.borderColor=bg_color;
 		outline_dom.style.borderStyle="solid"; // Maybe dotted?
-		outline_dom.style.borderWidth=px2em(4);
+		outline_dom.style.borderWidth=px2em(tt_block_border_width);
 		
 		if (vertical){
 			text_dom.style.width=px2em(200);
@@ -442,7 +483,7 @@ function timetable_build(ttd){
 		tick_dom.style.position="absolute";
 		//console.log(`TT ${tt} TTS ${tt_start_t} TPPM ${tt_px_per_minute} TTTX ${tt_tick_px}`);
 		tick_dom.style.top=px2em(
-			(tt-tt_start_t)*tt_px_per_minute+tt_tick_px/2-30);
+			(tt-tt_start_t)*tt_px_per_minute+tt_tick_px/2-30+tt_cg_top_extension);
 		tick_dom.style.left=0;
 		tick_dom.style.height=px2em(30);
 		tick_dom.style.width=px2em(max_x);
@@ -452,6 +493,8 @@ function timetable_build(ttd){
 		tick_dom.style.borderBottomWidth=px2em(tt_tick_px);
 		tick_dom.style.zIndex=+5;
 		domroot.appendChild(tick_dom);
+		
+		max_y=Math.max(max_y,(tt-tt_start_t)*tt_px_per_minute+tt_cg_top_extension);
 		
 		let timedisp_dom_L = document.createElement("div");
 		timedisp_dom_L.style.position="absolute";
@@ -464,7 +507,7 @@ function timetable_build(ttd){
 		else m=""+m
 		if (h<10) h="0"+h;
 		else h=""+h
-		timedisp_dom_L.style.fontSize=px2em(12);
+		timedisp_dom_L.style.fontSize=px2em(tt_time_label_textsize);
 		timedisp_dom_L.style.color="#FFFFFFA0";
 		timedisp_dom_L.style.fontWeight=900;
 		timedisp_dom_L.innerHTML=h+":"+m;
@@ -476,11 +519,98 @@ function timetable_build(ttd){
 		tick_dom.appendChild(timedisp_dom_L);
 		tick_dom.appendChild(timedisp_dom_R);
 	}
+	
+	
+	for (const cg of cgroups){
+		let left=cgroup_left[cg.name];
+		let right=cgroup_right[cg.name];
+		let line1EN=cg.fullname_en;
+		let line1KR=cg.fullname_kr
+		let line2EN=cg.line2_en;
+		let line2KR=cg.line2_kr
+		
+		let cg_outline_dom = document.createElement("div");
+		let cg_label_dom=document.createElement("div");
+		let cg_label_text1_en=document.createElement("div");
+		let cg_label_text1_ko=document.createElement("div");
+		let cg_label_text2_en=document.createElement("div");
+		let cg_label_text2_ko=document.createElement("div");
+		
+		cg_outline_dom.style.position="absolute";
+		cg_outline_dom.style.left=px2em(
+			left-tt_cg_side_extension);
+		cg_outline_dom.style.width=px2em(
+			right-left+tt_cg_side_extension*2);
+		cg_outline_dom.style.top=0;
+		cg_outline_dom.style.height=px2em(
+			max_y+tt_cg_bottom_extension);
+		
+		
+		cg_outline_dom.style.borderRadius=px2em(8);
+		/*
+		cg_outline_dom.style.borderLeftWidth=px2em(1);
+		cg_outline_dom.style.borderRightWidth=px2em(1);
+		cg_outline_dom.style.borderTopWidth=px2em(1);
+		cg_outline_dom.style.borderBottomWidth=0;
+		cg_outline_dom.style.borderLeftStyle="solid";
+		cg_outline_dom.style.borderRightStyle="solid";
+		cg_outline_dom.style.borderTopStyle="solid";
+		cg_outline_dom.style.borderBottomStyle="none";
+		cg_outline_dom.style.borderColor="#FFFFFFC0";
+		*/
+		//cg_outline_dom.style.filter="blur(2px)";
+		cg_outline_dom.style.background="linear-gradient(to bottom, "+cg.ramp_color_top+", "+cg.ramp_color_bottom+")";
+		cg_outline_dom.style.zIndex=+50;
+		
+		cg_label_dom.style.position="absolute";
+		cg_label_dom.style.left=0;
+		cg_label_dom.style.right=0;
+		cg_label_dom.style.top=0;
+		cg_label_dom.style.height=px2em(tt_cg_top_extension);
+		cg_label_dom.style.fontSize=px2em(tt_cg_label_textsize);
+		cg_label_dom.style.display="flex";
+		cg_label_dom.style.justifyContent="center";
+		cg_label_dom.style.alignItems="center";
+		cg_label_dom.style.flexDirection="column";
+		cg_label_dom.style.gap=px2em(3);
+		cg_outline_dom.appendChild(cg_label_dom);
+		
+		
+		
+		cg_label_text1_en.classList.add("langflex-en");
+		cg_label_text1_en.innerHTML=line1EN;
+		cg_label_dom.appendChild(cg_label_text1_en);
+		
+		if (line2EN){
+			cg_label_text2_en.classList.add("langflex-en");
+			cg_label_text2_en.innerHTML=line2EN;
+			cg_label_text2_en.style.fontSize="0.8em";
+			cg_label_dom.appendChild(cg_label_text2_en);
+		}
+		
+		cg_label_text1_ko.classList.add("langflex-ko");
+		cg_label_text1_ko.innerHTML=line1KR;
+		cg_label_dom.appendChild(cg_label_text1_ko);
+		
+		if (line2KR){
+			cg_label_text2_ko.classList.add("langflex-ko");
+			cg_label_text2_ko.innerHTML=line2KR;
+			cg_label_text2_ko.style.fontSize="0.8em";
+			cg_label_dom.appendChild(cg_label_text2_ko);
+		}
+		
+		
+		
+		domroot.appendChild(cg_outline_dom);
+	}
+	
+	max_y=Math.max(max_y,max_y+tt_cg_bottom_extension);
 
 	// Need to do this in order for the root DOM to actually
 	// contain all the timetable.
 	domroot.style.width=px2em(max_x);
 	domroot.style.height=px2em(max_y);
+	//domroot.style.border="1px solid #F0F";
 	return domroot;
 }
 
