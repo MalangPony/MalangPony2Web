@@ -170,27 +170,13 @@
 	},
 	{ 
 	"display":true,
-	"name_kr":"스낵바",
-	"name_en":"Snack Bar",
-	"start_time":"09:00",
-	"end_time":"21:30",
-	"category":"event-sub",
-	"type":"vertical",
-	"location":"main-side-a",
-	"description_en":"Hungry? The snack bar is always open!",
-	"description_kr":"출출하다면 언제든 스낵바를 들러<br>에너지를 충전하세요",
-	"tagline_en":"",
-	"tagline_kr":""
-	},
-	{ 
-	"display":true,
 	"name_kr":"자유 그림 코너",
 	"name_en":"Sketch Corner",
 	"start_time":"09:00",
 	"end_time":"20:00",
 	"category":"event-sub",
 	"type":"vertical",
-	"location":"main-side-b",
+	"location":"main-side-sketch",
 	"description_en":"Draw away in this free-for-all canvas",
 	"description_kr":"누구든 참여할수 있는 캔버스에서<br>함께 그림을 그려봐요",
 	"tagline_en":"",
@@ -204,7 +190,7 @@
 	"end_time":"18:00",
 	"category":"event-major",
 	"type":"vertical",
-	"location":"main-side-c",
+	"location":"main-side-gallery",
 	"description_en":"The one and only Pony Art Gallery.<br>Vote on your favorite art piece!",
 	"description_kr":"포니 그림 감상 갤러리입니다.<br>가장 마음에 드는 작품에 투표해 보세요!",
 	"tagline_en":"",
@@ -212,13 +198,13 @@
 	},
 	{ 
 	"display":true,
-	"name_kr":"휴식공간",
-	"name_en":"Lounge",
+	"name_kr":"스낵바 및 휴식공간",
+	"name_en":"Snack Bar & Lounge",
 	"start_time":"09:00",
 	"end_time":"21:30",
 	"category":"event-sub",
 	"type":"vertical",
-	"location":"main-side-d",
+	"location":"main-side-lounge",
 	"description_en":"A place to relax and recharge.",
 	"description_kr":"쉬고 재충전할 수 있는 공간입니다.",
 	"tagline_en":"",
@@ -232,7 +218,7 @@
 	"end_time":"19:00",
 	"category":"event-sub",
 	"type":"vertical",
-	"location":"main-side-e",
+	"location":"main-side-shrine",
 	"description_en":"How much merch is too much merch?<br>Show off all your pony merchandise!",
 	"description_kr":"자신의 굿즈를 자랑해보세요",
 	"tagline_en":"",
@@ -246,7 +232,7 @@
 	"end_time":"11:00",
 	"category":"vendor-sponsor",
 	"type":"vertical",
-	"location":"main-side-f",
+	"location":"main-side-vendor",
 	"description_en":"Sponsors get to enter the vendor hall 30 minutes early.",
 	"description_kr":"스폰서 분들은 30분 일찍 입장 가능합니다.",
 	"tagline_en":"",
@@ -261,7 +247,7 @@
 	"end_time":"17:00",
 	"category":"vendor-main",
 	"type":"vertical",
-	"location":"main-side-f",
+	"location":"main-side-vendor",
 	"description_en":"Uh it's a vendor hall...<br>You do know what a vendor hall is, right?",
 	"description_kr":"포니 부스들에서 국산 포니 굿즈를 사보세요!",
 	"tagline_en":"",
@@ -438,11 +424,23 @@
 	},
 	{
 	"type":"spacer",
-	"width":20
+	"width":10
 	},
 	{
 	"type":"location",
-	"name":"main-side-a",
+	"name":"main-side-vendor",
+	"width":40,
+	"text_size":1.0,
+	"text_vertical":true,
+	"expand_direction":"R"
+	},
+	{
+	"type":"spacer",
+	"width":10
+	},
+	{
+	"type":"location",
+	"name":"main-side-gallery",
 	"width":30,
 	"text_size":0.8,
 	"text_vertical":true,
@@ -450,7 +448,7 @@
 	},
 	{
 	"type":"location",
-	"name":"main-side-b",
+	"name":"main-side-sketch",
 	"width":30,
 	"text_size":0.8,
 	"text_vertical":true,
@@ -458,7 +456,7 @@
 	},
 	{
 	"type":"location",
-	"name":"main-side-c",
+	"name":"main-side-lounge",
 	"width":30,
 	"text_size":0.8,
 	"text_vertical":true,
@@ -466,28 +464,13 @@
 	},
 	{
 	"type":"location",
-	"name":"main-side-d",
+	"name":"main-side-shrine",
 	"width":30,
 	"text_size":0.8,
 	"text_vertical":true,
 	"expand_direction":"R"
 	},
-	{
-	"type":"location",
-	"name":"main-side-e",
-	"width":30,
-	"text_size":0.8,
-	"text_vertical":true,
-	"expand_direction":"R"
-	},
-	{
-	"type":"location",
-	"name":"main-side-f",
-	"width":30,
-	"text_size":0.8,
-	"text_vertical":true,
-	"expand_direction":"R"
-	},
+	
 	{
 	"type":"spacer",
 	"width":20
@@ -495,7 +478,7 @@
 	{
 	"type":"location",
 	"name":"sub-hall",
-	"width":120,
+	"width":160,
 	"text_size":1.0,
 	"text_vertical":false,
 	"expand_direction":"L"
@@ -507,7 +490,7 @@
 	{
 	"type":"location",
 	"name":"lobby-reg",
-	"width":100,
+	"width":70,
 	"text_size":1.0,
 	"text_vertical":false,
 	"expand_direction":"L"
@@ -528,7 +511,7 @@
 "categories":[
 	{
 	"name":"buffer",
-	"color":"#FFFFFF30"
+	"color":"#C0C0C0"
 	},
 	{
 	"name":"panel-lecture",
