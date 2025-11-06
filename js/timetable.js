@@ -373,7 +373,7 @@ function timetable_build(ttd){
 			(tt-tt_start_t)*tt_px_per_minute+tt_tick_px/2-30);
 		tick_dom.style.left=0;
 		tick_dom.style.height=px2em(30);
-		tick_dom.style.width=max_x+"px";
+		tick_dom.style.width=px2em(max_x);
 		//tick_dom.style.backgroundColor="#FFFFFF80"
 		tick_dom.style.borderBottomColor="#FFFFFF80";
 		tick_dom.style.borderBottomStyle="solid";
@@ -407,8 +407,8 @@ function timetable_build(ttd){
 
 	// Need to do this in order for the root DOM to actually
 	// contain all the timetable.
-	domroot.style.width=max_x+"px";
-	domroot.style.height=max_y+"px";
+	domroot.style.width=px2em(max_x);
+	domroot.style.height=px2em(max_y);
 	return domroot;
 }
 

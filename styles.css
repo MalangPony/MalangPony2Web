@@ -25,7 +25,8 @@
 html{
 	width:100%;
 	height:100%;
-    
+    /* This makes Korean text break at word boundaries. */
+    word-break: keep-all;
 }
 body{
 	width:100%;
@@ -410,6 +411,9 @@ background: linear-gradient(0deg,#101050,#303070)
   object-fit: contain;
 }
 
+#ttable-container{
+  font-size:min(1.5vw,16px);
+}
 .timetable-block-body{
   display:flex;
   flex-direction:column;
@@ -560,6 +564,10 @@ background: linear-gradient(0deg,#101050,#303070)
   #hmr-image-container{
     width:min(70vw,40lvh);
     height:min(70vw,40lvh);
+  }
+  
+  #ttable-container{
+    font-size:min(2.0vw,16px);
   }
 }
 
