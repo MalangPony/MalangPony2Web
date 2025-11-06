@@ -421,14 +421,31 @@ background: linear-gradient(0deg,#101050,#303070)
   align-items:center;
   
   transition-property:top,left,width,height,filter;
-  transition-duration:0.5s;
-  transition-timing-function:ease-in-out;
+  transition-duration:0.5s, 0.5s, 0.5s, 0.5s, 0.2s;
+  transition-timing-function:ease-in-out,ease-in-out,ease-in-out,ease-in-out,linear;
   
   overflow:hidden;
 }
 
 .timetable-block-body.timetable-block-mouseover{
-  filter:drop-shadow(0 0 8px #00000080);
+
+}
+
+.timetable-block-close-button{
+  transition-property: opacity;
+  transition-duration:0.5s;
+  transition-timing-function: ease-in-out;
+  /* FF doesn't support this apperantly
+  transition-behavior: allow-discrete; 
+  display:block;*/
+  opacity:1.0;
+  cursor:pointer;
+}
+
+.timetable-block-close-button.hidden{
+  /*display:none;*/
+  opacity:0.0;
+  pointer-events:none;
 }
 
 .timetable-block-outline{

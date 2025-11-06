@@ -1,3 +1,4 @@
+import * as Config  from "./config.js";
 
 // Parse H:M timestamp into total minutes
 function parse_time(s){
@@ -108,6 +109,7 @@ function timetable_build(ttd){
 		category_colors[cat.name]=cat.color;
 	}
 	
+	let exit_functions=[];
 	let time_ticks=new Set();
 	for (const block of blocks){
 		//console.log(block);
@@ -139,16 +141,45 @@ function timetable_build(ttd){
 		text_dom.classList.add("timetable-block-text");
 		let desc_dom=document.createElement("div");
 		desc_dom.classList.add("timetable-block-description-container");
-		desc_dom.style.width=px2em(270);
-		
+		let closebtn_dom=document.createElement("div");
+		closebtn_dom.classList.add("timetable-block-close-button");
 		domroot.appendChild(block_dom);
 		domroot.appendChild(outline_dom);
 		block_dom.appendChild(text_dom);
 		block_dom.appendChild(desc_dom);
 		
+		
+		
+		// Close Button
+		closebtn_dom.style.position="absolute";
+		closebtn_dom.style.top=0;
+		closebtn_dom.style.right=0;
+		closebtn_dom.style.width=px2em(32);
+		closebtn_dom.style.height=px2em(32);
+		closebtn_dom.style.zIndex=+1;
+		closebtn_dom.classList.add("hidden");
+		
+		let close_svg=document.createElementNS("http://www.w3.org/2000/svg", "svg");
+		close_svg.setAttributeNS(null,"viewBox","0 -960 960 960");
+		close_svg.setAttribute("fill","#000000");
+		close_svg.style.position="absolute";
+		close_svg.style.top=px2em(2);
+		close_svg.style.bottom=px2em(2);
+		close_svg.style.left=px2em(2);
+		close_svg.style.right=px2em(2);
+		let svg_path=document.createElementNS("http://www.w3.org/2000/svg","path");
+		svg_path.setAttribute("d","m256-168-88-88 224-224-224-224 88-88 224 224 224-224 88 88-224 224 224 224-88 88-224-224-224 224Z");
+		close_svg.appendChild(svg_path);
+		closebtn_dom.appendChild(close_svg);
+		if (Config.OPTION_TIMETABLE_REQUIRE_CLICK){
+			block_dom.appendChild(closebtn_dom);
+		}
+		
+		// Description
+		desc_dom.style.width=px2em(270);
 		let info_time_dom=document.createElement("div");
 		info_time_dom.classList.add("timetable-desc-time");
-		info_time_dom.innerHTML=block.start_time+" : "+block.end_time;
+		info_time_dom.innerHTML=block.start_time+" ~ "+block.end_time;
 		desc_dom.appendChild(info_time_dom);
 		let info_text_dom_ko=document.createElement("div");
 		let info_text_dom_en=document.createElement("div");
@@ -232,17 +263,24 @@ function timetable_build(ttd){
 		}
 		
 		
-		let transition_in_progress=false;
+		let expanded=false;
 		function exit(){
+			expanded=false;
 			block_dom.style.top=px2em(y);
 			block_dom.style.left=px2em(x);
 			block_dom.style.height=px2em(h);
 			block_dom.style.width=px2em(w);
 			block_dom.classList.remove("timetable-block-mouseover");
 			outline_dom.style.opacity=0.0;
-			transition_in_progress=true;
+			block_dom.style.filter="none";
+			if (Config.OPTION_TIMETABLE_REQUIRE_CLICK){
+				closebtn_dom.classList.add("hidden");
+				block_dom.style.cursor="pointer";
+			}
+				
 		}
 		function enter(){
+			expanded=true;
 			block_dom.style.top=px2em(expY);
 			block_dom.style.left=px2em(expX);
 			block_dom.style.height=px2em(expH);
@@ -251,17 +289,26 @@ function timetable_build(ttd){
 			mouseover_zindex++;
 			block_dom.style.zIndex=mouseover_zindex;
 			outline_dom.style.opacity=1.0;
-			transition_in_progress=true;
+			block_dom.style.filter="drop-shadow(0 0 8px #00000080)";
+			if (Config.OPTION_TIMETABLE_REQUIRE_CLICK){
+				closebtn_dom.classList.remove("hidden");
+				block_dom.style.cursor="unset";
+			}
+				
 		}
 		
-		let inside=false;
+		
 		let mouse_inside_block=false;
 		let mouse_inside_outline=false;
-		
-		block_dom.addEventListener("transitionend",()=>{
-			transition_in_progress=false;
-			update();
-		});
+		let transition_in_progress=false;
+		if (!Config.OPTION_TIMETABLE_REQUIRE_CLICK){
+			block_dom.addEventListener("transitionend",(e)=>{
+				// filter runs for a shorter time so we need to ignore that
+				if (e.propertyName=="filter") return;
+				transition_in_progress=false;
+				update();
+			});
+		}
 		
 		function update(){
 			
@@ -271,13 +318,15 @@ function timetable_build(ttd){
 			else now_inside=(mouse_inside_block || mouse_inside_outline);
 			
 			if (now_inside){
-				if (!inside) {
-					inside=true;
+				if (!expanded) {
+					
+					transition_in_progress=true;
 					enter();
 				}
 			}else{
-				if (inside){
-					inside=false;
+				if (expanded){
+					
+					transition_in_progress=true;
 					exit();
 				}
 			}
@@ -293,27 +342,50 @@ function timetable_build(ttd){
 			pending_update=window.setTimeout(update,10);
 		}
 		
-		outline_dom.addEventListener("mouseleave",()=>{
-			//console.log("Outline OUT");
-			mouse_inside_outline=false;
-			queue_update();
-		});
-		outline_dom.addEventListener("mouseenter",()=>{
-			//console.log("Outline IN");
-			mouse_inside_outline=true;
-			queue_update();
-		});
-		block_dom.addEventListener("mouseleave",()=>{
-			//console.log("Block OUT");
-			mouse_inside_block=false;
-			queue_update();
-		});
-		block_dom.addEventListener("mouseenter",()=>{
-			//console.log("Block IN");
-			mouse_inside_block=true;
-			queue_update();
-			
-		});
+		if (!Config.OPTION_TIMETABLE_REQUIRE_CLICK){
+			outline_dom.addEventListener("mouseleave",()=>{
+				//console.log("Outline OUT");
+				mouse_inside_outline=false;
+				queue_update();
+			});
+			outline_dom.addEventListener("mouseenter",()=>{
+				//console.log("Outline IN");
+				mouse_inside_outline=true;
+				queue_update();
+			});
+			block_dom.addEventListener("mouseleave",()=>{
+				//console.log("Block OUT");
+				mouse_inside_block=false;
+				queue_update();
+			});
+			block_dom.addEventListener("mouseenter",()=>{
+				//console.log("Block IN");
+				mouse_inside_block=true;
+				queue_update();
+				
+			});
+		}else{
+			block_dom.style.cursor="pointer";
+			block_dom.addEventListener("mouseleave",()=>{
+				if (!expanded)
+					block_dom.style.filter="none";
+			});
+			block_dom.addEventListener("mouseenter",()=>{
+				if (!expanded)
+					block_dom.style.filter="drop-shadow(0 0 4px "+bg_color+")";
+			});
+			block_dom.addEventListener("click",()=>{
+				//console.log("BlockClicked");
+				while (exit_functions.length>0) exit_functions.pop()();
+				exit_functions.push(exit);
+				enter();
+			});
+			closebtn_dom.addEventListener("click",(e)=>{
+				e.stopPropagation();
+				//console.log("CloseBTN");
+				exit();
+			});
+		}
 		
 		
 		// Text DOM
