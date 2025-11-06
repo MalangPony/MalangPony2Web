@@ -410,6 +410,71 @@ background: linear-gradient(0deg,#101050,#303070)
   object-fit: contain;
 }
 
+.timetable-block-body{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  
+  transition-property:top,left,width,height,filter;
+  transition-duration:0.5s;
+  transition-timing-function:ease-in-out;
+  
+  overflow:hidden;
+}
+
+.timetable-block-body.timetable-block-mouseover{
+  filter:drop-shadow(0 0 8px #00000080);
+}
+
+.timetable-block-outline{
+  transition-property:opacity;
+  transition-duration:0.5s;
+  transition-timing-function:ease-in-out;
+}
+
+.timetable-block-text{
+  transition-property:transform;
+  transition-duration:0.5s;
+  transition-timing-function:ease-in-out;
+}
+.timetable-block-vertical:not(.timetable-block-mouseover) .timetable-block-text {
+  transform:rotate(90deg);
+  text-align:center;
+}
+
+.timetable-block-description-container{
+  opacity:0.0;
+  transition-property:opacity, max-height;
+  transition-duration:0.5s;
+  transition-timing-function:ease-in-out;
+  max-height:0;
+  overflow:hidden;
+}
+
+.timetable-block-body.timetable-block-mouseover .timetable-block-description-container{
+  opacity:1.0;
+  max-height:4em;
+}
+
+.timetable-block-description-container{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+}
+.timetable-desc-time{
+  margin-top:0.2em;
+  font-size:0.6em;
+}
+.timetable-desc-text{
+  margin-top:0.1em;
+  font-size:0.8em;
+  font-weight:400;
+  text-align:center;
+}
+
+
 
 #afterscroll-content-container > div{
     /*

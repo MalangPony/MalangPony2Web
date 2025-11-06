@@ -65,6 +65,9 @@ const tt_tick_px=1.5;
 function px2em(p){
 	return (p/16)+"em";
 }
+// This will keep increasing on each mouse over.
+// Hopefully nopony will mouse-over the timetable 2 billion times...
+let mouseover_zindex=+100;
 function timetable_build(ttd){
 	let domroot=document.createElement("div");
 	// Make every child use its rel.coords when in absolute positioning.
@@ -79,6 +82,7 @@ function timetable_build(ttd){
 	let column_textsizes={};
 	let column_vertical={};
 	let column_widths={};
+	let column_expand_direction={};
 	let x=0;
 	
 	let max_x=0;
@@ -90,7 +94,8 @@ function timetable_build(ttd){
 			column_x_coords[col.name]=x;
 			column_widths[col.name]=col.width;
 			column_textsizes[col.name]=col.text_size;
-			column_vertical[col.name]=col.text_vertical
+			column_vertical[col.name]=col.text_vertical;
+			column_expand_direction[col.name]=col.expand_direction;
 			x+=col.width;
 		}else{
 			console.log("Invalid column"+JSON.stringify(col));
@@ -123,11 +128,40 @@ function timetable_build(ttd){
 		let base_width=column_widths[block.location];
 		let text_size=column_textsizes[block.location];
 		let bg_color=category_colors[block.category];
+		let expand_direction=column_expand_direction[block.location];
 		
 		// Child DOM elements
 		let block_dom=document.createElement("div");
-		let text_dom=document.createElement("div");
+		block_dom.classList.add("timetable-block-body");
 		let outline_dom=document.createElement("div");
+		outline_dom.classList.add("timetable-block-outline");
+		let text_dom=document.createElement("div");
+		text_dom.classList.add("timetable-block-text");
+		let desc_dom=document.createElement("div");
+		desc_dom.classList.add("timetable-block-description-container");
+		desc_dom.style.width=px2em(270);
+		
+		domroot.appendChild(block_dom);
+		domroot.appendChild(outline_dom);
+		block_dom.appendChild(text_dom);
+		block_dom.appendChild(desc_dom);
+		
+		let info_time_dom=document.createElement("div");
+		info_time_dom.classList.add("timetable-desc-time");
+		info_time_dom.innerHTML=block.start_time+" : "+block.end_time;
+		desc_dom.appendChild(info_time_dom);
+		let info_text_dom_ko=document.createElement("div");
+		let info_text_dom_en=document.createElement("div");
+		info_text_dom_ko.classList.add("timetable-desc-text");
+		info_text_dom_ko.classList.add("langdiv-ko");
+		info_text_dom_ko.innerHTML=block.description_kr;
+		desc_dom.appendChild(info_text_dom_ko);
+		info_text_dom_en.classList.add("timetable-desc-text");
+		info_text_dom_en.classList.add("langdiv-en");
+		info_text_dom_en.innerHTML=block.description_en;
+		desc_dom.appendChild(info_text_dom_en);
+		
+		
 		
 		// Connecting
 		let connecting={"T":false,"B":false,"R":false,"L":false};
@@ -141,8 +175,6 @@ function timetable_build(ttd){
 		}
 		
 		// Positioning and size
-		
-		
 		let x=base_x;
 		let y=start_time_relative*tt_px_per_minute;
 		let w=base_width;
@@ -170,16 +202,121 @@ function timetable_build(ttd){
 		block_dom.style.height=px2em(h);
 		block_dom.style.width=px2em(w);
 		
+		outline_dom.style.zIndex=+10;
+		outline_dom.style.position="absolute";
+		outline_dom.style.top=px2em(y);
+		outline_dom.style.left=px2em(x);
+		outline_dom.style.height=px2em(h);
+		outline_dom.style.width=px2em(w);
+		outline_dom.style.opacity=0;
+		//outline_dom.style.backgroundColor="#FFF";
+		
 		max_y=Math.max(max_y,end_time_relative*tt_px_per_minute);
 		
-		// Center child
-		block_dom.style.display="flex";
-		block_dom.style.flexDirection="column";
-		block_dom.style.justifyContent="center";
-		block_dom.style.alignItems="center";
+		// Expand animation
+		let expX=x;
+		let expY=y;
+		let expW=w;
+		let expH=h;
+		if (expand_direction==="L"){
+			expX-=(300-w);
+			expW=300;
+		}else if (expand_direction==="R"){
+			expW=300;
+		}
+		if (expH<120) expH=120;
+		if (expH>120){
+			let shrinkage=h-120;
+			expH=120;
+			expY+=shrinkage/2;
+		}
+		
+		
+		let transition_in_progress=false;
+		function exit(){
+			block_dom.style.top=px2em(y);
+			block_dom.style.left=px2em(x);
+			block_dom.style.height=px2em(h);
+			block_dom.style.width=px2em(w);
+			block_dom.classList.remove("timetable-block-mouseover");
+			outline_dom.style.opacity=0.0;
+			transition_in_progress=true;
+		}
+		function enter(){
+			block_dom.style.top=px2em(expY);
+			block_dom.style.left=px2em(expX);
+			block_dom.style.height=px2em(expH);
+			block_dom.style.width=px2em(expW);
+			block_dom.classList.add("timetable-block-mouseover");
+			mouseover_zindex++;
+			block_dom.style.zIndex=mouseover_zindex;
+			outline_dom.style.opacity=1.0;
+			transition_in_progress=true;
+		}
+		
+		let inside=false;
+		let mouse_inside_block=false;
+		let mouse_inside_outline=false;
+		
+		block_dom.addEventListener("transitionend",()=>{
+			transition_in_progress=false;
+			update();
+		});
+		
+		function update(){
+			
+			let now_inside;
+			
+			if (transition_in_progress) now_inside= mouse_inside_outline;
+			else now_inside=(mouse_inside_block || mouse_inside_outline);
+			
+			if (now_inside){
+				if (!inside) {
+					inside=true;
+					enter();
+				}
+			}else{
+				if (inside){
+					inside=false;
+					exit();
+				}
+			}
+		}
+		
+		// Doing the update a little later 
+		// will catch the case where the mouse leaves the outline
+		// and enters the block in the same frame.
+		// Without waiting, this will cause the block to be collapsed.
+		let pending_update=null;
+		function queue_update(){
+			window.clearTimeout(pending_update);
+			pending_update=window.setTimeout(update,10);
+		}
+		
+		outline_dom.addEventListener("mouseleave",()=>{
+			//console.log("Outline OUT");
+			mouse_inside_outline=false;
+			queue_update();
+		});
+		outline_dom.addEventListener("mouseenter",()=>{
+			//console.log("Outline IN");
+			mouse_inside_outline=true;
+			queue_update();
+		});
+		block_dom.addEventListener("mouseleave",()=>{
+			//console.log("Block OUT");
+			mouse_inside_block=false;
+			queue_update();
+		});
+		block_dom.addEventListener("mouseenter",()=>{
+			//console.log("Block IN");
+			mouse_inside_block=true;
+			queue_update();
+			
+		});
+		
 		
 		// Text DOM
-		block_dom.appendChild(text_dom);
 		text_dom.style.textAlign="center";
 		text_dom.style.fontSize=text_size+"em";
 		var text_kr = document.createElement("span");
@@ -194,25 +331,33 @@ function timetable_build(ttd){
 		
 		// Block BG
 		let radius=px2em(6);
-		block_dom.style.backgroundColor=bg_color;
-		if (!(connecting.T || connecting.L))
+		if (!(connecting.T || connecting.L)){
 			block_dom.style.borderTopLeftRadius = radius;
-		if (!(connecting.T || connecting.R))
+			outline_dom.style.borderTopLeftRadius = radius;
+		}
+		if (!(connecting.T || connecting.R)){
 			block_dom.style.borderTopRightRadius = radius;
-		if (!(connecting.B || connecting.L))
+			outline_dom.style.borderTopRightRadius = radius;
+		}
+		if (!(connecting.B || connecting.L)){
 			block_dom.style.borderBottomLeftRadius = radius;
-		if (!(connecting.B || connecting.R))
+			outline_dom.style.borderBottomLeftRadius = radius;
+		}
+		if (!(connecting.B || connecting.R)){
 			block_dom.style.borderBottomRightRadius = radius;
+			outline_dom.style.borderBottomRightRadius = radius;
+		}
 		
-		
+		block_dom.style.backgroundColor=bg_color;
+		outline_dom.style.borderColor=bg_color;
+		outline_dom.style.borderStyle="solid"; // Maybe dotted?
+		outline_dom.style.borderWidth=px2em(4);
 		
 		if (vertical){
-			block_dom.style.width=px2em(30-(tt_block_gap*2));
 			text_dom.style.width=px2em(200);
-			text_dom.style.transform="rotate(90deg)";
-			text_dom.style.textAlign="center";
+			block_dom.classList.add("timetable-block-vertical");
 		}
-		domroot.appendChild(block_dom);
+		
 	}
 	time_ticks=Array.from(time_ticks);
 	time_ticks.sort();

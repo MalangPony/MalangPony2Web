@@ -9,8 +9,8 @@
 	"category":"buffer",
 	"type":"normal",
 	"location":"main-stage",
-	"description_en":"",
-	"description_kr":"",
+	"description_en":"The venue opens at 9AM.",
+	"description_kr":"9시부터 입장 가능합니다.",
 	"tagline_en":"",
 	"tagline_kr":""
 	},
@@ -23,8 +23,8 @@
 	"category":"panel-lecture",
 	"type":"normal",
 	"location":"main-stage",
-	"description_en":"",
-	"description_kr":"",
+	"description_en":"The story begins here!",
+	"description_kr":"드디어 행사의 시작!",
 	"tagline_en":"",
 	"tagline_kr":""
 	},
@@ -37,8 +37,8 @@
 	"category":"panel-audience",
 	"type":"normal",
 	"location":"main-stage",
-	"description_en":"",
-	"description_kr":"",
+	"description_en":"Let's draw ponies!<br>(Art skills optional)",
+	"description_kr":"모두 다함께 포니를 그려봐요!<br>잘그리든 못 그리든 상관 없습니다!",
 	"tagline_en":"",
 	"tagline_kr":""
 	},
@@ -51,8 +51,8 @@
 	"category":"panel-chill",
 	"type":"normal",
 	"location":"main-stage",
-	"description_en":"",
-	"description_kr":"",
+	"description_en":"Going through some legendary pony videos.",
+	"description_kr":"역대 명작 포니 영상을 다함께 시청해봐요.",
 	"tagline_en":"",
 	"tagline_kr":""
 	},
@@ -65,8 +65,8 @@
 	"category":"panel-audience",
 	"type":"normal",
 	"location":"main-stage",
-	"description_en":"",
-	"description_kr":"",
+	"description_en":"Do you know your pony?<br>Test your MLP trivia skills!",
+	"description_kr":"포니에 대해 얼마나 알고 계신가요?<br>흥미진진 포니 퀴즈쇼!",
 	"tagline_en":"",
 	"tagline_kr":""
 	},
@@ -93,8 +93,8 @@
 	"category":"panel-audience",
 	"type":"normal",
 	"location":"main-stage",
-	"description_en":"",
-	"description_kr":"",
+	"description_en":"Can you remember the lyrics to<br>all the songs of MLP?",
+	"description_kr":"포니 노래들의 가사를 전부 기억하고 계신가요?",
 	"tagline_en":"",
 	"tagline_kr":""
 	},
@@ -121,8 +121,8 @@
 	"category":"panel-audience",
 	"type":"normal",
 	"location":"main-stage",
-	"description_en":"",
-	"description_kr":"",
+	"description_en":"Photos, Raffles, and Goodbyes.",
+	"description_kr":"사진, 래플, 그리고 아쉬운 작별인사",
 	"tagline_en":"",
 	"tagline_kr":""
 	},
@@ -135,8 +135,8 @@
 	"category":"buffer",
 	"type":"normal",
 	"location":"main-stage",
-	"description_en":"",
-	"description_kr":"",
+	"description_en":"Prep time for the DJ show.",
+	"description_kr":"DJ 쇼를 위한 준비 시간입니다.",
 	"tagline_en":"",
 	"tagline_kr":""
 	},
@@ -149,8 +149,8 @@
 	"category":"panel-audience",
 	"type":"normal",
 	"location":"main-stage",
-	"description_en":"",
-	"description_kr":"",
+	"description_en":"Move your body to some pony beats!",
+	"description_kr":"포니클럽 개장!<br>포니 음악에 맞추어 즐겨봐요!",
 	"tagline_en":"",
 	"tagline_kr":""
 	},
@@ -163,8 +163,8 @@
 	"category":"panel-audience",
 	"type":"normal",
 	"location":"main-stage",
-	"description_en":"",
-	"description_kr":"",
+	"description_en":"Time to chill and talk with<br>all the other bronies.",
+	"description_kr":"다른 포덕들과 수다를 떨 시간",
 	"tagline_en":"",
 	"tagline_kr":""
 	},
@@ -177,8 +177,8 @@
 	"category":"event-sub",
 	"type":"vertical",
 	"location":"main-side-a",
-	"description_en":"",
-	"description_kr":"",
+	"description_en":"Hungry? The snack bar is always open!",
+	"description_kr":"출출하다면 언제든 스낵바를 들러<br>에너지를 충전하세요",
 	"tagline_en":"",
 	"tagline_kr":""
 	},
@@ -191,8 +191,8 @@
 	"category":"event-sub",
 	"type":"vertical",
 	"location":"main-side-b",
-	"description_en":"",
-	"description_kr":"",
+	"description_en":"Draw away in this free-for-all canvas",
+	"description_kr":"누구든 참여할수 있는 캔버스에서<br>함께 그림을 그려봐요",
 	"tagline_en":"",
 	"tagline_kr":""
 	},
@@ -205,8 +205,8 @@
 	"category":"event-major",
 	"type":"vertical",
 	"location":"main-side-c",
-	"description_en":"",
-	"description_kr":"",
+	"description_en":"The one and only Pony Art Gallery.<br>Vote on your favorite art piece!",
+	"description_kr":"포니 그림 감상 갤러리입니다.<br>가장 마음에 드는 작품에 투표해 보세요!",
 	"tagline_en":"",
 	"tagline_kr":""
 	},
@@ -219,8 +219,8 @@
 	"category":"event-sub",
 	"type":"vertical",
 	"location":"main-side-d",
-	"description_en":"",
-	"description_kr":"",
+	"description_en":"A place to relax and recharge.",
+	"description_kr":"쉬고 재충전할 수 있는 공간입니다.",
 	"tagline_en":"",
 	"tagline_kr":""
 	},
@@ -233,22 +233,22 @@
 	"category":"event-sub",
 	"type":"vertical",
 	"location":"main-side-e",
-	"description_en":"",
-	"description_kr":"",
+	"description_en":"How much merch is too much merch?<br>Show off all your pony merchandise!",
+	"description_kr":"자신의 굿즈를 자랑해보세요",
 	"tagline_en":"",
 	"tagline_kr":""
 	},
 	{ 
 	"display":true,
-	"name_kr":"",
-	"name_en":"",
+	"name_kr":"벤더홀 (스폰서 전용)",
+	"name_en":"Vendor Hall (Sponsors)",
 	"start_time":"10:30",
 	"end_time":"11:00",
 	"category":"vendor-sponsor",
 	"type":"vertical",
 	"location":"main-side-f",
-	"description_en":"",
-	"description_kr":"",
+	"description_en":"Sponsors get to enter the vendor hall 30 minutes early.",
+	"description_kr":"스폰서 분들은 30분 일찍 입장 가능합니다.",
 	"tagline_en":"",
 	"tagline_kr":"",
 	"connecting":["B"]
@@ -262,8 +262,8 @@
 	"category":"vendor-main",
 	"type":"vertical",
 	"location":"main-side-f",
-	"description_en":"",
-	"description_kr":"",
+	"description_en":"Uh it's a vendor hall...<br>You do know what a vendor hall is, right?",
+	"description_kr":"포니 부스들에서 국산 포니 굿즈를 사보세요!",
 	"tagline_en":"",
 	"tagline_kr":"",
 	"connecting":["T"]
@@ -277,8 +277,8 @@
 	"category":"panel-audience",
 	"type":"normal",
 	"location":"sub-hall",
-	"description_en":"",
-	"description_kr":"",
+	"description_en":"Pony-themed computer games and board games",
+	"description_kr":"포니 테마의 컴퓨터 게임과 보드게임",
 	"tagline_en":"",
 	"tagline_kr":""
 	},
@@ -291,8 +291,8 @@
 	"category":"panel-lecture",
 	"type":"normal",
 	"location":"sub-hall",
-	"description_en":"",
-	"description_kr":"",
+	"description_en":"A crash course on pony art",
+	"description_kr":"포니 전문 아티스트분에게 듣는<br>포니 그림 강좌",
 	"tagline_en":"",
 	"tagline_kr":""
 	},
@@ -305,8 +305,8 @@
 	"category":"panel-lecture",
 	"type":"normal",
 	"location":"sub-hall",
-	"description_en":"",
-	"description_kr":"",
+	"description_en":"(Slot for panelists.)<br>(Apply to be a panelist now!)",
+	"description_kr":"(패널 발표용 시간입니다.)<br>(패널리스트 신청은 열려있습니다!)",
 	"tagline_en":"",
 	"tagline_kr":""
 	},
@@ -319,8 +319,8 @@
 	"category":"panel-lecture",
 	"type":"normal",
 	"location":"sub-hall",
-	"description_en":"",
-	"description_kr":"",
+	"description_en":"(Slot for panelists.)<br>(Apply to be a panelist now!)",
+	"description_kr":"(패널 발표용 시간입니다.)<br>(패널리스트 신청은 열려있습니다!)",
 	"tagline_en":"",
 	"tagline_kr":""
 	},
@@ -347,13 +347,13 @@
 	"category":"panel-lecture",
 	"type":"normal",
 	"location":"sub-hall",
-	"description_en":"",
-	"description_kr":"",
+	"description_en":"(Slot for panelists.)<br>(Apply to be a panelist now!)",
+	"description_kr":"(패널 발표용 시간입니다.)<br>(패널리스트 신청은 열려있습니다!)",
 	"tagline_en":"",
 	"tagline_kr":""
 	},
 	{ 
-	"display":true,
+	"display":false,
 	"name_kr":"준비시간",
 	"name_en":"Prep Time",
 	"start_time":"19:30",
@@ -375,8 +375,8 @@
 	"category":"panel-audience",
 	"type":"normal",
 	"location":"sub-hall",
-	"description_en":"",
-	"description_kr":"",
+	"description_en":"Let's Sing!",
+	"description_kr":"포니 노래를 불러봐요!",
 	"tagline_en":"",
 	"tagline_kr":""
 	},
@@ -389,8 +389,8 @@
 	"category":"event-major",
 	"type":"compact",
 	"location":"lobby-reg",
-	"description_en":"",
-	"description_kr":"",
+	"description_en":"Receive your badge here.",
+	"description_kr":"이곳에서 참가증을 수령하세요.",
 	"tagline_en":"",
 	"tagline_kr":""
 	},
@@ -403,8 +403,8 @@
 	"category":"event-sub",
 	"type":"vertical",
 	"location":"lobby-side",
-	"description_en":"",
-	"description_kr":"",
+	"description_en":"A HUGE canvas for all your doodles and signatures.",
+	"description_kr":"낙서와 방명록을 위한 거대한 캔버스!",
 	"tagline_en":"",
 	"tagline_kr":""
 	},
@@ -433,7 +433,8 @@
 	"name":"main-stage",
 	"width":160,
 	"text_size":1.0,
-	"text_vertical":false
+	"text_vertical":false,
+	"expand_direction":"R"
 	},
 	{
 	"type":"spacer",
@@ -444,42 +445,48 @@
 	"name":"main-side-a",
 	"width":30,
 	"text_size":0.8,
-	"text_vertical":true
+	"text_vertical":true,
+	"expand_direction":"R"
 	},
 	{
 	"type":"location",
 	"name":"main-side-b",
 	"width":30,
 	"text_size":0.8,
-	"text_vertical":true
+	"text_vertical":true,
+	"expand_direction":"R"
 	},
 	{
 	"type":"location",
 	"name":"main-side-c",
 	"width":30,
 	"text_size":0.8,
-	"text_vertical":true
+	"text_vertical":true,
+	"expand_direction":"R"
 	},
 	{
 	"type":"location",
 	"name":"main-side-d",
 	"width":30,
 	"text_size":0.8,
-	"text_vertical":true
+	"text_vertical":true,
+	"expand_direction":"R"
 	},
 	{
 	"type":"location",
 	"name":"main-side-e",
 	"width":30,
 	"text_size":0.8,
-	"text_vertical":true
+	"text_vertical":true,
+	"expand_direction":"R"
 	},
 	{
 	"type":"location",
 	"name":"main-side-f",
 	"width":30,
 	"text_size":0.8,
-	"text_vertical":true
+	"text_vertical":true,
+	"expand_direction":"R"
 	},
 	{
 	"type":"spacer",
@@ -490,7 +497,8 @@
 	"name":"sub-hall",
 	"width":120,
 	"text_size":1.0,
-	"text_vertical":false
+	"text_vertical":false,
+	"expand_direction":"L"
 	},
 	{
 	"type":"spacer",
@@ -501,14 +509,16 @@
 	"name":"lobby-reg",
 	"width":100,
 	"text_size":1.0,
-	"text_vertical":false
+	"text_vertical":false,
+	"expand_direction":"L"
 	},
 	{
 	"type":"location",
 	"name":"lobby-side",
 	"width":30,
 	"text_size":0.8,
-	"text_vertical":true
+	"text_vertical":true,
+	"expand_direction":"L"
 	},
 	{
 	"type":"spacer",

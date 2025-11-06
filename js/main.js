@@ -501,6 +501,15 @@ function apply_lang(code){
     }
   }
   
+  // Hide/show all .lang-{en,kr} divs.
+  for (const lang of all_langs){
+    let all_elements=document.querySelectorAll(".langdiv-"+lang);
+    for (const e of all_elements){
+      if (lang===current_lang) e.style.display="block";
+      else e.style.display="none";
+    }
+  }
+  
   // Add .langmode-* class to body.
   // This is used in some CSS rules.
   for (const lang of all_langs){
