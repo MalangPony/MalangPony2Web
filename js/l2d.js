@@ -2,6 +2,7 @@ import * as Config  from "./config.js";
 import * as PerformanceManager from "./perfmanager.js";
 import {FPS_Counter} from "./utils.js";
 import { Vector2, Vector3 } from "./vectors.js";
+import { AnimatedValue } from "./animator.js";
 
 const l2d_container = document.getElementById("l2d-container");
 const l2d_canvas = document.getElementById("l2d-canvas");
@@ -315,15 +316,35 @@ PerformanceManager.register_feature_enable_callback(
 	PerformanceManager.Feature.L2D_HIRES, ()=>{
 		set_resolution_multiplier(1.0);});
 
+// Size multiplier. Changed in animationTick() to match the AnimatedValue
+let hanmari_size_multiplier = 1.0;
+
+let hanmari_size_multiplier_AV = new AnimatedValue(hanmari_size_multiplier);
+hanmari_size_multiplier_AV.duration=1.0;
+hanmari_size_multiplier_AV.set_ease(3,true,true);
+
+export function set_hanmari_size(fac){
+	hanmari_size_multiplier_AV.animate_to(fac);
+}
+export function set_hanmari_size_instant(fac){
+	hanmari_size_multiplier_AV.jump_to(fac);
+}
+
 // Automatically try to fit the model in the canvas.
 function auto_resize_model(){
 	if (!is_loaded) return;
 	let w=l2d_container.clientWidth;
 	let h=l2d_container.clientHeight;
 	let min=w<h?w:h;
-	model.scale.set(min/1700*resolution_multiplier);
-	model.position.x=0;
-	model.position.y=0;
+	let scale=min/1700*resolution_multiplier*hanmari_size_multiplier;
+	//let offset=(1-hanmari_size_multiplier)*resolution_multiplier*100;
+	let pivot_point=new Vector2(1700,1700);
+	let pivot_target=new Vector2(w,h);
+	let current_pivot=pivot_point.multiply(scale);
+	let offset=pivot_target.multiply(resolution_multiplier).subtract(current_pivot)
+	model.scale.set(scale);
+	model.position.x=offset.x;
+	model.position.y=offset.y;
 }
 let rso= new ResizeObserver(()=>{
 	resize_canvas_to_fit();
@@ -751,6 +772,16 @@ export function animationTick(dt){
 	if (!PerformanceManager.check_feature_enabled(
 		PerformanceManager.Feature.HANMARI_L2D)) return;
 	if (render_paused) return;
+	
+	hanmari_size_multiplier_AV.tick(dt);
+	let newsize=hanmari_size_multiplier_AV.calculate_value();
+	let oldsize=hanmari_size_multiplier;
+	hanmari_size_multiplier=newsize;
+	if (Math.abs(newsize-oldsize)>0.00000001){
+		auto_resize_model();
+	}
+	
+	
 	
 	if (is_mouse_tracking_timed_out()) eye_position_mouse=[0,0];
 	look_at(

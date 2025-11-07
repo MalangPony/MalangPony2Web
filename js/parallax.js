@@ -268,7 +268,7 @@ export function camera_animate_to(loc){
 }
 // Move camera instantly
 export function camera_jump_to(loc){
-  parallax_camera.jump(loc);
+  parallax_camera.jump_to(loc);
 }
 
 // Move camera to location name

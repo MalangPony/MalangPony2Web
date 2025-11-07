@@ -1,7 +1,8 @@
 // Tunable parameters.
 // These will not change during runtime.
 export const OPTION_CAMERA_NUDGE_ENABLED=true;
-export const OPTION_HIDE_HANMARI_ON_NONINTRO_PAGES=true;;
+export const OPTION_HIDE_HANMARI_ON_NONINTRO_PAGES=false;
+export const OPTION_NONINTRO_PAGE_HANMARI_SHRINK_FACTOR=0.8;
 export const OPTION_CAMERA_NUDGE_MOUSE_SENSITIVITY=1.0;
 export const OPTION_CAMERA_NUDGE_GYRO_SENSITIVITY=1.0;
 export const OPTION_STAR_DENSITY_MULTIPLIER=1.0;

@@ -634,10 +634,13 @@ function page_transition_instant(name){
   if (currently_on_page==="intro") {
     sky_enable();
     show_hanmari_instant();
+    L2D.set_hanmari_size_instant(1.0);
   }else {
     sky_disable();
     if (Config.OPTION_HIDE_HANMARI_ON_NONINTRO_PAGES)
       hide_hanmari_instant();
+    
+    L2D.set_hanmari_size_instant(Config.OPTION_NONINTRO_PAGE_HANMARI_SHRINK_FACTOR);
   }
   
   sidebar_buttons_activate(name);
@@ -655,6 +658,10 @@ function page_transition(name){
   
   if (name!=="intro" && Config.OPTION_HIDE_HANMARI_ON_NONINTRO_PAGES) 
     hide_hanmari();
+  if (name !== "intro")
+    L2D.set_hanmari_size(Config.OPTION_NONINTRO_PAGE_HANMARI_SHRINK_FACTOR);
+  else
+    L2D.set_hanmari_size(1.0);
     
   sidebar_buttons_activate(name);
   

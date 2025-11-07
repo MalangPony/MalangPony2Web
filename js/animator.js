@@ -23,7 +23,7 @@ export class AnimatedValue{
 	tick(dt){
 		this.#elapsed_time+=dt;
 	}
-	jump(val){
+	jump_to(val){
 		this.start_value=val;
 		this.end_value=val;
 		this.#elapsed_time=Infinity;
@@ -32,10 +32,10 @@ export class AnimatedValue{
 		this.#elapsed_time=0;
 	}
 	stop(){
-		this.jump(this.calculate_value());
+		this.jump_to(this.calculate_value());
 	}
 	jump_to_end(){
-		this.jump(this.end_value);
+		this.jump_to(this.end_value);
 	}
 	animate_to(val){
 		this.start_value=this.calculate_value();
