@@ -18,11 +18,7 @@ BG free-roam mode
 ...or BG view mode
 Page footer, add SNS links there
 Timetable: Mobile UI - scroll based?
-Timetable: Delete some columns
 Timetable: Colors... maybe textures?
-Timetable: location legend
-Maybe make hanmari smaller, not completely disappear on other pages
-
 
 
 RIGHT BEFORE PUSH TO PROD
