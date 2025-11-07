@@ -8,6 +8,7 @@ import { Vector2, Vector3 } from "./vectors.js";
 import * as Config  from "./config.js";
 import * as PerformanceManager from "./perfmanager.js";
 import * as ParallaxData from "./parallax_data.js";
+import { AnimatedValue } from "./animator.js";
 
 // DOM definitions
 const wsd = document.getElementById("whole-screen-div");
@@ -258,26 +259,16 @@ window.onmousemove= (e)=>{
 }
 
 // The camera location.
-let parallax_camera = new Vector3(0,0,-500);
+let parallax_camera = new AnimatedValue(new Vector3(0,0,-500));
+parallax_camera.set_ease(3,true,true);
 
-// Variables and functions for cam animation.
-let camera_being_animated=false;
-let camera_anim_position_start=null;
-let camera_anim_position_end=null;
-let camera_anim_time_duration=0;
-let camera_anim_time_remaining=0;
 // Move camera with a smooth animation
 export function camera_animate_to(loc){
-  camera_being_animated=true;
-  camera_anim_position_start=parallax_camera;
-  camera_anim_position_end=loc;
-  camera_anim_time_duration=1.0;
-  camera_anim_time_remaining=camera_anim_time_duration;
+  parallax_camera.animate_to(loc);
 }
 // Move camera instantly
 export function camera_jump_to(loc){
-  camera_being_animated=false;
-  parallax_camera=loc;
+  parallax_camera.jump(loc);
 }
 
 // Move camera to location name
@@ -319,10 +310,7 @@ function polynomialEase(x,power){
 PerformanceManager.register_feature_disable_callback(
   PerformanceManager.Feature.PARALLAX_GROUND,()=>{
     parallax_image_container.style.display="none";
-    if (camera_being_animated){
-      camera_being_animated=false;
-      parallax_camera=camera_anim_position_end;
-    }
+    parallax_camera.jump_to_end();
   }
 );
 PerformanceManager.register_feature_enable_callback(
@@ -338,17 +326,8 @@ export function animationTick(dt){
       PerformanceManager.Feature.PARALLAX_GROUND)) return;
   
   // Animate camera
-  if (camera_being_animated){
-    camera_anim_time_remaining-=dt;
-    if (camera_anim_time_remaining<0){
-      camera_being_animated=false;
-      parallax_camera=camera_anim_position_end;
-    }else{
-      let anim_ratio = 1-(camera_anim_time_remaining/camera_anim_time_duration);
-      anim_ratio=polynomialEase(anim_ratio,3);
-      parallax_camera=camera_anim_position_end.subtract(camera_anim_position_start).multiply(anim_ratio).add(camera_anim_position_start);
-    }
-  }
+  parallax_camera.tick(dt);
+  let parallax_camera_current=parallax_camera.calculate_value();
   
   // Calculate camera nudge
   if (CAMERA_NUDGE_MODE==="NO"){
@@ -389,9 +368,9 @@ export function animationTick(dt){
   // Recalculate parallax with the new camera location
   recalculate_parallax_images(
     new Vector3(
-      parallax_camera.x+camera_nudge_lerped.x,
+      parallax_camera_current.x+camera_nudge_lerped.x,
       (1-scroll_progress)*1000+camera_nudge_lerped.y,
-      parallax_camera.z
+      parallax_camera_current.z
     ));
 	
 }
