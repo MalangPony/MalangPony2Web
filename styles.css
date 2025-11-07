@@ -495,7 +495,26 @@ background: linear-gradient(0deg,#101050,#303070)
   text-align:center;
 }
 
-
+a.linkbutton{
+	text-decoration: none;
+}
+.linkbutton{
+	display:block;
+	font-weight:bold;
+	text-align:center;
+	display:flex;
+	flex-direction:row;
+    justify-content:center;
+	align-items:center;
+	padding-left:12px;
+	padding-right:12px;
+	padding-top:4px;
+	padding-bottom:4px;
+	font-size:1.2em;
+	border-radius:8px;
+	gap:8px;
+	border: 2px solid;
+}
 
 #afterscroll-content-container > div{
     /*
