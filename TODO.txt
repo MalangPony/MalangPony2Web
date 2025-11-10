@@ -17,10 +17,21 @@ Holographic texture (follow poster)
 BG free-roam mode
 ...or BG view mode
 Page footer, add SNS links there
-
+Make scroll inviter more visible - Backdrop, move to center
+Unify logo (make top logo follow scroll)
+Make black text blue-ish (follow palette)
+Make border between ground and sky less obvious
+Put some BG objects (far objects) in the sky
+Put clouds?
+Gradient in the BG sky, follow poster.
+Make trimesh bigger
+Align Intro and News pages in sidebar
+Vendor hall eliminate VIP block - just make the main block two-toned.
+  The VIP time is explained in the description.
 Timetable: Mobile UI - scroll based?
 Timetable: Colors... maybe textures?
 Timetable: vert text for korean?
+Close button for mobile scroll
 
 RIGHT BEFORE PUSH TO PROD
 Change all domains (testing.malangpony) to a PHP expression (<?php echo $webroot;?>)
