@@ -29,6 +29,7 @@ Timetable: Mobile UI - scroll based?
 Timetable: Colors... maybe textures?
 Timetable: vert text for korean?
 Close button for mobile scroll
+Fix map centering on load
 
 RIGHT BEFORE PUSH TO PROD
 Change all domains (testing.malangpony) to a PHP expression (<?php echo $webroot;?>)

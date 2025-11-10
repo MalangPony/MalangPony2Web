@@ -4,6 +4,9 @@
  */
 let page_venue=document.getElementById("page-venue");
 
+let directions_munrae = document.getElementById("directions-munrae");
+let directions_yangpyong = document.getElementById("directions-yangpyong");
+let directions_bus = document.getElementById("directions-bus");
 
 //AllThatMind location
 var positionATM  = new kakao.maps.LatLng(37.520484, 126.887396); 
@@ -15,6 +18,7 @@ var container = document.getElementById('kakaomap-content');
 let mbj=document.getElementById("map-btn-jump");
 
 
+// The all-important map object
 var kkm = new kakao.maps.Map(
   container, { 
 	center: positionATM, 
@@ -25,6 +29,7 @@ export function relayout(){
   kkm.relayout();
 }
 
+// Automatically call relayout on visibility change
 let page_visible=false;
 let visibilityObserver=new MutationObserver((mutations,observer)=>{
   for (const mutation of mutations) {
@@ -65,6 +70,52 @@ var customOverlay = new kakao.maps.CustomOverlay({
     yAnchor: 0.0
 });
 
+// Route functions
+
+let flashing_functions=[];
+let delayed_functions=[];
+// Flash a polyline pl,
+// Over duration milliseconds, every interval milliseconds.
+// Flash between optA and optB, settling on optE at the end.
+function flash_polyline(pl,duration,interval,optA,optB,optE){
+  // Cancel everything else. Only one route may be flashed at a time.
+  for (const iid of flashing_functions) window.clearInterval(iid);
+  for (const iid of delayed_functions) window.clearTimeout(iid);
+  
+  let parity=true;
+  pl.setOptions(optA); // Apply optA immediately.
+  let interval_id = window.setInterval(()=>{
+    parity=!parity;
+    if (parity) pl.setOptions(optA);
+    else pl.setOptions(optB);
+  },interval);
+  flashing_functions.push(interval_id);
+  
+  // Timeout to clear the interval.
+  let timeout_id=window.setTimeout(()=>{
+    window.clearInterval(interval_id);
+    pl.setOptions(optE);
+  },duration);
+  delayed_functions.push(timeout_id);
+}
+function calculate_polyline_bounds(pl){
+  let latMax=-1000;
+  let latMin= 1000;
+  let lngMax=-1000;
+  let lngMin= 1000;
+  for(const ll of pl.getPath()){
+    let lat=ll.getLat();
+    let lng=ll.getLng();
+    if (lat<latMin) latMin=lat;
+    if (lat>latMax) latMax=lat;
+    if (lng<lngMin) lngMin=lng;
+    if (lng>lngMax) lngMax=lng;
+  }
+  let sw=new kakao.maps.LatLng(latMin,lngMin);
+  let ne=new kakao.maps.LatLng(latMax,lngMax);
+  return new kakao.maps.LatLngBounds(sw,ne);
+}
+
 // Route display: Munrae
 let route_munrae=[
   new kakao.maps.LatLng(37.51900312549791, 126.89473099985379), // Exit 3
@@ -76,11 +127,9 @@ let route_munrae=[
 let line_munrae=new kakao.maps.Polyline({
   map:kkm,
   path:route_munrae,
-  strokeWeight:3,
-  strokeColor:"#FF0000",
-  strokeOpacity:0.7,
-  strokeStyle:"dashed"
+  strokeOpacity:0
 });
+let bounds_munrae=calculate_polyline_bounds(line_munrae);
 
 // Route display: Yangpyong
 let route_yangpyong=[
@@ -94,11 +143,45 @@ let route_yangpyong=[
 let line_yangpyong=new kakao.maps.Polyline({
   map:kkm,
   path:route_yangpyong,
-  strokeWeight:3,
-  strokeColor:"#0000FF",
-  strokeOpacity:0.7,
-  strokeStyle:"dashed"
+  strokeOpacity:0
 });
+let bounds_yangpyong=calculate_polyline_bounds(line_yangpyong);
+
+
+directions_munrae.addEventListener("click",()=>{
+  line_munrae.setOptions({
+    strokeColor:"#FF0000",
+    strokeStyle:"dashed",
+    strokeWeight:4,
+    strokeOpacity:1.0
+  });
+  line_yangpyong.setOptions({strokeOpacity:0});
+  flash_polyline(
+    line_munrae,3000,250,
+    {strokeOpacity:1.0},
+    {strokeOpacity:0.5},
+    {strokeOpacity:0.5});
+  kkm.setBounds(bounds_munrae,50);
+  container.scrollIntoView({behavior:"smooth",block:"nearest"});
+});
+directions_munrae.style.cursor="pointer";
+directions_yangpyong.addEventListener("click",()=>{
+  line_yangpyong.setOptions({
+    strokeColor:"#FF0000",
+    strokeStyle:"dashed",
+    strokeWeight:4,
+    strokeOpacity:1.0
+  });
+  line_munrae.setOptions({strokeOpacity:0});
+  flash_polyline(
+    line_yangpyong,3000,250,
+    {strokeOpacity:1.0},
+    {strokeOpacity:0.5},
+    {strokeOpacity:0.5});
+  kkm.setBounds(bounds_yangpyong,50);
+  container.scrollIntoView({behavior:"smooth",block:"nearest"});
+});
+directions_yangpyong.style.cursor="pointer";
 
 
 // Drawing #1, near Munrae station
@@ -137,5 +220,6 @@ kakao.maps.event.addListener(kkm, 'zoom_changed', function() {
 // Jump button
 mbj.style.display="none";
 mbj.addEventListener("click",()=>{
-  kkm.panTo(positionATM);
+  kkm.jump(positionATM,5,{animate:{duration:500}});
 });
+mbj.style.cursor="pointer";
