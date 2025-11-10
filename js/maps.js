@@ -46,6 +46,20 @@ let visibilityObserver=new MutationObserver((mutations,observer)=>{
 });
 visibilityObserver.observe(page_venue,{attributes:true});
 
+let was_zero_size=true;
+let resizeObserver = new ResizeObserver((entries,observer)=>{
+  let h=container.clientHeight;
+  let w=container.clientWidth;
+  let zero_size=(h*w)<10;
+  if (was_zero_size && (!zero_size)){
+    console.log("Map container went from zero size to nonzero size. Recentering.")
+    // Now not zero-size!
+    relayout();
+    recenter();
+  }
+  was_zero_size=zero_size;
+});
+resizeObserver.observe(container);
 
 
 // Main ATM Marker
@@ -217,9 +231,11 @@ kakao.maps.event.addListener(kkm, 'zoom_changed', function() {
   else drawing1.setVisible(true);
 });
 
+function recenter(){
+  kkm.jump(positionATM,5,{animate:{duration:500}});
+}
+
 // Jump button
 mbj.style.display="none";
-mbj.addEventListener("click",()=>{
-  kkm.jump(positionATM,5,{animate:{duration:500}});
-});
+mbj.addEventListener("click",recenter);
 mbj.style.cursor="pointer";
