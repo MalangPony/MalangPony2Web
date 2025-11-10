@@ -1,8 +1,22 @@
+/*
+ * Data for background parallax field.
+ */
 
-
+// Location:
 // X controls horizontal position. Positive is right.
 // Y controls the height. Positive is higher.
 // Z controls depth. Positive is further away.
+
+// Size:
+// Intrinsic size. Will be this size if 500px away from camera.
+// For solid types, Infinity and -1 sizes have a special meaning.
+
+// Type:
+// Either solid or image.
+
+// SRC:
+// Color code for solids,
+// Image src for image.
 
 // Ground plane is at Y=0
 // don't put anything in front of Z=0
@@ -82,6 +96,7 @@ export let images=[
 	},*/
 ]
 
+// Camera locations.
 let camera_y=200;
 let camera_default_tilt=+0.7
 // X Y Z Zoom Tilt

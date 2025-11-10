@@ -41,10 +41,15 @@ function spawn_stars(
 
 // Handle canvas resize.
 // We only populate or remove stars in the areas that were affected.
+// Not only is this good for performance, but this also makes the BG
+// less jittery when resizing.
 function resize_star_area(new_w,new_h){
   console.log(`Star Area Changed: ${new_w} ${new_h}`);
   let old_area=star_def_area_h*star_def_area_w;
   
+  // Handle each axis separately.
+  
+  // X
   if (new_w<star_def_area_w){
     // Contract X
     star_definitions=star_definitions.filter((sd)=>{

@@ -3,6 +3,7 @@
  * 
  * This implements a faux-3D environment in a 2D HTML layout space.
  */
+
 // Modules
 import { Vector2, Vector3 } from "./vectors.js";
 import * as Config  from "./config.js";
@@ -191,6 +192,8 @@ function populate_parallax_images(){
     pimg_doms.push(e);
   }
 }
+
+// Populate images on initial page load.
 if (Config.OPTION_ENABLE_PARALLAX_BG)
   populate_parallax_images();
 
@@ -206,7 +209,6 @@ function recalculate_parallax_images(cam_param){
     let changed = (pos_delta>0.0001) || (zoom_delta>0.0001) || (tilt_delta>0.0001);
     if (!changed) return;
   }
-  
   last_cam_param=cam_param;
   
   // Something is very wrong here.
@@ -222,7 +224,7 @@ function recalculate_parallax_images(cam_param){
     let dom = pimg_doms[i];
     let pimg=parallax_images[i];
     
-    // Let ParallaxImage::solve do the maths.
+    // Let solve_camera() do the maths.
     let solve_result=solve_camera(cam_param,pimg);
     
     // Mostly straightforward. Apply solve results to CSS.
@@ -352,6 +354,7 @@ for (const k in ParallaxData.camera_locations){
 // Initial location.
 animated_camera.jump_to(camera_param_presets.intro);
 
+// Lookup ParallaxData location names.
 export function camera_animate_to_name(name){
   if (name in camera_param_presets){
     camera_animate_to(camera_param_presets[name]);
@@ -376,6 +379,7 @@ export function set_scroll_progress(f){
   scroll_progress=f;
 }
 
+// PerfManager
 PerformanceManager.register_feature_disable_callback(
   PerformanceManager.Feature.PARALLAX_GROUND,()=>{
     parallax_image_container.style.display="none";
@@ -434,13 +438,14 @@ export function animationTick(dt){
     camera_nudge_lerped=camera_nudge_lerped.add(lerp_delta);
   }
   
+  // Camera offset.
   let nudge=new Vector3(
       camera_nudge_lerped.x,
       (1-scroll_progress)*1000+camera_nudge_lerped.y,
       0);
   cam_param.position=cam_param.position.add(nudge);
   cam_param.tilt *= scroll_progress;
-  //console.log(""+cam_param);
+  
   
   // Recalculate parallax with the new camera location
   recalculate_parallax_images(cam_param);

@@ -1,3 +1,8 @@
+/*
+ * Generates timetable from the JSON data.
+ * 
+ */
+
 import * as Config  from "./config.js";
 
 // Parse H:M timestamp into total minutes
@@ -14,6 +19,8 @@ function parse_time(s){
 	}
 }
 
+// JSON fetch
+// TODO maybe move JSON into a plain .js file...?
 let fetch_fail_reason=null;
 let fetch_success=false;
 let timetable_data=null;
@@ -21,6 +28,8 @@ let timetable_dom=null;
 
 let resolves=[];
 let rejects=[];
+// I tried to use async and Promises
+// Not sure if it was worth it.
 export async function get_timetable_data(){
 	return new Promise((resolve,reject)=>{
 		if (fetch_fail_reason!==null) reject(fetch_fail_reason);
@@ -57,7 +66,7 @@ function reject(reason){
 	}
 }
 
-
+// Timetable UI constants.
 const tt_start_t=parse_time("8:20");
 const tt_block_gap=2;
 const tt_px_per_minute=0.8;
@@ -72,24 +81,30 @@ const tt_block_expanded_height=120;
 const tt_block_expanded_width=300;
 const tt_close_button_size=32;
 const tt_close_button_padding=2;
+
 // For scalibilty, all units should be in em.
+// Converts px values to em.
 function px2em(p){
 	return (p/16)+"em";
 }
+
 // This will keep increasing on each mouse over.
 // Hopefully nopony will mouse-over the timetable 2 billion times...
 let mouseover_zindex=+100;
+
 function timetable_build(ttd){
 	let domroot=document.createElement("div");
+	
 	// Make every child use its rel.coords when in absolute positioning.
 	domroot.style.position="relative";
 	
+	// get data
 	let blocks=ttd.blocks;
 	let columns=ttd.columns;
 	let cpresets=ttd.color_presets;
 	let cgroups=ttd.column_groups;
 	
-	
+	// parse results
 	let column_x_coords={};
 	let column_textsizes={};
 	let column_vertical={};
@@ -99,10 +114,12 @@ function timetable_build(ttd){
 	let cgroup_left={};
 	let cgroup_right={};
 	
+	// coordinate counters
 	let x=0;
 	let max_x=0;
 	let max_y=0;
 	
+	// Pre-parse data
 	for (const cg of cgroups){
 		cgroup_left[cg.name] =+1000000;
 		cgroup_right[cg.name]=-1000000;
@@ -150,10 +167,12 @@ function timetable_build(ttd){
 	 * 100+ Mouse-Overed Blocks
 	 */
 	
+	// Block close functions for currently open blocks
 	let exit_functions=[];
+	// All times where a block starts or ends
 	let time_ticks=new Set();
 	for (const block of blocks){
-		//console.log(block);
+		
 		if (!block.display) continue;
 		
 		// Calculate time
@@ -281,9 +300,9 @@ function timetable_build(ttd){
 		outline_dom.style.height=px2em(h);
 		outline_dom.style.width=px2em(w);
 		outline_dom.style.opacity=0;
-		//outline_dom.style.backgroundColor="#FFF";
 		
 		max_y=Math.max(max_y,y+h);
+		
 		
 		// Expand animation
 		let expX=x;
@@ -302,7 +321,6 @@ function timetable_build(ttd){
 			expH=tt_block_expanded_height;
 			expY+=shrinkage/2;
 		}
-		
 		
 		let expanded=false;
 		function exit(){
@@ -338,9 +356,13 @@ function timetable_build(ttd){
 				
 		}
 		
-		
+		// Testing if mouse inside block OR outline.
 		let mouse_inside_block=false;
 		let mouse_inside_outline=false;
+		
+		// We need to turn off the mouse detection for the block
+		// if the block is being animated(transitioned).
+		// Otherwise, the block can oscillate.
 		let transition_in_progress=false;
 		if (!Config.OPTION_TIMETABLE_REQUIRE_CLICK){
 			block_dom.addEventListener("transitionend",(e)=>{
@@ -351,8 +373,9 @@ function timetable_build(ttd){
 			});
 		}
 		
+		// The below function is a bit convoluted,
+		// but trust me, this is all necessary.
 		function update(){
-			
 			let now_inside;
 			
 			if (transition_in_progress) now_inside= mouse_inside_outline;
@@ -360,13 +383,11 @@ function timetable_build(ttd){
 			
 			if (now_inside){
 				if (!expanded) {
-					
 					transition_in_progress=true;
 					enter();
 				}
 			}else{
 				if (expanded){
-					
 					transition_in_progress=true;
 					exit();
 				}
@@ -383,27 +404,23 @@ function timetable_build(ttd){
 			pending_update=window.setTimeout(update,10);
 		}
 		
+		// Listen for mouse hover OR click. Depends on the Config option.
 		if (!Config.OPTION_TIMETABLE_REQUIRE_CLICK){
 			outline_dom.addEventListener("mouseleave",()=>{
-				//console.log("Outline OUT");
 				mouse_inside_outline=false;
 				queue_update();
 			});
 			outline_dom.addEventListener("mouseenter",()=>{
-				//console.log("Outline IN");
 				mouse_inside_outline=true;
 				queue_update();
 			});
 			block_dom.addEventListener("mouseleave",()=>{
-				//console.log("Block OUT");
 				mouse_inside_block=false;
 				queue_update();
 			});
 			block_dom.addEventListener("mouseenter",()=>{
-				//console.log("Block IN");
 				mouse_inside_block=true;
 				queue_update();
-				
 			});
 		}else{
 			block_dom.style.cursor="pointer";
@@ -416,14 +433,12 @@ function timetable_build(ttd){
 					block_dom.style.filter="drop-shadow(0 0 4px "+bg_color+")";
 			});
 			block_dom.addEventListener("click",()=>{
-				//console.log("BlockClicked");
 				while (exit_functions.length>0) exit_functions.pop()();
 				exit_functions.push(exit);
 				enter();
 			});
 			closebtn_dom.addEventListener("click",(e)=>{
 				e.stopPropagation();
-				//console.log("CloseBTN");
 				exit();
 			});
 		}
@@ -466,28 +481,30 @@ function timetable_build(ttd){
 		outline_dom.style.borderStyle="solid"; // Maybe dotted?
 		outline_dom.style.borderWidth=px2em(tt_block_border_width);
 		
+		
 		if (vertical){
 			text_dom.style.width=px2em(200);
 			block_dom.classList.add("timetable-block-vertical");
 		}
-		
 	}
+	
 	time_ticks=Array.from(time_ticks);
 	time_ticks.sort();
 	// time_ticks are where the blocks line up,
 	// But putting lines only there looks kinda weird.
-	// So....
-	time_ticks=Array(15).fill().map((e, i) => (i + 9)*60)
+	// So we just populate it manually at 1-hour intervals.
+	time_ticks=Array(15).fill().map((e, i) => (i + 9)*60);
+	
+	// Create time ticks
 	for (const tt of time_ticks){
 		let tick_dom=document.createElement("div");
+		
 		tick_dom.style.position="absolute";
-		//console.log(`TT ${tt} TTS ${tt_start_t} TPPM ${tt_px_per_minute} TTTX ${tt_tick_px}`);
 		tick_dom.style.top=px2em(
 			(tt-tt_start_t)*tt_px_per_minute+tt_tick_px/2-30+tt_cg_top_extension);
 		tick_dom.style.left=0;
 		tick_dom.style.height=px2em(30);
 		tick_dom.style.width=px2em(max_x);
-		//tick_dom.style.backgroundColor="#FFFFFF80"
 		tick_dom.style.borderBottomColor="#FFFFFF80";
 		tick_dom.style.borderBottomStyle="solid";
 		tick_dom.style.borderBottomWidth=px2em(tt_tick_px);
@@ -496,6 +513,8 @@ function timetable_build(ttd){
 		
 		max_y=Math.max(max_y,(tt-tt_start_t)*tt_px_per_minute+tt_cg_top_extension);
 		
+		// Left-side time text display.
+		// Right-side is cloned from this DOM object.
 		let timedisp_dom_L = document.createElement("div");
 		timedisp_dom_L.style.position="absolute";
 		timedisp_dom_L.style.bottom=0;
@@ -520,7 +539,7 @@ function timetable_build(ttd){
 		tick_dom.appendChild(timedisp_dom_R);
 	}
 	
-	
+	// Create category group display
 	for (const cg of cgroups){
 		let left=cgroup_left[cg.name];
 		let right=cgroup_right[cg.name];
@@ -545,20 +564,7 @@ function timetable_build(ttd){
 		cg_outline_dom.style.height=px2em(
 			max_y+tt_cg_bottom_extension);
 		
-		
 		cg_outline_dom.style.borderRadius=px2em(8);
-		/*
-		cg_outline_dom.style.borderLeftWidth=px2em(1);
-		cg_outline_dom.style.borderRightWidth=px2em(1);
-		cg_outline_dom.style.borderTopWidth=px2em(1);
-		cg_outline_dom.style.borderBottomWidth=0;
-		cg_outline_dom.style.borderLeftStyle="solid";
-		cg_outline_dom.style.borderRightStyle="solid";
-		cg_outline_dom.style.borderTopStyle="solid";
-		cg_outline_dom.style.borderBottomStyle="none";
-		cg_outline_dom.style.borderColor="#FFFFFFC0";
-		*/
-		//cg_outline_dom.style.filter="blur(2px)";
 		cg_outline_dom.style.background="linear-gradient(to bottom, "+cg.ramp_color_top+", "+cg.ramp_color_bottom+")";
 		cg_outline_dom.style.zIndex=+50;
 		
@@ -574,8 +580,6 @@ function timetable_build(ttd){
 		cg_label_dom.style.flexDirection="column";
 		cg_label_dom.style.gap=px2em(3);
 		cg_outline_dom.appendChild(cg_label_dom);
-		
-		
 		
 		cg_label_text1_en.classList.add("langflex-en");
 		cg_label_text1_en.innerHTML=line1EN;
@@ -599,8 +603,6 @@ function timetable_build(ttd){
 			cg_label_dom.appendChild(cg_label_text2_ko);
 		}
 		
-		
-		
 		domroot.appendChild(cg_outline_dom);
 	}
 	
@@ -614,6 +616,7 @@ function timetable_build(ttd){
 	return domroot;
 }
 
+// Actually fetch and do the stuff.
 window.fetch("timetable_data.json").then(
 	(resp)=>{
 		if (!resp.ok) throw new Error(`Response status: ${response.status}`);

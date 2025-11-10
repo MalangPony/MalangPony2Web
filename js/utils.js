@@ -1,8 +1,14 @@
+/*
+ * Small miscellaneous routines.
+ * 
+ */
 
 
+//Calculates FPS.
 export class FPS_Counter{
 	history_window_seconds=30;
 	frame_times_ms=[];
+	// Report a frame drawn.
 	frame(){
 		let t=performance.now();
 		this.frame_times_ms.push(t);
@@ -10,6 +16,7 @@ export class FPS_Counter{
 			this.frame_times_ms.shift();
 		}
 	}
+	// Milliseconds per frame
 	calculate_mspf(window_ms){
 		let window_start_ms=performance.now()-window_ms;
 		let frame_count=0;

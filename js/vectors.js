@@ -60,6 +60,8 @@ export class Vector2{
   }
   static ZERO = new Vector2(0,0);
 }
+
+
 export class Vector3{
   // 3D Vector. Immutable.
   // Mostly self-explainatory.

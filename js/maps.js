@@ -1,27 +1,34 @@
 /*
+ * Handles all KakaoMap logic.
+ * 
+ * 
+ */
+
+/*
  * Important note: The Kakaomap Div MUST be visible at the time of map initialization. 
  * If it is display:none when it is initialized,it behaves in strange ways.
  * That is why we display the #page-venue div for a short while here.
  */
 document.getElementById("page-venue").style.display="block";
+
+//AllThatMind location
 var positionATM  = new kakao.maps.LatLng(37.520484, 126.887396); 
+
+// Main container
 var container = document.getElementById('kakaomap-content'); 
+
+// Jump to ATM button
 let mbj=document.getElementById("map-btn-jump");
-var options = { 
+
+
+var kkm = new kakao.maps.Map(
+  container, { 
 	center: positionATM, 
-	level: 5
-};
-var kkm = new kakao.maps.Map(container, options);
+	level: 5});
 // Note: Call kkm.relayout() on size changes!
 
-/*
-var mapTypeControl = new kakao.maps.MapTypeControl();
-kkm.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
 
-var zoomControl = new kakao.maps.ZoomControl();
-kkm.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
-*/
-
+// Main ATM Marker
 let markerSizeMultiplier=0.3;
 var markerImage = new kakao.maps.MarkerImage(
   'sprites-prototype/MPN2-Prototype-Image_MapMarker.png', 
@@ -33,6 +40,7 @@ var marker = new kakao.maps.Marker({
 });
 marker.setMap(kkm);
 
+// Overlay below marker
 let overlayContent='<div style="margin-top:12px;border:2px solid #F00;background-color:#F88;text-align:center;font-size:16px;">말랑포니 행사 장소<br><strong>올댓마인드</strong></div>'
 var customOverlay = new kakao.maps.CustomOverlay({
     map: kkm,
@@ -42,6 +50,7 @@ var customOverlay = new kakao.maps.CustomOverlay({
     yAnchor: 0.0
 });
 
+// Route display: Munrae
 let route_munrae=[
   new kakao.maps.LatLng(37.51900312549791, 126.89473099985379), // Exit 3
   new kakao.maps.LatLng(37.519041535116756, 126.89470100700552), //Road start
@@ -58,6 +67,7 @@ let line_munrae=new kakao.maps.Polyline({
   strokeStyle:"dashed"
 });
 
+// Route display: Yangpyong
 let route_yangpyong=[
   new kakao.maps.LatLng(37.525337054886194, 126.88603390409557), // Exit 2
   new kakao.maps.LatLng(37.525230806644785, 126.88614554477905), //Road start
@@ -66,8 +76,6 @@ let route_yangpyong=[
   new kakao.maps.LatLng(37.520756986466395, 126.88732387473068), //Turn 3
   new kakao.maps.LatLng(37.52070183791423, 126.88768351702015) //Entrance
 ];
-
-
 let line_yangpyong=new kakao.maps.Polyline({
   map:kkm,
   path:route_yangpyong,
@@ -78,7 +86,7 @@ let line_yangpyong=new kakao.maps.Polyline({
 });
 
 
-
+// Drawing #1, near Munrae station
 let drawing1_html='<img src="sprites-prototype/MPN2-Prototype-Image_MapDrawing_Munrae1.png" style="width:150px;height:150px;">'
 var drawing1 = new kakao.maps.CustomOverlay({
     map: kkm,
@@ -88,7 +96,8 @@ var drawing1 = new kakao.maps.CustomOverlay({
     yAnchor: 0.8
 });
 
-// Display button if venue is too off to the side
+// Event listeners
+// Display jump button if venue is too off to the side
 kakao.maps.event.addListener(kkm, 'bounds_changed', ()=>{
   let llb=kkm.getBounds();
   let s=llb.getSouthWest().getLat();
@@ -99,21 +108,22 @@ kakao.maps.event.addListener(kkm, 'bounds_changed', ()=>{
   let ratioX=(positionATM.getLng()-w)/(e-w);
   let centeredX=(ratioX<0.8) && (ratioX>0.2);
   let centeredY=(ratioY<0.8) && (ratioY>0.2);
-  //if (llb.contain(positionATM)) mbj.style.display="none";
+  
   if (centeredX && centeredY) mbj.style.display="none";
   else mbj.style.display="flex";
 });
+// Hide drawing if zoomed out
 kakao.maps.event.addListener(kkm, 'zoom_changed', function() {
   let zl=kkm.getLevel();
-    //console.log("ZL",zl);
-    if (zl>5.5) drawing1.setVisible(false);
-    else drawing1.setVisible(true);
+  if (zl>5.5) drawing1.setVisible(false);
+  else drawing1.setVisible(true);
 });
 
+// Jump button
 mbj.style.display="none";
 mbj.addEventListener("click",()=>{
   kkm.panTo(positionATM);
 });
 
-// Hide it here, after initialization
+// Hide page again
 document.getElementById("page-venue").style.display="none";

@@ -1,9 +1,17 @@
+/*
+ * Handles all Live2D logic.
+ * 
+ * Makes extensive use of PIXI v6 framework
+ * and pixi-live2d-display library.
+ */
+
 import * as Config  from "./config.js";
 import * as PerformanceManager from "./perfmanager.js";
 import {FPS_Counter} from "./utils.js";
 import { Vector2, Vector3 } from "./vectors.js";
 import { AnimatedValue } from "./animator.js";
 
+// Grab DOM
 const l2d_container = document.getElementById("l2d-container");
 const l2d_canvas = document.getElementById("l2d-canvas");
 
@@ -18,6 +26,7 @@ if (Config.OPTION_ENABLE_L2D_HANMARI){
 		sharedTicker:true
 	});
 }
+
 // Disable internal ticker. We will update fully manually.
 PIXI.Ticker.shared.stop();
 // This function should be called every frame.
@@ -32,25 +41,22 @@ export let model = null;
 if (Config.OPTION_ENABLE_L2D_HANMARI){
 	model=PIXI.live2d.Live2DModel.fromSync(
 		"L2D-model/Hanmari-IZuchi/마리live2d.model3.json",
-		//"L2D-model/Hanmari-IZuchi-r006d/Hanmari-L2D_Half.model3.json",
 		{autoInteract:false});
 }
 
 // Stop/Start main draw loop on feature disable/enable.
 PerformanceManager.register_feature_disable_callback(
 	PerformanceManager.Feature.HANMARI_L2D, ()=>{
-		//PIXI.Ticker.shared.stop();
 		l2d_container.style.display="none";
 	}
 );
 PerformanceManager.register_feature_enable_callback(
 	PerformanceManager.Feature.HANMARI_L2D, ()=>{
-		//PIXI.Ticker.shared.start();
 		l2d_container.style.display="block";
 	}
 );
 
-
+// FPS counter.
 export let fpsc = new FPS_Counter();
 if (Config.OPTION_ENABLE_L2D_HANMARI){
 	PIXI.Ticker.shared.add(()=>{
@@ -161,6 +167,8 @@ if (Config.OPTION_ENABLE_L2D_HANMARI){
 				clearMode, _currentState);
 		}
 	}
+	
+	// Combines multiple filters together.
 	class CompositeFilter extends PIXI.Filter{
 		filterBlur=null;
 		filterDarken=null;
@@ -265,12 +273,12 @@ if (Config.OPTION_ENABLE_L2D_HANMARI){
 		var cf=new CompositeFilter();
 }
 
+// Run when loaded
 let is_loaded=false;
 model?.once("load", ()=>{
 	app.stage.addChild(model);
 	is_loaded=true;
 	load_internals();
-	//model.filters=[new PIXI.filters.BlurFilter(3)];
 	if (Config.OPTION_ENABLE_L2D_FILTERS && PerformanceManager.check_feature_enabled(PerformanceManager.Feature.L2D_FILTERS))
 		model.filters=[cf];
 	auto_resize_model();
@@ -316,6 +324,7 @@ PerformanceManager.register_feature_enable_callback(
 	PerformanceManager.Feature.L2D_HIRES, ()=>{
 		set_resolution_multiplier(1.0);});
 
+
 // Size multiplier. Changed in animationTick() to match the AnimatedValue
 let hanmari_size_multiplier = 1.0;
 
@@ -337,7 +346,6 @@ function auto_resize_model(){
 	let h=l2d_container.clientHeight;
 	let min=w<h?w:h;
 	let scale=min/1700*resolution_multiplier*hanmari_size_multiplier;
-	//let offset=(1-hanmari_size_multiplier)*resolution_multiplier*100;
 	let pivot_point=new Vector2(1700,1700);
 	let pivot_target=new Vector2(w,h);
 	let current_pivot=pivot_point.multiply(scale);
@@ -346,6 +354,8 @@ function auto_resize_model(){
 	model.position.x=offset.x;
 	model.position.y=offset.y;
 }
+
+// run auto_resize on canvas resize
 let rso= new ResizeObserver(()=>{
 	resize_canvas_to_fit();
 	auto_resize_model();
@@ -373,7 +383,7 @@ export function set_darken_strength(f){
 }
 
 // We are going into the library internals.
-// Yes, I know this is not a good idea.
+// Probably not a good idea?
 // Source: https://github.com/guansss/pixi-live2d-display/blob/master/src/cubism-common/FocusController.ts
 export let focus_controller=null;
 let core_model=null;
@@ -389,6 +399,8 @@ function load_internals(){
 function get_model_focus_controller(){
 	return focus_controller;
 }
+
+// Change body angle
 function setX(angle){
 	if (!is_loaded) return;
 	core_model.addParameterValueById(internal_model.idParamAngleZ,angle);
@@ -401,20 +413,7 @@ function setZ(angle){
 	if (!is_loaded) return;
 	core_model.addParameterValueById(internal_model.idParamAngleZ,angle);
 }
-/*
-export function stopMotion(){
-	if (!is_loaded) return;
-	return internal_model.motionManager.stopAllMotions();
-}
-export function playMotion(motion_name){
-	if (!is_loaded) return;
-	return internal_model.motionManager.startRandomMotion(motion_name);
-}
-export function playMotionImmediate(motion_name){
-	if (!is_loaded) return;
-	stopMotion();
-	return playMotion(motion_name);
-}*/
+
 
 let playing_motion_priority=-100;
 let queued_motion_group_name="";
@@ -462,6 +461,8 @@ export function playMotion(motion_name,priority=0,requeuable_after=-1){
 	}
 	return false;
 }
+
+
 // Play motion, overriding everything.
 // The priority will be reset. 
 export function playMotionNow(motion_name){
@@ -471,16 +472,6 @@ export function playMotionNow(motion_name){
 	motion_manager.stopAllMotions();
 	motion_manager.startRandomMotion(motion_name);
 }
-/*
-// Override the idle motion group. Defaults to "Idle".
-// A random motion from the group will be queued in after the current motion is done.
-export function set_idle_motion(group_name){
-	if (!is_loaded) return;
-	if (!Config.OPTION_ENABLE_L2D_HANMARI) return;
-	if (!PerformanceManager.check_feature_enabled(
-		PerformanceManager.Feature.HANMARI_L2D)) return;
-	motion_manager.groups.idle=group_name;
-}*/
 
 // Call with the canvas-local coordinates of the click.
 // Will return true if the collision check succeeded.
@@ -511,6 +502,7 @@ let random_action_interval;
 function postpone_random_motion(){
 	last_action=performance.now();
 }
+
 // Re-roll the random action timer.
 function rand_interval_roll(){
 	random_action_interval=(
@@ -518,6 +510,7 @@ function rand_interval_roll(){
 		Config.OPTION_L2D_RANDOM_ACTION_RAND_ADD_SECONDS*Math.random()
 		)*1000;
 }
+
 // A page load is an activity.
 postpone_random_motion();
 rand_interval_roll();
@@ -525,6 +518,7 @@ rand_interval_roll();
 function calculate_seconds_since_last_activity(){
 	return (performance.now()-last_action)/1000;
 }
+
 
 // Mouse movement activity.
 // In order to filter out small movements we use the following algorithm:
@@ -570,10 +564,8 @@ window.addEventListener("mousemove",(e)=>{
 	mouse_movement_accumulator-=decay_factor;
 	if (mouse_movement_accumulator<0) mouse_movement_accumulator=0;
 	
-	//console.log("EMA "+mouse_movement_accumulator.toFixed(5));
 	// Fire activity report when above threshold
 	if (mouse_movement_accumulator>ACCUMULATOR_THRESHOLD) {
-		//console.log("Mouse activity!")
 		postpone_random_motion();
 		last_significant_mouse_movement=t;
 		mouse_movement_accumulator=0;
@@ -585,6 +577,7 @@ window.addEventListener("click",(e)=>{
 	postpone_random_motion();
 	last_significant_mouse_movement=t;
 });
+
 // Used for timing out eye tracking.
 function seconds_since_last_significant_mouse_movement(){
 	return (performance.now()-last_significant_mouse_movement)/1000;
@@ -670,6 +663,7 @@ let eye_position_mouse=[0,0];
 // Staring at the sky
 let eye_position_sky=[-0.5,0.5];
 
+// If more than 3 seconds since a significant move, don't do mouse tracking.
 function is_mouse_tracking_timed_out(){
 	return seconds_since_last_significant_mouse_movement()>3.0;
 }
@@ -706,18 +700,21 @@ if (Config.OPTION_ENABLE_L2D_HANMARI){
 		if (y<-1) y=-1;
 		if (y>1) y=1;
 		eye_position_mouse=[x,y];
-		//console.log("MouseMove "+x+","+y);
 	});
 }
+
 if (Config.OPTION_ENABLE_L2D_HANMARI){
 	// .body is needed for Firefox apperently
 	document.body.addEventListener("mouseleave",(e)=>{
 		//Reset eye if mouse left the window
 		eye_position_mouse=[0,0];
-		//console.log("MouseLeave");
 	});
 }
+
 // Should be called by the main JS.
+// if stare_strength is 0, hanmari will look at the sky.
+// if stare_strength is 1, hanmari will stare at the mouse.
+// intermediate values are linearly interpolated.
 let stare_strength=0;
 export function set_staring_strength(f){
 	if (!Config.OPTION_ENABLE_L2D_HANMARI) return;
@@ -727,7 +724,7 @@ export function set_staring_strength(f){
 }
 
 // We do this in two parts, so this won't break even if 
-// transition_*() functions are called before the model is loaded.
+// apply_ground_sky() function is called before the model is loaded.
 let currently_on_ground=false;
 export function transition_ground(){
 	currently_on_ground=true;
@@ -737,6 +734,7 @@ export function transition_sky(){
 	currently_on_ground=false;
 	apply_ground_sky();
 }
+// Play transition between Sky and Ground.
 function apply_ground_sky(instant=false){
 	if (!is_loaded) return;
 	if (!Config.OPTION_ENABLE_L2D_HANMARI) return;
@@ -753,6 +751,7 @@ function apply_ground_sky(instant=false){
 	postpone_random_motion();
 }
 
+
 // Pause rendering without any cleanup.
 // Intended to be used when hanmari is hidden by the parent.
 // (main.js > hide_hanmari() and the like)
@@ -763,16 +762,20 @@ export function pause_render(){
 export function unpause_render(){
 	render_paused=false;
 }
+
 // X,Y is in -1 to +1
 export function set_sky_eye_position(x,y){
 	eye_position_sky=[x,y];
 }
+
+// Actual animation fick.
 export function animationTick(dt){
 	if (!Config.OPTION_ENABLE_L2D_HANMARI) return;
 	if (!PerformanceManager.check_feature_enabled(
 		PerformanceManager.Feature.HANMARI_L2D)) return;
 	if (render_paused) return;
 	
+	// Animate & apply size
 	hanmari_size_multiplier_AV.tick(dt);
 	let newsize=hanmari_size_multiplier_AV.calculate_value();
 	let oldsize=hanmari_size_multiplier;
@@ -781,13 +784,14 @@ export function animationTick(dt){
 		auto_resize_model();
 	}
 	
-	
-	
+	// Apply eye movement
 	if (is_mouse_tracking_timed_out()) eye_position_mouse=[0,0];
 	look_at(
 		eye_position_mouse[0]*stare_strength+eye_position_sky[0]*(1-stare_strength),
 		eye_position_mouse[1]*stare_strength+eye_position_sky[1]*(1-stare_strength)
 	)
+	
 	hanmari_random_action_check();
+	
 	pixi_manual_update();
 }

@@ -1,15 +1,12 @@
 /*
  * BG Dynamic Texture
- * 
- * 
- * 
- * 
+ * The pretty triangles.
  */
 
 // Module imports
 import { Vector2, Vector3 } from "./vectors.js";
 import * as Config  from "./config.js";
-import * as Graphics  from "./graphics.js";
+import {drawTriangle}  from "./graphics.js";
 import * as PerformanceManager from "./perfmanager.js";
 
 // DOM definitions
@@ -17,141 +14,74 @@ const wsd = document.getElementById("whole-screen-div");
 const canvas_dyntex = document.getElementById("canvas-dyntex");
 const cc2d = canvas_dyntex.getContext("2d");
 
-function drawTriangle(ctx,v1,v2,v3,color){
-	ctx.save();
-	ctx.fillStyle=color;
-	ctx.beginPath();
-	ctx.moveTo(v1.x,v1.y);
-	ctx.lineTo(v2.x,v2.y);
-	ctx.lineTo(v3.x,v3.y);
-	ctx.closePath();
-	ctx.fill();
-	ctx.restore();
-}
 
-/*
-const TRIANGLE_DENSITY=30.0; //Triangles per Megapixel
-let triangles=[];
-
-
-function random_triangle(){
-	let res=[];
-	for (let i=0;i<100;i++){
-		res=[Vector2.random(),Vector2.random(),Vector2.random()];
-		let sides=[res[0].subtract(res[1]),res[1].subtract(res[2]),res[2].subtract(res[0])]
-		if (sides[0].length()<0.5) continue;
-		if (sides[1].length()<0.5) continue;
-		if (sides[2].length()<0.5) continue;
-		if (Math.abs(sides[0].atan2()-sides[1].atan2())<0.5) continue;
-		if (Math.abs(sides[1].atan2()-sides[2].atan2())<0.5) continue;
-		if (Math.abs(sides[2].atan2()-sides[0].atan2())<0.5) continue;
-		console.log("Generated triangle after "+i+" tries.");
-		break;
-	}
-	
-	return res;
-}
-
-function spawn_triangles(w,h,count){
-	console.log(`SpTri W${w} H${h} C${count}`);
-	triangles.length=0;
-	for (let i=0;i<count;i++){
-		let center = new Vector2(Math.random()*w,Math.random()*h);
-		let unscaled_triangle=random_triangle();
-		let scaling_factor=30+Math.random()*70;
-		let trigroup=[
-			center.add(unscaled_triangle[0].multiply(scaling_factor)),
-			center.add(unscaled_triangle[1].multiply(scaling_factor)),
-			center.add(unscaled_triangle[2].multiply(scaling_factor))
-		];
-		triangles.push(trigroup);
-	}
-}
-
-// Delaunay triangulation?
-
-export function animationTick(dt){
-	let containerW=wsd.clientWidth;
-	if (!containerW) containerW=1; // Check for false-ish values
-	let containerH=wsd.clientHeight;
-	if (!containerH) containerH=1;
-	
-	if (canvas_dyntex.width!=containerW)
-		canvas_dyntex.width=containerW;
-	if (canvas_dyntex.height!=containerH)
-		canvas_dyntex.height=containerH;
-	
-	let w=canvas_dyntex.width;
-	let h=canvas_dyntex.height;
-  
-	let canvas_megapixels = w * h /1000 /1000;
-	let triangle_count_target=Math.round(canvas_megapixels*TRIANGLE_DENSITY);
-	if (triangles.length != triangle_count_target){
-		spawn_triangles(w,h,triangle_count_target);
-	}
-	
-	for (let ti=0; ti<triangles.length;ti++){
-		for (let vi=0; vi<3;vi++){
-			let v=triangles[ti][vi];
-			v=v.add(Vector2.random().multiply(20*dt));
-			triangles[ti][vi]=v;
-		}
-	}
-	
-	cc2d.clearRect(0,0,w,h);
-	for (const tg of triangles){
-		drawTriangle(cc2d,tg[0],tg[1],tg[2],"#FFFFFF20");
-	}
-}
-*/
-
-
-const pp_triangles={
+// Physics Parameters.
+const pp_triangles={ // For the actual triangles
 	velocity_damp:0.01,
 	velocity_brownian:30.0,
 	return_spring_k:1.0
 };
-const pp_tvf={
+const pp_tvf={ // For the triangle colors (TriangleVisibilityFactor)
 	velocity_damp:0.01,
 	velocity_brownian:10.0,
 	return_spring_k:0.3
 };
+
+// Limit Vector to a length
 function limitVec(v,l){
 	if (v.length()>l){
 		return v.normalize().multiply(l)
 	}else return v;
 }
+
+// Simulates a point mass that follows
+// Newtonian motion, Brownian motion, and drag.
 class WigglyPoint{
+	// Current position. Units are in Pixels.
 	#position;
+	// Current velocity. Pixels per Second.
 	#velocity;
+	// Base position. 
+	// The particle will feel a returning force towards this point.
 	#intrinsic_position;
+	// Physics Parameters
 	#pp;
+	
 	constructor(pos,physics_parameters){
 		this.#position=pos;
 		this.#intrinsic_position=pos;
 		this.#velocity=Vector2.ZERO;
 		this.#pp=physics_parameters;
 	}
+	
+	// Should be called every animation tick.
 	tick(dt){
 		
 		if (dt>0.1) dt=0.1;
 		
-		let accel=Vector2.ZERO;
-		// Damping force
+		
+		
 		let speed = this.#velocity.length();
 		let velvec=this.#velocity.normalize();
+		
 		let damp_force=limitVec(
 			velvec.multiply(-speed*speed*this.#pp.velocity_damp),
 			speed/dt); // This will zero the speed on this tick - don't overshoot.
+		
 		let brownian_force=Vector2.random().multiply(this.#pp.velocity_brownian);
+		
 		let displacement=this.#position.subtract(this.#intrinsic_position);
 		let return_force=limitVec(
 			displacement.multiply(-this.#pp.return_spring_k),
 			1000);
+		
+		// Accumulate all forces
+		let accel=Vector2.ZERO;
 		accel = Vector2.ZERO.add(damp_force).add(brownian_force).add(return_force);
+		
+		// Physics step
 		this.#velocity=this.#velocity.add(accel.multiply(dt));
 		this.#position = this.#position.add(this.#velocity.multiply(dt));
-		
 	}
 	get position(){
 		return this.#position;
@@ -160,14 +90,24 @@ class WigglyPoint{
 }
 
 const POINT_DENSITY=100; // Points per Megapixel
+
 // Array of WigglyPoints
 let wpoints=[];
 // Array of point indices
 let triangle_indices=[];
+// Array of WigglyPoints. The coordinates are used as triangle colors.
 let triangle_visiblity_factors=[];
+
 let last_generated_with_pointcount=-1;
 
+// Generate a somewhat uniformly spread out array of 2D WigglyPoints.
 function spawn_points(w,h,pointcount){
+	
+	last_generated_with_pointcount=pointcount;
+	wpoints.length=0;
+	let points=[];
+	let area = w*h;
+	
 	/*
 	 * In a perfect hexagonal configuration,
 	 * the distance between points will be 
@@ -176,26 +116,19 @@ function spawn_points(w,h,pointcount){
 	 * r = sqrt(area*4/sqrt(3)) = sqrt(area * 2.309)
 	 * area =total_area/N
 	 */
-	last_generated_with_pointcount=pointcount;
-	wpoints.length=0;
-	let points=[];
-	let area = w*h;
 	let ideal_distance = Math.sqrt(area / pointcount * 2.309);
 	let distance_threshold = ideal_distance*0.5;
-	// O(n^2) algorithm. Probably not a good idea.
 	
-	
-	//pointcount=Math.min(10,pointcount);
+	// O(n^3) algorithm. (I think?) Probably not a good idea.
+	// Generates an array of random points.
+	// If the point is too close to an existing point, reroll.
 	let bailcount=0;
 	for (let i=0;i<pointcount;i++){
-		
 		let trycount=0;
 		let candidate;
 		while (1){
 			trycount++;
-			if (trycount>100){
-				//console.log("Point spawning bailing out.");
-				//console.log(points);
+			if (trycount>100){ // Completely arbitrary threshold.
 				bailcount++;
 				break;
 			}
@@ -210,6 +143,10 @@ function spawn_points(w,h,pointcount){
 		points.push(candidate);
 	}
 	
+	// Generate some points outside the screen.
+	// Without these, the delaunay triangulation will not reach the screen edges.
+	// The points will be ideal_distance away from the screen edge,
+	// with each point being ideal_distance from each other.
 	let outer_grid_w=w+ideal_distance*2;
 	let outer_grid_h=h+ideal_distance*2;
 	let outer_xcount = Math.ceil(outer_grid_w/ideal_distance);
@@ -218,20 +155,24 @@ function spawn_points(w,h,pointcount){
 		let x=xi*ideal_distance;
 		points.push(new Vector2(x,-ideal_distance));
 		points.push(new Vector2(x,+ideal_distance));
-		//console.log("X "+x);
 	}
 	for (let yi=0;yi<outer_ycount;yi++){
 		let y=yi*ideal_distance;
 		points.push(new Vector2(-ideal_distance,y));
 		points.push(new Vector2(+ideal_distance,y));
-		//console.log("Y "+y);
 	}
 	
+	// Convert the points to a WigglePoint
 	for (const p of points){
 		wpoints.push(new WigglyPoint(p,pp_triangles));
 	}
+	
 	console.log(`Spawn_points W${w} H${h} PC${pointcount} DT${distance_threshold} BC${bailcount}`);
 }
+
+// Perform delaunay triangulation.
+// Delaunator library does all the work.
+// Also initializes the triangle_visiblity_factors array.
 function recalculate_triangulation(){
 	triangle_indices.length=0;
 	triangle_visiblity_factors.length=0;
@@ -240,10 +181,9 @@ function recalculate_triangulation(){
 		coords.push(p.position.x);
 		coords.push(p.position.y);
 	}
-	//console.log("RT");
-	//console.log(coords);
+	
 	let delaunay = new Delaunator(coords);
-	//console.log(delaunay.triangles);
+	
 	for (let i=0;i<delaunay.triangles.length;i+=3){
 		triangle_indices.push([
 			delaunay.triangles[i],
@@ -255,6 +195,7 @@ function recalculate_triangulation(){
 }
 
 export function animationTick(dt){
+	// Canvas resize handle
 	let containerW=wsd.clientWidth;
 	if (!containerW) containerW=1; // Check for false-ish values
 	let containerH=wsd.clientHeight;
@@ -267,7 +208,8 @@ export function animationTick(dt){
 	
 	let w=canvas_dyntex.width;
 	let h=canvas_dyntex.height;
-  
+	
+	// Recalculate everything if canvas changed
 	let canvas_megapixels = w * h /1000 /1000;
 	let point_count_target=Math.round(canvas_megapixels*POINT_DENSITY);
 	if (last_generated_with_pointcount != point_count_target){
@@ -278,24 +220,19 @@ export function animationTick(dt){
 		}
 	}
 	
-	for (const wp of wpoints){
+	// Tick all WigglyPoints
+	for (const wp of wpoints)
 		wp.tick(dt);
-	}
-	
-	for (const tvf of triangle_visiblity_factors) tvf.tick(dt);
 	
 	
-	/*
-	for (let i=0; i<points.length;i++){
-		let v=points[i];
-		v=v.add(Vector2.random().multiply(20*dt));
-		points[i]=v;
-	}*/
+	for (const tvf of triangle_visiblity_factors) 
+		tvf.tick(dt);
 	
-	//recalculate_triangulation();
-	//console.log(triangles);
 	
 	cc2d.clearRect(0,0,w,h);
+	// Draw all triangles.
+	// The X coordinates of the TriangleVisibilityFactor array
+	// is used to generate the triangle's alpha value.
 	for (let i=0;i<triangle_indices.length;i++){
 		let tg=triangle_indices[i]
 		let tvf=triangle_visiblity_factors[i];

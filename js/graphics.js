@@ -1,3 +1,6 @@
+/*
+ * Some graphics routines.
+ */
 
 // Draw a glowing circle in the canvas.
 // c2d: Canvas 2D context
@@ -32,4 +35,20 @@ export function draw_glowing_circle(
   c2d.beginPath();
   c2d.arc(x,y,total_r,0,2*Math.PI);
   c2d.fill();
+}
+
+// Draw a triangle.
+// ctx: Canvas2D context
+// v1,v2,v3: Vector2s of triangle vertices.
+// color: the fill color.
+export function drawTriangle(ctx,v1,v2,v3,color){
+	ctx.save();
+	ctx.fillStyle=color;
+	ctx.beginPath();
+	ctx.moveTo(v1.x,v1.y);
+	ctx.lineTo(v2.x,v2.y);
+	ctx.lineTo(v3.x,v3.y);
+	ctx.closePath();
+	ctx.fill();
+	ctx.restore();
 }

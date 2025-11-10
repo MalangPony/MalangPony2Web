@@ -1,3 +1,8 @@
+/*
+ * Main script. 
+ * Imports all other scripts.
+ * Handles some global page logic.
+ */
 import { Vector2, Vector3 } from "./vectors.js";
 import * as Config  from "./config.js";
 import * as Fireworks from "./fireworks.js";
@@ -10,6 +15,7 @@ import * as Timetable from "./timetable.js";
 import * as Dyntex from "./dyntex.js";
 import * as Maps from "./maps.js";
 
+// DOM
 const body_dom = document.querySelector("body");
 
 const wsd = document.getElementById("whole-screen-div");
@@ -63,8 +69,8 @@ const debug_btn_perf_auto = document.getElementById(
 
 const timetable_container = document.getElementById("ttable-container");
 
-// Is Non-animated Hanmari enabled?
-// Only enable if L2D Hanmari is NOT on the screen!
+
+
 
 // Initial values
 let static_hanmari_enabled=false;
@@ -75,7 +81,7 @@ if (Config.OPTION_ENABLE_L2D_HANMARI){
   static_hanmari_enabled=true;
 }
 
-// Change callbacks
+// PerfManager callback: L2D
 PerformanceManager.register_feature_disable_callback(
 	PerformanceManager.Feature.HANMARI_L2D, ()=>{
 		hmr_container.style.display="block";
@@ -91,8 +97,7 @@ PerformanceManager.register_feature_enable_callback(
 	}
 );
 
-
-// CSS Filters
+// PerfManager callback: CSS Filters
 PerformanceManager.register_feature_disable_callback(
   PerformanceManager.Feature.CSS_FILT_DROP_SHADOWS, ()=>{
     ticket.classList.remove("css-filters");
@@ -112,9 +117,11 @@ PerformanceManager.register_feature_enable_callback(
     intro_content_container.classList.add("css-filters");
   });
 
+// Sky <-> Ground transition
 let in_sky_mode=true;
 function transition_sky(){
   in_sky_mode=true;
+  
   let animation_out=[{ opacity: "1.0" },{ opacity: "0.0" } ];
   let animation_in=[{ opacity: "0.0" },{ opacity: "1.0" } ];
   let animation_opt={duration: 500,fill:"forwards"};
@@ -126,16 +133,20 @@ function transition_sky(){
     hmr_image_ground.style.opacity="0.0";
     hmr_image_base.style.opacity="1.0";
   }
+  
   intro_content_container.classList.remove("activated");
   afterscroll_container.classList.remove("activated");
   lang_btn.classList.remove("activated");
   sb_btn.classList.remove("activated");
+  
   if (mobile_mode) sidebar_button_hide_mobile();
   else sidebar_hide();
+  
   L2D.transition_sky();
 }
 function transition_ground(){
   in_sky_mode=false;
+  
   let animation_out=[{ opacity: "1.0" },{ opacity: "0.0" } ];
   let animation_in=[{ opacity: "0.0" },{ opacity: "1.0" } ];
   let animation_opt={duration: 500,fill:"forwards"};
@@ -149,26 +160,29 @@ function transition_ground(){
     hmr_image_base.style.opacity="0.0";
     hmr_image_flash01.style.opacity="0.0";
   }
+  
   intro_content_container.classList.add("activated");
   afterscroll_container.classList.add("activated");
   lang_btn.classList.add("activated");
   sb_btn.classList.add("activated");
+  
   window.setTimeout(()=>{
     if (!in_sky_mode) {
       if (mobile_mode) sidebar_button_animate_mobile();
       else sidebar_intro_animate();
     }},100);
+      
   L2D.transition_ground();
 }
 
-// Spike Magic
+
+// Spike Magic animation
 function sidebar_magic_animate(){
   sia.style.display="block";
   
   const animation_frame_count=16;
   const actual_size_x=lmsa.clientWidth;
   const actual_size_y=lmsa.clientHeight;
-  //console.log(`ASX ${actual_size_x} ASY ${actual_size_y} AFC ${animation_frame_count}`)
   lmsa.style.backgroundSize=`${actual_size_x*animation_frame_count}px ${actual_size_y}px`;
   
   let anim1=lmsa.animate(
@@ -209,11 +223,10 @@ function sidebar_intro_animate(){
   
   anim5.onfinish=(e)=>{
     sidebar.style.maxHeight="calc(100dvh - 64px)";
-    
   }
 }
 
-// Pop in the sidebar button
+// Pop in the mobile sidebar button
 function sidebar_button_animate_mobile(){
   sidebar_magic_animate();
   
@@ -242,11 +255,12 @@ function sidebar_button_hide_mobile(){
   }
 }
 
-// Open up the scroll in fullscreen
+// Open up the scroll in fullscreen (mobile mode)
 function sidebar_intro_animate_mobile(){
   sidebar.style.transform="none";
   sidebar.style.display="flex";
   
+  // Expand all categories and lock it open
   sidebar_expand_and_lock();
   
   let anim4=sidebar.animate(
@@ -313,16 +327,18 @@ function sidebar_hide_instant(){
   sidebar.style.display="none";
 }
 
+// Called every time a firework explodes
 let firework_exploded=false;
+let last_firework_explosion_time=-1000;
 Fireworks.add_burst_callback(()=>{
   firework_exploded=true;
 });
 
 
-let dbp=document.getElementById("debug-print");
 
-let last_firework_explosion_time=-1000;
-let last_t=NaN;
+
+// FPS counter
+let ac_tt_hist=[];
 let fpsc_primary_anim_callback=new FPS_Counter();
 window.setInterval(()=>{
   debug_print_fps.innerHTML="AnimCB 1s: "+fpsc_primary_anim_callback.fps_1sec().toFixed(2)+" FPS";
@@ -341,41 +357,34 @@ window.setInterval(()=>{
   debug_print_acms.innerHTML="Anim CB taking "+avg.toFixed(2)+" ms"
 },500);
 
-let ac_tt_hist=[];
+
+
+let last_t=NaN;
 function animationCallback(time) {
+  // FPS counting
   fpsc_primary_anim_callback.frame();
   let cb_start_t=performance.now();
-  /*
-  frame_times.push(time);
-  if (frame_times[0]+1000<time){
-    let fps=(frame_times.length-1)/(time-frame_times[0])*1000;
-    debug_print_fps.innerHTML="1s avg: "+fps.toFixed(2)+" FPS";
-    frame_times=[];
-  }
-  frame_times_10s.push(time);
-  if (frame_times_10s[0]+10000<time){
-    let fps=(frame_times_10s.length-1)/(time-frame_times_10s[0])*1000;
-    debug_print_fps2.innerHTML="10s avg: "+fps.toFixed(2)+" FPS";
-    frame_times_10s=[];
-  }*/
   
+  // Delta-T
   if (isNaN(last_t)) last_t=time;
   let dt=(time-last_t)/1000;
   last_t=time;
   if (dt>1.0) dt=1.0;
   
+  // PerfManager
   PerformanceManager.report_frame_time(time);
   
+  // Try to compensate for the scrollbar width. (Chromium)
   let width_wholescreen=wsd.clientWidth;
   let width_scroller=content_scroller.clientWidth;
   let scrollbar_width=width_wholescreen-width_scroller;
   if (scrollbar_width>50){
-    //console.log("Scrollbar width>50px? Seems sus.");
     scrollbar_width=50;
   }
   master_hanmari_container.style.marginRight=scrollbar_width+"px";
   stickies_container.style.marginRight=scrollbar_width+"px";
   
+  // Firework flash
   if (firework_exploded){
     last_firework_explosion_time=time;
     firework_exploded=false;
@@ -391,16 +400,19 @@ function animationCallback(time) {
   }
   logo_image_flash01.style.opacity=firework_light_factor;
   
+  // Debug prints
   debug_print_featurelevel.innerHTML = "Feature Level "+PerformanceManager.get_feature_level();
   debug_print_features.innerHTML = PerformanceManager.generate_feature_list();
   debug_print_faa.innerHTML = PerformanceManager.is_auto_adjust_enabled()?"ON":"OFF";
   
+  // Tick all subsystems
   Stars.animationTick(dt);
   Fireworks.animationTick(dt);
   Parallax.animationTick(dt);
   L2D.animationTick(dt);
   Dyntex.animationTick(dt);
   
+  // Eye tracking.
   Fireworks.update_attention(dt);
   // 0~1 value. X increasing to right, Y increasing to bottom
   let fw_attn_pos=Fireworks.get_lerped_attention_position_relative();
@@ -413,27 +425,15 @@ function animationCallback(time) {
   //console.log("L2D Sky eyepos "+JSON.stringify(sky_eye_pos));
   L2D.set_sky_eye_position(sky_eye_pos.x,sky_eye_pos.y)
   
+  // Report frame time
   let cb_time_taken=performance.now()-cb_start_t;
   ac_tt_hist.push(cb_time_taken);
   while (ac_tt_hist.length>100) ac_tt_hist.shift();
 }
 
 
-let raff_last_rendered_t=-1000;
+// The actual animationframe call.
 function recursiveAnimFrameFunc(t){
-  /*
-  let dt=(t-raff_last_rendered_t);
-  // If FULL_FRAMERATE feature not active...
-  if (!PerformanceManager.check_feature_enabled(
-    PerformanceManager.Feature.FULL_FRAMERATE)){
-    if (dt>20){ // Only call if more than 20ms passed (50Hz)
-      animationCallback(t);
-      raff_last_rendered_t=t;
-    }
-  }else {
-    animationCallback(t);
-    raff_last_rendered_t=t;
-  }*/
   animationCallback(t);
   requestAnimationFrame(recursiveAnimFrameFunc);
 }
@@ -442,6 +442,7 @@ requestAnimationFrame(recursiveAnimFrameFunc);
 
 //TODO change this JS-based animation to
 // a CSS-based animation with "animation-timeline: scroll()" 
+
 let scroll_inviter_active=true;
 function forceScrollDown(){
   if (sky_disabled) return;
@@ -459,6 +460,7 @@ content_scroller.addEventListener("scroll", (e) => {
     scroll_progress_ratio=scroll_pixels/scroll_maxium;
   }
   
+  // Hide scroll inviter if scroll ratio > 30%
   if (scroll_inviter_active && (scroll_progress_ratio>0.3)){
     let anim=scroll_inviter_container.animate(
     [{ opacity: "1.0" },{ opacity: "0.0" } ],
@@ -470,15 +472,21 @@ content_scroller.addEventListener("scroll", (e) => {
   }
   
   scroll_progress_ratio=Math.min(Math.max(scroll_progress_ratio,0),1);
+  
+  // Update parallax
   Parallax.set_scroll_progress(scroll_progress_ratio);
   
+  // Transition if 95% scrolled
   if (scroll_progress_ratio>0.95){
     if (in_sky_mode) transition_ground();
   }else{
     if (!in_sky_mode) transition_sky();
   }
+  
+  // Fireworks enabled if less than 50% scrolled
   Fireworks.set_fireworks_enabled(scroll_progress_ratio<0.5);
   
+  // Update subsystems
   Stars.set_scroll_progress(scroll_progress_ratio);
   Fireworks.set_scroll_progress(scroll_progress_ratio);
   
@@ -490,6 +498,7 @@ content_scroller.addEventListener("scroll", (e) => {
   
 });
 
+// Language switching
 let current_lang="ko";
 let all_langs=["ko","en"];
 function apply_lang(code){
@@ -513,7 +522,7 @@ function apply_lang(code){
     }
   }
   
-  // Hide/show all .lang-{en,kr} divs.
+  // Hide/show all .lang-{en,kr} divs (Flex).
   for (const lang of all_langs){
     let all_elements=document.querySelectorAll(".langflex-"+lang);
     for (const e of all_elements){
@@ -538,6 +547,7 @@ lang_btn.onclick= ()=>{
   else apply_lang("ko");
 }
 
+// Get lang value from cookie
 let lang_from_cookie=null;
 const cookieValue = document.cookie.split("; ").find((row) => row.startsWith("language="))?.split("=")[1];
 console.log("language cookie value: "+cookieValue);
@@ -546,6 +556,7 @@ if (cookieValue!==undefined) {
   else console.log("Error: Language cookie value invalid!");
 }
 
+// Get lang value from environment
 let lang_from_environment=null;
 for (const lang of navigator.languages){
   for (const langcode of all_langs){
@@ -558,7 +569,7 @@ for (const lang of navigator.languages){
 }
 console.log("Language detected from environment: "+lang_from_environment);
 
-
+// Set lang value
 if (lang_from_cookie !== null) {
   console.log("Apply language from cookie: "+lang_from_cookie);
   apply_lang(lang_from_cookie);
@@ -571,6 +582,7 @@ if (lang_from_cookie !== null) {
 }
 
 
+// Hanmari hide/show
 function hide_hanmari(){
   master_hanmari_container.style.opacity=1.0;
   let anim3=master_hanmari_container.animate(
@@ -602,6 +614,7 @@ function show_hanmari_instant(){
   L2D.unpause_render();
 }
 
+// Disble sky in non-intro pages
 let sky_disabled=false;
 function sky_disable(){
   screen_blanker.style.display="none";
@@ -618,7 +631,9 @@ function sky_enable(){
   forceScrollDown();
 }
 
+// Page transition
 let currently_on_page="intro";
+// Transition without animation.
 function page_transition_instant(name){
 
   if (name===currently_on_page) return;
@@ -648,6 +663,7 @@ function page_transition_instant(name){
   
   sidebar_buttons_activate(name);
 }
+// Transition with animation.
 function page_transition(name){
   if (mobile_mode) sidebar_hide_mobile();
   
@@ -706,6 +722,8 @@ function sidebar_buttons_activate(pageid_active){
   }
 }
 
+// We change the URL here.
+// This does not actually reload the page.
 function sidebar_clicked(x){
   page_transition(x);
   if (!Parallax.name_defined_in_camera_locations(x)) return;
@@ -722,7 +740,7 @@ function sidebar_clicked(x){
   }
 }
 
-
+// Disable/Enable Mobile mode
 let mq_mobile=window.matchMedia("(width <= 640px)");
 
 let mobile_mode=mq_mobile.matches;
@@ -745,6 +763,9 @@ mq_mobile.onchange= ()=>{
 };
 sb_btn.onclick=sidebar_intro_animate_mobile;
 
+
+// Get page from URL.
+// If found, transition instantly.
 if (window.location.pathname != ""){
   let path_location=window.location.pathname.substring(1);
   
@@ -759,41 +780,33 @@ if (window.location.pathname != ""){
   }
 }
 
+
+// Manual performance level set
 debug_btn_perf_increment.addEventListener("click", (e) => {
-  //console.log("FL+");
 	PerformanceManager.increment_feature_level();
 });
 debug_btn_perf_decrement.addEventListener("click", (e) => {
-  //console.log("FL-");
 	PerformanceManager.decrement_feature_level();
 });
 debug_btn_perf_auto.addEventListener("click", (e) => {
-  //console.log("FL-");
 	PerformanceManager.toggle_auto_adjust();
 });
 
 
-// Sidebar expansion
+// Sidebar category expansion
 let sidebar_category_interactive=true;
 const sbccs=document.querySelectorAll(".sb-category-container");
-console.log("SBCCS");
-console.log(sbccs);
 for (const clicked_sbcc of sbccs){
   const clicked_header_icon=clicked_sbcc.querySelector(".sbch-icon");
   const clicked_header=clicked_sbcc.querySelector(".sb-category-header");
-  const clicked_content=clicked_sbcc.querySelector(".sb-category-content");
   clicked_header_icon.innerHTML="▶";
   clicked_header.addEventListener("click",()=>{
     if (!sidebar_category_interactive) return;
-    //console.log("Click"+clicked_header.innerHTML);
-    //console.log("CurrentContne");
-    //console.log(clicked_content);
     for (const other_sbcc of sbccs){
       const other_header_icon=other_sbcc.querySelector(".sbch-icon");
       const other_header=other_sbcc.querySelector(".sb-category-header");
       const other_content=other_sbcc.querySelector(".sb-category-content");
       if (other_sbcc===clicked_sbcc){
-        //console.log("-> Match");
         if (other_content.classList.contains("sbcc-expanded")){
           other_content.classList.remove("sbcc-expanded");
           other_header_icon.innerHTML="▶";
@@ -809,6 +822,7 @@ for (const clicked_sbcc of sbccs){
   });
 }
 
+// Expand everything
 function sidebar_expand_all(){
   for (const other_sbcc of sbccs){
     const header_icon=other_sbcc.querySelector(".sbch-icon");
@@ -818,10 +832,12 @@ function sidebar_expand_all(){
     header_icon.innerHTML="▼";
   }
 }
+// Expand and disallow collapsing
 function sidebar_expand_and_lock(){
   sidebar_expand_all();
   sidebar_category_interactive=false;
 }
+// Collapse everything
 function sidebar_collapse_all(){
   for (const other_sbcc of sbccs){
     const header_icon=other_sbcc.querySelector(".sbch-icon");
@@ -836,6 +852,7 @@ function sidebar_collapse_and_unlock(){
   sidebar_category_interactive=true;
 }
 
+// Run once timetable JSON is read in.
 Timetable.get_timetable_data().then((d)=>{
   console.log("TT Promise resolved at main.js");
   timetable_container.appendChild(d["dom"]);

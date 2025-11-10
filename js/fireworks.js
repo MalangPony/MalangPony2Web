@@ -422,6 +422,10 @@ export function animationTick(dt){
 }
 
 
+// Functions used for hanmari's firework-watching effect.
+// An object is selected as being 'tracked'.
+// We will lerp a point along that object's position.
+// When the object dies (firework explodes) another object will be selected.
 let attention_hold_remaining=-1;
 let attention_position = Vector2.ZERO;
 let attention_position_lerped=Vector2.ZERO;
@@ -459,20 +463,22 @@ export function update_attention(dt){
       // Hold the attention position (do nothing)
     }
   }
-  //console.log("UU"+attention_position_lerped+attention_position+"dt"+dt);
+  
   // lerp calculation
   attention_position_lerped=Vector2.lerp(
     attention_position_lerped,
     attention_position,
     dt*1.5
   );
-  //console.log("APL "+attention_position_lerped);
 }
+
 // Returns position in canvas-space.
 export function get_lerped_attention_position(){
   //console.log("GLAP APL "+attention_position_lerped);
   return attention_position_lerped;
 }
+
+// Returns position in 0~1 'UV' coordinates.
 export function get_lerped_attention_position_relative(){
   let apl = get_lerped_attention_position();
   return new Vector2(

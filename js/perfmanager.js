@@ -49,12 +49,14 @@ for (const k of Object.keys(Feature)){
 	values.push(v);
 }
 
+
+// Auto-adjust feature level
+
 /*
  * TODO we need a way to fix feature oscillations.
  * For example, if a feature is so heavy that it can take a 60FPS down to 15FPS,
  * It will start an oscillation with the auto-adjust.
  * How do we detect this? How do we stop this?
- * 
  */
 
 // Start disabling features under this FPS
@@ -65,6 +67,8 @@ function step_feature_level(current_fps){
 	if (current_fps<FEATURE_DISABLE_THRESHOLD_FPS) decrement_feature_level();
 	else if (current_fps>FEATURE_ENABLE_THRESHOLD_FPS) increment_feature_level();
 }
+
+// Initial guess
 function guess_feature_level(current_fps){
 	// This is totally guessing 
 	if (current_fps>50) set_feature_level(Feature.FULL);
@@ -76,7 +80,7 @@ function guess_feature_level(current_fps){
 
 let frame_times=[];
 let feature_last_adjusted=NaN;
-const FEATURE_ADJUST_INTERVAL=500;
+const FEATURE_ADJUST_INTERVAL=500; //milliseconds
 let auto_adjust_feature_level=true;
 export function disable_auto_adjust(){
 	auto_adjust_feature_level=false;
@@ -90,12 +94,14 @@ export function toggle_auto_adjust(){
 export function is_auto_adjust_enabled(){
 	return auto_adjust_feature_level;
 }
+
 // MUST be called on every animationCallback frame.
 let page_started_time=NaN;
 export function report_frame_time(ms){
 	frame_times.push(ms);
 	while (frame_times.length>11) frame_times.shift();
 	
+	// Gather data for 500ms
 	let page_start_enough_time_passed=false;
 	if (isNaN(page_started_time)) {
 		page_started_time=ms;
@@ -104,7 +110,7 @@ export function report_frame_time(ms){
 		if (time_since_page_start>500) page_start_enough_time_passed=true;
 	}
 	
-
+	
 	if (auto_adjust_feature_level){
 		// Calculate FPS
 		let fps_avg = NaN;
@@ -159,6 +165,8 @@ export function set_feature_level(level){
 		else feature_enable(v);
 	}
 }
+
+// Feature Level access functions
 export function get_feature_level(){
 	return feature_level;
 }
@@ -182,12 +190,13 @@ export function register_feature_enable_callback(feature,func){
 export function register_feature_disable_callback(feature,func){
 	disable_callbacks[feature].push(func);
 }
+
 // Check if feature is enabled right now
 export function check_feature_enabled(feature){
 	return current_state[feature];
 }
 
-
+// For debug printing.
 export function generate_feature_list(){
 	let s="";
 	for (const k of Object.keys(Feature)){
