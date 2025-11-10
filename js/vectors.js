@@ -37,6 +37,12 @@ export class Vector2{
   toString(){
     return "V2D("+this.x.toFixed(3)+","+this.y.toFixed(3)+")";
   }
+  atan2(){
+    return Math.atan2(this.y,this.x);
+  }
+  atan2_degrees(){
+    return this.atan2() /Math.PI*180 ;
+  }
   static random(){
     while (1){
       let v=new Vector2(Math.random()*2-1,Math.random()*2-1);

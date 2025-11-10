@@ -7,6 +7,7 @@ import * as L2D from "./l2d.js";
 import {FPS_Counter,linear_map} from "./utils.js";
 import * as ParallaxData from "./parallax_data.js";
 import * as Timetable from "./timetable.js";
+import * as Dyntex from "./dyntex.js";
 
 const body_dom = document.querySelector("body");
 
@@ -397,6 +398,7 @@ function animationCallback(time) {
   Fireworks.animationTick(dt);
   Parallax.animationTick(dt);
   L2D.animationTick(dt);
+  Dyntex.animationTick(dt);
   
   Fireworks.update_attention(dt);
   // 0~1 value. X increasing to right, Y increasing to bottom
