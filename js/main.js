@@ -8,6 +8,7 @@ import {FPS_Counter,linear_map} from "./utils.js";
 import * as ParallaxData from "./parallax_data.js";
 import * as Timetable from "./timetable.js";
 import * as Dyntex from "./dyntex.js";
+import * as Maps from "./maps.js";
 
 const body_dom = document.querySelector("body");
 
