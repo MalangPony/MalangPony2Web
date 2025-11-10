@@ -794,12 +794,21 @@ debug_btn_perf_auto.addEventListener("click", (e) => {
 
 
 // Sidebar category expansion
-let sidebar_category_interactive=true;
+/* Sidebar DOM structure:
+ * 
+ * sb-category-container
+ *   sb-category-header
+ *     sbch-icon
+ *   sb-category-content
+ *     sb-link-sublevel
+ * sb-link-toplevel
+ *   sbch-icon
+ */
+let sidebar_category_interactive=true; // set false to disable expand/collapse
 const sbccs=document.querySelectorAll(".sb-category-container");
 for (const clicked_sbcc of sbccs){
   const clicked_header_icon=clicked_sbcc.querySelector(".sbch-icon");
   const clicked_header=clicked_sbcc.querySelector(".sb-category-header");
-  clicked_header_icon.innerHTML="▶";
   clicked_header.addEventListener("click",()=>{
     if (!sidebar_category_interactive) return;
     for (const other_sbcc of sbccs){
@@ -807,19 +816,30 @@ for (const clicked_sbcc of sbccs){
       const other_header=other_sbcc.querySelector(".sb-category-header");
       const other_content=other_sbcc.querySelector(".sb-category-content");
       if (other_sbcc===clicked_sbcc){
+        // This is the clicked one.
         if (other_content.classList.contains("sbcc-expanded")){
+          // It's already expaned. Close it now.
           other_content.classList.remove("sbcc-expanded");
           other_header_icon.innerHTML="▶";
         }else{
+          // It's closed now. Expand it.
           other_content.classList.add("sbcc-expanded");
           other_header_icon.innerHTML="▼";
         }
       }else {
+        // This is NOT the clicked one. Close it.
         other_content.classList.remove("sbcc-expanded");
         other_header_icon.innerHTML="▶";
       }
     }
   });
+}
+
+// Toplevel links
+const sblts=document.querySelectorAll(".sb-link-toplevel");
+for (const sblt of sblts){
+  const icon=sblt.querySelector(".sbch-icon");
+  icon.innerHTML="⏺"; // • too small
 }
 
 // Expand everything

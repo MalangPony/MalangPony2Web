@@ -290,8 +290,9 @@ background: linear-gradient(0deg,#101050,#303070)
   cursor:pointer;
 }
 .sbch-icon{
-  font-size:0.5em;
-  width:1.5em;
+  font-size:0.7em;
+  width:1.2em;
+  text-align:center;
 }
 .sb-category-content{
   margin-left:1.4em;
