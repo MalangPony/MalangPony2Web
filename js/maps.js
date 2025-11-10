@@ -1,15 +1,9 @@
 /*
  * Handles all KakaoMap logic.
  * 
- * 
  */
+let page_venue=document.getElementById("page-venue");
 
-/*
- * Important note: The Kakaomap Div MUST be visible at the time of map initialization. 
- * If it is display:none when it is initialized,it behaves in strange ways.
- * That is why we display the #page-venue div for a short while here.
- */
-document.getElementById("page-venue").style.display="block";
 
 //AllThatMind location
 var positionATM  = new kakao.maps.LatLng(37.520484, 126.887396); 
@@ -25,7 +19,28 @@ var kkm = new kakao.maps.Map(
   container, { 
 	center: positionATM, 
 	level: 5});
-// Note: Call kkm.relayout() on size changes!
+
+// Note: Call kkm.relayout() on visibility changes!
+export function relayout(){
+  kkm.relayout();
+}
+
+let page_visible=false;
+let visibilityObserver=new MutationObserver((mutations,observer)=>{
+  for (const mutation of mutations) {
+    //console.log(mutation);
+    if (mutation.type=="attributes" && mutation.attributeName==="style"){
+      let now_visible=(page_venue.style.display!=="none");
+      if ((!page_visible) && now_visible) {
+        console.log("Detected Map page becoming visible. Trigger relayout.");
+        relayout();
+      }
+      page_visible=now_visible;
+    }
+  }
+});
+visibilityObserver.observe(page_venue,{attributes:true});
+
 
 
 // Main ATM Marker
@@ -124,6 +139,3 @@ mbj.style.display="none";
 mbj.addEventListener("click",()=>{
   kkm.panTo(positionATM);
 });
-
-// Hide page again
-document.getElementById("page-venue").style.display="none";
