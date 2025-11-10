@@ -29,8 +29,10 @@ function drawTriangle(ctx,v1,v2,v3,color){
 	ctx.restore();
 }
 
+/*
 const TRIANGLE_DENSITY=30.0; //Triangles per Megapixel
 let triangles=[];
+
 
 function random_triangle(){
 	let res=[];
@@ -99,5 +101,83 @@ export function animationTick(dt){
 	cc2d.clearRect(0,0,w,h);
 	for (const tg of triangles){
 		drawTriangle(cc2d,tg[0],tg[1],tg[2],"#FFFFFF20");
+	}
+}
+*/
+
+
+const POINT_DENSITY=100; // Points per Megapixel
+// Array of Vector2
+let points=[];
+// Array of 
+let triangles=[];
+
+function spawn_points(w,h,pointcount){
+	points.length=0;
+	for (let i=0;i<pointcount;i++){
+		points.push(new Vector2(Math.random()*w,Math.random()*h));
+	}
+}
+function recalculate_triangulation(){
+	triangles.length=0;
+	let coords=[];
+	for (const p of points){
+		coords.push(p.x);
+		coords.push(p.y);
+	}
+	//console.log("RT");
+	//console.log(coords);
+	let delaunay = new Delaunator(coords);
+	//console.log(delaunay.triangles);
+	for (let i=0;i<delaunay.triangles.length;i+=3){
+		let ax=coords[delaunay.triangles[i]*2];
+		let ay=coords[delaunay.triangles[i]*2+1];
+		let bx=coords[delaunay.triangles[i+1]*2];
+		let by=coords[delaunay.triangles[i+1]*2+1];
+		let cx=coords[delaunay.triangles[i+2]*2];
+		let cy=coords[delaunay.triangles[i+2]*2+1];
+		triangles.push([
+			new Vector2(ax,ay),
+			new Vector2(bx,by),
+			new Vector2(cx,cy)]);
+	}
+}
+
+export function animationTick(dt){
+	let containerW=wsd.clientWidth;
+	if (!containerW) containerW=1; // Check for false-ish values
+	let containerH=wsd.clientHeight;
+	if (!containerH) containerH=1;
+	
+	if (canvas_dyntex.width!=containerW)
+		canvas_dyntex.width=containerW;
+	if (canvas_dyntex.height!=containerH)
+		canvas_dyntex.height=containerH;
+	
+	let w=canvas_dyntex.width;
+	let h=canvas_dyntex.height;
+  
+	let canvas_megapixels = w * h /1000 /1000;
+	let point_count_target=Math.round(canvas_megapixels*POINT_DENSITY);
+	if (points.length != point_count_target){
+		spawn_points(w,h,point_count_target);
+	}
+	
+	
+	
+	for (let i=0; i<points.length;i++){
+		let v=points[i];
+		v=v.add(Vector2.random().multiply(20*dt));
+		points[i]=v;
+	}
+	
+	recalculate_triangulation();
+	//console.log(triangles);
+	
+	cc2d.clearRect(0,0,w,h);
+	let i=0;
+	for (const tg of triangles){
+		i++;
+		drawTriangle(cc2d,tg[0],tg[1],tg[2],"rgba(255,255,255,"+((i*4881)%101)/100+")");
 	}
 }
