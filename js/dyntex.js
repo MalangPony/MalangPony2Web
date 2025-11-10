@@ -89,7 +89,7 @@ class WigglyPoint{
 	
 }
 
-const POINT_DENSITY=100; // Points per Megapixel
+const POINT_DENSITY=50; // Points per Megapixel
 
 // Array of WigglyPoints
 let wpoints=[];
@@ -241,7 +241,7 @@ export function animationTick(dt){
 		let b=wpoints[tg[1]];
 		let c=wpoints[tg[2]];
 		let alpha=tvf.position.x;
-		alpha = (alpha-5)/10;
+		alpha = (alpha-4.5)/20.0;
 		if (alpha<0) alpha=0;
 		if (alpha>1) alpha=1.0;
 		alpha=Math.pow(alpha,2);
