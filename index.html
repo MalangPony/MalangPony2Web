@@ -260,40 +260,100 @@
           </div>
         </div>
         <div id="page-venue" style="display:none;">
+        
           <div style="margin-top:64px;font-size:3.0em;font-weight:700;color:#FFFFFF;text-align:center;">
             <span class="langspan-en">MAP!!!</span>
             <span class="langspan-ko">지도???</span>
           </div>
-          <div style="margin-top:24px;color:#FFFFFF;font-size:24px;font-weight:700;">
+          
+           <div id="venue-place-name-top">
+            <span class="langspan-ko">말랑포니 2 행사 공간</span>
+            <span class="langspan-en">The venue for MalangPony 2 is...</span>
+          </div>
+          
+          <div id="venue-place-name-title">
             <span class="langspan-ko">올댓마인드 문래</span>
             <span class="langspan-en">Allthatmind Munrae</span>
           </div>
-          <div style="margin-top:16px;margin-bottom:12px;color:#FFFFFF;display:flex;flex-direction:row;gap:8px;">
-            <a href="https://naver.me/xY4sP1mO" 
-              class="linkbutton" 
-              style="background-color:#a4ffac;color:#000;">
+          
+           <div id="venue-place-address">
+            서울시 영등포구 문래로 55 2층 올댓마인드 문래점
+          </div>
+          
+          
+          
+          <div id="venue-map-site-links">
+            <a href="https://naver.me/xY4sP1mO" target="_blank"
+              class="linkbutton" id="venue-map-link-naver">
               <span class="langspan-ko">네이버 지도</span>
               <span class="langspan-en">Naver Maps</span>
             </a>
-            <a href="https://kko.kakao.com/fqgpAUYJWh"
-              class="linkbutton" 
-              style="background-color:#ffffdc;color:#000;">
+            <a href="https://kko.kakao.com/fqgpAUYJWh" target="_blank"
+              class="linkbutton" id="venue-map-link-kakao">
               <span class="langspan-ko">카카오맵</span>
               <span class="langspan-en">Kakao Maps</span>
             </a>
-            <a href="https://maps.app.goo.gl/KuLBmTggmEXde3Q46"
-              class="linkbutton" 
-              style="background-color:#c9d1ff;color:#000;">
+            <a href="https://maps.app.goo.gl/KuLBmTggmEXde3Q46" target="_blank"
+              class="linkbutton" id="venue-map-link-google">
               <span class="langspan-ko">구글맵스</span>
               <span class="langspan-en">Google Maps</span>
             </a>
           </div>
-          <div style="width:min(600px,100%);height:400px;position:relative;">
-            <div id="map-btn-jump" style="position:absolute;top:16px;left:16px;width:128px;height:64px;background-color:#FF0;z-index:10;display:flex;flex-direction:row;align-items:center;">
+          
+          <div id="map-outer">
+            <div id="map-btn-jump">
               <img src="sprites-prototype/hanmari_CM_rev1_100px.png" style="height:48px;width:48px;margin:8px;">
               <div>말랑포니로<br>돌아가기</div>
             </div>
             <div id="kakaomap-content" style="width:100%;height:100%;"></div>
+          </div>
+          
+          <div id="directions-container">
+            <div class="directions-listing" id="directions-munrae">
+              <div class="directions-title">
+                <span class="langspan-ko">2호선 문래역</span>
+                <span class="langspan-en">Munrae Station (Subway Line 2)</span>
+              </div>
+              <div class="directions-body langdiv-ko">
+                2호선 문래역 3번출구에서 800m(약 12분)<br>
+                또는 영등포05번 버스 5정거장 후 "영문초등학교" 하차
+              </div>
+              <div class="directions-body langdiv-en">
+                800m from Seoul Metro Line 2, Munrae Station<br>
+                Roughly 12 minutes walk
+              </div>
+              <img class="directions-icon" src="sprites/DirIcon_2.png">
+            </div>
+            <div class="directions-listing" id="directions-yangpyong">
+              <div class="directions-title">
+                <span class="langspan-ko">5호선 양평역</span>
+                <span class="langspan-en">Yangpyong Station (Subway Line 5)</span>
+              </div>
+              <div class="directions-body langdiv-ko">
+                5호선 양평역 2번출구에서 700m(약 10분)
+              </div>
+              <div class="directions-body langdiv-en">
+                700m from Seoul Metro Line 5, Yangpyong Station<br>
+                Roughly 10 minutes walk
+              </div>
+              <img class="directions-icon" src="sprites/DirIcon_5.png">
+            </div>
+            <div class="directions-listing" id="directions-bus">
+              <div class="directions-title">
+                <span class="langspan-ko">641번 버스</span>
+                <span class="langspan-en">Bus 641</span>
+              </div>
+              <div class="directions-body langdiv-ko">
+                서울 간선버스 641번 "영문초등학교" 하차<br>
+                노량진역(9호선), 동작구청역(7호선)과 연결
+              </div>
+              <div class="directions-body langdiv-en">
+                Seoul bus number 641. Get off at "Yeongmun Elementary School"<br>
+                Connects with Noryangjin Station (Subway Line 9, Station ??)<br>
+                and dongjakadjfhaig
+              </div>
+              <img class="directions-icon" src="sprites/DirIcon_Bus.png">
+            </div>
           </div>
           
         </div>

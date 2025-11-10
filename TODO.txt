@@ -22,11 +22,6 @@ Timetable: Mobile UI - scroll based?
 Timetable: Colors... maybe textures?
 Timetable: vert text for korean?
 
-Map: map links open in new tab.
-Map: full addresss
-Map: Text directions.
-Map: Overlay directions on top. 
-
 RIGHT BEFORE PUSH TO PROD
 Change all domains (testing.malangpony) to a PHP expression (<?php echo $webroot;?>)
 

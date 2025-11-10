@@ -533,7 +533,111 @@ a.linkbutton{
   /*box-shadow: 0 0 8px #FFFFFFC0;*/
   background-color: #FFFFFF;
 }
-
+#venue-place-name-top{
+  margin-top:16px;
+  color:#FFFFFF;
+}
+#venue-place-name-title{
+  margin-top:8px;
+  color:#FFFFFF;
+  font-size:32px;
+  font-weight:700;
+}
+#venue-place-address{
+  margin-top:8px;
+  color:#FFFFFF;
+  font-style:italic;
+}
+#venue-map-site-links{
+  margin-top:16px;
+  margin-bottom:12px;
+  color:#FFFFFF;
+  display:flex;
+  flex-direction:row;
+  gap:8px;
+}
+#venue-map-link-naver{
+  background-color:#a4ffac;
+  color:#000;
+}
+#venue-map-link-kakao{
+  background-color:#ffffdc;
+  color:#000;
+}
+#venue-map-link-google{
+  background-color:#c9d1ff;
+  color:#000;
+}
+#map-outer{
+  width:min(600px,100%);
+  height:400px;
+  position:relative;
+}
+#map-btn-jump{
+  position:absolute;
+  top:16px;
+  left:16px;
+  width:128px;
+  height:64px;
+  background-color:#FF0;
+  z-index:10;
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+}
+#directions-container{
+  width:min(600px,100%);
+  margin-top:16px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.directions-listing{
+  height:100px;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  gap:4px;
+  /*border-style: solid;
+  border-width: 4px;*/
+  border-radius: 16px;
+  padding:16px;
+  background-color:#FFFFFF;
+  position:relative;
+}
+.directions-icon{
+  position:absolute;
+  opacity:0.5;
+  top:0;
+  right:0;
+  max-height:100%;
+  
+}
+.directions-title{
+  font-size:1.5em;
+  font-weight:700;
+}
+.directions-body{
+  
+}
+#directions-yangpyong{
+  background-color: #e3c0ff;
+}
+#directions-yangpyong .directions-title{
+  color: #8650c8;
+}
+#directions-munrae{
+  background-color: #cdffc7;
+}
+#directions-munrae .directions-title{
+  color: #3bab2a;
+}
+#directions-bus{
+  background-color: #cdd8ff;
+}
+#directions-bus .directions-title{
+  color: #3648ad;
+}
 /* Responsive Section */
 /* Targeting down to 300px. */
 
