@@ -14,6 +14,7 @@ import { AnimatedValue } from "./animator.js";
 const wsd = document.getElementById("whole-screen-div");
 const parallax_image_container = document.getElementById("parallax-image-container");
 
+
 // A Parallax-affected image.
 // This behaves like a object in 3D space.
 class ParallaxImage{
@@ -34,37 +35,112 @@ class ParallaxImage{
     this.type=type;
     this.src=src;
   }
-  // A crude 3D projection into 2D space.
-  // The math is probably wrong, but it's convincing enough.
-  solve(camera_location = new Vector3()){
-    let relative_location = this.location.subtract(camera_location);
-    
-    // Fade image if too close to camera.
-    // 0% at 100, 100% at 500
-    let opacity=(relative_location.z-100)/400;
-    if (opacity<0) opacity=0;
-    if (opacity>1) opacity=1;
-    if (opacity<=0) return {"render":false};
-    
-    // Calculate size and location.
-    // intrinsic size at 100. 50% scale at 200.
-    let xy_multiplier = 500/relative_location.z;
-    let scaled_dim = this.dimensions.multiply(xy_multiplier);
-    let offset_location = relative_location.multiply(xy_multiplier).projectXY();
-    
-    return {
-      "render":true,
-      "opacity":opacity,
-      "x":offset_location.x,
-      "y":offset_location.y+(relative_location.z)*0.3,
-      "w":scaled_dim.x,
-      "h":scaled_dim.y
-    };
-  }
+  
   toString(){
     return "ParallaxImage(LOC="+this.location+", DIM="+this.dimensions+", TYP="+this.type+", SRC="+this.src+")";
   }
 }
+
+// Stores camera parameters.
+class CameraParameters{
+  position= Vector3.ZERO;
+  zoom=1;
+  tilt=0;
+  constructor(p,z,t){
+    this.position=p;
+    this.zoom=z;
+    this.tilt=t;
+  }
+  toString(){
+    return "CamParam(LOC="+this.position+", ZOOM="+this.zoom.toFixed(2)+", TILT="+this.tilt.toFixed(2)+")";
+  }
+}
+
+// Stores an animated CameraParameter
+class AnimatedCamera{
+  #positionAV;
+  #zoomAV;
+  #tiltAV;
+  
+  constructor(){
+    this.#positionAV=new AnimatedValue(new Vector3(0,0,-500));
+    this.#zoomAV=new AnimatedValue(1);
+    this.#tiltAV=new AnimatedValue(0);
+    this.#positionAV.set_ease(3,true,true);
+    this.#zoomAV.set_ease(3,true,true);
+    this.#tiltAV.set_ease(3,true,true);
+  }  
+  
+  get_value(){
+    return new CameraParameters(
+      this.#positionAV.calculate_value(),
+      this.#zoomAV.calculate_value(),
+      this.#tiltAV.calculate_value()
+    );
+  }
+  tick(dt){
+    this.#positionAV.tick(dt);
+    this.#zoomAV.tick(dt);
+    this.#tiltAV.tick(dt);
+  }
+  
+  was_changed_this_tick(){
+    return this.#positionAV.changed_this_tick ||
+      this.#zoomAV.changed_this_tick ||
+      this.#tiltAV.changed_this_tick;
+  }
+  
+  animate_to(cp){
+    this.#positionAV.animate_to(cp.position);
+    this.#zoomAV.animate_to(cp.zoom);
+    this.#tiltAV.animate_to(cp.tilt);
+  }
+  jump_to(cp){
+    this.#positionAV.jump_to(cp.position);
+    this.#zoomAV.jump_to(cp.zoom);
+    this.#tiltAV.jump_to(cp.tilt);
+  }
+  jump_to_end(){
+    this.#positionAV.jump_to_end();
+    this.#zoomAV.jump_to_end();
+    this.#tiltAV.jump_to_end();
+  }
+  toString(){
+    return "CamParam(LOC="+this.#positionAV.calculate_value()+", ZOOM="+this.#zoomAV.calculate_value().toFixed(2)+", TILT="+this.#tiltAV.calculate_value().toFixed(2)+")";
+  }
+}
+let animated_camera = new AnimatedCamera();
+
+// A crude 3D projection into 2D space.
+// The math is probably wrong, but it's convincing enough.
+const PROJECTION_FADE_START=50;
+const PROJECTION_FADE_END=100;
+function solve_camera(camera_parameters,parallax_image){
+  let relative_location = parallax_image.location.subtract(camera_parameters.position);
+  
+  // Fade image if too close to camera.
+  // 0% at 100, 100% at 300
+  let opacity=(relative_location.z-PROJECTION_FADE_START)/(PROJECTION_FADE_END-PROJECTION_FADE_START);
+  if (opacity<0) opacity=0;
+  if (opacity>1) opacity=1;
+  if (opacity<=0) return {"render":false};
+  
+  // Calculate size and location.
+  // intrinsic size at 500. 50% scale at 1000.
+  let size_mutiplier = 500/relative_location.z*camera_parameters.zoom;
+  let scaled_dim = parallax_image.dimensions.multiply(size_mutiplier);
+  let offset_location = relative_location.multiply(size_mutiplier);
+  
+  return {
+    "render":true,
+    "opacity":opacity,
+    "x":offset_location.x,
+    "y":offset_location.y+(offset_location.z)*camera_parameters.tilt,
+    "w":scaled_dim.x,
+    "h":scaled_dim.y
+  };
+}
+
 
 // Parse data from ParallaxData.js
 let parallax_images=[];
@@ -76,13 +152,6 @@ for (const dat of ParallaxData.images){
       dat.type,dat.src)
   )
 }
-
-let camera_locations={};
-for (const k in ParallaxData.camera_locations){
-  const v=ParallaxData.camera_locations[k];
-  camera_locations[k]=new Vector3(v[0],v[1],v[2]);
-}
-
 
 // The DOM elements that correspond to each Parallax image.
 // The indices should match.
@@ -126,18 +195,19 @@ if (Config.OPTION_ENABLE_PARALLAX_BG)
   populate_parallax_images();
 
 // Recalculate image positions from camera position.
-let last_camera_position=null;
-function recalculate_parallax_images(camera_location){
+let last_cam_param=null;
+function recalculate_parallax_images(cam_param){
   
   // Don't bother doing any of this if camera didn't move.
-  let cam_movement_distance=10000000;
-  if (last_camera_position !== null){
-    let cam_delta = last_camera_position.subtract(camera_location);
-    cam_movement_distance=cam_delta.length();
+  if (last_cam_param!==null){
+    let pos_delta=last_cam_param.position.subtract(cam_param.position).length();
+    let zoom_delta = Math.abs(last_cam_param.zoom - cam_param.zoom);
+    let tilt_delta = Math.abs(last_cam_param.tilt - cam_param.tilt);
+    let changed = (pos_delta>0.0001) || (zoom_delta>0.0001) || (tilt_delta>0.0001);
+    if (!changed) return;
   }
-  last_camera_position=camera_location;
-  if (cam_movement_distance<0.0001) return;
   
+  last_cam_param=cam_param;
   
   // Something is very wrong here.
   if (parallax_images.length != pimg_doms.length){
@@ -153,7 +223,7 @@ function recalculate_parallax_images(camera_location){
     let pimg=parallax_images[i];
     
     // Let ParallaxImage::solve do the maths.
-    let solve_result=pimg.solve(camera_location);
+    let solve_result=solve_camera(cam_param,pimg);
     
     // Mostly straightforward. Apply solve results to CSS.
     if (solve_result.render===false){
@@ -258,34 +328,46 @@ window.onmousemove= (e)=>{
 }
 }
 
-// The camera location.
-let parallax_camera = new AnimatedValue(new Vector3(0,0,-500));
-parallax_camera.set_ease(3,true,true);
+
 
 // Move camera with a smooth animation
-export function camera_animate_to(loc){
-  parallax_camera.animate_to(loc);
+export function camera_animate_to(cp){
+  animated_camera.animate_to(cp);
 }
 // Move camera instantly
-export function camera_jump_to(loc){
-  parallax_camera.jump_to(loc);
+export function camera_jump_to(cp){
+  animated_camera.jump_to(cp);
 }
 
 // Move camera to location name
-export function camera_animate_to_name(location_name){
-  if (!(location_name in camera_locations))
-    console.log("Invalid location name: "+location_name)
-  else
-    camera_animate_to(camera_locations[location_name]);
+let camera_param_presets={};
+for (const k in ParallaxData.camera_locations){
+  const v=ParallaxData.camera_locations[k];
+  camera_param_presets[k]=new CameraParameters(
+    new Vector3(v[0],v[1],v[2]),
+    v[3], //Zoom
+    v[4] //Tilt
+  )
 }
-export function camera_jump_to_name(location_name){
-  if (!(location_name in camera_locations))
-    console.log("Invalid location name: "+location_name)
-  else
-    camera_jump_to(camera_locations[location_name]);
+// Initial location.
+animated_camera.jump_to(camera_param_presets.intro);
+
+export function camera_animate_to_name(name){
+  if (name in camera_param_presets){
+    camera_animate_to(camera_param_presets[name]);
+  }else{
+    console.log("Invalid location name: "+name);
+  }
+}
+export function camera_jump_to_name(name){
+   if (name in camera_param_presets){
+    camera_jump_to(camera_param_presets[name]);
+  }else{
+    console.log("Invalid location name: "+name);
+  }
 }
 export function name_defined_in_camera_locations(name){
-  return (name in camera_locations);
+  return (name in camera_param_presets);
 }
 
 // Should be called by the main JS.
@@ -294,23 +376,10 @@ export function set_scroll_progress(f){
   scroll_progress=f;
 }
 
-
-// Simple polynomial easing functions.
-function polynomialEaseIn(x,power){
-  return Math.pow(x,power);
-}
-function polynomialEaseOut(x,power){
-  return 1-polynomialEaseIn(1-x,power)
-}
-function polynomialEase(x,power){
-  if (x<0.5) return polynomialEaseIn(x*2,power)*0.5;
-  else return polynomialEaseOut((x-0.5)*2,power)*0.5+0.5;
-}
-
 PerformanceManager.register_feature_disable_callback(
   PerformanceManager.Feature.PARALLAX_GROUND,()=>{
     parallax_image_container.style.display="none";
-    parallax_camera.jump_to_end();
+    animated_camera.jump_to_end();
   }
 );
 PerformanceManager.register_feature_enable_callback(
@@ -326,8 +395,8 @@ export function animationTick(dt){
       PerformanceManager.Feature.PARALLAX_GROUND)) return;
   
   // Animate camera
-  parallax_camera.tick(dt);
-  let parallax_camera_current=parallax_camera.calculate_value();
+  animated_camera.tick(dt);
+  let cam_param = animated_camera.get_value();
   
   // Calculate camera nudge
   if (CAMERA_NUDGE_MODE==="NO"){
@@ -365,13 +434,14 @@ export function animationTick(dt){
     camera_nudge_lerped=camera_nudge_lerped.add(lerp_delta);
   }
   
-  // Recalculate parallax with the new camera location
-  recalculate_parallax_images(
-    new Vector3(
-      parallax_camera_current.x+camera_nudge_lerped.x,
+  let nudge=new Vector3(
+      camera_nudge_lerped.x,
       (1-scroll_progress)*1000+camera_nudge_lerped.y,
-      parallax_camera_current.z
-    ));
-	
+      0);
+  cam_param.position=cam_param.position.add(nudge);
+  //console.log(""+cam_param);
+  
+  // Recalculate parallax with the new camera location
+  recalculate_parallax_images(cam_param);
 }
 

@@ -15,21 +15,45 @@ export class AnimatedValue{
 	ease_out=false;
 	start_value=0;
 	end_value=0;
+	#ticks_since_change=0;
+	#time_since_change=0;
 	
 	constructor(initial_value=0){
 		this.start_value=initial_value;
 		this.end_value=initial_value;
+		this.#ticks_since_change=0;
+		this.#time_since_change=0;
+
+	}
+	#changed(){
+		this.#ticks_since_change=-1;
+		this.#time_since_change=-1;
+	}
+	get ticks_since_change(){
+		return Math.max(this.#ticks_since_change,0);
+	}
+	get changed_this_tick(){
+		return this.ticks_since_change>0;
+	}
+	get time_since_change(){
+		return Math.max(this.#time_since_change,0);
 	}
 	tick(dt){
 		this.#elapsed_time+=dt;
+		
+		if (this.being_animated ){
+			this.#changed();
+		}
 	}
 	jump_to(val){
 		this.start_value=val;
 		this.end_value=val;
 		this.#elapsed_time=Infinity;
+		this.#changed();
 	}
 	start(){
 		this.#elapsed_time=0;
+		this.#changed()
 	}
 	stop(){
 		this.jump_to(this.calculate_value());
@@ -41,11 +65,13 @@ export class AnimatedValue{
 		this.start_value=this.calculate_value();
 		this.end_value=val;
 		this.#elapsed_time=0;
+		this.#changed();
 	}
 	set_ease(expo=2.0,ein=true,eout=true){
 		this.exponent=expo;
 		this.ease_in=ein;
 		this.ease_out=eout;
+		this.#changed();
 	}
 	static polynomialEaseIn(x,power){
 		return Math.pow(x,power);
