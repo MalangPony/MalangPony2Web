@@ -439,6 +439,7 @@ export function animationTick(dt){
       (1-scroll_progress)*1000+camera_nudge_lerped.y,
       0);
   cam_param.position=cam_param.position.add(nudge);
+  cam_param.tilt *= scroll_progress;
   //console.log(""+cam_param);
   
   // Recalculate parallax with the new camera location
