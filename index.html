@@ -184,7 +184,7 @@
     </div>
     <!-- 
       The below seemingly useless div is needed for Chromium browsers.
-      Without this div, the chromium will anchor the scroll progress
+      Without this div, chromium will anchor the scroll progress
       to the scroll-inviter, which makes the scroll oscillate
       along with the scroll-inviter animation.
       Adding this useless div fixes that.
@@ -194,7 +194,12 @@
       ...
     </div>
     <div id="scroll-inviter-container">
-      <div id="scroll-inviter" style="font-size:4em;color:#FFF;">▼</div>
+      <div id="scroll-inviter" style="color:#FFF;font-weight:700;">
+        <div style="font-size:4em;">⮟</div>
+        <div class="langdiv-ko" style="font-size:1.5em;margin-top:-0.7em;">아래로 스크롤!</div>
+        <div class="langdiv-en" style="font-size:1.5em;margin-top:-0.7em;">Scroll Down!</div>
+        <div style="font-size:4em;">⮟</div>
+      </div>
     </div>
     
     <div id="intro-content-container" class="css-filters">
