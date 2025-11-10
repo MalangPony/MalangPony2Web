@@ -11,7 +11,13 @@ export let images=[
 		location:[0,0,3000],
 		size:[Infinity,-1],
 		type:"solid",
-		src:"#0e3108"
+		src:"#002c01"
+	},
+	{ // Mountain
+		location:[1000,0,3000],
+		size:[4000,2000],
+		type:"image",
+		src:"sprites-prototype/MPN2-Prototype-Image-Namsan.png"
 	},
 	{ //FS
 		location:[-200,0,-20],
