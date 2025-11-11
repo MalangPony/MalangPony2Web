@@ -21,6 +21,9 @@
 
 // Ground plane is at Y=0
 // don't put anything in front of Z=0
+// Everything is at its intrinsic size at 500px away from camera.
+// Which means, at default camera Z=+500, an object at Z=0 will be at its
+// original size. An object at, say Z=3000 will be at its 1/7 = 14% size.
 export let images=[
 	{ // Ground plane
 		location:[0,0,3000],
@@ -33,6 +36,30 @@ export let images=[
 		size:[4000,2000],
 		type:"image",
 		src:"sprites-prototype/MPN2-Prototype-Image-Namsan.png"
+	},
+	{ // Cloud #1 - hat
+		location:[300,1500,3300],
+		size:[1000,1000*(197/500)],
+		type:"image",
+		src:"sprites-prototype/MPN2-Prototype-Image-D1628947.png"
+	},
+	{ // Cloud #2 - flat
+		location:[-2000,2500,3300],
+		size:[1000,1000*(333/500)],
+		type:"image",
+		src:"sprites-prototype/MPN2-Prototype-Image-D1628954.png"
+	},
+	{ // Cloud #3 - swirly
+		location:[-2500,1500,3300],
+		size:[1000,1000*(200/500)],
+		type:"image",
+		src:"sprites-prototype/MPN2-Prototype-Image-D1629031.png"
+	},
+	{ // Cloud #4 - round
+		location:[2200,3000,3300],
+		size:[1000,1000*(333/500)],
+		type:"image",
+		src:"sprites-prototype/MPN2-Prototype-Image-D1629034.png"
 	},
 	{ //FS
 		location:[-200,0,-20],
@@ -64,6 +91,8 @@ export let images=[
 		type:"image",
 		src:"sprites-prototype/MPN2-Prototype-Image-D1718519.png"
 	},
+	// Maybe combine all the guards into a single image? 
+	// Might be better for performance...
 	{ //Guard #1
 		location:[500,0,700],
 		size:[150,150*(2500/1650)],
