@@ -43,6 +43,7 @@ const lmsa = document.getElementById("letter-magic-spritesheet-animation");
 
 const lang_btn = document.getElementById("langswitch-btn");
 const sb_btn = document.getElementById("sb-btn");
+const sb_close_btn = document.getElementById("sb-close-button-container");
 
 const scroll_inviter_container = document.getElementById("scroll-inviter-container");
 const scroll_inviter = document.getElementById("scroll-inviter");
@@ -203,6 +204,11 @@ function sidebar_magic_animate(){
 
 // After magic_animate, open up the scroll
 function sidebar_intro_animate(){
+  sidebar.classList.remove("sb-mobile-mode");
+  sidebar.classList.add("sb-expanded");
+  
+  sb_close_btn.style.display="none";
+  
   sidebar_magic_animate();
   sidebar_collapse_and_unlock();
   
@@ -247,6 +253,7 @@ function sidebar_button_animate_mobile(){
 
 // Hide the sidebar button
 function sidebar_button_hide_mobile(){
+  
   let anim1=sb_btn.animate(
     [{marginLeft:"16px"},
      {marginLeft:"-160px"}],
@@ -259,6 +266,9 @@ function sidebar_button_hide_mobile(){
 
 // Open up the scroll in fullscreen (mobile mode)
 function sidebar_intro_animate_mobile(){
+  sidebar.classList.add("sb-mobile-mode");
+  sidebar.classList.add("sb-expanded");
+  
   sidebar.style.transform="none";
   sidebar.style.display="flex";
   
@@ -292,10 +302,24 @@ function sidebar_intro_animate_mobile(){
   anim6.onfinish=(e)=>{
     sb_btn.style.opacity=0;
   };  
+  
+  sb_close_btn.style.display="block";
+  sb_close_btn.style.opacity=0;
+  let anim7=sb_close_btn.animate(
+    [{opacity:0},
+     {opacity:1}],
+    {duration:300,delay:200,easing:"linear"});
+  anim7.onfinish=(e)=>{
+    console.log("A7F");
+    sb_close_btn.style.opacity=1;
+  };  
 }
 
 // Desktop mode, hide scroll
 function sidebar_hide(){
+  sidebar.classList.remove("sb-mobile-mode");
+  sidebar.classList.remove("sb-expanded");
+  
   let anim1=sidebar.animate(
     [{marginLeft:"0"},
      {marginLeft:"-160px"}],
@@ -304,10 +328,16 @@ function sidebar_hide(){
     sidebar.style.display="none";
     sidebar.style.marginLeft="0";
   }
+  
+  // Not really needed, I think...
+  sb_close_btn.style.display="none";
 }
 
 // Mobile mode, hide fullscreen scroll
 function sidebar_hide_mobile(){
+  sidebar.classList.add("sb-mobile-mode");
+  sidebar.classList.remove("sb-expanded");
+  
   let anim1=sidebar.animate(
     [{opacity:1},
      {opacity:0}],
@@ -324,10 +354,27 @@ function sidebar_hide_mobile(){
   anim4.onfinish=(e)=>{
     sb_btn.style.opacity=1;
   };  
+  
+  sb_close_btn.style.display="block";
+  sb_close_btn.style.opacity=1;
+  let anim7=sb_close_btn.animate(
+    [{opacity:1},
+     {opacity:0}],
+    {duration:200,delay:0,easing:"linear"})
+  anim7.onfinish=(e)=>{
+    sb_close_btn.style.display="none";
+  };  
 }
 function sidebar_hide_instant(){
   sidebar.style.display="none";
+  sb_close_btn.style.display="none";
+  sidebar.classList.remove("sb-expanded");
 }
+
+// Sidebar close button
+sb_close_btn.addEventListener("click",()=>{
+  if (mobile_mode) sidebar_hide_mobile();
+});
 
 // Called every time a firework explodes
 let firework_exploded=false;

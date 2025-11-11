@@ -57,3 +57,15 @@ export function linear_map(input_min,input_max,x,out_min,out_max,clamp=true){
 	
 	return ratio*range_output+out_min;
 }
+
+// Ported from Google Material Icons
+// close_24dp_000000_FILL0_wght700_GRAD0_opsz24.svg
+export function generate_svg_cross(fill){
+	let close_svg=document.createElementNS("http://www.w3.org/2000/svg", "svg");
+	close_svg.setAttributeNS(null,"viewBox","0 -960 960 960");
+	close_svg.setAttribute("fill","#000000");
+	let svg_path=document.createElementNS("http://www.w3.org/2000/svg","path");
+	svg_path.setAttribute("d","m256-168-88-88 224-224-224-224 88-88 224 224 224-224 88 88-224 224 224 224-88 88-224-224-224 224Z");
+	close_svg.appendChild(svg_path);
+	return close_svg;
+}

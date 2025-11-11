@@ -4,6 +4,7 @@
  */
 
 import * as Config  from "./config.js";
+import * as Utils from "./utils.js";
 
 // Parse H:M timestamp into total minutes
 function parse_time(s){
@@ -219,17 +220,12 @@ function timetable_build(ttd){
 		closebtn_dom.style.zIndex=+1;
 		closebtn_dom.classList.add("hidden");
 		
-		let close_svg=document.createElementNS("http://www.w3.org/2000/svg", "svg");
-		close_svg.setAttributeNS(null,"viewBox","0 -960 960 960");
-		close_svg.setAttribute("fill","#000000");
+		let close_svg=Utils.generate_svg_cross("#000000");
 		close_svg.style.position="absolute";
 		close_svg.style.top=   px2em(tt_close_button_padding);
 		close_svg.style.bottom=px2em(tt_close_button_padding);
 		close_svg.style.left=  px2em(tt_close_button_padding);
 		close_svg.style.right= px2em(tt_close_button_padding);
-		let svg_path=document.createElementNS("http://www.w3.org/2000/svg","path");
-		svg_path.setAttribute("d","m256-168-88-88 224-224-224-224 88-88 224 224 224-224 88 88-224 224 224 224-88 88-224-224-224 224Z");
-		close_svg.appendChild(svg_path);
 		closebtn_dom.appendChild(close_svg);
 		if (Config.OPTION_TIMETABLE_REQUIRE_CLICK){
 			block_dom.appendChild(closebtn_dom);
