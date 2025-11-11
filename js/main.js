@@ -69,6 +69,8 @@ const debug_btn_perf_auto = document.getElementById(
 
 const timetable_container = document.getElementById("ttable-container");
 
+const sky_bg = document.getElementById("sky-bg");
+
 
 
 
@@ -440,6 +442,15 @@ function recursiveAnimFrameFunc(t){
 requestAnimationFrame(recursiveAnimFrameFunc);
 
 
+// Sky BG size
+sky_bg.style.height = wsd.clientHeight+Config.OPTION_SCROLL_BG_OFFSET_AMOUNT+"px";  
+sky_bg.style.top="0"; 
+let screen_resize_observer = new ResizeObserver(()=>{
+  sky_bg.style.height = wsd.clientHeight+Config.OPTION_SCROLL_BG_OFFSET_AMOUNT+"px";  
+});
+screen_resize_observer.observe(wsd);
+
+
 //TODO change this JS-based animation to
 // a CSS-based animation with "animation-timeline: scroll()" 
 
@@ -473,6 +484,9 @@ content_scroller.addEventListener("scroll", (e) => {
   
   scroll_progress_ratio=Math.min(Math.max(scroll_progress_ratio,0),1);
   
+  // Update sky
+  // This will match the star movement.
+  sky_bg.style.top = "-"+Config.OPTION_SCROLL_BG_OFFSET_AMOUNT*scroll_progress_ratio+"px";
   // Update parallax
   Parallax.set_scroll_progress(scroll_progress_ratio);
   
