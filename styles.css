@@ -317,11 +317,11 @@ canvas{
 @keyframes scroll-inviter-anim{
   from{
     margin-top:0px;
-    opacity:0.4;
+    opacity:0.5;
   }
   to{
     margin-top:24px;
-    opacity:0.5;
+    opacity:0.8;
   }
   
 }
@@ -340,6 +340,14 @@ canvas{
   align-items:center;
   justify-content:center;
   gap:8px;
+}
+.si-text{
+  font-size:1.5em;
+  margin-top:-0.7em;
+}
+.si-arrow{
+  font-size:4em;
+  opacity:0.8;
 }
 
 /* Sidebar positioning & animation*/
@@ -656,6 +664,11 @@ a.linkbutton{
 	border-radius:8px;
 	gap:8px;
 	border: 2px solid;
+}
+
+/* Border for embeds */
+.embed-frame{
+  
 }
 
 /* Common styles for all page content */

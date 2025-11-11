@@ -16,7 +16,6 @@ More STUFF in the sky
 BG free-roam mode
 ...or BG view mode
 Page footer, add SNS links there
-Make scroll inviter more visible - Backdrop, move to center
 Unify logo (make top logo follow scroll)
 Make black text blue-ish (follow palette)
 Make border between ground and sky less obvious
