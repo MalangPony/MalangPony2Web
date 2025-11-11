@@ -7,6 +7,7 @@
 import * as Config  from "./config.js";
 import * as Graphics  from "./graphics.js";
 import * as PerformanceManager from "./perfmanager.js";
+import * as Parallax from "./parallax.js";
 
 // DOM definitions
 const wsd = document.getElementById("whole-screen-div");
@@ -101,9 +102,19 @@ function resize_star_area(new_w,new_h){
   }
 }
 
+// Logically, the sky is at Z=10000
+// Without the round here, the scroll_offset will be a float.
+// And since the canvas size can only take on integer values,
+// the target size and canvas size will be mismatched every frame.
+// So, the round here is absolutely necessasary.
+let scroll_offset = Math.round(Parallax.calculate_offset_from_sky_mode_to_ground_mode(
+  Config.OPTION_SKY_LOGICAL_Z_LOCATION
+));
+console.log("StarScrollOffset",scroll_offset);
+
 // This should be called from the main JS file.
 export function set_scroll_progress(f){
-  stars_scroll_pixels=f*Config.OPTION_SCROLL_BG_OFFSET_AMOUNT;
+  stars_scroll_pixels=f*scroll_offset;
 }
 
 
@@ -114,12 +125,13 @@ function refresh_stars_canvas(dt){
   let fullscreenH=wsd.clientHeight;
   
   let targetSizeW=fullscreenW;
-  let targetSizeH=fullscreenH+Config.OPTION_SCROLL_BG_OFFSET_AMOUNT;
+  let targetSizeH=fullscreenH+scroll_offset;
   
-  if (canvas_stars.width!=targetSizeW)
+  if ((canvas_stars.width!=targetSizeW) || (canvas_stars.height!=targetSizeH)){
+    console.log("Star canvas change size");
     canvas_stars.width=targetSizeW;
-  if (canvas_stars.height!=targetSizeH)
     canvas_stars.height=targetSizeH;
+  }
   
   let w=canvas_stars.width;
   let h=canvas_stars.height;
@@ -164,6 +176,8 @@ function refresh_stars_canvas(dt){
   
   canvas_stars.style.top="-"+stars_scroll_pixels+"px";
   canvas_stars.style.height=""+targetSizeH+"px";
+  //console.log(`canvas_stars ${stars_scroll_pixels} ${targetSizeH}`);
+  
   
   debug_print_stars.innerHTML="Stars x"+star_definitions.length+(animated?" (Animated)":" (Static)");
 }

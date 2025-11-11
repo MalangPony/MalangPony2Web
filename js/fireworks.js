@@ -9,6 +9,7 @@ import { Vector2, Vector3 } from "./vectors.js";
 import * as Config  from "./config.js";
 import * as Graphics  from "./graphics.js";
 import * as PerformanceManager from "./perfmanager.js";
+import * as Parallax from "./parallax.js";
 
 // DOM definitions
 const wsd = document.getElementById("whole-screen-div");
@@ -399,9 +400,13 @@ function refresh_fireworks_canvas(dt){
   debug_print_particles.innerHTML="Particles x"+entity_array.length
 }
 
+// Logically, the fireworks display is at Z=3000
+let scroll_offset = Math.round(Parallax.calculate_offset_from_sky_mode_to_ground_mode(
+  Config.OPTION_FIREWORKS_LOGICAL_Z_LOCATION));
+console.log("FwScOf",scroll_offset);
 // Should be called by the main JS
 export function set_scroll_progress(f){
-  cs.offset=new Vector2(0,-f*100);
+  cs.offset=new Vector2(0,-f*scroll_offset);
 }
 
 // Disable all firework launching.

@@ -6,6 +6,9 @@
 // X controls horizontal position. Positive is right.
 // Y controls the height. Positive is higher.
 // Z controls depth. Positive is further away.
+// If Z<2900, the image will be placed in front of the fireworks.
+// If Z>2900, the image will be placed behind the fireworks.
+// The firework system will follow the offset at Z=2900
 
 // Size:
 // Intrinsic size. Will be this size if 500px away from camera.
@@ -138,3 +141,7 @@ export let camera_locations={
 	timetable: [-500, camera_y,  -500, 1.0, camera_default_tilt],
 	venue:     [-100, camera_y, -1000, 1.0, camera_default_tilt]
 }
+
+// Camera parameters in sky mode.
+export let camera_sky_tilt = 0.0;
+export let camera_sky_y_offset = 500;

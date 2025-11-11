@@ -442,11 +442,17 @@ function recursiveAnimFrameFunc(t){
 requestAnimationFrame(recursiveAnimFrameFunc);
 
 
+// Logically, the sky is at Z=10000
+let sky_offset = Math.round(Parallax.calculate_offset_from_sky_mode_to_ground_mode(
+  Config.OPTION_SKY_LOGICAL_Z_LOCATION
+));
+console.log("SkyScrollOffset",sky_offset);
+
 // Sky BG size
-sky_bg.style.height = wsd.clientHeight+Config.OPTION_SCROLL_BG_OFFSET_AMOUNT+"px";  
+sky_bg.style.height = wsd.clientHeight+sky_offset+"px";  
 sky_bg.style.top="0"; 
 let screen_resize_observer = new ResizeObserver(()=>{
-  sky_bg.style.height = wsd.clientHeight+Config.OPTION_SCROLL_BG_OFFSET_AMOUNT+"px";  
+  sky_bg.style.height = wsd.clientHeight+sky_offset+"px";  
 });
 screen_resize_observer.observe(wsd);
 
@@ -486,7 +492,7 @@ content_scroller.addEventListener("scroll", (e) => {
   
   // Update sky
   // This will match the star movement.
-  sky_bg.style.top = "-"+Config.OPTION_SCROLL_BG_OFFSET_AMOUNT*scroll_progress_ratio+"px";
+  sky_bg.style.top = "-"+sky_offset*scroll_progress_ratio+"px";
   // Update parallax
   Parallax.set_scroll_progress(scroll_progress_ratio);
   

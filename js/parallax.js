@@ -13,8 +13,8 @@ import { AnimatedValue } from "./animator.js";
 
 // DOM definitions
 const wsd = document.getElementById("whole-screen-div");
-const parallax_image_container = document.getElementById("parallax-image-container");
-
+const image_container_near = document.getElementById("parallax-image-container-near");
+const image_container_far = document.getElementById("parallax-image-container-far");
 
 // A Parallax-affected image.
 // This behaves like a object in 3D space.
@@ -136,7 +136,9 @@ function solve_camera(camera_parameters,parallax_image){
     "render":true,
     "opacity":opacity,
     "x":offset_location.x,
-    "y":offset_location.y+(offset_location.z)*camera_parameters.tilt,
+    //"y":offset_location.y+(offset_location.z)*camera_parameters.tilt,
+    // Above code equivalent to below.
+    "y":offset_location.y+(500*camera_parameters.zoom*camera_parameters.tilt),
     "w":scaled_dim.x,
     "h":scaled_dim.y
   };
@@ -166,7 +168,8 @@ parallax_images.sort((a,b)=>{return b.location.z-a.location.z})
 // Create DOM elements representing each parallax image.
 function populate_parallax_images(){
   // Clear all DOM
-  parallax_image_container.replaceChildren();
+  image_container_near.replaceChildren();
+  image_container_far.replaceChildren();
   pimg_doms=[];
   
   // Add DOMs
@@ -191,7 +194,10 @@ function populate_parallax_images(){
     e.style.position="absolute";
     e.style.zIndex=zi;
     e.style.display="none";
-    parallax_image_container.appendChild(e);
+    if (pimg.location.z<2900)
+      image_container_near.appendChild(e);
+    else
+      image_container_far.appendChild(e);
     pimg_doms.push(e);
   }
 }
@@ -219,8 +225,8 @@ function recalculate_parallax_images(cam_param){
     console.log("ERROR 623")
   }
   let n=parallax_images.length;
-  let containerW=parallax_image_container.clientWidth;
-  let containerH=parallax_image_container.clientHeight;
+  let containerW=image_container_near.clientWidth;
+  let containerH=image_container_near.clientHeight;
   
   // For each parallax image...
   for (let i=0;i<n;i++){
@@ -385,13 +391,13 @@ export function set_scroll_progress(f){
 // PerfManager
 PerformanceManager.register_feature_disable_callback(
   PerformanceManager.Feature.PARALLAX_GROUND,()=>{
-    parallax_image_container.style.display="none";
+    image_container_near.style.display="none";
     animated_camera.jump_to_end();
   }
 );
 PerformanceManager.register_feature_enable_callback(
   PerformanceManager.Feature.PARALLAX_GROUND,()=>{
-    parallax_image_container.style.display="block";
+    image_container_near.style.display="block";
   }
 );
 
@@ -444,13 +450,34 @@ export function animationTick(dt){
   // Camera offset.
   let nudge=new Vector3(
       camera_nudge_lerped.x,
-      (1-scroll_progress)*1000+camera_nudge_lerped.y,
+      (1-scroll_progress)*ParallaxData.camera_sky_y_offset+camera_nudge_lerped.y,
       0);
   cam_param.position=cam_param.position.add(nudge);
-  cam_param.tilt *= scroll_progress;
+  cam_param.tilt = 
+    scroll_progress * cam_param.tilt + 
+    (1-scroll_progress) * ParallaxData.camera_sky_tilt;
   
   
   // Recalculate parallax with the new camera location
   recalculate_parallax_images(cam_param);
+}
+
+// At full sky (scroll prog = 0), Y=700, Tilt=0
+// At full ground (scroll prog = 1), Y=200, Tilt = 0.7
+// For an object at Z=3000, Rel.Z=3500
+// SizeMult = 500/3500 = 0.1429
+// From tilt, Y gets offset by 350 and by Y-Translation, 71
+// Total of ~420 px offset from sky to ground
+export function calculate_offset_from_sky_mode_to_ground_mode(z_coords){
+  let intro_camera=camera_param_presets["intro"]
+  let relZ=z_coords-intro_camera.position.z;
+  let scaling_factor=500/relZ;
+  let y_translation_by_yoffset = ParallaxData.camera_sky_y_offset*scaling_factor;
+  let tilt_delta = (intro_camera.tilt-ParallaxData.camera_sky_tilt);
+  let zoom = intro_camera.zoom;
+  let y_translation_by_tilt = 500*zoom*tilt_delta;
+  let y_total_delta = y_translation_by_yoffset+y_translation_by_tilt;
+  console.log(`Intro Sky to Ground Z ${z_coords} YOF ${y_translation_by_yoffset} YTT ${y_translation_by_tilt} TOT ${y_total_delta}`);
+  return y_total_delta;
 }
 
