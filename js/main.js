@@ -69,7 +69,8 @@ const debug_btn_perf_decrement = document.getElementById(
 const debug_btn_perf_auto = document.getElementById(
 	"debug-button-feature-auto");
 
-const timetable_container = document.getElementById("ttable-container");
+const ttmmbL=document.getElementById("ttmmb-left");
+const ttmmbR=document.getElementById("ttmmb-right");
 
 const sky_bg = document.getElementById("sky-bg");
 
@@ -834,14 +835,18 @@ let mq_mobile=window.matchMedia("(width <= 640px)");
 
 let mobile_mode=mq_mobile.matches;
 function mobile_enter(){
+  body_dom.classList.add("mobile-mode");
   sidebar_hide_instant();
   sidebar_button_animate_mobile();
+  Timetable.enter_mobile();
 }
 function mobile_leave(){
+  body_dom.classList.remove("mobile-mode");
   if (!in_sky_mode) {
-  sidebar_intro_animate();
-  sidebar_button_hide_mobile();
+    sidebar_intro_animate();
+    sidebar_button_hide_mobile();
   }
+  Timetable.exit_mobile();
 }
 
 mq_mobile.onchange= ()=>{
@@ -851,6 +856,9 @@ mq_mobile.onchange= ()=>{
   else mobile_leave();
 };
 sb_btn.onclick=sidebar_intro_animate_mobile;
+
+if (mq_mobile.matches) mobile_enter();
+else mobile_leave();
 
 
 // Get page from URL.
@@ -961,9 +969,6 @@ function sidebar_collapse_and_unlock(){
   sidebar_category_interactive=true;
 }
 
-// Run once timetable JSON is read in.
-Timetable.get_timetable_data().then((d)=>{
-  console.log("TT Promise resolved at main.js");
-  timetable_container.appendChild(d["dom"]);
-  apply_lang(current_lang);
-})
+
+ttmmbL.addEventListener("click",()=>{Timetable.mobile_prev()});
+ttmmbR.addEventListener("click",()=>{Timetable.mobile_next()});

@@ -8,11 +8,9 @@ Save perf level in cookie (maybe)
 Firework colors randomize
 Do something about feature oscillation
 Create rest of the pages
-Pages BG white okay? Maybe black? dropshadows?
 A low-power device warning when feature level is low?
 Directional light fx (create normal map...?)
 Hanmari ignores clicks in sky mode. Maybe fix this?
-More STUFF in the sky
 BG free-roam mode
 ...or BG view mode
 Page footer, add SNS links there
@@ -20,9 +18,11 @@ Unify logo (make top logo follow scroll)
 Make black text blue-ish (follow palette)
 Make border between ground and sky less obvious
 Put some BG objects (far objects) in the sky
-Timetable: Mobile UI - scroll based?
+Timetable: Improve mobile UI - maybe auto-expand with scroll progress?
 Timetable: Colors... maybe textures?
 Timetable: vert text for korean?
+Maybe: constallations?
+Gradient instead of boxblur in content-backdrop
 
 RIGHT BEFORE PUSH TO PROD
 Change all domains (testing.malangpony) to a PHP expression (<?php echo $webroot;?>)

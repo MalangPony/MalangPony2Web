@@ -560,8 +560,11 @@ canvas{
 }
 
 /* Timetable content */
-#ttable-container{
+#ttable-positioner{
+  
   font-size:min(1.5vw,16px);
+}
+#ttable-container{
   color:var(--color-text-dark);
 }
 .timetable-block-body{
@@ -642,6 +645,24 @@ canvas{
   margin-top:0.1em;
   font-size:0.8em;
   font-weight:400;
+}
+
+#timetable-mobile-move-button{
+  /*display:flex;*/
+  display:none;
+  flex-direction:row;
+  justify-content:space-between;
+  align-items:center;
+  
+}
+#timetable-mobile-move-button > div{
+  color:#FFFFFF;
+  padding:16px;
+  cursor:pointer;
+  pointer-events:auto;
+  text-shadow: 0 0 10px #00000080;
+  font-size:64px;
+  
 }
 
 /* A .linkbutton class for creating a hyperlink button. */
@@ -921,7 +942,17 @@ a.linkbutton{
   }
   
   #ttable-container{
-    font-size:min(2.0vw,16px);
+    transition-property:margin;
+    transition-duration:0.5s;
+  }
+  #ttable-positioner{
+    width:100%;
+    overflow-x:visible;
+    font-size:min(4.0vw,16px);
+  }
+  
+  #timetable-mobile-move-button{
+    display:flex;
   }
 }
 

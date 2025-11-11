@@ -5,6 +5,15 @@
 
 import * as Config  from "./config.js";
 import * as Utils from "./utils.js";
+import * as TimetableData from "./timetable_data.js";
+
+
+const timetable_container = document.getElementById("ttable-container");
+const timetable_positoner = document.getElementById("ttable-positioner");
+
+
+let mobile_mode=false;
+
 
 // Parse H:M timestamp into total minutes
 function parse_time(s){
@@ -20,52 +29,6 @@ function parse_time(s){
 	}
 }
 
-// JSON fetch
-// TODO maybe move JSON into a plain .js file...?
-let fetch_fail_reason=null;
-let fetch_success=false;
-let timetable_data=null;
-let timetable_dom=null;
-
-let resolves=[];
-let rejects=[];
-// I tried to use async and Promises
-// Not sure if it was worth it.
-export async function get_timetable_data(){
-	return new Promise((resolve,reject)=>{
-		if (fetch_fail_reason!==null) reject(fetch_fail_reason);
-		else if (fetch_success) resolve(
-			{"data":timetable_data,"dom":timetable_dom});
-		else{
-			resolves.push(resolve);
-			rejects.push(reject);
-		}
-	});
-}
-function resolve(data,dom){
-	if (fetch_success){
-		console.log("resolve() done twice?");
-		return;
-	}
-	console.log("TT Resolved.");
-	timetable_data=data;
-	timetable_dom=dom;
-	fetch_success=true;
-	for (const r of resolves){
-		r({"data":timetable_data,"dom":timetable_dom});
-	}
-}
-function reject(reason){
-	if (fetch_fail_reason !== null){
-		console.log("reject() done twice?");
-		return;
-	}
-	console.log("TT Rejected: "+reason);
-	fetch_fail_reason=reason;
-	for (const r of rejects){
-		r(fetch_fail_reason);
-	}
-}
 
 // Timetable UI constants.
 const tt_start_t=parse_time("8:20");
@@ -93,6 +56,8 @@ function px2em(p){
 // Hopefully nopony will mouse-over the timetable 2 billion times...
 let mouseover_zindex=+100;
 
+let cgroup_centers=[];
+
 function timetable_build(ttd){
 	let domroot=document.createElement("div");
 	
@@ -111,6 +76,8 @@ function timetable_build(ttd){
 	let column_vertical={};
 	let column_widths={};
 	let column_expand_direction={};
+	
+	let columns_to_cgroups={};
 	
 	let cgroup_left={};
 	let cgroup_right={};
@@ -135,6 +102,8 @@ function timetable_build(ttd){
 			column_vertical[col.name]=col.text_vertical;
 			column_expand_direction[col.name]=col.expand_direction;
 			
+			columns_to_cgroups[col.name]=col.group;
+			
 			let left=x;
 			let right=x+col.width;
 			x+=col.width;
@@ -149,6 +118,12 @@ function timetable_build(ttd){
 		}
 		if (x>max_x) max_x=x;
 	}
+	
+	for (const cg of cgroups){
+		cgroup_centers.push(
+			(cgroup_left[cg.name]+cgroup_right[cg.name])/2);
+	}
+	cgroup_centers.sort((a, b) => a - b);
 	
 	let color_presets={};
 	for(const cp of cpresets){
@@ -193,6 +168,11 @@ function timetable_build(ttd){
 		let color_preset_raw=color_presets[block.color_preset];
 		let bg_color=color_preset_raw.color;
 		let expand_direction=column_expand_direction[block.column];
+		
+		let colgroup=columns_to_cgroups[block.column];
+		let cg_left=cgroup_left[colgroup];
+		let cg_right=cgroup_right[colgroup];
+		//console.log(`BLK CL${block.column} CGL${colgroup} CL${cg_left} CR${cg_right}`);
 		
 		// Child DOM elements
 		let block_dom=document.createElement("div");
@@ -355,9 +335,18 @@ function timetable_build(ttd){
 		function enter(){
 			expanded=true;
 			block_dom.style.top=px2em(expY);
-			block_dom.style.left=px2em(expX);
 			block_dom.style.height=px2em(expH);
-			block_dom.style.width=px2em(expW);
+			if (mobile_mode){
+				let center=(cg_right+cg_left)/2;
+				//block_dom.style.left=px2em(cg_left);
+				//block_dom.style.width=px2em(cg_right-cg_left);
+				block_dom.style.left=px2em(center-(tt_block_expanded_width/2));
+				block_dom.style.width=px2em(tt_block_expanded_width);
+			}else{
+				block_dom.style.left=px2em(expX);
+				block_dom.style.width=px2em(expW);
+			}
+			//console.log(`BlockEnter Y${expY} H${expH} L${cg_left} R${cg_right} X${expX} W${expW}`);
 			block_dom.classList.add("timetable-block-mouseover");
 			mouseover_zindex++;
 			block_dom.style.zIndex=mouseover_zindex;
@@ -496,8 +485,8 @@ function timetable_build(ttd){
 		outline_dom.style.borderWidth=px2em(tt_block_border_width);
 		
 		if ("color_list" in color_preset_raw){
-			console.log("CPR-CL",color_preset_raw.color_list)
-			console.log("CPR-CTM",color_preset_raw.color_transition_minutes)
+			//console.log("CPR-CL",color_preset_raw.color_list)
+			//console.log("CPR-CTM",color_preset_raw.color_transition_minutes)
 			let visual_duration=rel_end_time_gapped-rel_start_time_gapped;
 			let start_time_visual = rel_start_time_gapped
 			let stops=[];
@@ -518,7 +507,7 @@ function timetable_build(ttd){
 				gradient_def=gradient_def+" "+highstop;
 			}
 			gradient_def=gradient_def+")";
-			console.log("GDEF",gradient_def);
+			//console.log("GDEF",gradient_def);
 			block_dom.style.backgroundImage=gradient_def;
 		}else{
 			block_dom.style.backgroundColor=bg_color;
@@ -659,19 +648,52 @@ function timetable_build(ttd){
 	return domroot;
 }
 
-// Actually fetch and do the stuff.
-window.fetch("timetable_data.json").then(
-	(resp)=>{
-		if (!resp.ok) throw new Error(`Response status: ${response.status}`);
-		else return resp.json();
-	}
-).then(
-	(jdat)=>{ // OK
-		console.log("Timetable Fetch success");
-		resolve(jdat,timetable_build(jdat));
-	},
-	(reason)=>{
-		reject(reason);
-	}
-)
 
+let cgroup_index=0;
+export function enter_mobile(){
+	mobile_mode=true;
+	mobile_focus_cgroup();
+}
+export function exit_mobile(){
+	mobile_mode=false;
+	timetable_container.style.marginLeft=0;
+}
+function mobile_focus_cgroup(){
+	let cgroup_center_px = cgroup_centers[cgroup_index];
+	let cgroup_center_em=px2em(cgroup_center_px);
+	
+	let positioner_width=timetable_positoner.clientWidth;
+	let positioner_center_px=positioner_width/2;
+	
+	let margin=`calc(${positioner_center_px}px - ${cgroup_center_em})`;
+	//console.log(margin);
+	timetable_container.style.marginLeft=margin;
+}
+
+let last_known_positioner_width=-100000;
+let positioner_resize_observer = new ResizeObserver(()=>{
+	if (!mobile_mode) return;
+	let w = timetable_positoner.clientWidth;
+	if (Math.abs(last_known_positioner_width-w)>10){
+		last_known_positioner_width=w;
+		console.log("Detected TTable Positioner Width change - recenter");
+		mobile_focus_cgroup();
+	}
+});
+positioner_resize_observer.observe(timetable_positoner);
+export function mobile_next(){
+	if (!mobile_mode) return;
+	cgroup_index++;
+	if (cgroup_index>=cgroup_centers.length) cgroup_index=cgroup_centers.length-1;
+	//console.log("CGI",cgroup_index);
+	mobile_focus_cgroup();
+}
+export function mobile_prev(){
+	if (!mobile_mode) return;
+	cgroup_index--;
+	if (cgroup_index<0) cgroup_index=0;
+	//console.log("CGI",cgroup_index);
+	mobile_focus_cgroup();
+}
+
+timetable_container.appendChild(timetable_build(TimetableData));

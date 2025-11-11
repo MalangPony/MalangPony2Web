@@ -1,5 +1,4 @@
-{
-"blocks":[
+export let blocks=[
 	{ 
 	"display":true,
 	"name_kr":"입장 및 자유시간",
@@ -366,8 +365,8 @@
 	"tagline_en":"",
 	"tagline_kr":""
 	}
-],
-"columns":[
+];
+export let columns=[
 	{
 	"type":"spacer",
 	"width":50
@@ -474,8 +473,8 @@
 	"type":"spacer",
 	"width":50
 	}
-],
-"column_groups":[
+];
+export let column_groups=[
 	{
 	"name":"main-stage",
 	"fullname_kr":"메인 홀",
@@ -512,8 +511,8 @@
 	"ramp_color_top":   "rgba(255,255,200, 0.5)",
 	"ramp_color_bottom":"rgba(255,255,200, 0.0)"
 	}
-],
-"color_presets":[
+];
+export let color_presets=[
 	{
 	"name":"buffer",
 	"color":"#C0C0C0"
@@ -548,5 +547,4 @@
 	"name":"vendor-sponsor",
 	"color":"#b8e3ff"
 	}
-]
-}
+];
