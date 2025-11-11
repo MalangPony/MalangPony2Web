@@ -40,32 +40,41 @@
   
   
   /* Text colors*/
+  /* Note: The dark/light refers to the lightness of the text. */
+  /* Therefore, in LIGHT mode, the DARK text color should be used. */
+  /* And in DARK mode, the LIGHT text color should be used. */
   --color-text-dark: var(--template-malang-text);
   --color-text-light: var(--template-malang-bg);
-  --color-text-main: var(--color-text-light);
+  --color-text-main: light-dark(var(--color-text-dark),var(--color-text-light));
   
   --color-sidebar-text-normal:#644a20;
   --color-sidebar-text-selected:#101010;
   
   /* Background */
-  --color-background-default: #F0F0F0;
+  --color-background-light: #F0F0F0;
+  --color-background-dark: #202020;
+  --color-background-default:light-dark(
+    var(--color-background-light),var(--color-background-dark));
   
-  --color-main-backdrop:hsl(from var(--template-malang-bg) h s l / 30%);
-  --color-main-backdrop-noblur:hsl(from var(--template-malang-bg) h s l / 20%);
-  /*
-  --color-main-backdrop:hsl(0deg 0% 0% / 40%);
-  --color-main-backdrop-noblur:hsl(0deg 0% 0% / 30%);*/
+  --color-main-backdrop:light-dark(
+    hsl(from var(--template-malang-bg) h s l / 50%),
+    hsl(0deg 0% 0% / 40%));
+  --color-main-backdrop-noblur:light-dark(
+    hsl(from var(--template-malang-bg) h s l / 40%),
+    hsl(0deg 0% 0% / 30%));
   
   /* Page specific: News */
   --color-bluesky-backdrop: var(--color-background-default);
-  --color-bluesky-text: var(--color-text-dark);
+  --color-bluesky-text: var(--color-text-main);
   
   /* Effects */
-  --color-main-backdrop-shadow:hsl(0deg 0% 0% / 80%);
+  --color-main-backdrop-shadow:light-dark(
+    hsl(from var(--template-malang-bg) h s l / 80%),
+    hsl(0deg 0% 0% / 80%),);
   
   /* Buttons */
   --color-button-bg: var(--color-background-default);
-  --color-button-text: var(--color-text-dark);
+  --color-button-text: var(--color-text-main);
   
   /* External Brands */
   /* All colors were chosen arbitrarily if not commented otherwise. */
@@ -492,28 +501,39 @@ canvas{
 }
 
 
-/* Language switch button */
-#langswitch-positioner{
+/* Buttons on top right */
+#switch-positioner{
   display:flex;
-  flex-direction:row;
-  justify-content:flex-end;
-  align-items:flex-start;
+  flex-direction:column;
+  justify-content:flex-start;
+  align-items:flex-end;
+  gap:8px;
+  margin-top:16px;
+  margin-right:16px;
 }
-#langswitch-btn{
-  background-color:var(--color-button-bg);
-  color:var(--color-button-text);
+/* the buttons */
+#switch-positioner > div{
   font-weight:700;
   font-size:1.0em;
-  margin:16px;
   padding:8px;
   border-radius:8px;
   cursor:pointer;
   opacity:0;
   transition: all 1s;
 }
-#langswitch-btn.activated{
+#switch-positioner > div.activated{
   opacity:1.0;
 }
+#langswitch-btn{
+  background-color:var(--color-button-bg);
+  color:var(--color-button-text);
+}
+#themeswitch-btn{
+  /* Follows the opposite theme. */
+  background-color:light-dark(var(--color-background-dark),var(--color-background-light));
+  color:light-dark(var(--color-text-light),var(--color-text-dark));
+}
+
 
 /* Mobile sidebar button */
 #sb-button-positioner{

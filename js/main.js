@@ -42,6 +42,7 @@ const siai =document.getElementById("sidebar-intro-anim-image");
 const lmsa = document.getElementById("letter-magic-spritesheet-animation");
 
 const lang_btn = document.getElementById("langswitch-btn");
+const theme_btn = document.getElementById("themeswitch-btn");
 const sb_btn = document.getElementById("sb-btn");
 const sb_close_btn = document.getElementById("sb-close-button-container");
 
@@ -140,6 +141,7 @@ function transition_sky(){
   main_content_backdrop.classList.remove("activated");
   pages_container.classList.remove("activated");
   lang_btn.classList.remove("activated");
+  theme_btn.classList.remove("activated");
   sb_btn.classList.remove("activated");
   
   if (mobile_mode) sidebar_button_hide_mobile();
@@ -167,6 +169,7 @@ function transition_ground(){
   main_content_backdrop.classList.add("activated");
   pages_container.classList.add("activated");
   lang_btn.classList.add("activated");
+  theme_btn.classList.add("activated");
   sb_btn.classList.add("activated");
   
   window.setTimeout(()=>{
@@ -614,6 +617,23 @@ function apply_lang(code){
 lang_btn.onclick= ()=>{
   if (current_lang=="ko") apply_lang("en");
   else apply_lang("ko");
+}
+
+let mq_darkmode=window.matchMedia("(prefers-color-scheme: dark)");
+let darkmode=mq_darkmode.matches;
+function apply_darkmode(darkmode){
+  if (darkmode) {
+    body_dom.style.colorScheme="dark";
+    theme_btn.innerHTML="Light Mode";
+  }else {
+    body_dom.style.colorScheme="light";
+    theme_btn.innerHTML="Dark Mode";
+  }
+}
+apply_darkmode(darkmode);
+theme_btn.onclick= ()=>{
+  darkmode=!darkmode;
+  apply_darkmode(darkmode);
 }
 
 // Get lang value from cookie
