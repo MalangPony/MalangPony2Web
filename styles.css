@@ -16,6 +16,86 @@
 	font-weight:900;
 }
 
+/* Color templates */
+:root{
+  /* Directly copied from the color guide */
+  --template-malang-pp:#FF91DB;
+  --template-malang-FS:#F7E38F;
+  --template-malang-RD:#70BCFF;
+  --template-malang-AJ:#F5B96E;
+  --template-malang-TS:#AD8CD9;
+  --template-malang-TWI:#765C99;
+  --template-malang-bg:#DBD8E9;
+  --template-malang-text:#2F4575;
+  --template-malang-outline:#FFFFFF;
+  
+  --template-hanmari-red:#C7303E;
+  --template-hanmari-orange:#F19246;
+  --template-hanmari-yellow:#FCC665;
+  --template-hanmari-green:#41B46D;
+  --template-hanmari-blue:#6683D0;
+  --template-hanmari-violet:#514061;
+  --template-hanmari-outline:#FFFFFF;
+  
+  
+  
+  /* Text colors*/
+  --color-text-dark: var(--template-malang-text);
+  --color-text-light: var(--template-malang-bg);
+  --color-text-main: var(--color-text-light);
+  
+  --color-sidebar-text-normal:#644a20;
+  --color-sidebar-text-selected:#101010;
+  
+  /* Background */
+  --color-background-default: #F0F0F0;
+  
+  --color-main-backdrop:hsl(from var(--template-malang-bg) h s l / 30%);
+  --color-main-backdrop-noblur:hsl(from var(--template-malang-bg) h s l / 20%);
+  /*
+  --color-main-backdrop:hsl(0deg 0% 0% / 40%);
+  --color-main-backdrop-noblur:hsl(0deg 0% 0% / 30%);*/
+  
+  /* Page specific: News */
+  --color-bluesky-backdrop: var(--color-background-default);
+  --color-bluesky-text: var(--color-text-dark);
+  
+  /* Effects */
+  --color-main-backdrop-shadow:hsl(0deg 0% 0% / 80%);
+  
+  /* Buttons */
+  --color-button-bg: var(--color-background-default);
+  --color-button-text: var(--color-text-dark);
+  
+  /* External Brands */
+  /* All colors were chosen arbitrarily if not commented otherwise. */
+  
+  /* Official #03CF5D */
+  --color-background-naver:#cbf9d7;
+  --color-text-naver: #03CF5D; /* = Official */
+  
+  /* Official #FFCD00 */
+  --color-background-kakao:#f4dd80;
+  --color-text-kakao: #a2881f;
+  
+  /* Official #4285F4 */
+  --color-background-google:#b9ddff;
+  --color-text-google:#1a63c2;
+  
+  /* Seoul Subway Line 5 */
+  --color-background-line5: #d6c4dd;
+  --color-text-line5: #8B50A4;
+  
+  /* Seoul Subway Line 2 */
+  --color-background-line2:#dcf9df;
+  --color-text-line2:#33A23D;
+  
+  /* Seoul Blue bus */
+  --color-background-bluebus:#d8dbff;
+  --color-text-bluebus:#363db6;
+  
+}
+
 /* The Basics */
 *{
 	margin:0;
@@ -33,12 +113,16 @@ body{
 	height:100%;
 	font-family:NPS;
     font-size:16px;
+    color:var(--color-text-main);
 }
 
 /* Full-screen canvas */
 .fullsize{
 	position:absolute;
-	top:0;bottom:0;left:0;right:0;
+	top:0;
+    bottom:0;
+    left:0;
+    right:0;
 }
 canvas{
 	display:block;
@@ -65,8 +149,8 @@ canvas{
 
 /* Is box-shadow performance-intensive? idk */
 #main-content-backdrop.activated{
-  background-color:#FFFFFF30;
-  box-shadow:0 0 10px #FFFFFF40;
+  background-color:var(--color-main-backdrop);
+  box-shadow:0 0 10px var(--color-main-backdrop-shadow);
 }
 #main-content-backdrop.css-filters{
   
@@ -77,7 +161,7 @@ canvas{
 }
 /* If CSS filter disabled - just darken the background more. */
 #main-content-backdrop.activated:not(.css-filters){
-  background-color:#FFFFFF40;
+  background-color:var(--color-main-backdrop-noblur);
 }
 
 /* Contains all scrollable content. */
@@ -144,6 +228,46 @@ canvas{
   background: linear-gradient(0deg,#181365,#4f3773,#6d4c79);
 }
 
+/* Debug panel */
+#debug-print-area{
+  z-index:99;
+  background-color:#00000040;
+  color:#88FF8880;
+  position:absolute;
+  bottom:0;
+  left:0;
+  width:160px;
+  font-size:10px;
+  font-family:monospace;
+  font-weight:700;
+  padding:4px;
+  display:flex;
+  flex-direction:column-reverse;
+}
+#debug-features-buttons{
+  display:flex;
+  flex-direction:row;
+  justify-content:space-around;
+  margin-top:2px;
+}
+#debug-features-buttons > div{
+  width:60px;
+  text-align:center;
+  background:#00000040;
+  pointer-events:auto;
+  cursor:pointer;
+  user-select:none;
+  font-size:1.3em;
+}
+#debug-button-feature-auto{
+  text-align:center;
+  background:#00000040;
+  pointer-events:auto;
+  cursor:pointer;
+  user-select:none;
+  font-size:1.3em;
+}
+
 /* Hanmari in the bottom right corner. L2D or image. */
 #l2d-container{
   width:min(40vw,50lvh);
@@ -199,6 +323,9 @@ canvas{
   animation-iteration-count:infinite;
   animation-timing-function: ease-in-out;
   
+  color:var(--color-text-light);
+  font-weight:700;
+  
   display:flex;
   flex-direction:row;
   align-items:center;
@@ -242,7 +369,7 @@ canvas{
 
 /* The actual sidebar*/
 #sidebar{
-  border:3px solid #d3bf84; 
+  /*border:3px solid #d3bf84; */
   
   max-height:calc(100dvh - 64px);
   
@@ -300,6 +427,8 @@ canvas{
   align-items:flex-start;
   text-align:left;
   gap:8px;
+  
+  color:var(--color-sidebar-text-normal);
 }
 .sb-category-container{
   display:flex;
@@ -308,7 +437,6 @@ canvas{
 }
 .sb-category-header{
   text-wrap:nowrap;
-  color:#644a20;
   font-size:1.1em;
   font-weight:700;
   display:flex;
@@ -328,7 +456,6 @@ canvas{
   display:flex;
   flex-direction:column;
   align-items:flex-start;
-  
 }
 .sb-category-content.sbcc-expanded{
 
@@ -337,7 +464,6 @@ canvas{
   text-wrap:nowrap;
   text-align:left;
   font-weight:700;
-  color:#644a20;
   cursor:pointer;
   font-size:1.0em;
 }
@@ -362,37 +488,9 @@ canvas{
   cursor:unset;
 }
 .sb-link-selected{
-  color:#000000;
+  color:var(--color-sidebar-text-selected);
 }
 
-/* The ticket shown on the intro page */
-#ticket{
-  background-image : url("sprites-prototype/MPN2-Prototype-Image-Ticket.png");
-  background-size: contain;
-  background-repeat:no-repeat;
-  background-position: center;
-  width:240px;
-  height:160px;
-  font-size:1.5em;
-  display:flex;
-  justify-content: center;
-  align-items: center;
-  padding:32px;
-  margin-top:64px;
-  transition-property: transform margin-bottom;
-  transition-duration:0.5s;
-  transition-timing-function: ease-in-out;
-  transform:rotate(10deg);
-}
-#ticket:hover{
-  transform:rotate(0deg);
-}
-#ticket.css-filters{
-  filter:drop-shadow(8px 8px 10px #00000080);
-}
-#ticket.css-filters:hover{
-  filter:drop-shadow(0 0 8px #ffff85);
-}
 
 /* Language switch button */
 #langswitch-positioner{
@@ -402,8 +500,8 @@ canvas{
   align-items:flex-start;
 }
 #langswitch-btn{
-  background-color:#FFF;
-  color:#000;
+  background-color:var(--color-button-bg);
+  color:var(--color-button-text);
   font-weight:700;
   font-size:1.0em;
   margin:16px;
@@ -430,11 +528,13 @@ canvas{
   height:96px;
   cursor:pointer;
   object-fit: contain;
+  pointer-events:auto;
 }
 
 /* Timetable content */
 #ttable-container{
   font-size:min(1.5vw,16px);
+  color:var(--color-text-dark);
 }
 .timetable-block-body{
   display:flex;
@@ -538,61 +638,114 @@ a.linkbutton{
 	border: 2px solid;
 }
 
-/* All the content pages. */
-#pages-container > div{
+/* Common styles for all page content */
+.page-content{
 	display:flex;
 	flex-direction:column;
 	align-items:center;
 	justify-content:flex-start;
 	margin-top:32px;
     margin-bottom:32px;
+    color:var(--color-text-main);
+}
+
+.page-title{
+  font-size:3.0em;
+  font-weight:700;
+  text-align:center;
+  margin-top:24px;
+  margin-bottom:24px;
+}
+.page-text-body{
+  font-weight:400;
+  text-align:left;
+  margin-top:32px;
+}
+
+
+/* Page: Intro */
+#logo-orig{
+  margin-left:64px;
+  margin-right:64px;
+  max-width:min(600px , 100%);
+  align-self:center;
+}
+
+#ticket{
+  background-image : url("sprites-prototype/MPN2-Prototype-Image-Ticket.png");
+  background-size: contain;
+  background-repeat:no-repeat;
+  background-position: center;
+  width:240px;
+  height:160px;
+  font-size:1.5em;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  padding:32px;
+  margin-top:64px;
+  transition-property: transform margin-bottom;
+  transition-duration:0.5s;
+  transition-timing-function: ease-in-out;
+  transform:rotate(10deg);
+  pointer-events:auto;
+  color:var(--color-text-dark);
+}
+#ticket:hover{
+  transform:rotate(0deg);
+}
+#ticket.css-filters{
+  filter:drop-shadow(8px 8px 10px #00000080);
+}
+#ticket.css-filters:hover{
+  filter:drop-shadow(0 0 8px #ffff85);
 }
 
 /* Page: News */
 #bsky-outer{
-  background-color: #FFFFFF;
+  background-color: var(--color-bluesky-backdrop);
+  color:var(--color-bluesky-text);
 }
 
 /* Page: Venue */
 #venue-place-name-top{
   margin-top:16px;
-  color:#FFFFFF;
 }
 #venue-place-name-title{
   margin-top:8px;
-  color:#FFFFFF;
   font-size:32px;
   font-weight:700;
 }
 #venue-place-address{
   margin-top:8px;
-  color:#FFFFFF;
   font-style:italic;
 }
 #venue-map-site-links{
   margin-top:16px;
   margin-bottom:12px;
-  color:#FFFFFF;
   display:flex;
   flex-direction:row;
   gap:8px;
 }
 #venue-map-link-naver{
-  background-color:#a4ffac;
-  color:#000;
+  background-color:var(--color-background-naver);
+  color:var(--color-text-naver);
 }
 #venue-map-link-kakao{
-  background-color:#ffffdc;
-  color:#000;
+  background-color:var(--color-background-kakao);
+  color:var(--color-text-kakao);
 }
 #venue-map-link-google{
-  background-color:#c9d1ff;
-  color:#000;
+  background-color:var(--color-background-google);
+  color:var(--color-text-google);
 }
 #map-outer{
   width:min(600px,100%);
   height:400px;
   position:relative;
+}
+#kakaomap-content{
+  width:100%;height:100%;
 }
 #map-btn-jump{
   position:absolute;
@@ -600,11 +753,17 @@ a.linkbutton{
   left:16px;
   width:128px;
   height:64px;
-  background-color:#FF0;
+  background-color:var(--color-button-bg);
+  color:var(--color-button-text);
   z-index:10;
   display:flex;
   flex-direction:row;
   align-items:center;
+}
+#map-btn-jump > img {
+  height:48px;
+  width:48px;
+  margin:8px;
 }
 #directions-container{
   width:min(600px,100%);
@@ -621,7 +780,8 @@ a.linkbutton{
   gap:4px;
   border-radius: 16px;
   padding:16px;
-  background-color:#FFFFFF;
+  background-color:var(--color-background-default);
+  color:var(--color-text-dark);
   position:relative;
 }
 .directions-icon{
@@ -640,22 +800,22 @@ a.linkbutton{
   
 }
 #directions-yangpyong{
-  background-color: #e3c0ff;
+  background-color: var(--color-background-line5);
 }
 #directions-yangpyong .directions-title{
-  color: #8650c8;
+  color: var(--color-text-line5);
 }
 #directions-munrae{
-  background-color: #cdffc7;
+  background-color: var(--color-background-line2);
 }
 #directions-munrae .directions-title{
-  color: #3bab2a;
+  color: var(--color-text-line2);
 }
 #directions-bus{
-  background-color: #cdd8ff;
+  background-color: var(--color-background-bluebus);
 }
 #directions-bus .directions-title{
-  color: #3648ad;
+  color: var(--color-text-bluebus);
 }
 
 

@@ -40,7 +40,7 @@
       <div id="sidebar" class="css-filters" style="pointer-events:auto;display:none;">
         <div id="sb-close-button-container">
           <!-- Google Material Icons, close_24dp_000000_FILL0_wght700_GRAD0_opsz24.svg -->
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"  fill="#000000" id="sb-close-button">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="#000000" id="sb-close-button">
             <path d="m256-168-88-88 224-224-224-224 88-88 224 224 224-224 88 88-224 224 224 224-88 88-224-224-224 224Z"/>
           </svg>
         </div>
@@ -158,10 +158,10 @@
     </div>
     
     <div id="sb-button-positioner" class="fullsize" style="z-index:6;">
-      <img src="sprites/OBJ-002_RESIZE.png" id="sb-btn" style="pointer-events:auto;display:none;"> 
+      <img src="sprites/OBJ-002_RESIZE.png" id="sb-btn" style="display:none;"> 
     </div>
     
-    <div id="debug-print-area" style="z-index:99;background-color:#00000040;color:#88FF8880;position:absolute;bottom:0;left:0;width:160px;font-size:10px;font-family:monospace;font-weight:700;padding:4px;display:flex;flex-direction:column-reverse;">
+    <div id="debug-print-area">
       <div id="debug-print-fps">-</div>
       <div id="debug-print-fps2">-</div>
       <div id="debug-print-fps3">-</div>
@@ -169,19 +169,16 @@
       <div id="debug-print-stars">-</div>
       <div id="debug-print-particles">-</div>
       <div id="debug-print-fl">-</div>
-      <div style="display:flex;flex-direction:row;justify-content:space-around;margin-top:2px;">
-        <div id="debug-button-feature-decrement" 
-          style="width:60px;text-align:center;background:#00000040;pointer-events:auto;cursor:pointer;user-select:none;font-size:1.3em;">Feat-</div>
-        <div id="debug-button-feature-increment" 
-          style="width:60px;text-align:center;background:#00000040;pointer-events:auto;cursor:pointer;user-select:none;font-size:1.3em;">Feat+</div>
+      <div id="debug-features-buttons">
+        <div id="debug-button-feature-decrement">Feat-</div>
+        <div id="debug-button-feature-increment">Feat+</div>
       </div>
-      <div id="debug-button-feature-auto" 
-          style="text-align:center;background:#00000040;pointer-events:auto;cursor:pointer;user-select:none;font-size:1.3em;">
+      <div id="debug-button-feature-auto">
           Auto Adjust: <span id="debug-print-faa"></span>
         </div>
       <div id="debug-print-features">-</div>
-    </div>
-  </div>
+    </div> <!-- #debug-print-area -->
+  </div> <!-- #stickies -->
   <div id="content-scroller">
     <div id="mpn-logo-spacer">
       <div id="mpn_logo_container">
@@ -202,7 +199,7 @@
       ...
     </div>
     <div id="scroll-inviter-container">
-      <div id="scroll-inviter" style="color:#FFF;font-weight:700;">
+      <div id="scroll-inviter">
         <div style="font-size:4em;">⮟</div>
         <div class="langdiv-ko" style="font-size:1.5em;margin-top:-0.7em;">아래로 스크롤!</div>
         <div class="langdiv-en" style="font-size:1.5em;margin-top:-0.7em;">Scroll Down!</div>
@@ -215,14 +212,14 @@
       <div id="screen-blanker"></div>
       
       <div id="pages-container">
-        <div id="page-intro" style="">
-          <img id="logo-orig" src="sprites-prototype/MPN2-Prototype-Image-LogoPlain.png" style="margin-left:64px;margin-right:64px;max-width:min(600px , 100%);align-self:center;">
+        <div id="page-intro" class="page-content">
+          <img id="logo-orig" src="sprites-prototype/MPN2-Prototype-Image-LogoPlain.png">
           
-          <div style="font-size:3.0em;font-weight:700;color:#FFFFFF;text-align:center;">
+          <div class="page-title">
             <span class="langspan-en">Malfoy!!!</span>
             <span class="langspan-ko">말포이!!!</span>
           </div>
-          <div style="font-size:1.2em;font-weight:400;color:#FFFFFF;text-align:left;margin-top:32px;">
+          <div class="page-text-body">
             <p>
               <span class="langspan-en">Hello Bronies.</span>
               <span class="langspan-ko">안녕하세요 브로니 여러분.</span>
@@ -235,25 +232,31 @@
             </p>
           </div>
           
-          <div id="ticket" class="css-filters" style="pointer-events:auto;">
+          <div id="ticket" class="css-filters">
             <span class="langspan-en">Registration!</span>
             <span class="langspan-ko">지금 등록!</span>
           </div>
-        </div>
-        <div id="page-about" style="display:none;">
-          <div style="margin-top:64px;font-size:3.0em;font-weight:700;color:#FFFFFF;text-align:center;">
+        </div> <!-- #page-intro -->
+        
+        
+        <div id="page-about" class="page-content" style="display:none;">
+          <div class="page-title">
             <span class="langspan-en">About!!!</span>
             <span class="langspan-ko">개요다!!!</span>
           </div>
-        </div>
-        <div id="page-coc" style="display:none;">
-          <div style="margin-top:64px;font-size:3.0em;font-weight:700;color:#FFFFFF;text-align:center;">
+        </div> <!-- #page-about -->
+        
+        
+        <div id="page-coc" class="page-content" style="display:none;">
+          <div class="page-title">
             <span class="langspan-en">Code of Conduct!!!</span>
             <span class="langspan-ko">규칙이다!!!</span>
           </div>
-        </div>
-        <div id="page-news" style="display:none;">
-          <div style="margin-top:64px;font-size:3.0em;font-weight:700;color:#FFFFFF;text-align:center;margin-bottom:32px;">
+        </div> <!-- #page-coc -->
+        
+        
+        <div id="page-news" class="page-content" style="display:none;">
+          <div class="page-title">
             <span class="langspan-en">NEWS!!!</span>
             <span class="langspan-ko">소식이다!!!</span>
           </div>
@@ -264,24 +267,28 @@
               disable-autoplay="true"
               ></bsky-embed>
           </div>
-        </div>
-        <div id="page-timetable" style="display:none;">
-          <div style="margin-top:64px;font-size:3.0em;font-weight:700;color:#FFFFFF;text-align:center;margin-bottom:32px;">
+        </div> <!-- #page-news -->
+        
+        
+        <div id="page-timetable" class="page-content" style="display:none;">
+          <div class="page-title">
             <span class="langspan-en">TTABLE!!!</span>
             <span class="langspan-ko">시간표!!!</span>
           </div>
           <div id="ttable-container">
             
           </div>
-        </div>
-        <div id="page-venue" style="display:none;">
+        </div> <!-- #page-timetable -->
         
-          <div style="margin-top:64px;font-size:3.0em;font-weight:700;color:#FFFFFF;text-align:center;">
+        
+        <div id="page-venue" class="page-content" style="display:none;">
+        
+          <div class="page-title">
             <span class="langspan-en">MAP!!!</span>
             <span class="langspan-ko">지도???</span>
           </div>
           
-           <div id="venue-place-name-top">
+          <div id="venue-place-name-top">
             <span class="langspan-ko">말랑포니 2 행사 공간</span>
             <span class="langspan-en">The venue for MalangPony 2 is...</span>
           </div>
@@ -291,11 +298,9 @@
             <span class="langspan-en">Allthatmind Munrae</span>
           </div>
           
-           <div id="venue-place-address">
-            서울시 영등포구 문래로 55 2층 올댓마인드 문래점
+          <div id="venue-place-address">
+            서울시 영등포구 문래로 55 2층
           </div>
-          
-          
           
           <div id="venue-map-site-links">
             <a href="https://naver.me/xY4sP1mO" target="_blank"
@@ -317,10 +322,10 @@
           
           <div id="map-outer">
             <div id="map-btn-jump">
-              <img src="sprites-prototype/hanmari_CM_rev1_100px.png" style="height:48px;width:48px;margin:8px;">
+              <img src="sprites-prototype/hanmari_CM_rev1_100px.png">
               <div>말랑포니로<br>돌아가기</div>
             </div>
-            <div id="kakaomap-content" style="width:100%;height:100%;"></div>
+            <div id="kakaomap-content"></div>
           </div>
           
           <div id="directions-container">
@@ -370,8 +375,9 @@
               <img class="directions-icon" src="sprites/DirIcon_Bus.png">
             </div>
           </div>
-          
-        </div>
+        </div> <!-- #page-venue -->
+        
+        
       </div>
     </div>
     
