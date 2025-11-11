@@ -194,7 +194,7 @@ function populate_parallax_images(){
     e.style.position="absolute";
     e.style.zIndex=zi;
     e.style.display="none";
-    if (pimg.location.z<2900)
+    if (pimg.location.z<3000)
       image_container_near.appendChild(e);
     else
       image_container_far.appendChild(e);
@@ -480,4 +480,3 @@ export function calculate_offset_from_sky_mode_to_ground_mode(z_coords){
   console.log(`Intro Sky to Ground Z ${z_coords} YOF ${y_translation_by_yoffset} YTT ${y_translation_by_tilt} TOT ${y_total_delta}`);
   return y_total_delta;
 }
-

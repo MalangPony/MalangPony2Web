@@ -220,9 +220,11 @@ function spawn_firework_rocket(cs){
     }
   }
   
+  let launch_y=h+scroll_offset;
+  
   // Given the apogee height, calculate the vertical velocity needed
   // to reach that height. This will be the firework's vertical velocity.
-  let explosion_height=h-planned_explosion_Y;
+  let explosion_height=launch_y-planned_explosion_Y;
   let seconds_to_apogee = Math.sqrt(explosion_height*2/PARTICLE_PHYSICS_GRAVITY);
   let vy=seconds_to_apogee*PARTICLE_PHYSICS_GRAVITY;
   // For randomness, the fuse will explode 0~0.5 seconds before reaching apogee.
@@ -231,7 +233,7 @@ function spawn_firework_rocket(cs){
   // Set random horizontal velocity.
   // If it results in an off-screen explosion, roll again.
   let px = 0;
-  let py = h;
+  let py = launch_y;
   let vx=0;
   for (let i=0;i<10;i++){
     vx=(Math.random()*2-1)*100;
@@ -239,7 +241,7 @@ function spawn_firework_rocket(cs){
     if (px>0 && px<w){
       break;
     }
-    if (i==9) console.log(`HVNF ${w} ${h} ${px} ${vx}`);
+    if (i==9) console.log(`HVNF ${w} ${h} ${launch_y} ${px} ${vx}`);
   }
   
   // Actually spawn the firework entity.
@@ -256,6 +258,8 @@ function spawn_firework_rocket(cs){
   e.glow_color="#FF0000";
   e.glow_radius=30;
   e.edge_color="#FF000000";
+  
+  //console.log(`FWE ${w} ${h} ${px} ${py} ${vx} ${vy} ${fuze}`);
   
   entity_array.push(e);
 }
@@ -308,6 +312,8 @@ class CanvasState{
   get height(){return this.logicalH;};
   pixelW=0;pixelH=0;
   logicalW=0;logicalH=0;
+  // Entities outside this range will be instantly killed.
+  fieldMinX=0;fieldMaxX=0;fieldMinY=0;fieldMaxY=0;
   offset=new Vector2();
 }
 
@@ -357,6 +363,10 @@ function refresh_fireworks_canvas(dt){
   cs.logicalH=logicalH;
   cs.pixelW=pixelW;
   cs.pixelH=pixelH;
+  cs.fieldMinX=0-100;
+  cs.fieldMaxX=logicalW+100;
+  cs.fieldMinY=0-100;
+  cs.fieldMaxY=logicalH+100+scroll_offset;
   
   // Firework launch
   firework_next_fire_timer-=dt;
@@ -383,8 +393,8 @@ function refresh_fireworks_canvas(dt){
   // Kill any entities that went off-screen.
   entity_array=entity_array.filter((e)=>{
     if (!e.alive()) return false;
-    if (e.position.x<0 || e.position.x>logicalW) return false
-    if (e.position.y<0 || e.position.y>logicalH) return false
+    if (e.position.x<cs.fieldMinX || e.position.x>cs.fieldMaxX) return false
+    if (e.position.y<cs.fieldMinY || e.position.y>cs.fieldMaxY) return false
     return true;
   });
   

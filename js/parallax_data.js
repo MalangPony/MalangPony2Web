@@ -6,8 +6,8 @@
 // X controls horizontal position. Positive is right.
 // Y controls the height. Positive is higher.
 // Z controls depth. Positive is further away.
-// If Z<2900, the image will be placed in front of the fireworks.
-// If Z>2900, the image will be placed behind the fireworks.
+// If Z<3000, the image will be placed in front of the fireworks.
+// If Z>3000, the image will be placed behind the fireworks.
 // The firework system will follow the offset at Z=2900
 
 // Size:
@@ -29,37 +29,37 @@
 // original size. An object at, say Z=3000 will be at its 1/7 = 14% size.
 export let images=[
 	{ // Ground plane
-		location:[0,0,3000],
+		location:[0,0,2900],
 		size:[Infinity,-1],
 		type:"gradient",
 		src:"linear-gradient(to right, #31407b 0%, #376483 40% 60%, #31407b 100%)"
 	},
 	{ // Mountain
-		location:[1000,0,3000],
-		size:[4000,2000],
+		location:[1000,-500,6000],
+		size:[6000,3000],
 		type:"image",
 		src:"sprites-prototype/MPN2-Prototype-Image-Namsan.png"
 	},
 	{ // Cloud #1 - hat
-		location:[300,1500,3300],
+		location:[300,1500,4000],
 		size:[1000,1000*(197/500)],
 		type:"image",
 		src:"sprites-prototype/MPN2-Prototype-Image-D1628947.png"
 	},
 	{ // Cloud #2 - flat
-		location:[-2000,2500,3300],
+		location:[-2000,2500,4000],
 		size:[1000,1000*(333/500)],
 		type:"image",
 		src:"sprites-prototype/MPN2-Prototype-Image-D1628954.png"
 	},
 	{ // Cloud #3 - swirly
-		location:[-2500,1500,3300],
+		location:[-2500,1500,4000],
 		size:[1000,1000*(200/500)],
 		type:"image",
 		src:"sprites-prototype/MPN2-Prototype-Image-D1629031.png"
 	},
 	{ // Cloud #4 - round
-		location:[2200,3000,3300],
+		location:[2200,3000,4000],
 		size:[1000,1000*(333/500)],
 		type:"image",
 		src:"sprites-prototype/MPN2-Prototype-Image-D1629034.png"
