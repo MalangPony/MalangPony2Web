@@ -20,7 +20,7 @@ const body_dom = document.querySelector("body");
 
 const wsd = document.getElementById("whole-screen-div");
 
-const intro_content_container=document.getElementById("intro-content-container");
+const main_content_backdrop=document.getElementById("main-content-backdrop");
 
 const hmr_container= document.getElementById("hmr-image-container");
 const hmr_image_base = document.getElementById("hmr-base");
@@ -34,7 +34,7 @@ const logo_image_orig = document.getElementById("logo-orig");
 const content_scroller =document.getElementById("content-scroller");
 const logo_spacer = document.getElementById("mpn-logo-spacer");
 const screen_blanker=document.getElementById("screen-blanker");
-const afterscroll_container=document.getElementById("afterscroll-content-container");
+const pages_container=document.getElementById("pages-container");
 
 const sidebar = document.getElementById("sidebar");
 const sia = document.getElementById("sidebar-intro-anim");
@@ -112,11 +112,11 @@ PerformanceManager.register_feature_enable_callback(
   });
 PerformanceManager.register_feature_disable_callback(
   PerformanceManager.Feature.CSS_FILT_ICC_BACKBLUR, ()=>{
-    intro_content_container.classList.remove("css-filters");
+    main_content_backdrop.classList.remove("css-filters");
   });
 PerformanceManager.register_feature_enable_callback(
   PerformanceManager.Feature.CSS_FILT_ICC_BACKBLUR, ()=>{
-    intro_content_container.classList.add("css-filters");
+    main_content_backdrop.classList.add("css-filters");
   });
 
 // Sky <-> Ground transition
@@ -136,8 +136,8 @@ function transition_sky(){
     hmr_image_base.style.opacity="1.0";
   }
   
-  intro_content_container.classList.remove("activated");
-  afterscroll_container.classList.remove("activated");
+  main_content_backdrop.classList.remove("activated");
+  pages_container.classList.remove("activated");
   lang_btn.classList.remove("activated");
   sb_btn.classList.remove("activated");
   
@@ -163,8 +163,8 @@ function transition_ground(){
     hmr_image_flash01.style.opacity="0.0";
   }
   
-  intro_content_container.classList.add("activated");
-  afterscroll_container.classList.add("activated");
+  main_content_backdrop.classList.add("activated");
+  pages_container.classList.add("activated");
   lang_btn.classList.add("activated");
   sb_btn.classList.add("activated");
   
@@ -698,7 +698,7 @@ function page_transition(name){
     
   sidebar_buttons_activate(name);
   
-  let anim3=intro_content_container.animate(
+  let anim3=main_content_backdrop.animate(
     [{ opacity: "1.0" },{ opacity: "0.0" }],
     {duration: 500,delay:0});
   anim3.onfinish= () => {
@@ -709,7 +709,7 @@ function page_transition(name){
     if (name==="intro" && Config.OPTION_HIDE_HANMARI_ON_NONINTRO_PAGES) 
       show_hanmari();
   }
-  let anim4=intro_content_container.animate(
+  let anim4=main_content_backdrop.animate(
     [{ opacity: "0.0" },{ opacity: "1.0" }],
     {duration: 500,delay:500});
   anim4.onfinish= () => {

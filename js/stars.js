@@ -11,7 +11,6 @@ import * as PerformanceManager from "./perfmanager.js";
 // DOM definitions
 const wsd = document.getElementById("whole-screen-div");
 const canvas_stars = document.getElementById("canvas-stars");
-const container_stars = document.getElementById("container-stars");
 const debug_print_stars=document.getElementById("debug-print-stars");
 
 // One star every X pixels
