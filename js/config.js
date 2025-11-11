@@ -18,3 +18,5 @@ export const OPTION_ENABLE_FIREWORKS=true;
 export const OPTION_ENABLE_L2D_FILTERS=true;
 
 export const OPTION_TIMETABLE_REQUIRE_CLICK=true;
+
+export const OPTION_SCROLL_BG_OFFSET_AMOUNT=100;

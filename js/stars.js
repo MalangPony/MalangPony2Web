@@ -21,7 +21,6 @@ const star_density_reciprocal=10000/Config.OPTION_STAR_DENSITY_MULTIPLIER;
 let star_definitions=[];
 let star_def_area_w=0;
 let star_def_area_h=0;
-let STARS_MAX_SCROLL=100;
 let stars_scroll_pixels=0;
 
 // Spawn [count] stars in the given coordinates.
@@ -105,19 +104,31 @@ function resize_star_area(new_w,new_h){
 
 // This should be called from the main JS file.
 export function set_scroll_progress(f){
-  stars_scroll_pixels=f*100;
+  stars_scroll_pixels=f*Config.OPTION_SCROLL_BG_OFFSET_AMOUNT;
 }
 
 
 const sc2d = canvas_stars.getContext("2d");
 function refresh_stars_canvas(dt){
+  // Set canvas size to cover the full screen PLUS the max offset.
+  let fullscreenW=wsd.clientWidth;
+  let fullscreenH=wsd.clientHeight;
+  
+  let targetSizeW=fullscreenW;
+  let targetSizeH=fullscreenH+Config.OPTION_SCROLL_BG_OFFSET_AMOUNT;
+  
+  if (canvas_stars.width!=targetSizeW)
+    canvas_stars.width=targetSizeW;
+  if (canvas_stars.height!=targetSizeH)
+    canvas_stars.height=targetSizeH;
+  
   let w=canvas_stars.width;
   let h=canvas_stars.height;
   
   // Check if resize is needed
   let resized=false;
-  if ((w!=star_def_area_w) || ((h+STARS_MAX_SCROLL)!=star_def_area_h)){
-    resize_star_area(w,h+STARS_MAX_SCROLL);
+  if ((w!=star_def_area_w) || (h!=star_def_area_h)){
+    resize_star_area(w,h);
     resized=true;
   }
   
@@ -134,7 +145,7 @@ function refresh_stars_canvas(dt){
     // The stars flicker in a sine wave.
     for (const sd of star_definitions){
       let x=sd.x;
-      let y=sd.y-stars_scroll_pixels;
+      let y=sd.y;
       if ((y<0) || (y>h)) continue;
       sd.sine_phase+=(dt/sd.sine_period);
       // Discard integer part
@@ -152,16 +163,13 @@ function refresh_stars_canvas(dt){
     }
   }
   
+  canvas_stars.style.top="-"+stars_scroll_pixels+"px";
+  canvas_stars.style.height=""+targetSizeH+"px";
+  
   debug_print_stars.innerHTML="Stars x"+star_definitions.length+(animated?" (Animated)":" (Static)");
 }
 
 // This should be called every frame, from main JS.
 export function animationTick(dt){
-  // Set canvas size to cover the full screen.
-  if (canvas_stars.width!=wsd.clientWidth)
-    canvas_stars.width=wsd.clientWidth;
-  if (canvas_stars.height!=wsd.clientHeight)
-    canvas_stars.height=wsd.clientHeight;
-  
   refresh_stars_canvas(dt);
 }
