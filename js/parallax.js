@@ -30,11 +30,13 @@ class ParallaxImage{
   type;
   // For Images, the source image src. For Solids, a CSS color.
   src;
-  constructor(loc,dim,type,src){
+  src_illuminated;
+  constructor(loc,dim,type,src,illuminated=null){
     this.location=loc;
     this.dimensions=dim;
     this.type=type;
     this.src=src;
+    this.src_illuminated=illuminated;
   }
   
   toString(){
@@ -146,47 +148,62 @@ function solve_camera(camera_parameters,parallax_image){
 
 
 // Parse data from ParallaxData.js
-let parallax_images=[];
+let parallax_field_data=[];
 for (const dat of ParallaxData.images){
-  parallax_images.push(
-    new ParallaxImage(
+  let illuminated=null;
+  if ("illuminated" in dat) illuminated=dat.illuminated;
+  parallax_field_data.push({
+    definition:new ParallaxImage(
       new Vector3(dat.location[0],dat.location[1],dat.location[2]),
       new Vector2(dat.size[0],dat.size[1]),
-      dat.type,dat.src)
-  )
+      dat.type,dat.src,illuminated)
+  })
 }
-
-// The DOM elements that correspond to each Parallax image.
-// The indices should match.
-let pimg_doms=[];
 
 // Sort by Z coordinates.
 // We assume Z does not change.
 // Otherwise, the draw order will be wrong.
-parallax_images.sort((a,b)=>{return b.location.z-a.location.z})
+parallax_field_data.sort((a,b)=>{return b.definition.location.z-a.definition.location.z})
 
 // Create DOM elements representing each parallax image.
 function populate_parallax_images(){
   // Clear all DOM
   image_container_near.replaceChildren();
   image_container_far.replaceChildren();
-  pimg_doms=[];
+  for (const pfd of parallax_field_data){
+    pfd.dom=null;
+    pfd.illuminated_dom=null;
+  }
   
   // Add DOMs
   let zi=0;
-  for (const pimg of parallax_images){
+  for (const pfd of parallax_field_data){
+    let pimg = pfd["definition"];
     // Z-Index increases monotonicaly. This assumes the image list is Z-sorted.
-    zi++;
+    zi+=2;
     let e=null;
+    let ie=null;
     if (pimg.type=="image"){
       e=document.createElement("img");
       e.src=pimg.src;
+      if (pimg.src_illuminated){
+        ie=document.createElement("img");
+        ie.src=pimg.src_illuminated;
+      }
     }else if (pimg.type=="solid"){
       e=document.createElement("div");
       e.style.backgroundColor=pimg.src;
+      if (pimg.src_illuminated){
+        ie=document.createElement("div");
+        ie.style.backgroundColor=pimg.src_illuminated;
+      }
     }else if (pimg.type=="gradient"){
       e=document.createElement("div");
       e.style.backgroundImage=pimg.src;
+      if (pimg.src_illuminated){
+        ie=document.createElement("div");
+        ie.style.backgroundImage=pimg.src_illuminated;
+      }
     }else{
       console.log("ERROR 817");
     }
@@ -194,11 +211,21 @@ function populate_parallax_images(){
     e.style.position="absolute";
     e.style.zIndex=zi;
     e.style.display="none";
-    if (pimg.location.z<3000)
+    if (ie !==null ){
+      ie.style.position="absolute";
+      ie.style.zIndex=zi+1;
+      ie.style.display="none";
+    }
+    if (pimg.location.z<3000){
       image_container_near.appendChild(e);
-    else
+      if (ie !== null) image_container_near.appendChild(ie);
+    }
+    else{
       image_container_far.appendChild(e);
-    pimg_doms.push(e);
+      if (ie !== null) image_container_far.appendChild(ie);
+    }
+    pfd["dom"]=e;
+    pfd["illuminated_dom"]=ie;
   }
 }
 
@@ -208,66 +235,81 @@ if (Config.OPTION_ENABLE_PARALLAX_BG)
 
 // Recalculate image positions from camera position.
 let last_cam_param=null;
-function recalculate_parallax_images(cam_param){
+let last_illum_ratio=1000;
+function recalculate_parallax_images(cam_param,illumination_ratio=0.0){
   
   // Don't bother doing any of this if camera didn't move.
   if (last_cam_param!==null){
     let pos_delta=last_cam_param.position.subtract(cam_param.position).length();
     let zoom_delta = Math.abs(last_cam_param.zoom - cam_param.zoom);
     let tilt_delta = Math.abs(last_cam_param.tilt - cam_param.tilt);
-    let changed = (pos_delta>0.0001) || (zoom_delta>0.0001) || (tilt_delta>0.0001);
+    let illum_ratio_delta = Math.abs(last_illum_ratio-illumination_ratio);
+    let changed = (pos_delta>0.0001) || (zoom_delta>0.0001) || (tilt_delta>0.0001) || (illum_ratio_delta>0.0001);
     if (!changed) return;
   }
   last_cam_param=cam_param;
+  last_illum_ratio=illumination_ratio;
   
-  // Something is very wrong here.
-  if (parallax_images.length != pimg_doms.length){
-    console.log("ERROR 623")
-  }
-  let n=parallax_images.length;
   let containerW=image_container_near.clientWidth;
   let containerH=image_container_near.clientHeight;
   
+  
+  let dom_count_total=0;
+  let dom_count_rendered=0;
   // For each parallax image...
-  for (let i=0;i<n;i++){
-    let dom = pimg_doms[i];
-    let pimg=parallax_images[i];
+  for (const pfd of parallax_field_data){
+    let pimg=pfd.definition;
     
     // Let solve_camera() do the maths.
     let solve_result=solve_camera(cam_param,pimg);
     
-    // Mostly straightforward. Apply solve results to CSS.
-    if (solve_result.render===false){
-      dom.style.display="none";
-    }
-    else{
-      dom.style.display="block";
-      dom.style.opacity=solve_result.opacity;
-      if (!Number.isFinite(pimg.dimensions.x)){
-        dom.style.width="100%";
-        dom.style.left="0";
-      }else{
-
-        dom.style.width=solve_result.w+"px";
-        dom.style.left=(containerW/2+solve_result.x-solve_result.w/2)+"px";
-        
+    for (const k of [0,1]){
+      let dom;
+      if (k==0) dom=pfd.dom;
+      else dom=pfd.illuminated_dom;
+      
+      if ((k==1) && (illumination_ratio<0.0001)) continue;
+      
+      if (!dom) continue;
+      
+      dom_count_total++;
+      
+      // Mostly straightforward. Apply solve results to CSS.
+      if (solve_result.render===false){
+        dom.style.display="none";
       }
-      if (!Number.isFinite(pimg.dimensions.y)){
-        dom.style.height="100%";
-        dom.style.bottom="0";
-      }else if (pimg.dimensions.y<0){
-        if (solve_result.y<0){
+      else{
+        dom.style.display="block";
+        
+        if (k==0) dom.style.opacity=solve_result.opacity;
+        else dom.style.opacity=solve_result.opacity*illumination_ratio;
+        
+        if (!Number.isFinite(pimg.dimensions.x)){
+          dom.style.width="100%";
+          dom.style.left="0";
+        }else{
+          dom.style.width=solve_result.w+"px";
+          dom.style.left=(containerW/2+solve_result.x-solve_result.w/2)+"px";
+        }
+        if (!Number.isFinite(pimg.dimensions.y)){
+          dom.style.height="100%";
+          dom.style.bottom="0";
+        }else if (pimg.dimensions.y<0){
+          if (solve_result.y<0){
+            dom.style.display="none";
+          }else{
+            dom.style.height=solve_result.y+"px";
+            dom.style.bottom="0";
+          }
+        }else if (solve_result.h<0){
           dom.style.display="none";
         }else{
-          dom.style.height=solve_result.y+"px";
-          dom.style.bottom="0";
+          dom.style.height=solve_result.h+"px";
+          dom.style.bottom=solve_result.y+"px";
         }
-      }else if (solve_result.h<0){
-        dom.style.display="none";
-      }else{
-        dom.style.height=solve_result.h+"px";
-        dom.style.bottom=solve_result.y+"px";
       }
+      
+      if (dom.style.display !== "none") dom_count_rendered++;
     }
   }
 }
@@ -388,6 +430,11 @@ export function set_scroll_progress(f){
   scroll_progress=f;
 }
 
+let illumination=0.0;
+export function set_illumination(f){
+  illumination=f;
+}
+
 // PerfManager
 PerformanceManager.register_feature_disable_callback(
   PerformanceManager.Feature.PARALLAX_GROUND,()=>{
@@ -459,7 +506,7 @@ export function animationTick(dt){
   
   
   // Recalculate parallax with the new camera location
-  recalculate_parallax_images(cam_param);
+  recalculate_parallax_images(cam_param,illumination);
 }
 
 // At full sky (scroll prog = 0), Y=700, Tilt=0

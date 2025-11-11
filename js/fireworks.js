@@ -271,6 +271,11 @@ export function add_burst_callback(f){
 	firework_burst_callbacks.push(f);
 }
 
+let tslfe=Infinity;
+export function time_since_last_firework_explosion(){
+  return tslfe;
+}
+
 // Spawn the firework explosion
 // Just spawning a bunch of GlowingCircleEntities with a random velocity.
 function spawn_firework_burst(center=null,initial_velocity=null){
@@ -303,6 +308,7 @@ function spawn_firework_burst(center=null,initial_velocity=null){
   for (const f of firework_burst_callbacks){
     f();
 	}
+  tslfe=0;
 }
 
 // Class for holding canvas state. 
@@ -434,6 +440,7 @@ export function animationTick(dt){
 
   refresh_fireworks_canvas(dt);
   update_attention(dt);
+  tslfe+=dt;
 }
 
 

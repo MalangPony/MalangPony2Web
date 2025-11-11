@@ -44,25 +44,29 @@ export let images=[
 		location:[300,1500,4000],
 		size:[1000,1000*(197/500)],
 		type:"image",
-		src:"sprites-prototype/MPN2-Prototype-Image-D1628947.png"
+		src:"sprites-prototype/MPN2-Prototype-Image-D1628947.png",
+		illuminated:"sprites-prototype/MPN2-Prototype-Image-D1628947B.png",
 	},
 	{ // Cloud #2 - flat
 		location:[-2000,2500,4000],
 		size:[1000,1000*(333/500)],
 		type:"image",
-		src:"sprites-prototype/MPN2-Prototype-Image-D1628954.png"
+		src:"sprites-prototype/MPN2-Prototype-Image-D1628954.png",
+		illuminated:"sprites-prototype/MPN2-Prototype-Image-D1628954B.png"
 	},
 	{ // Cloud #3 - swirly
 		location:[-2500,1500,4000],
 		size:[1000,1000*(200/500)],
 		type:"image",
-		src:"sprites-prototype/MPN2-Prototype-Image-D1629031.png"
+		src:"sprites-prototype/MPN2-Prototype-Image-D1629031.png",
+		illuminated:"sprites-prototype/MPN2-Prototype-Image-D1629031B.png"
 	},
 	{ // Cloud #4 - round
 		location:[2200,3000,4000],
 		size:[1000,1000*(333/500)],
 		type:"image",
-		src:"sprites-prototype/MPN2-Prototype-Image-D1629034.png"
+		src:"sprites-prototype/MPN2-Prototype-Image-D1629034.png",
+		illuminated:"sprites-prototype/MPN2-Prototype-Image-D1629034B.png"
 	},
 	{ //FS
 		location:[-200,0,-20],

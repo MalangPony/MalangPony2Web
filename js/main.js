@@ -449,6 +449,8 @@ function animationCallback(time) {
   }
   logo_image_flash01.style.opacity=firework_light_factor;
   
+  Parallax.set_illumination(firework_light_factor*0.3);
+  
   // Debug prints
   debug_print_featurelevel.innerHTML = "Feature Level "+PerformanceManager.get_feature_level();
   debug_print_features.innerHTML = PerformanceManager.generate_feature_list();
