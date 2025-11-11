@@ -79,7 +79,7 @@ const tt_cg_label_textsize=24;
 const tt_time_label_textsize=12;
 const tt_block_border_width=4;
 const tt_block_expanded_height=120;
-const tt_block_expanded_width=300;
+const tt_block_expanded_width=260;
 const tt_close_button_size=32;
 const tt_close_button_padding=2;
 
@@ -150,9 +150,9 @@ function timetable_build(ttd){
 		if (x>max_x) max_x=x;
 	}
 	
-	let color_presets={}
+	let color_presets={};
 	for(const cp of cpresets){
-		color_presets[cp.name]=cp.color;
+		color_presets[cp.name]=cp;
 	}
 	
 	/* Z-Index allocation
@@ -190,7 +190,8 @@ function timetable_build(ttd){
 		let base_x=column_x_coords[block.column];
 		let base_width=column_widths[block.column];
 		let text_size=column_textsizes[block.column];
-		let bg_color=color_presets[block.color_preset];
+		let color_preset_raw=color_presets[block.color_preset];
+		let bg_color=color_preset_raw.color;
 		let expand_direction=column_expand_direction[block.column];
 		
 		// Child DOM elements
@@ -233,10 +234,24 @@ function timetable_build(ttd){
 		
 		// Description
 		desc_dom.style.width=px2em(270);
-		let info_time_dom=document.createElement("div");
-		info_time_dom.classList.add("timetable-desc-time");
-		info_time_dom.innerHTML=block.start_time+" ~ "+block.end_time;
-		desc_dom.appendChild(info_time_dom);
+		
+		let info_time_dom_ko=document.createElement("div");
+		info_time_dom_ko.classList.add("timetable-desc-time");
+		info_time_dom_ko.classList.add("langdiv-ko");
+		let info_time_dom_en=document.createElement("div");
+		info_time_dom_en.classList.add("timetable-desc-time");
+		info_time_dom_en.classList.add("langdiv-en");
+		
+		if ("time_string_override_en" in block){
+			info_time_dom_ko.innerHTML=block.time_string_override_kr;
+			info_time_dom_en.innerHTML=block.time_string_override_en;
+		}else{
+			info_time_dom_ko.innerHTML=block.start_time+" ~ "+block.end_time;
+			info_time_dom_en.innerHTML=block.start_time+" ~ "+block.end_time;
+		}
+		desc_dom.appendChild(info_time_dom_ko);
+		desc_dom.appendChild(info_time_dom_en);
+		
 		let info_text_dom_ko=document.createElement("div");
 		let info_text_dom_en=document.createElement("div");
 		info_text_dom_ko.classList.add("timetable-desc-text");
@@ -299,6 +314,9 @@ function timetable_build(ttd){
 		
 		max_y=Math.max(max_y,y+h);
 		
+		
+		let rel_start_time_gapped=(y-tt_cg_top_extension)/tt_px_per_minute;
+		let rel_end_time_gapped=(y+h-tt_cg_top_extension)/tt_px_per_minute;
 		
 		// Expand animation
 		let expX=x;
@@ -472,10 +490,39 @@ function timetable_build(ttd){
 			outline_dom.style.borderBottomRightRadius = radius;
 		}
 		
-		block_dom.style.backgroundColor=bg_color;
+		
 		outline_dom.style.borderColor=bg_color;
 		outline_dom.style.borderStyle="solid"; // Maybe dotted?
 		outline_dom.style.borderWidth=px2em(tt_block_border_width);
+		
+		if ("color_list" in color_preset_raw){
+			console.log("CPR-CL",color_preset_raw.color_list)
+			console.log("CPR-CTM",color_preset_raw.color_transition_minutes)
+			let visual_duration=rel_end_time_gapped-rel_start_time_gapped;
+			let start_time_visual = rel_start_time_gapped
+			let stops=[];
+			for (const m of color_preset_raw.color_transition_minutes){
+				stops.push((m+start_time_relative-rel_start_time_gapped)/visual_duration);
+			}
+			let gradient_def="linear-gradient(to bottom"
+			for (let i=0;i<color_preset_raw.color_list.length;i++){
+				gradient_def=gradient_def+",";
+				
+				let lowstop="";
+				let highstop="";
+				if (i>0) lowstop=(stops[i-1]*100).toFixed(3)+"%";
+				if (i<stops.length) highstop=(stops[i]*100).toFixed(3)+"%";
+				
+				gradient_def=gradient_def+" "+color_preset_raw.color_list[i];
+				gradient_def=gradient_def+" "+lowstop;
+				gradient_def=gradient_def+" "+highstop;
+			}
+			gradient_def=gradient_def+")";
+			console.log("GDEF",gradient_def);
+			block_dom.style.backgroundImage=gradient_def;
+		}else{
+			block_dom.style.backgroundColor=bg_color;
+		}
 		
 		
 		if (vertical){

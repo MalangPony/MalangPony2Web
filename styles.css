@@ -567,6 +567,8 @@ canvas{
   transition-timing-function:ease-in-out,ease-in-out,ease-in-out,ease-in-out,linear;
   
   overflow:hidden;
+  
+  text-align:center;
 }
 
 .timetable-block-body.timetable-block-mouseover{
@@ -602,7 +604,6 @@ canvas{
 }
 .timetable-block-vertical:not(.timetable-block-mouseover) .timetable-block-text {
   transform:rotate(90deg);
-  text-align:center;
 }
 
 .timetable-block-description-container{
@@ -633,7 +634,6 @@ canvas{
   margin-top:0.1em;
   font-size:0.8em;
   font-weight:400;
-  text-align:center;
 }
 
 /* A .linkbutton class for creating a hyperlink button. */

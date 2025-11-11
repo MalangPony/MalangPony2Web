@@ -210,31 +210,18 @@
 	},
 	{ 
 	"display":true,
-	"name_kr":"벤더홀 (스폰서 전용)",
-	"name_en":"Vendor Hall (Sponsors)",
-	"start_time":"10:30",
-	"end_time":"11:00",
-	"color_preset":"vendor-sponsor",
-	"column":"main-side-vendor",
-	"description_en":"Sponsors get to enter the vendor hall 30 minutes early.",
-	"description_kr":"스폰서 분들은 30분 일찍 입장 가능합니다.",
-	"tagline_en":"",
-	"tagline_kr":"",
-	"connecting":["B"]
-	},
-	{ 
-	"display":true,
 	"name_kr":"벤더 홀",
 	"name_en":"Vendor Hall",
-	"start_time":"11:00",
+	"start_time":"10:30",
 	"end_time":"17:00",
 	"color_preset":"vendor-main",
 	"column":"main-side-vendor",
-	"description_en":"Uh it's a vendor hall...<br>You do know what a vendor hall is, right?",
-	"description_kr":"포니 부스들에서 국산 포니 굿즈를 사보세요!",
+	"description_en":"You do know what a vendor hall is, right?<br>Sponsors get to enter the vendor hall 30 minutes early.",
+	"description_kr":"포니 부스들에서 국산 포니 굿즈를 사보세요!<br>스폰서 분들은 30분 일찍 입장 가능합니다.",
 	"tagline_en":"",
 	"tagline_kr":"",
-	"connecting":["T"]
+	"time_string_override_en":"(11:00~ for sponsors)<br>11:30 ~ 17:00",
+	"time_string_override_kr":"(스폰서들은 11:00~)<br>11:30 ~ 17:00"
 	},
 	{ 
 	"display":true,
@@ -553,7 +540,9 @@
 	},
 	{
 	"name":"vendor-main",
-	"color":"#7cc6ff"
+	"color":"#7cc6ff",
+	"color_list":["#b8e3ff","#7cc6ff"],
+	"color_transition_minutes":[30]
 	},
 	{
 	"name":"vendor-sponsor",
