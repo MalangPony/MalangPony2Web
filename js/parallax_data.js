@@ -12,11 +12,12 @@
 // For solid types, Infinity and -1 sizes have a special meaning.
 
 // Type:
-// Either solid or image.
+// solid, image, gradient.
 
 // SRC:
 // Color code for solids,
 // Image src for image.
+// Gradient definition for gradients.
 
 // Ground plane is at Y=0
 // don't put anything in front of Z=0
@@ -24,8 +25,8 @@ export let images=[
 	{ // Ground plane
 		location:[0,0,3000],
 		size:[Infinity,-1],
-		type:"solid",
-		src:"#002c01"
+		type:"gradient",
+		src:"linear-gradient(to right, #31407b 0%, #376483 40% 60%, #31407b 100%)"
 	},
 	{ // Mountain
 		location:[1000,0,3000],

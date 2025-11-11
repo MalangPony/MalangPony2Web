@@ -22,7 +22,6 @@ Make black text blue-ish (follow palette)
 Make border between ground and sky less obvious
 Put some BG objects (far objects) in the sky
 Put clouds?
-Gradient in the BG sky, follow poster.
 Vendor hall eliminate VIP block - just make the main block two-toned.
   The VIP time is explained in the description.
 Timetable: Mobile UI - scroll based?

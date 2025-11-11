@@ -181,6 +181,9 @@ function populate_parallax_images(){
     }else if (pimg.type=="solid"){
       e=document.createElement("div");
       e.style.backgroundColor=pimg.src;
+    }else if (pimg.type=="gradient"){
+      e=document.createElement("div");
+      e.style.backgroundImage=pimg.src;
     }else{
       console.log("ERROR 817");
     }

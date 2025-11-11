@@ -197,7 +197,7 @@ canvas{
   gap:8px;
 }
 #sky-bg{
-background: linear-gradient(0deg,#101050,#303070)
+  background: linear-gradient(0deg,#181365,#4f3773,#6d4c79);
 }
 #container-ground{
   pointer-events:none;
