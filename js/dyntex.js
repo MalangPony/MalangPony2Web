@@ -177,19 +177,45 @@ function recalculate_triangulation(){
 	triangle_indices.length=0;
 	triangle_visiblity_factors.length=0;
 	let coords=[];
+	let coordsV=[];
 	for (const p of wpoints){
 		coords.push(p.position.x);
 		coords.push(p.position.y);
+		coordsV.push(p.position);
 	}
 	
 	let delaunay = new Delaunator(coords);
 	
 	for (let i=0;i<delaunay.triangles.length;i+=3){
-		triangle_indices.push([
-			delaunay.triangles[i],
-			delaunay.triangles[i+1],
-			delaunay.triangles[i+2]
-		]);
+		let indexA=delaunay.triangles[i];
+		let indexB=delaunay.triangles[i+1];
+		let indexC=delaunay.triangles[i+2];
+		
+		if (Config.REJECT_UGLY_TRIANGLES){
+			// An 'Ugly Triangle' is a triangle with a too acute inner angle.
+			let angle_thresh_radians=Config.UGLY_TRIANGLE_THRESHOLD_ANGLE_DEGREES/180*Math.PI;
+			let pointA=coordsV[indexA];
+			let pointB=coordsV[indexB];
+			let pointC=coordsV[indexC];
+			let angleA=Vector2.angleBetween(
+				pointB.subtract(pointA),
+				pointC.subtract(pointA));
+			let angleB=Vector2.angleBetween(
+				pointA.subtract(pointB),
+				pointC.subtract(pointB));
+			let angleC=Vector2.angleBetween(
+				pointA.subtract(pointC),
+				pointB.subtract(pointC));
+			
+			let ugly=false;
+			if (angleA<angle_thresh_radians) ugly=true;
+			if (angleB<angle_thresh_radians) ugly=true;
+			if (angleC<angle_thresh_radians) ugly=true;
+			//if (!ugly) continue;
+			if (ugly) continue;
+		}
+		
+		triangle_indices.push([indexA,indexB,indexC]);
 		triangle_visiblity_factors.push(new WigglyPoint(Vector2.ZERO,pp_tvf));
 	}
 }
@@ -242,6 +268,7 @@ export function animationTick(dt){
 		let c=wpoints[tg[2]];
 		let alpha=tvf.position.x;
 		alpha = (alpha-4.5)/20.0;
+		//alpha=0.5+(i*7%13)/12*0.5;
 		if (alpha<0) alpha=0;
 		if (alpha>1) alpha=1.0;
 		alpha=Math.pow(alpha,2);

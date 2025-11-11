@@ -59,6 +59,17 @@ export class Vector2{
     return this.lerp_unconstrained(a,b,factor);
   }
   static ZERO = new Vector2(0,0);
+  static dot(a,b){
+    return a.x*b.x+a.y*b.y;
+  }
+  static angleBetween(a,b){
+    let cosine = Vector2.dot(a,b)/a.length()/b.length();
+    return Math.acos(cosine);
+  }
+  static angleBetweenAcute(a,b){
+    let cosine = Math.abs(Vector2.dot(a,b))/a.length()/b.length();
+    return Math.acos(cosine);
+  }
 }
 
 
