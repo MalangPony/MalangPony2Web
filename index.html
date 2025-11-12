@@ -30,11 +30,27 @@
     </div>
   </div>
   <div id="stickies" class="fullsize" style="z-index:80;pointer-events:none;">
+    <!-- Zindex allocation: -->
+    <!-- 99 #debug-print-area -->
+    <!-- 30 #email-popup -->
+    <!-- 10 #sidebar-positioner -->
+    <!-- 6  #sb-button-positioner -->
+    <!-- 5  #switch-positioner -->
+    <!-- 2  #sidebar-animation-container -->
     <div id="sidebar-animation-container">
         <div id="sidebar-intro-anim" style="display:none;">
           <div id="letter-magic-spritesheet-animation"></div>
         </div>
+    </div>
+    
+    <div id="email-popup" class="fullsize" style="display:none;">
+      <div id="email-display-body">
+        <div class="langspan-ko">문의사항이 있으시면 아래 이메일 주소로 보내주세요.</div>
+        <div class="langspan-en">Send inquiries to the email address below.</div>
+        <img src="image/email_addr_nocaption_NEW.png" style="max-width:200px;">
       </div>
+    </div>
+    
     <div id="sidebar-positioner" class="fullsize" style="z-index:10;">
       
       <div id="sidebar" class="css-filters" style="pointer-events:auto;display:none;">
@@ -400,6 +416,34 @@
         
         
       </div>
+      
+      <div id="footer-divider"></div>
+      <div id="footer-content">
+        <div id="footer-text-contact" class="langdiv-ko">문의 및 최신 소식:</div>
+        <div id="footer-text-contact" class="langdiv-en">Contact &amp; follow us on:</div>
+        <div id="footer-sns-buttons">
+          <a id="footer-sns-button-twitter" target="_blank" href="https://x.com/MalangPony">
+            <img src="siteicons/X_logo-white_Rsz64px.png">
+          </a>
+          <a id="footer-sns-button-bluesky" target="_blank" href="https://bsky.app/profile/malangpony.bsky.social">
+            <img src="siteicons/Bluesky_Logo_Wikipedia_1024px_White-Rsz64px.png">
+          </a>
+          <a id="footer-sns-button-discord" onclick="alert('Coming soon..');">
+            <img src="siteicons/Discord-Symbol-Purewhite_Rsz64px.png">
+          </a>
+          <a id="footer-sns-button-email" onclick="show_email();">
+            <img src="sprites/mail_64dp_FFFFFF_FILL0_wght500_GRAD0_opsz48.png">
+          </a>
+        </div>
+        <div id="footer-disclaimer" class="langdiv-ko">
+          말랑포니는 팬이 운영하는 비공식 이벤트입니다.<br>
+          본 행사는 해즈브로와 관계가 없습니다.
+        </div>
+        <div id="footer-disclaimer" class="langdiv-en">
+          MalangPony is an unofficial event run by fans.<br>
+          We are not affliated with Hasbro in any way.
+        </div>
+      </div>
     </div>
     
   </div>
@@ -434,6 +478,14 @@
 
 <!-- Ethically sourced, home-grown spaghetti -->
 <script type="module" src="./js/main.js"></script>
+
+<script>
+let email_popup=document.getElementById("email-popup");
+function show_email(){
+  email_popup.style.display="flex";
+}
+email_popup.addEventListener("click",()=>{email_popup.style.display="none";})
+</script>
 
 <script>
 // For debugging

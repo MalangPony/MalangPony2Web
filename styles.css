@@ -19,7 +19,7 @@
 /* Color templates */
 :root{
   /* Directly copied from the color guide */
-  --template-malang-pp:#FF91DB;
+  --template-malang-PP:#FF91DB;
   --template-malang-FS:#F7E38F;
   --template-malang-RD:#70BCFF;
   --template-malang-AJ:#F5B96E;
@@ -49,7 +49,7 @@
   --color-sidebar-text-selected:#101010;
   
   /* Background */
-  --color-background-light: #E8E8E8;
+  --color-background-light: #F0F0F0;
   --color-background-dark: #202020;
   --color-background-default:light-dark(
     var(--color-background-light),var(--color-background-dark));
@@ -118,6 +118,16 @@
   --color-background-bluebus:#d8dbff;
   --color-text-bluebus:#363db6;
   --color-route-bluebus: var(--color-text-bluebus);
+  
+  /* Yes, they actually use #000 (Official) */
+  --color-background-twitter:#000000;
+  
+  /* Bsky doesn't have an official brand guideline,
+   * but they seem to be using #006AFF on their site. */
+  --color-background-bluesky:#006AFF;
+  
+  /* Discord::Dark (Official) */
+  --color-background-discord:#1f1f1f;
   
 }
 
@@ -369,6 +379,27 @@ canvas{
 .si-arrow{
   font-size:4em;
   opacity:0.8;
+}
+
+/* Email popup */
+#email-popup{
+  z-index:30;
+  pointer-events:auto;
+  justify-content:center;
+  align-items:center;
+  background-color:#000000A0;
+}
+#email-display-body{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  width:240px;
+  height:120px;
+  background-color:var(--color-background-light);
+  color:var(--color-text-dark);
+  text-align:center;
+  gap:16px;
 }
 
 /* Sidebar positioning & animation*/
@@ -781,6 +812,107 @@ canvas{
   pointer-events:auto;
   text-shadow: 0 0 10px #00000080;
   font-size:64px;
+}
+
+/* Footer */
+#footer-divider{
+  margin-top:32px;
+  margin-bottom:16px;
+  margin-left:64px;
+  margin-right:64px;
+  width:100%;
+  height:2px;
+  opacity:0.5;
+  background-image: linear-gradient(
+    to right,
+    hsl(from var(--color-text-auto) h s l / 0%) 0%,
+    var(--color-text-auto) 10% 90%,
+    hsl(from var(--color-text-auto) h s l / 0%) 100%)
+}
+#footer-content{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  margin-bottom:16px;
+  gap:8px;
+}
+#footer-text-contact{
+  font-weight:700;
+}
+#footer-sns-buttons{
+  display:flex;
+  flex-direction:row;
+  justify-content:center;
+  align-items:center;
+  gap:8px;
+}
+#footer-sns-buttons > a{
+  border-radius:4px;
+  width:42px;
+  height:42px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  cursor:pointer;
+}
+#footer-sns-buttons > a > img{
+  display:block; /* inline-block can cause weird spacing issues */
+}
+
+#footer-sns-buttons > a{
+  background-color:var(--template-malang-text);
+}
+/*
+#footer-sns-button-twitter{
+  background-color:var(--color-background-twitter);
+}
+#footer-sns-button-bluesky{
+  background-color:var(--color-background-bluesky);
+}
+#footer-sns-button-discord{
+  background-color:var(--color-background-discord);
+}
+#footer-sns-button-email{
+  background-color:var(--template-malang-TS);
+}*/
+/*
+#footer-sns-button-twitter{
+  background-color:var(--template-hanmari-red);
+}
+#footer-sns-button-bluesky{
+  background-color:var(--template-hanmari-orange);
+}
+#footer-sns-button-discord{
+  background-color:var(--template-hanmari-yellow);
+}
+#footer-sns-button-email{
+  background-color:var(--template-hanmari-green);
+}*/
+
+/* Every logo has a different visual size, so it is manually matched here.*/
+#footer-sns-button-twitter > img{
+  width:60%;
+  height:60%;
+}
+#footer-sns-button-bluesky > img{
+  width:70%;
+  height:70%;
+}
+#footer-sns-button-discord > img{
+  width:70%;
+  height:70%;
+}
+#footer-sns-button-email > img{
+  width:75%;
+  height:75%;
+}
+
+#footer-disclaimer{
+  text-align:center;
+  font-size:0.8em;
+  font-weight:400;
+  
 }
 
 /* A .linkbutton class for creating a hyperlink button. */
