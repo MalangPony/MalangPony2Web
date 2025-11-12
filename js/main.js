@@ -70,8 +70,7 @@ const debug_btn_perf_decrement = document.getElementById(
 const debug_btn_perf_auto = document.getElementById(
 	"debug-button-feature-auto");
 
-const mascot_selector_hmr=document.getElementById("mascot-selector-hmr");
-const mascot_selector_lbr=document.getElementById("mascot-selector-lbr");
+const mascot_selector=document.getElementById("mascot-selector");
 const mascot_container_hmr=document.getElementById("mascot-container-hmr");
 const mascot_container_lbr=document.getElementById("mascot-container-lbr");
 
@@ -1009,13 +1008,45 @@ function sidebar_collapse_and_unlock(){
   sidebar_category_interactive=true;
 }
 
-mascot_selector_hmr.addEventListener("click",()=>{
-  mascot_container_hmr.style.display="flex";
-  mascot_container_lbr.style.display="none";
-  mascot_container_hmr.scrollIntoView({behavior:"smooth",block:"start"});
+
+// 0 None selected +1 Hanmari -1 Leebyeori
+let mascot_selection_mode=0;
+
+function apply_mascot_selection_mode(){
+  console.log("MSM",mascot_selection_mode);
+  if (mascot_selection_mode==0){
+    mascot_container_hmr.classList.add("isolate");
+    mascot_container_hmr.classList.remove("minimize");
+    mascot_container_lbr.classList.add("isolate");
+    mascot_container_lbr.classList.remove("minimize");
+  }else if (mascot_selection_mode==-1){
+    mascot_container_hmr.classList.add("isolate");
+    mascot_container_hmr.classList.add("minimize");
+    mascot_container_lbr.classList.remove("isolate");
+    mascot_container_lbr.classList.remove("minimize");
+  }else if (mascot_selection_mode==+1){
+    mascot_container_hmr.classList.remove("isolate");
+    mascot_container_hmr.classList.remove("minimize");
+    mascot_container_lbr.classList.add("isolate");
+    mascot_container_lbr.classList.add("minimize");
+  } 
+}
+mascot_container_hmr.addEventListener("click",()=>{
+  if (mascot_selection_mode==0){
+    mascot_selection_mode=+1;
+    apply_mascot_selection_mode();
+  }else if (mascot_selection_mode==-1){
+    mascot_selection_mode=0;
+    apply_mascot_selection_mode();
+  }
 });
-mascot_selector_lbr.addEventListener("click",()=>{
-  mascot_container_hmr.style.display="none";
-  mascot_container_lbr.style.display="flex";
-  mascot_container_lbr.scrollIntoView({behavior:"smooth",block:"start"});
+mascot_container_lbr.addEventListener("click",()=>{
+  if (mascot_selection_mode==0){
+    mascot_selection_mode=-1;
+    apply_mascot_selection_mode();
+  }else if (mascot_selection_mode==+1){
+    mascot_selection_mode=0;
+    apply_mascot_selection_mode();
+  }
 });
+apply_mascot_selection_mode();
