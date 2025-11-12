@@ -1129,6 +1129,95 @@ a.linkbutton{
   color: var(--color-text-bluebus);
 }
 
+/* Page: Previous */
+#page-previous{
+  align-items:stretch;
+}
+#previous-content{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:8px;
+}
+/* Copied from MPN1 Site */
+.centerhead{
+	font-size:1.2em;
+	margin-top:16px;
+	font-style:italic;
+	font-weight:700;
+	display:flex;
+	flex-direction:row;
+	justify-content:center;
+	align-items:center;
+	align-self: stretch;
+	gap:16px;
+}
+.centerhead::after{
+	content:"";
+	height:2px;
+	background-color:var(--color-text-auto);
+	flex-grow:1;
+}
+.centerhead::before{
+	content:"";
+	height:2px;
+	background-color:var(--color-text-auto);
+	flex-grow:1;
+}
+
+.prev-gallery-btn{
+  text-decoration: none;
+  display:block;
+  font-weight:bold;
+  text-align:center;
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  transition-property: background-color, color;
+  transition-duration: 0.5s;
+  padding-left:12px;
+  padding-right:12px;
+  padding-top:4px;
+  padding-bottom:4px;
+  font-size:1.2em;
+  border-radius:8px;
+  gap:8px;
+  border: 4px solid;
+}
+.prev-gallery-btn > img {
+	width:32px;
+	height:32px;
+}
+.malang{
+	border-color: #2F4575;
+	background-color: #2F4575;
+	color:#FFF;
+}
+.malang:hover{
+	background-color: #FFF;
+	color:#2F4575;
+}
+
+.malang_old{
+	border-color: #5f4385;
+	background-color: #5f4385;
+	color:#FFF;
+}
+.malang_old:hover{
+	background-color: #FFF;
+	color:#5f4385;
+}
+
+#prev-site-links{
+  font-size:0.8em; 
+  text-align:center; 
+  margin-top:24px;
+}
+#prev-site-links > a{
+  color:var(--color-text-auto);
+  font-weight:700;
+}
 
 /* Responsive Section */
 /* Targeting down to 300px. */

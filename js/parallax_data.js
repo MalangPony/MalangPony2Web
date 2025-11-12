@@ -141,9 +141,10 @@ export let camera_locations={
 	intro:     [   0, camera_y,  -500, 1.0, camera_default_tilt],
 	about:     [   0,      100,  -200, 0.8, camera_default_tilt],
 	coc:       [ 800, camera_y,   300, 1.0, camera_default_tilt],
-	news:      [   0, 800, -1000, 1.0, +1.2],
+	news:      [   0,      800, -1000, 1.0, +1.2],
 	timetable: [-500, camera_y,  -500, 1.0, camera_default_tilt],
-	venue:     [-100, camera_y, -1000, 1.0, camera_default_tilt]
+	venue:     [-100, camera_y,  -800, 1.0, camera_default_tilt],
+	previous:  [   0, camera_y, -1000, 1.2, camera_default_tilt],
 }
 
 // Camera parameters in sky mode.

@@ -28,6 +28,7 @@ Separate CSS files
 
 RIGHT BEFORE PUSH TO PROD
 Change all domains (testing.malangpony) to a PHP expression (<?php echo $webroot;?>)
+...or change all testing.malangpony domain to malangpony (automated search-replace?)
 
 AFTER PUSH TO PROD
 Check OpenGraph working
