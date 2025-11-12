@@ -1251,31 +1251,57 @@ a.linkbutton{
 .light-mode .icon-light{
   display:block;
 }
-#refsheet-hmr{
-  --rs-fg:light-dark(
+
+.hanmari{
+  --character-fg:light-dark(
     var(--character-hanmari-mane-black),
     var(--character-hanmari-body));
-  --rs-bg:light-dark(
+  --character-bg:light-dark(
     var(--character-hanmari-body),
     var(--character-hanmari-mane-black));
-
-  
 }
-#refsheet-lbr{
-  --rs-fg:light-dark(
+.leebyeori{
+  --character-fg:light-dark(
     var(--character-leebyeori-mane-brown),
     var(--character-leebyeori-body));
-  --rs-bg:light-dark(
+  --character-bg:light-dark(
     var(--character-leebyeori-body),
     var(--character-leebyeori-mane-brown));
 }
+
+.mascot-selector{
+  display:flex;
+  flex-direction:row;
+  width:500px;
+}
+.mascot-selector > div{
+  width:50%;
+  height:64px;
+  background-color: var(--character-bg);
+  color:var(--character-fg);
+}
+.mascot-container{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+.mascot-title{
+  margin-top:16px;
+  margin-bottom:8px;
+  font-size:2.5em;
+  font-weight:700;
+  color: var(--character-fg);
+}
+.mascot-bio{
+  color: var(--character-fg);
+}
+
 .refsheet-container{
-  
-  --rs-text:var(--rs-fg);
-  --rs-background:var(--rs-bg);
-  --rs-outline:var(--rs-fg);
-  --rs-button-bg:var(--rs-fg);
-  --rs-button-text:var(--rs-bg);
+  --rs-text:var(--character-fg);
+  --rs-background:var(--character-bg);
+  --rs-outline:var(--character-fg);
+  --rs-button-bg:var(--character-fg);
+  --rs-button-text:var(--character-bg);
   
   display:flex;
   flex-direction:column;

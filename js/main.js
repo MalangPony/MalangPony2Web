@@ -70,7 +70,10 @@ const debug_btn_perf_decrement = document.getElementById(
 const debug_btn_perf_auto = document.getElementById(
 	"debug-button-feature-auto");
 
-
+const mascot_selector_hmr=document.getElementById("mascot-selector-hmr");
+const mascot_selector_lbr=document.getElementById("mascot-selector-lbr");
+const mascot_container_hmr=document.getElementById("mascot-container-hmr");
+const mascot_container_lbr=document.getElementById("mascot-container-lbr");
 
 const sky_bg = document.getElementById("sky-bg");
 
@@ -1006,4 +1009,13 @@ function sidebar_collapse_and_unlock(){
   sidebar_category_interactive=true;
 }
 
-
+mascot_selector_hmr.addEventListener("click",()=>{
+  mascot_container_hmr.style.display="flex";
+  mascot_container_lbr.style.display="none";
+  mascot_container_hmr.scrollIntoView({behavior:"smooth",block:"start"});
+});
+mascot_selector_lbr.addEventListener("click",()=>{
+  mascot_container_hmr.style.display="none";
+  mascot_container_lbr.style.display="flex";
+  mascot_container_lbr.scrollIntoView({behavior:"smooth",block:"start"});
+});
