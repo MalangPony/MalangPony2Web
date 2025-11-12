@@ -14,6 +14,7 @@ import * as ParallaxData from "./parallax_data.js";
 import * as Timetable from "./timetable.js";
 import * as Dyntex from "./dyntex.js";
 import * as Maps from "./maps.js";
+import * as Cookies from "./cookies.js";
 
 // DOM
 const body_dom = document.querySelector("body");
@@ -611,7 +612,7 @@ function apply_lang(code){
   }
   
   // Save to cookie
-  document.cookie="language="+code;
+  Cookies.createCookie("language",code);
 }
 
 lang_btn.onclick= ()=>{
@@ -619,29 +620,12 @@ lang_btn.onclick= ()=>{
   else apply_lang("ko");
 }
 
-let mq_darkmode=window.matchMedia("(prefers-color-scheme: dark)");
-let darkmode=mq_darkmode.matches;
-function apply_darkmode(darkmode){
-  if (darkmode) {
-    body_dom.style.colorScheme="dark";
-    theme_btn.innerHTML="Light Mode";
-  }else {
-    body_dom.style.colorScheme="light";
-    theme_btn.innerHTML="Dark Mode";
-  }
-}
-apply_darkmode(darkmode);
-theme_btn.onclick= ()=>{
-  darkmode=!darkmode;
-  apply_darkmode(darkmode);
-}
-
 // Get lang value from cookie
 let lang_from_cookie=null;
-const cookieValue = document.cookie.split("; ").find((row) => row.startsWith("language="))?.split("=")[1];
-console.log("language cookie value: "+cookieValue);
-if (cookieValue!==undefined) {
-  if (all_langs.includes(cookieValue)) lang_from_cookie=cookieValue;
+const langCookieRaw = Cookies.readCookie("language");
+console.log("language cookie value: "+langCookieRaw);
+if (langCookieRaw) {
+  if (all_langs.includes(langCookieRaw)) lang_from_cookie=langCookieRaw;
   else console.log("Error: Language cookie value invalid!");
 }
 
@@ -670,6 +654,50 @@ if (lang_from_cookie !== null) {
   apply_lang("en");
 }
 
+
+
+// Get theme from cookie
+let theme_from_cookie=Cookies.readCookie("theme");
+
+// Get theme from media query
+let mq_darkmode=window.matchMedia("(prefers-color-scheme: dark)");
+let darkmode_media_query_result=mq_darkmode.matches;
+
+// Set initial theme
+let darkmode=darkmode_media_query_result;
+
+// If there was a cookie, override it with the cookie value.
+if (theme_from_cookie){
+  if (theme_from_cookie==="L"){
+    console.log("Set theme to Light, from cookie");
+    darkmode=false;
+  }else if (theme_from_cookie==="D"){
+    console.log("Set theme to Dark, from cookie");
+    darkmode=true;
+  }
+}else{
+  console.log("No theme cookie, follow media query; DM="+darkmode);
+}
+
+function apply_darkmode(darkmode){
+  if (darkmode) {
+    body_dom.style.colorScheme="dark";
+    theme_btn.innerHTML="Light Mode";
+    Cookies.createCookie("theme","D");
+  }else {
+    body_dom.style.colorScheme="light";
+    theme_btn.innerHTML="Dark Mode";
+    Cookies.createCookie("theme","L");
+  }
+}
+
+theme_btn.onclick= ()=>{
+  darkmode=!darkmode;
+  apply_darkmode(darkmode);
+}
+
+// Apply initial
+apply_darkmode(darkmode);
 
 // Hanmari hide/show
 function hide_hanmari(){
