@@ -837,6 +837,7 @@ a.linkbutton{
   background-color:var(--color-background-default);
   color:var(--color-text-dark);
   position:relative;
+  line-height:1.4em;
 }
 .directions-icon{
   position:absolute;
