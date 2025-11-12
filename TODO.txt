@@ -24,6 +24,7 @@ Timetable: vert text for korean?
 Maybe: constallations?
 Gradient instead of boxblur in content-backdrop
 Change all symbols to SVG from GMI.
+Actually just use GMI icon...
 Separate CSS files
 
 RIGHT BEFORE PUSH TO PROD

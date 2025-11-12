@@ -37,6 +37,24 @@
   --template-hanmari-violet:#514061;
   --template-hanmari-outline:#FFFFFF;
   
+  /* Copied from refsheet */
+  --character-hanmari-mane-red:#da183a;
+  --character-hanmari-mane-orange:#ff8c2e;
+  --character-hanmari-mane-blue:#6086d7;
+  --character-hanmari-mane-green:#00b765;
+  --character-hanmari-mane-lime:#c3cd22;
+  --character-hanmari-mane-black:#363437;
+  --character-hanmari-body:#fff6e2;
+  --character-hanmari-eye-magenta:#ab2367;
+  --character-hanmari-eye-pink:#ffb5c3;
+  
+  --character-leebyeori-mane-green:#bec427;
+  --character-leebyeori-mane-gold:#af9623;
+  --character-leebyeori-mane-brown:#aa6322;
+  --character-leebyeori-body:#fec746;
+  --character-leebyeori-magic:#faf67a;
+  --character-leebyeori-eye:#fdc45a;
+  
   /* Text colors*/
   /* Note: The dark/light refers to the lightness of the text. */
   /* Therefore, in LIGHT mode, the DARK text color should be used. */
@@ -44,6 +62,7 @@
   --color-text-dark: var(--template-malang-text);
   --color-text-light: var(--template-malang-bg);
   --color-text-auto: light-dark(var(--color-text-dark),var(--color-text-light));
+  --color-text-reversed: light-dark(var(--color-text-light),var(--color-text-dark));
   
   --color-sidebar-text-normal:#644a20;
   --color-sidebar-text-selected:#101010;
@@ -1219,6 +1238,98 @@ a.linkbutton{
   font-weight:700;
 }
 
+/* Page: Mascot */
+.icon-dark{
+  display:none;
+}
+.dark-mode .icon-dark{
+  display:block;
+}
+.icon-light{
+  display:none;
+}
+.light-mode .icon-light{
+  display:block;
+}
+#refsheet-hmr{
+  --rs-fg:light-dark(
+    var(--character-hanmari-mane-black),
+    var(--character-hanmari-body));
+  --rs-bg:light-dark(
+    var(--character-hanmari-body),
+    var(--character-hanmari-mane-black));
+
+  
+}
+#refsheet-lbr{
+  --rs-fg:light-dark(
+    var(--character-leebyeori-mane-brown),
+    var(--character-leebyeori-body));
+  --rs-bg:light-dark(
+    var(--character-leebyeori-body),
+    var(--character-leebyeori-mane-brown));
+}
+.refsheet-container{
+  
+  --rs-text:var(--rs-fg);
+  --rs-background:var(--rs-bg);
+  --rs-outline:var(--rs-fg);
+  --rs-button-bg:var(--rs-fg);
+  --rs-button-text:var(--rs-bg);
+  
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  background-color:var(--rs-background);
+  color: var(--rs-text);
+  gap:4px;
+  padding:12px;
+  margin-top:8px;
+  margin-bottom:8px;
+}
+/* Image */
+.refsheet-container > a:first-child > img {
+  max-width:min(80vw,600px);
+  border: 2px solid var(--rs-outline);
+}
+/* Creator line */
+.refsheet-container .refsheet-creator{
+  align-self:flex-end;
+}
+.refsheet-container .refsheet-creator > a{
+  color:var(--rs-text);
+  font-weight: 700;
+}
+/* Download line */
+.refsheet-container .refsheet-downloads{
+  display:flex;
+  flex-direction:row;
+  justify-content:space-evenly;
+  gap:8px;
+}
+/* Download links */
+.refsheet-container .refsheet-downloads > a{
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  gap:4px;
+  
+  padding-top: 6px;
+  padding-bottom: 4px;
+  padding-left: 12px;
+  padding-right: 12px;
+  
+  text-decoration:none;
+  border-radius:4px;
+  
+  background-color:var(--rs-button-bg);
+  color:var(--rs-button-text);
+  font-weight:700;
+}
+.refsheet-container .refsheet-downloads > a > img{
+  height:1.5em;
+  width:1.5em;
+}
 /* Responsive Section */
 /* Targeting down to 300px. */
 

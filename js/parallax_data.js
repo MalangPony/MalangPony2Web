@@ -145,6 +145,7 @@ export let camera_locations={
 	timetable: [-500, camera_y,  -500, 1.0, camera_default_tilt],
 	venue:     [-100, camera_y,  -800, 1.0, camera_default_tilt],
 	previous:  [   0, camera_y, -1000, 1.2, camera_default_tilt],
+	mascot:    [-200, camera_y,  -100, 1.0, camera_default_tilt],
 }
 
 // Camera parameters in sky mode.
