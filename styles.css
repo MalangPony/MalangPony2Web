@@ -57,9 +57,11 @@
   --color-main-backdrop:light-dark(
     hsl(from var(--template-malang-bg) h s l / 50%),
     hsl(0deg 0% 0% / 40%));
+  /* Below value is used then backdrop-filter is disabled. */
+  /* To retain visibility, the alpha should be increased. */
   --color-main-backdrop-noblur:light-dark(
-    hsl(from var(--template-malang-bg) h s l / 40%),
-    hsl(0deg 0% 0% / 30%));
+    hsl(from var(--template-malang-bg) h s l / 85%),
+    hsl(0deg 0% 0% / 80%));
   
   /* Borders */
   --color-embed-border-light: #FFFFFF;
@@ -77,7 +79,7 @@
   /* Effects */
   --color-main-backdrop-shadow:light-dark(
     hsl(from var(--template-malang-bg) h s l / 80%),
-    hsl(0deg 0% 0% / 80%),);
+    hsl(0deg 0% 0% / 80%));
   
   /* Page specific: News */
   --color-bluesky-backdrop: var(--color-background-default);
@@ -169,6 +171,11 @@ canvas{
 
 /* Is box-shadow performance-intensive? idk */
 #main-content-backdrop.activated{
+  /*background-image: linear-gradient(
+    to right,
+    hsl(from var(--color-main-backdrop) h s l / 0%) 0%,
+    var(--color-main-backdrop) 2% 98%,
+    hsl(from var(--color-main-backdrop) h s l / 0%) 100%);*/
   background-color:var(--color-main-backdrop);
   box-shadow:0 0 10px var(--color-main-backdrop-shadow);
 }
