@@ -37,8 +37,6 @@
   --template-hanmari-violet:#514061;
   --template-hanmari-outline:#FFFFFF;
   
-  
-  
   /* Text colors*/
   /* Note: The dark/light refers to the lightness of the text. */
   /* Therefore, in LIGHT mode, the DARK text color should be used. */
@@ -51,7 +49,7 @@
   --color-sidebar-text-selected:#101010;
   
   /* Background */
-  --color-background-light: #F0F0F0;
+  --color-background-light: #E8E8E8;
   --color-background-dark: #202020;
   --color-background-default:light-dark(
     var(--color-background-light),var(--color-background-dark));
@@ -63,14 +61,27 @@
     hsl(from var(--template-malang-bg) h s l / 40%),
     hsl(0deg 0% 0% / 30%));
   
-  /* Page specific: News */
-  --color-bluesky-backdrop: var(--color-background-default);
-  --color-bluesky-text: var(--color-text-main);
+  /* Borders */
+  --color-embed-border-light: #FFFFFF;
+  --color-embed-border-dark: var(--template-malang-TS);
+  --color-embed-border-auto: light-dark(
+    var(--color-embed-border-light),
+    var(--color-embed-border-dark));
+  
+  --color-embed-glow-light: #FFFFFF;
+  --color-embed-glow-dark: var(--template-malang-TS);
+  --color-embed-glow-auto: light-dark(
+    var(--color-embed-glow-light),
+    var(--color-embed-glow-dark));
   
   /* Effects */
   --color-main-backdrop-shadow:light-dark(
     hsl(from var(--template-malang-bg) h s l / 80%),
     hsl(0deg 0% 0% / 80%),);
+  
+  /* Page specific: News */
+  --color-bluesky-backdrop: var(--color-background-default);
+  --color-bluesky-text: var(--color-text-main);
   
   /* Buttons */
   --color-button-bg: var(--color-background-default);
@@ -709,7 +720,10 @@ a.linkbutton{
 
 /* Border for embeds */
 .embed-frame{
-  
+  box-shadow: 0 0 16px var(--color-embed-glow-auto);
+  border: 2px solid var(--color-embed-border-auto);
+  border-radius:16px;
+  overflow:hidden;
 }
 
 /* Common styles for all page content */
