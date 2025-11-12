@@ -23,6 +23,8 @@ Timetable: Colors... maybe textures?
 Timetable: vert text for korean?
 Maybe: constallations?
 Gradient instead of boxblur in content-backdrop
+Change all symbols to SVG from GMI.
+Separate CSS files
 
 RIGHT BEFORE PUSH TO PROD
 Change all domains (testing.malangpony) to a PHP expression (<?php echo $webroot;?>)

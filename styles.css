@@ -43,7 +43,7 @@
   /* And in DARK mode, the LIGHT text color should be used. */
   --color-text-dark: var(--template-malang-text);
   --color-text-light: var(--template-malang-bg);
-  --color-text-main: light-dark(var(--color-text-dark),var(--color-text-light));
+  --color-text-auto: light-dark(var(--color-text-dark),var(--color-text-light));
   
   --color-sidebar-text-normal:#644a20;
   --color-sidebar-text-selected:#101010;
@@ -55,7 +55,7 @@
     var(--color-background-light),var(--color-background-dark));
   
   --color-main-backdrop:light-dark(
-    hsl(from var(--template-malang-bg) h s l / 50%),
+    hsl(from var(--template-malang-bg) h s l / 60%),
     hsl(0deg 0% 0% / 40%));
   /* Below value is used then backdrop-filter is disabled. */
   /* To retain visibility, the alpha should be increased. */
@@ -83,11 +83,11 @@
   
   /* Page specific: News */
   --color-bluesky-backdrop: var(--color-background-default);
-  --color-bluesky-text: var(--color-text-main);
+  --color-bluesky-text: var(--color-text-auto);
   
   /* Buttons */
   --color-button-bg: var(--color-background-default);
-  --color-button-text: var(--color-text-main);
+  --color-button-text: var(--color-text-auto);
   
   /* External Brands */
   /* All colors were chosen arbitrarily if not commented otherwise. */
@@ -135,7 +135,7 @@ body{
 	height:100%;
 	font-family:NPS;
     font-size:16px;
-    color:var(--color-text-main);
+    color:var(--color-text-auto);
 }
 
 /* Full-screen canvas */
@@ -600,11 +600,9 @@ canvas{
 /* Timetable content */
 /* To ensure scalability, all length units should be in em. */
 #ttable-positioner{
-  
   font-size:min(1.5vw,16px);
 }
 #ttable-container{
-  color:var(--color-text-dark);
 }
 .timetable-dom-root{
   /* Set dynamically at timetable.js: 
@@ -627,6 +625,8 @@ canvas{
   overflow:hidden;
   
   text-align:center;
+  
+  color:var(--color-text-dark);
 }
 
 .timetable-block-body.timetable-block-mouseover{
@@ -724,7 +724,7 @@ canvas{
    * top, left, height, width, border-bottom-width */
   z-index:5;
   position:absolute;
-  border-bottom-color:#FFFFFF80;
+  border-bottom-color:hsl(from var(--color-text-auto) h s l / 50%);
   border-bottom-style:solid;
 }
 .timetable-tick-text{
@@ -734,7 +734,6 @@ canvas{
   bottom:0;
   z-index:6;
   font-size:0.8em;
-  color:#FFFFFFA0;
   font-weight:900;
 }
 
@@ -819,7 +818,7 @@ a.linkbutton{
 	justify-content:flex-start;
 	margin-top:32px;
     margin-bottom:32px;
-    color:var(--color-text-main);
+    color:var(--color-text-auto);
 }
 
 .page-title{
