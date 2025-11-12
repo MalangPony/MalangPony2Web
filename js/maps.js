@@ -141,7 +141,10 @@ let route_munrae=[
 let line_munrae=new kakao.maps.Polyline({
   map:kkm,
   path:route_munrae,
-  strokeOpacity:0
+  strokeOpacity:0.8,
+  strokeColor:"var(--color-route-line2)",
+  strokeStyle:"dashed",
+  strokeWeight:2,
 });
 let bounds_munrae=calculate_polyline_bounds(line_munrae);
 
@@ -157,41 +160,34 @@ let route_yangpyong=[
 let line_yangpyong=new kakao.maps.Polyline({
   map:kkm,
   path:route_yangpyong,
-  strokeOpacity:0
+  strokeOpacity:0.8,
+  strokeColor:"var(--color-route-line5)",
+  strokeStyle:"dashed",
+  strokeWeight:2,
 });
 let bounds_yangpyong=calculate_polyline_bounds(line_yangpyong);
 
 
 directions_munrae.addEventListener("click",()=>{
-  line_munrae.setOptions({
-    strokeColor:"#FF0000",
-    strokeStyle:"dashed",
-    strokeWeight:4,
-    strokeOpacity:1.0
-  });
-  line_yangpyong.setOptions({strokeOpacity:0});
+  //line_munrae.setOptions({});
+  //line_yangpyong.setOptions({strokeOpacity:0});
   flash_polyline(
     line_munrae,3000,250,
-    {strokeOpacity:1.0},
-    {strokeOpacity:0.5},
-    {strokeOpacity:0.5});
+    {strokeOpacity:1.0,strokeWeight:5,strokeStyle:"solid"},
+    {strokeOpacity:0.5,strokeWeight:5,strokeStyle:"solid"},
+    {strokeOpacity:1.0,strokeWeight:3,strokeStyle:"dashed"});
   kkm.setBounds(bounds_munrae,50);
   container.scrollIntoView({behavior:"smooth",block:"nearest"});
 });
 directions_munrae.style.cursor="pointer";
 directions_yangpyong.addEventListener("click",()=>{
-  line_yangpyong.setOptions({
-    strokeColor:"#FF0000",
-    strokeStyle:"dashed",
-    strokeWeight:4,
-    strokeOpacity:1.0
-  });
-  line_munrae.setOptions({strokeOpacity:0});
+  //line_yangpyong.setOptions({});
+  //line_munrae.setOptions({strokeOpacity:0});
   flash_polyline(
     line_yangpyong,3000,250,
-    {strokeOpacity:1.0},
-    {strokeOpacity:0.5},
-    {strokeOpacity:0.5});
+    {strokeOpacity:1.0,strokeWeight:5,strokeStyle:"solid"},
+    {strokeOpacity:0.5,strokeWeight:5,strokeStyle:"solid"},
+    {strokeOpacity:1.0,strokeWeight:3,strokeStyle:"dashed"});
   kkm.setBounds(bounds_yangpyong,50);
   container.scrollIntoView({behavior:"smooth",block:"nearest"});
 });
@@ -218,8 +214,8 @@ kakao.maps.event.addListener(kkm, 'bounds_changed', ()=>{
   let e=llb.getNorthEast().getLng();
   let ratioY=(positionATM.getLat()-s)/(n-s);
   let ratioX=(positionATM.getLng()-w)/(e-w);
-  let centeredX=(ratioX<0.8) && (ratioX>0.2);
-  let centeredY=(ratioY<0.8) && (ratioY>0.2);
+  let centeredX=(ratioX<0.95) && (ratioX>0.05);
+  let centeredY=(ratioY<0.95) && (ratioY>0.05);
   
   if (centeredX && centeredY) mbj.style.display="none";
   else mbj.style.display="flex";
