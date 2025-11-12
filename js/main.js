@@ -69,8 +69,7 @@ const debug_btn_perf_decrement = document.getElementById(
 const debug_btn_perf_auto = document.getElementById(
 	"debug-button-feature-auto");
 
-const ttmmbL=document.getElementById("ttmmb-left");
-const ttmmbR=document.getElementById("ttmmb-right");
+
 
 const sky_bg = document.getElementById("sky-bg");
 
@@ -751,6 +750,9 @@ function page_transition_instant(name){
     L2D.set_hanmari_size_instant(Config.OPTION_NONINTRO_PAGE_HANMARI_SHRINK_FACTOR);
   }
   
+  if (name=="timetable") Timetable.enter_timetable_page();
+  else Timetable.exit_timetable_page();
+  
   sidebar_buttons_activate(name);
 }
 // Transition with animation.
@@ -792,6 +794,9 @@ function page_transition(name){
   }
   
   currently_on_page=name;
+  
+  if (name=="timetable") Timetable.enter_timetable_page();
+  else Timetable.exit_timetable_page();
 }
 
 
@@ -970,5 +975,3 @@ function sidebar_collapse_and_unlock(){
 }
 
 
-ttmmbL.addEventListener("click",()=>{Timetable.mobile_prev()});
-ttmmbR.addEventListener("click",()=>{Timetable.mobile_next()});

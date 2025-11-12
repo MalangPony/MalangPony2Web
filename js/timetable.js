@@ -11,9 +11,12 @@ import * as TimetableData from "./timetable_data.js";
 const timetable_container = document.getElementById("ttable-container");
 const timetable_positoner = document.getElementById("ttable-positioner");
 
+const ttmmbL=document.getElementById("ttmmb-left");
+const ttmmbR=document.getElementById("ttmmb-right");
+const buttons_container = document.getElementById("timetable-mobile-move-button");
 
 let mobile_mode=false;
-
+let in_timetable_page=false;
 
 // Parse H:M timestamp into total minutes
 function parse_time(s){
@@ -652,22 +655,40 @@ function timetable_build(ttd){
 let cgroup_index=0;
 export function enter_mobile(){
 	mobile_mode=true;
-	mobile_focus_cgroup();
+	update_styles();
 }
 export function exit_mobile(){
 	mobile_mode=false;
-	timetable_container.style.marginLeft=0;
+	update_styles();
 }
-function mobile_focus_cgroup(){
-	let cgroup_center_px = cgroup_centers[cgroup_index];
-	let cgroup_center_em=px2em(cgroup_center_px);
+export function enter_timetable_page(){
+	in_timetable_page=true;
+	update_styles();
+}
+export function exit_timetable_page(){
+	in_timetable_page=false;
+	update_styles();
+}
+function update_styles(){
+	let active = in_timetable_page && mobile_mode;
+	if (!active) buttons_container.style.display="none";
+	else buttons_container.style.display="flex";
 	
-	let positioner_width=timetable_positoner.clientWidth;
-	let positioner_center_px=positioner_width/2;
-	
-	let margin=`calc(${positioner_center_px}px - ${cgroup_center_em})`;
-	//console.log(margin);
-	timetable_container.style.marginLeft=margin;
+	if (in_timetable_page){
+		if (mobile_mode){
+			let cgroup_center_px = cgroup_centers[cgroup_index];
+			let cgroup_center_em=px2em(cgroup_center_px);
+			
+			let positioner_width=timetable_positoner.clientWidth;
+			let positioner_center_px=positioner_width/2;
+			
+			let margin=`calc(${positioner_center_px}px - ${cgroup_center_em})`;
+			//console.log(margin);
+			timetable_container.style.marginLeft=margin;
+		}else{
+			timetable_container.style.marginLeft="0";
+		}
+	}
 }
 
 let last_known_positioner_width=-100000;
@@ -677,7 +698,7 @@ let positioner_resize_observer = new ResizeObserver(()=>{
 	if (Math.abs(last_known_positioner_width-w)>10){
 		last_known_positioner_width=w;
 		console.log("Detected TTable Positioner Width change - recenter");
-		mobile_focus_cgroup();
+		update_styles();
 	}
 });
 positioner_resize_observer.observe(timetable_positoner);
@@ -686,14 +707,19 @@ export function mobile_next(){
 	cgroup_index++;
 	if (cgroup_index>=cgroup_centers.length) cgroup_index=cgroup_centers.length-1;
 	//console.log("CGI",cgroup_index);
-	mobile_focus_cgroup();
+	update_styles();
 }
 export function mobile_prev(){
 	if (!mobile_mode) return;
 	cgroup_index--;
 	if (cgroup_index<0) cgroup_index=0;
 	//console.log("CGI",cgroup_index);
-	mobile_focus_cgroup();
+	update_styles();
 }
 
 timetable_container.appendChild(timetable_build(TimetableData));
+
+
+ttmmbL.addEventListener("click",()=>{mobile_prev()});
+ttmmbR.addEventListener("click",()=>{mobile_next()});
+
