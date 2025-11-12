@@ -436,7 +436,7 @@ canvas{
   padding-top:16px;
   margin-right:24px;
   margin-bottom:32px;
-  padding-bottom:8px;
+  padding-bottom:16px;
   
   display:flex;
   flex-direction:column;
@@ -446,7 +446,17 @@ canvas{
   
   color:var(--color-sidebar-text-normal);
   
-  gap:0.9em;
+  gap:0.6em;
+}
+
+.sb-divider{
+  width:100%;
+  background-image: linear-gradient(
+    to right,
+    hsl(from var(--color-sidebar-text-normal) h s l / 0%) 0%,
+    var(--color-sidebar-text-normal) 10% 60%,
+    hsl(from var(--color-sidebar-text-normal) h s l / 0%) 100%);
+  height:2px;
 }
 .sb-category-container{
   display:flex;
@@ -485,8 +495,8 @@ canvas{
 }
 .sb-category-content.sbcc-expanded{
   margin-top:0.5em;
-  margin-bottom:-0.3em;
-  gap:0.4em;
+  margin-bottom:-0.2em;
+  gap:0.3em;
 }
 .sb-link{
   text-wrap:nowrap;
