@@ -41,13 +41,8 @@ const tt_tick_px=1.5;
 const tt_cg_top_extension=48;
 const tt_cg_bottom_extension=6;
 const tt_cg_side_extension=4;
-const tt_cg_label_textsize=24;
-const tt_time_label_textsize=12;
-const tt_block_border_width=4;
 const tt_block_expanded_height=120;
 const tt_block_expanded_width=260;
-const tt_close_button_size=32;
-const tt_close_button_padding=2;
 
 // For scalibilty, all units should be in em.
 // Converts px values to em.
@@ -63,6 +58,7 @@ let cgroup_centers=[];
 
 function timetable_build(ttd){
 	let domroot=document.createElement("div");
+	domroot.classList.add("timetable-dom-root");
 	
 	// Make every child use its rel.coords when in absolute positioning.
 	domroot.style.position="relative";
@@ -180,14 +176,19 @@ function timetable_build(ttd){
 		// Child DOM elements
 		let block_dom=document.createElement("div");
 		block_dom.classList.add("timetable-block-body");
+		
 		let outline_dom=document.createElement("div");
 		outline_dom.classList.add("timetable-block-outline");
+		
 		let text_dom=document.createElement("div");
 		text_dom.classList.add("timetable-block-text");
+		
 		let desc_dom=document.createElement("div");
 		desc_dom.classList.add("timetable-block-description-container");
+		
 		let closebtn_dom=document.createElement("div");
 		closebtn_dom.classList.add("timetable-block-close-button");
+		
 		domroot.appendChild(block_dom);
 		domroot.appendChild(outline_dom);
 		block_dom.appendChild(text_dom);
@@ -196,31 +197,20 @@ function timetable_build(ttd){
 		
 		
 		// Close Button
-		closebtn_dom.style.position="absolute";
-		closebtn_dom.style.top=0;
-		closebtn_dom.style.right=0;
-		closebtn_dom.style.width=px2em(tt_close_button_size);
-		closebtn_dom.style.height=px2em(tt_close_button_size);
-		closebtn_dom.style.zIndex=+1;
 		closebtn_dom.classList.add("hidden");
 		
 		let close_svg=Utils.generate_svg_cross("#000000");
-		close_svg.style.position="absolute";
-		close_svg.style.top=   px2em(tt_close_button_padding);
-		close_svg.style.bottom=px2em(tt_close_button_padding);
-		close_svg.style.left=  px2em(tt_close_button_padding);
-		close_svg.style.right= px2em(tt_close_button_padding);
+		close_svg.classList.add("timetable-block-close-svg");
 		closebtn_dom.appendChild(close_svg);
 		if (Config.OPTION_TIMETABLE_REQUIRE_CLICK){
 			block_dom.appendChild(closebtn_dom);
 		}
 		
 		// Description
-		desc_dom.style.width=px2em(270);
-		
 		let info_time_dom_ko=document.createElement("div");
 		info_time_dom_ko.classList.add("timetable-desc-time");
 		info_time_dom_ko.classList.add("langdiv-ko");
+		
 		let info_time_dom_en=document.createElement("div");
 		info_time_dom_en.classList.add("timetable-desc-time");
 		info_time_dom_en.classList.add("langdiv-en");
@@ -236,11 +226,12 @@ function timetable_build(ttd){
 		desc_dom.appendChild(info_time_dom_en);
 		
 		let info_text_dom_ko=document.createElement("div");
-		let info_text_dom_en=document.createElement("div");
 		info_text_dom_ko.classList.add("timetable-desc-text");
 		info_text_dom_ko.classList.add("langdiv-ko");
 		info_text_dom_ko.innerHTML=block.description_kr;
 		desc_dom.appendChild(info_text_dom_ko);
+		
+		let info_text_dom_en=document.createElement("div");
 		info_text_dom_en.classList.add("timetable-desc-text");
 		info_text_dom_en.classList.add("langdiv-en");
 		info_text_dom_en.innerHTML=block.description_en;
@@ -281,14 +272,12 @@ function timetable_build(ttd){
 		}
 		
 		block_dom.style.zIndex=+90;
-		block_dom.style.position="absolute";
 		block_dom.style.top=px2em(y);
 		block_dom.style.left=px2em(x);
 		block_dom.style.height=px2em(h);
 		block_dom.style.width=px2em(w);
 		
 		outline_dom.style.zIndex=+80;
-		outline_dom.style.position="absolute";
 		outline_dom.style.top=px2em(y);
 		outline_dom.style.left=px2em(x);
 		outline_dom.style.height=px2em(h);
@@ -451,12 +440,13 @@ function timetable_build(ttd){
 		
 		
 		// Text DOM
-		text_dom.style.textAlign="center";
 		text_dom.style.fontSize=text_size+"em";
+		
 		var text_kr = document.createElement("span");
 		text_kr.classList.add("langspan-ko");
 		text_kr.innerHTML=block.name_kr;
 		text_dom.appendChild(text_kr);
+		
 		var text_en = document.createElement("span");
 		text_en.classList.add("langspan-en");
 		text_en.innerHTML=block.name_en;
@@ -484,8 +474,6 @@ function timetable_build(ttd){
 		
 		
 		outline_dom.style.borderColor=bg_color;
-		outline_dom.style.borderStyle="solid"; // Maybe dotted?
-		outline_dom.style.borderWidth=px2em(tt_block_border_width);
 		
 		if ("color_list" in color_preset_raw){
 			//console.log("CPR-CL",color_preset_raw.color_list)
@@ -518,7 +506,6 @@ function timetable_build(ttd){
 		
 		
 		if (vertical){
-			text_dom.style.width=px2em(200);
 			block_dom.classList.add("timetable-block-vertical");
 		}
 	}
@@ -533,17 +520,14 @@ function timetable_build(ttd){
 	// Create time ticks
 	for (const tt of time_ticks){
 		let tick_dom=document.createElement("div");
+		tick_dom.classList.add("timetable-tick-line");
 		
-		tick_dom.style.position="absolute";
 		tick_dom.style.top=px2em(
 			(tt-tt_start_t)*tt_px_per_minute+tt_tick_px/2-30+tt_cg_top_extension);
 		tick_dom.style.left=0;
 		tick_dom.style.height=px2em(30);
 		tick_dom.style.width=px2em(max_x);
-		tick_dom.style.borderBottomColor="#FFFFFF80";
-		tick_dom.style.borderBottomStyle="solid";
 		tick_dom.style.borderBottomWidth=px2em(tt_tick_px);
-		tick_dom.style.zIndex=+5;
 		domroot.appendChild(tick_dom);
 		
 		max_y=Math.max(max_y,(tt-tt_start_t)*tt_px_per_minute+tt_cg_top_extension);
@@ -551,9 +535,7 @@ function timetable_build(ttd){
 		// Left-side time text display.
 		// Right-side is cloned from this DOM object.
 		let timedisp_dom_L = document.createElement("div");
-		timedisp_dom_L.style.position="absolute";
-		timedisp_dom_L.style.bottom=0;
-		timedisp_dom_L.style.zIndex=+6;
+		timedisp_dom_L.classList.add("timetable-tick-text");
 		
 		var m=tt%60
 		var h=Math.floor(tt/60);
@@ -561,9 +543,6 @@ function timetable_build(ttd){
 		else m=""+m
 		if (h<10) h="0"+h;
 		else h=""+h
-		timedisp_dom_L.style.fontSize=px2em(tt_time_label_textsize);
-		timedisp_dom_L.style.color="#FFFFFFA0";
-		timedisp_dom_L.style.fontWeight=900;
 		timedisp_dom_L.innerHTML=h+":"+m;
 		
 		let timedisp_dom_R= timedisp_dom_L.cloneNode(true);
@@ -584,57 +563,52 @@ function timetable_build(ttd){
 		let line2KR=cg.line2_kr
 		
 		let cg_outline_dom = document.createElement("div");
-		let cg_label_dom=document.createElement("div");
-		let cg_label_text1_en=document.createElement("div");
-		let cg_label_text1_ko=document.createElement("div");
-		let cg_label_text2_en=document.createElement("div");
-		let cg_label_text2_ko=document.createElement("div");
+		cg_outline_dom.classList.add("timetable-cgroup-outline");
 		
-		cg_outline_dom.style.position="absolute";
+		let cg_label_dom=document.createElement("div");
+		cg_label_dom.classList.add("timetable-cgroup-label");
+		
+		let cg_label_text1_en=document.createElement("div");
+		cg_label_text1_en.classList.add("langflex-en");
+		cg_label_text1_en.classList.add("timetable-cgroup-label-line1");
+		
+		let cg_label_text1_ko=document.createElement("div");
+		cg_label_text1_ko.classList.add("langflex-ko");
+		cg_label_text1_ko.classList.add("timetable-cgroup-label-line1");
+		
+		let cg_label_text2_en=document.createElement("div");
+		cg_label_text2_en.classList.add("langflex-en");
+		cg_label_text2_en.classList.add("timetable-cgroup-label-line2");
+		
+		let cg_label_text2_ko=document.createElement("div");
+		cg_label_text2_ko.classList.add("langflex-ko");
+		cg_label_text2_ko.classList.add("timetable-cgroup-label-line2");
+		
+		
 		cg_outline_dom.style.left=px2em(
 			left-tt_cg_side_extension);
 		cg_outline_dom.style.width=px2em(
 			right-left+tt_cg_side_extension*2);
-		cg_outline_dom.style.top=0;
 		cg_outline_dom.style.height=px2em(
 			max_y+tt_cg_bottom_extension);
-		
-		cg_outline_dom.style.borderRadius=px2em(8);
 		cg_outline_dom.style.background="linear-gradient(to bottom, "+cg.ramp_color_top+", "+cg.ramp_color_bottom+")";
-		cg_outline_dom.style.zIndex=+50;
 		
-		cg_label_dom.style.position="absolute";
-		cg_label_dom.style.left=0;
-		cg_label_dom.style.right=0;
-		cg_label_dom.style.top=0;
 		cg_label_dom.style.height=px2em(tt_cg_top_extension);
-		cg_label_dom.style.fontSize=px2em(tt_cg_label_textsize);
-		cg_label_dom.style.display="flex";
-		cg_label_dom.style.justifyContent="center";
-		cg_label_dom.style.alignItems="center";
-		cg_label_dom.style.flexDirection="column";
-		cg_label_dom.style.gap=px2em(3);
 		cg_outline_dom.appendChild(cg_label_dom);
 		
-		cg_label_text1_en.classList.add("langflex-en");
 		cg_label_text1_en.innerHTML=line1EN;
 		cg_label_dom.appendChild(cg_label_text1_en);
 		
 		if (line2EN){
-			cg_label_text2_en.classList.add("langflex-en");
 			cg_label_text2_en.innerHTML=line2EN;
-			cg_label_text2_en.style.fontSize="0.8em";
 			cg_label_dom.appendChild(cg_label_text2_en);
 		}
 		
-		cg_label_text1_ko.classList.add("langflex-ko");
 		cg_label_text1_ko.innerHTML=line1KR;
 		cg_label_dom.appendChild(cg_label_text1_ko);
 		
 		if (line2KR){
-			cg_label_text2_ko.classList.add("langflex-ko");
 			cg_label_text2_ko.innerHTML=line2KR;
-			cg_label_text2_ko.style.fontSize="0.8em";
 			cg_label_dom.appendChild(cg_label_text2_ko);
 		}
 		

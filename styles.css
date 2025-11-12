@@ -598,6 +598,7 @@ canvas{
 }
 
 /* Timetable content */
+/* To ensure scalability, all length units should be in em. */
 #ttable-positioner{
   
   font-size:min(1.5vw,16px);
@@ -605,7 +606,15 @@ canvas{
 #ttable-container{
   color:var(--color-text-dark);
 }
+.timetable-dom-root{
+  /* Set dynamically at timetable.js: 
+   * position, width, height */
+}
 .timetable-block-body{
+  /* Set dynamically at timetable.js: 
+   * z-index, top, left, height, width, filter, cursor, 
+   * border-radius, background-image, background-color */
+  position:absolute;
   display:flex;
   flex-direction:column;
   justify-content:center;
@@ -633,6 +642,19 @@ canvas{
   display:block;*/
   opacity:1.0;
   cursor:pointer;
+  position: absolute;
+  top: 0;
+  right:0;
+  width:2em;
+  height:2em;
+  z-index:1;
+}
+.timetable-block-close-svg{
+  position:absolute;
+  top:0.15em;
+  left:0.15em;
+  right:0.15em;
+  bottom:0.15em;
 }
 
 .timetable-block-close-button.hidden{
@@ -641,15 +663,27 @@ canvas{
 }
 
 .timetable-block-outline{
+  /* Set dynamically at timetable.js: 
+   * z-index, top, left, height, widht, opacity,
+   *  border-radius, border-color */
+  position:absolute;
   transition-property:opacity;
   transition-duration:0.5s;
   transition-timing-function:ease-in-out;
+  border-style:solid;
+  border-width:0.25em;
 }
 
 .timetable-block-text{
+  /* Set dynamically at timetable.js: 
+   * font-size */
   transition-property:transform;
   transition-duration:0.5s;
   transition-timing-function:ease-in-out;
+  text-align:center;
+}
+.timetable-block-vertical .timetable-block-text{
+  width:15em;
 }
 .timetable-block-vertical:not(.timetable-block-mouseover) .timetable-block-text {
   transform:rotate(90deg);
@@ -685,6 +719,51 @@ canvas{
   font-weight:400;
 }
 
+.timetable-tick-line{
+  /* Set dynamically at timetable.js: 
+   * top, left, height, width, border-bottom-width */
+  z-index:5;
+  position:absolute;
+  border-bottom-color:#FFFFFF80;
+  border-bottom-style:solid;
+}
+.timetable-tick-text{
+  /* Set dynamically at timetable.js: 
+   * left, right */
+  position:absolute;
+  bottom:0;
+  z-index:6;
+  font-size:0.8em;
+  color:#FFFFFFA0;
+  font-weight:900;
+}
+
+.timetable-cgroup-outline{
+  /* Set dynamically at timetable.js: 
+   * left, width, height, background */
+  position:absolute;
+  top:0;
+  border-radius:0.5em;
+  z-index:50;
+}
+.timetable-cgroup-label{
+  /* Set dynamically at timetable.js: 
+   *  */
+  position:absolute;
+  left:0;
+  right:0;
+  top:0;
+  font-size:1.5em;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  gap:0.2em;
+}
+.timetable-cgroup-label-line2{
+  font-size:0.8em;
+}
+
 #timetable-mobile-move-button{
   /*display:flex;*/
   display:none;
@@ -700,7 +779,6 @@ canvas{
   pointer-events:auto;
   text-shadow: 0 0 10px #00000080;
   font-size:64px;
-  
 }
 
 /* A .linkbutton class for creating a hyperlink button. */
