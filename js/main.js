@@ -935,19 +935,10 @@ debug_btn_perf_auto.addEventListener("click", (e) => {
  * 
  * sb-category-container
  *   sb-category-header
- *     sbch-icon
  *   sb-category-content
  *     sb-link-sublevel
  * sb-link-toplevel
- *   sbch-icon
  */
-/*
-const sb_text_arrow_left="▶";
-const sb_text_arrow_down="▼";
-const sb_text_dot="⏺";// • too small */
-const sb_text_arrow_left='<span class="material-symbols-rounded">arrow_right</span>';
-const sb_text_arrow_down='<span class="material-symbols-rounded">arrow_drop_down</span>';
-const sb_text_dot='<span class="material-symbols-rounded" style="font-size:1.5em;">stat_0</span>';
 let sidebar_category_interactive=true; // set false to disable expand/collapse
 let sidebar_expand_functions={};
 const sbccs=document.querySelectorAll(".sb-category-container");
@@ -957,7 +948,6 @@ for (const clicked_sbcc of sbccs){
   function expand(){
     if (!sidebar_category_interactive) return;
     for (const other_sbcc of sbccs){
-      const other_header_icon=other_sbcc.querySelector(".sbch-icon");
       const other_header=other_sbcc.querySelector(".sb-category-header");
       const other_content=other_sbcc.querySelector(".sb-category-content");
       if (other_sbcc===clicked_sbcc){
@@ -965,16 +955,13 @@ for (const clicked_sbcc of sbccs){
         if (other_sbcc.classList.contains("sbcc-expanded")){
           // It's already expaned. Close it now.
           other_sbcc.classList.remove("sbcc-expanded");
-          other_header_icon.innerHTML=sb_text_arrow_left;
         }else{
           // It's closed now. Expand it.
           other_sbcc.classList.add("sbcc-expanded");
-          other_header_icon.innerHTML=sb_text_arrow_down;
         }
       }else {
         // This is NOT the clicked one. Close it.
         other_sbcc.classList.remove("sbcc-expanded");
-        other_header_icon.innerHTML=sb_text_arrow_left;
       }
     }
   }
@@ -990,7 +977,6 @@ for (const clicked_sbcc of sbccs){
 const sblts=document.querySelectorAll(".sb-link-toplevel");
 for (const sblt of sblts){
   const icon=sblt.querySelector(".sbch-icon");
-  icon.innerHTML=sb_text_dot; 
 }
 
 // Expand everything
@@ -1000,7 +986,6 @@ function sidebar_expand_all(){
     const header=other_sbcc.querySelector(".sb-category-header");
     const content=other_sbcc.querySelector(".sb-category-content");
     other_sbcc.classList.add("sbcc-expanded");
-    header_icon.innerHTML=sb_text_arrow_down;
   }
 }
 // Expand and disallow collapsing
@@ -1015,7 +1000,6 @@ function sidebar_collapse_all(){
     const header=other_sbcc.querySelector(".sb-category-header");
     const content=other_sbcc.querySelector(".sb-category-content");
     other_sbcc.classList.remove("sbcc-expanded");
-    header_icon.innerHTML=sb_text_arrow_left;
   }
 }
 function sidebar_collapse_and_unlock(){

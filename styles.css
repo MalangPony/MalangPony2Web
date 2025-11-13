@@ -589,11 +589,10 @@ canvas{
   margin-left:4px;
   /* Symbols font is bigger than default font 
    * so we try to manually match the size here...*/
-  font-size:0.8em; 
   
   /* Kind of a hack, but we use transform:scale here
    * so this won't affect the line height.*/
-  transform:scale(1.5); 
+  transform:scale(1.2); 
 }
 .sb-category-container .sb-category-header:hover::after{
   opacity:1;
@@ -619,6 +618,25 @@ canvas{
   align-items:center;
   cursor:pointer;
 }
+
+.sb-category-header::before{
+  font-family:'Material Symbols Rounded';
+  display:inline-block;
+}
+
+.sb-category-container.sbcc-expanded .sb-category-header:not(.sb-link-toplevel)::before{
+  content:"arrow_drop_down";
+  transform:scale(1.3); 
+}
+.sb-category-container:not(.sbcc-expanded) .sb-category-header:not(.sb-link-toplevel)::before{
+  content:"arrow_right";
+  transform:scale(1.3); 
+}
+.sb-category-header.sb-link-toplevel::before{
+  content:"stat_0";
+  
+}
+
 .sbch-icon{
   font-size:0.7em;
   width:1.2em;
