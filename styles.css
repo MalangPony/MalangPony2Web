@@ -394,7 +394,6 @@ canvas{
 }
 .si-text{
   font-size:1.5em;
-  margin-top:-0.7em;
 }
 .si-arrow{
   font-size:4em;
@@ -583,20 +582,31 @@ canvas{
 
 .sb-category-container .sb-category-header::after{
   display:inline-block;
-  height:1.0em;
-  width:3.6em;
   transition-property: opacity;
   transition-duration:0.5s;
   opacity:0;
+  
+  margin-left:4px;
+  /* Symbols font is bigger than default font 
+   * so we try to manually match the size here...*/
+  font-size:0.8em; 
+  
+  /* Kind of a hack, but we use transform:scale here
+   * so this won't affect the line height.*/
+  transform:scale(1.5); 
 }
 .sb-category-container .sb-category-header:hover::after{
   opacity:1;
 }
 .sb-category-container.sbcc-expanded .sb-category-header::after{
-  content:".";
+  /*content:".";*/
+  content:"chevron_line_up";
+  font-family:'Material Symbols Rounded';
 }
 .sb-category-container:not(.sbcc-expanded) .sb-category-header::after{
-  content:"...";
+  /*content:"...";*/
+  content:"unfold_more";
+  font-family:'Material Symbols Rounded';
 }
 
 .sb-category-header{
@@ -613,6 +623,7 @@ canvas{
   font-size:0.7em;
   width:1.2em;
   text-align:center;
+  margin-right:4px;
 }
 .sb-category-content{
   margin-left:1.4em;
@@ -985,9 +996,9 @@ canvas{
   width:70%;
   height:70%;
 }
-#footer-sns-button-email > img{
-  width:75%;
-  height:75%;
+#footer-sns-button-email > .material-symbols-rounded{
+  font-size:32px;
+  color:#FFFFFF;
 }
 
 #footer-disclaimer{
@@ -1267,9 +1278,8 @@ a.linkbutton{
   gap:8px;
   border: 4px solid;
 }
-.prev-gallery-btn > img {
-	width:32px;
-	height:32px;
+.prev-gallery-btn > .material-symbols-rounded {
+	font-size:32px;
 }
 .malang{
 	border-color: #2F4575;
@@ -1519,9 +1529,9 @@ a.linkbutton{
   color:var(--character-bg);
   font-weight:700;
 }
-.refsheet-downloads > a > img{
-  height:1.5em;
-  width:1.5em;
+.refsheet-downloads > a > .material-symbols-rounded{
+  font-size:1.5em;
+  color:var(--character-bg);
 }
 /* Responsive Section */
 /* Targeting down to 300px. */

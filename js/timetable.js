@@ -659,6 +659,11 @@ function update_styles(){
 			let margin=`calc(${positioner_center_px}px - ${cgroup_center_em})`;
 			//console.log(margin);
 			timetable_container.style.marginLeft=margin;
+			
+			if (cgroup_index===(cgroup_centers.length-1)) ttmmbR.style.opacity=0.2;
+			else ttmmbR.style.opacity=1.0;
+			if (cgroup_index===0) ttmmbL.style.opacity=0.2;
+			else ttmmbL.style.opacity=1.0;
 		}else{
 			timetable_container.style.marginLeft="0";
 		}

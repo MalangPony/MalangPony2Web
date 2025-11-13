@@ -12,6 +12,7 @@
 <meta property="og:description" content="한국의 마이리틀포니 행사, 말랑포니입니다!" />
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,600,0,0&icon_names=arrow_drop_down,arrow_left,arrow_left_alt,arrow_right,arrow_right_alt,chevron_line_up,download,keyboard_double_arrow_down,mail,photo_camera,stat_0,unfold_less,unfold_more" />
 <link href="styles.css" rel="stylesheet" />
 </head>
 
@@ -191,8 +192,8 @@
     </div>
     
     <div id="timetable-mobile-move-button" class="fullsize" style="z-index:4;display:none;">
-      <div id="ttmmb-left">⮜</div>
-      <div id="ttmmb-right">⮞</div>
+      <div id="ttmmb-left" class="material-symbols-rounded">arrow_left_alt</div>
+      <div id="ttmmb-right" class="material-symbols-rounded">arrow_right_alt</div>
     </div>
     
     <div id="debug-print-area">
@@ -234,10 +235,10 @@
     </div>
     <div id="scroll-inviter-container">
       <div id="scroll-inviter">
-        <div class="si-arrow">⮟</div>
+        <div class="si-arrow material-symbols-rounded">keyboard_double_arrow_down</div>
         <div class="langdiv-ko si-text">아래로 스크롤!</div>
         <div class="langdiv-en si-text">Scroll Down!</div>
-        <div class="si-arrow">⮟</div>
+        <div class="si-arrow material-symbols-rounded">keyboard_double_arrow_down</div>
       </div>
     </div>
     
@@ -427,7 +428,7 @@
             src="https://www.youtube.com/embed/ZtCIdW_r-U8" 
             frameborder="0"  allowfullscreen></iframe>
             <a href="https://malangpony.com/old/post25/gallery" class="prev-gallery-btn malang_old">
-                <img src="sprites/photo_camera_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png" style="filter:drop-shadow(0 0 2px #5f4385);"/>
+                <span class="material-symbols-rounded">photo_camera</span>
                 1회 말랑포니 사진 갤러리
             </a>
 
@@ -438,7 +439,7 @@
             frameborder="0"  allowfullscreen></iframe>
             
             <a href="https://testing.malangpony.com/post25L/gallery" class="prev-gallery-btn malang">
-                <img src="sprites/photo_camera_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png" style="filter:drop-shadow(0 0 2px #2F4575);"/>
+                <span class="material-symbols-rounded">photo_camera</span>
                 말랑 리틀 포니 사진 갤러리
             </a>
             
@@ -489,18 +490,15 @@
                 </div>
                 <div class="refsheet-downloads">
                   <a href="image/KimMari_Reference_Full.png" download>
-                    <img class="icon-light" src="sprites/download_64dp_FFF6E2_FILL0_wght600_GRAD0_opsz48.png">
-                    <img class="icon-dark" src="sprites/download_64dp_363437_FILL0_wght600_GRAD0_opsz48.png">
+                    <span class="material-symbols-rounded">download</span>
                     레퍼런스 시트 (고화질)
                   </a>
                   <a href="image/Hanmari_CM_rev1_3000px.png" download>
-                    <img class="icon-light" src="sprites/download_64dp_FFF6E2_FILL0_wght600_GRAD0_opsz48.png">
-                    <img class="icon-dark" src="sprites/download_64dp_363437_FILL0_wght600_GRAD0_opsz48.png">
+                    <span class="material-symbols-rounded">download</span>
                     큐티마크 (PNG)
                   </a>
                   <a href="image/Hanmari_CM_rev1_TRIM.svg" download>
-                    <img class="icon-light" src="sprites/download_64dp_FFF6E2_FILL0_wght600_GRAD0_opsz48.png">
-                    <img class="icon-dark" src="sprites/download_64dp_363437_FILL0_wght600_GRAD0_opsz48.png">
+                    <span class="material-symbols-rounded">download</span>
                     큐티마크 (SVG)
                   </a>
                 </div>
@@ -535,8 +533,7 @@
                 </div>
                 <div class="refsheet-downloads">
                   <a href="image/LeeByeori_Reference_Full.png" download>
-                    <img class="icon-light" src="sprites/download_64dp_FEC746_FILL0_wght600_GRAD0_opsz48.png">
-                    <img class="icon-dark" src="sprites/download_64dp_AA6322_FILL0_wght600_GRAD0_opsz48.png">
+                    <span class="material-symbols-rounded">download</span>
                     레퍼런스 시트 (고화질)
                   </a>
                 </div>
@@ -567,7 +564,7 @@
             <img src="siteicons/Discord-Symbol-Purewhite_Rsz64px.png">
           </a>
           <a id="footer-sns-button-email" onclick="show_email();">
-            <img src="sprites/mail_64dp_FFFFFF_FILL0_wght500_GRAD0_opsz48.png">
+            <span class="material-symbols-rounded">mail</span>
           </a>
         </div>
         <div id="footer-disclaimer" class="langdiv-ko">
