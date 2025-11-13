@@ -217,6 +217,7 @@ function sidebar_intro_animate(){
   
   sidebar_magic_animate();
   sidebar_collapse_and_unlock();
+  sidebar_autoexpand();
   
   let anim4=sidebar.animate(
     [{transform:"scale(0.0)"},
@@ -941,11 +942,12 @@ debug_btn_perf_auto.addEventListener("click", (e) => {
  *   sbch-icon
  */
 let sidebar_category_interactive=true; // set false to disable expand/collapse
+let sidebar_expand_functions={};
 const sbccs=document.querySelectorAll(".sb-category-container");
 for (const clicked_sbcc of sbccs){
   const clicked_header_icon=clicked_sbcc.querySelector(".sbch-icon");
   const clicked_header=clicked_sbcc.querySelector(".sb-category-header");
-  clicked_header.addEventListener("click",()=>{
+  function expand(){
     if (!sidebar_category_interactive) return;
     for (const other_sbcc of sbccs){
       const other_header_icon=other_sbcc.querySelector(".sbch-icon");
@@ -968,7 +970,13 @@ for (const clicked_sbcc of sbccs){
         other_header_icon.innerHTML="▶";
       }
     }
-  });
+  }
+  clicked_header.addEventListener("click",expand);
+  let clicked_sbcc_links=clicked_sbcc.querySelectorAll(".sb-link");
+  for (const sbl of clicked_sbcc_links){
+    let pageid=sbl.getAttribute("pageid");
+    sidebar_expand_functions[pageid]=expand;
+  }
 }
 
 // Toplevel links
@@ -1006,6 +1014,10 @@ function sidebar_collapse_all(){
 function sidebar_collapse_and_unlock(){
   sidebar_collapse_all();
   sidebar_category_interactive=true;
+}
+function sidebar_autoexpand(){
+  let current_expand_func=sidebar_expand_functions[currently_on_page];
+  if (current_expand_func) current_expand_func();
 }
 
 
