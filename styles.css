@@ -65,7 +65,8 @@
   --color-text-reversed: light-dark(var(--color-text-light),var(--color-text-dark));
   
   --color-sidebar-text-normal:#644a20;
-  --color-sidebar-text-selected:#101010;
+  --color-sidebar-text-selected:var(--template-malang-text);
+  --color-sidebar-text-hover:#101010;
   
   /* Background */
   --color-background-light: #F0F0F0;
@@ -495,19 +496,22 @@ canvas{
 }
 
 #sidebar-content{
-  overflow-x:hidden;
-  overflow-y:hidden;
+  overflow:hidden;
   
-  margin-left:24px;
+  
   /* The reason why we use both margins and padings 
    * is because overflow cut-off is only affected by the margin box.
    * by mixing and matching margins and paddings, we can position the element
    * and the cut-off. */
   margin-top:24px;
-  padding-top:16px;
-  margin-right:24px;
+  margin-left:24px;
   margin-bottom:32px;
+  
+  padding-top:16px;
   padding-bottom:16px;
+  
+  flex-shrink:0;
+  width:calc( 100% + 40px );
   
   display:flex;
   flex-direction:column;
@@ -520,8 +524,14 @@ canvas{
   gap:0.6em;
 }
 
+.langmode-ko .sb-divider{
+  width:8em;
+}
+.langmode-en .sb-divider{
+  width:12em;
+}
 .sb-divider{
-  width:100%;
+  
   background-image: linear-gradient(
     to right,
     hsl(from var(--color-sidebar-text-normal) h s l / 0%) 0%,
@@ -535,6 +545,60 @@ canvas{
   align-items:flex-start;
   
 }
+
+.sb-entry{
+  
+}
+.sb-entry:hover{
+  color:var(--color-sidebar-text-hover);
+}
+.sb-link::after{
+  content:"";
+  display:inline-block;
+  /*max-height:0.8em;*/
+  height:1.0em;
+  width:3.6em;
+
+  transition-property: opacity, margin;
+  transition-duration:0.5s;
+  opacity:0;
+  margin-left:-10px;
+  
+  background-repeat:no-repeat;
+  background-size:contain;
+  background-image: url("/sprites/FiM_S8E01_11m24s_EDIT01_Fill-644A20+HFlip+ResizeX128.png");
+  
+  /*background-image: linear-gradient(black, white);*/
+  /*background-color:#F0F;*/
+}
+.sb-link:not(.sb-link-disabled):not(.sb-link-selected):hover::after{
+  margin-left:4px;
+  opacity:1.0;
+}
+.sb-link.sb-link-selected::after{
+  background-image: url("/sprites/FiM_S8E01_11m24s_EDIT01_HFlip+ResizeX128.png");
+  opacity:1.0;
+  margin-left:4px;
+}
+
+.sb-category-container .sb-category-header::after{
+  display:inline-block;
+  height:1.0em;
+  width:3.6em;
+  transition-property: opacity;
+  transition-duration:0.5s;
+  opacity:0;
+}
+.sb-category-container .sb-category-header:hover::after{
+  opacity:1;
+}
+.sb-category-container.sbcc-expanded .sb-category-header::after{
+  content:".";
+}
+.sb-category-container:not(.sbcc-expanded) .sb-category-header::after{
+  content:"...";
+}
+
 .sb-category-header{
   text-wrap:nowrap;
   font-size:1.2em;
@@ -544,7 +608,6 @@ canvas{
   flex-wrap:nowrap;
   align-items:center;
   cursor:pointer;
-  
 }
 .sbch-icon{
   font-size:0.7em;
@@ -564,7 +627,7 @@ canvas{
   margin-bottom:0;
   gap:0;
 }
-.sb-category-content.sbcc-expanded{
+.sbcc-expanded .sb-category-content{
   margin-top:0.5em;
   margin-bottom:-0.2em;
   gap:0.3em;
@@ -586,7 +649,7 @@ canvas{
   overflow-y:hidden;
   height:0px;
 }
-.sb-category-content.sbcc-expanded .sb-link-sublevel{
+.sbcc-expanded .sb-category-content .sb-link-sublevel{
   height:1.4em;
 }
 .sb-link-active{

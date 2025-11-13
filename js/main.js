@@ -955,18 +955,18 @@ for (const clicked_sbcc of sbccs){
       const other_content=other_sbcc.querySelector(".sb-category-content");
       if (other_sbcc===clicked_sbcc){
         // This is the clicked one.
-        if (other_content.classList.contains("sbcc-expanded")){
+        if (other_sbcc.classList.contains("sbcc-expanded")){
           // It's already expaned. Close it now.
-          other_content.classList.remove("sbcc-expanded");
+          other_sbcc.classList.remove("sbcc-expanded");
           other_header_icon.innerHTML="▶";
         }else{
           // It's closed now. Expand it.
-          other_content.classList.add("sbcc-expanded");
+          other_sbcc.classList.add("sbcc-expanded");
           other_header_icon.innerHTML="▼";
         }
       }else {
         // This is NOT the clicked one. Close it.
-        other_content.classList.remove("sbcc-expanded");
+        other_sbcc.classList.remove("sbcc-expanded");
         other_header_icon.innerHTML="▶";
       }
     }
@@ -992,7 +992,7 @@ function sidebar_expand_all(){
     const header_icon=other_sbcc.querySelector(".sbch-icon");
     const header=other_sbcc.querySelector(".sb-category-header");
     const content=other_sbcc.querySelector(".sb-category-content");
-    content.classList.add("sbcc-expanded");
+    other_sbcc.classList.add("sbcc-expanded");
     header_icon.innerHTML="▼";
   }
 }
@@ -1007,7 +1007,7 @@ function sidebar_collapse_all(){
     const header_icon=other_sbcc.querySelector(".sbch-icon");
     const header=other_sbcc.querySelector(".sb-category-header");
     const content=other_sbcc.querySelector(".sb-category-content");
-    content.classList.remove("sbcc-expanded");
+    other_sbcc.classList.remove("sbcc-expanded");
     header_icon.innerHTML="▶";
   }
 }
