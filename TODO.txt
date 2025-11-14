@@ -13,19 +13,18 @@ Directional light fx (create normal map...?)
 Hanmari ignores clicks in sky mode. Maybe fix this?
 BG free-roam mode
 ...or BG view mode
-Page footer, add SNS links there
 Unify logo (make top logo follow scroll)
-Make black text blue-ish (follow palette)
-Make border between ground and sky less obvious
 Put some BG objects (far objects) in the sky
 Timetable: Improve mobile UI - maybe auto-expand with scroll progress?
 Timetable: Colors... maybe textures?
 Timetable: vert text for korean?
 Maybe: constallations?
 Gradient instead of boxblur in content-backdrop
-Change all symbols to SVG from GMI.
-Actually just use GMI icon...
 Separate CSS files
+idle on sky mode - a smol hanmari horizontally moves across screen
+in timetable and vendor hall, link to apply page & art gallery
+timetable details time too small
+stars - bigger and less density ... or smaller
 
 RIGHT BEFORE PUSH TO PROD
 Change all domains (testing.malangpony) to a PHP expression (<?php echo $webroot;?>)

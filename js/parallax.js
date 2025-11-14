@@ -26,17 +26,20 @@ class ParallaxImage{
   location = new Vector3();
   // X,Y dimensions
   dimensions = new Vector2();
+  
+  tile_size=new Vector2();
   // Either "image" or "solid"
   type;
   // For Images, the source image src. For Solids, a CSS color.
   src;
   src_illuminated;
-  constructor(loc,dim,type,src,illuminated=null){
+  constructor(loc,dim,type,src,illuminated=null,tile_size=Vector2.ZERO){
     this.location=loc;
     this.dimensions=dim;
     this.type=type;
     this.src=src;
     this.src_illuminated=illuminated;
+    this.tile_size=tile_size;
   }
   
   toString(){
@@ -130,10 +133,17 @@ function solve_camera(camera_parameters,parallax_image){
   
   // Calculate size and location.
   // intrinsic size at 500. 50% scale at 1000.
-  let size_mutiplier = 500/relative_location.z*camera_parameters.zoom;
-  let scaled_dim = parallax_image.dimensions.multiply(size_mutiplier);
-  let offset_location = relative_location.multiply(size_mutiplier);
+  let size_multiplier = 500/relative_location.z*camera_parameters.zoom;
+  // The above opacity check should have caught all cases where the object
+  // is behind the camera. Things will break if size_multiplier is negative.
+  console.assert(size_multiplier>0);
+  let scaled_dim = parallax_image.dimensions.multiply(size_multiplier);
+  let offset_location = relative_location.multiply(size_multiplier);
   
+  // X,Y,W,H are all in screen pixels.
+  // X=0 is center of screen. Positive right.
+  // Y=0 is the bottom of screen. Positive values are up.
+  // The coordinates are the image's CENTER BOTTOM point.
   return {
     "render":true,
     "opacity":opacity,
@@ -141,8 +151,9 @@ function solve_camera(camera_parameters,parallax_image){
     //"y":offset_location.y+(offset_location.z)*camera_parameters.tilt,
     // Above code equivalent to below.
     "y":offset_location.y+(500*camera_parameters.zoom*camera_parameters.tilt),
-    "w":scaled_dim.x,
-    "h":scaled_dim.y
+    "w":scaled_dim.x, 
+    "h":scaled_dim.y,
+    "scaling_factor":size_multiplier
   };
 }
 
@@ -152,12 +163,15 @@ let parallax_field_data=[];
 for (const dat of ParallaxData.images){
   let illuminated=null;
   if ("illuminated" in dat) illuminated=dat.illuminated;
+  let tile_size=Vector2.ZERO;
+  if ("tile_size" in dat) tile_size= new Vector2(dat.tile_size[0],dat.tile_size[1]);
+  console.log(dat);
   parallax_field_data.push({
     definition:new ParallaxImage(
       new Vector3(dat.location[0],dat.location[1],dat.location[2]),
       new Vector2(dat.size[0],dat.size[1]),
-      dat.type,dat.src,illuminated)
-  })
+      dat.type,dat.src,illuminated,tile_size)
+  });
 }
 
 // Sort by Z coordinates.
@@ -190,6 +204,16 @@ function populate_parallax_images(){
         ie=document.createElement("img");
         ie.src=pimg.src_illuminated;
       }
+    }else if (pimg.type=="tile"){
+      e=document.createElement("div");
+      e.style.backgroundImage="url("+pimg.src+")";
+      e.style.backgroundRepeat="repeat";
+      if (pimg.src_illuminated){
+        ie=document.createElement("div");
+        ie.style.backgroundImage="url("+pimg.src_illuminated+")";
+        ie.style.backgroundRepeat="repeat";
+      }
+      
     }else if (pimg.type=="solid"){
       e=document.createElement("div");
       e.style.backgroundColor=pimg.src;
@@ -284,29 +308,63 @@ function recalculate_parallax_images(cam_param,illumination_ratio=0.0){
         if (k==0) dom.style.opacity=solve_result.opacity;
         else dom.style.opacity=solve_result.opacity*illumination_ratio;
         
-        if (!Number.isFinite(pimg.dimensions.x)){
-          dom.style.width="100%";
-          dom.style.left="0";
+        // Inifinity values are not supported yet in the X-direction.
+        // This can be implemented by copying the Y-axis logic below.
+        // However, I am very lazy and currently no objects would use that code path anyway.
+        
+        // Actual screen coordinates
+        let x,y,w,h;
+        if (Number.isNaN(pimg.dimensions.x)){
+          w=containerW;
+          x=0;
         }else{
-          dom.style.width=solve_result.w+"px";
-          dom.style.left=(containerW/2+solve_result.x-solve_result.w/2)+"px";
+          w=solve_result.w;
+          // SolveResult X=0 is the center of screen so...
+          // And we need to account for the image size as well.
+          x=containerW/2+solve_result.x-solve_result.w/2;
         }
-        if (!Number.isFinite(pimg.dimensions.y)){
-          dom.style.height="100%";
-          dom.style.bottom="0";
-        }else if (pimg.dimensions.y<0){
-          if (solve_result.y<0){
-            dom.style.display="none";
-          }else{
-            dom.style.height=solve_result.y+"px";
-            dom.style.bottom="0";
-          }
-        }else if (solve_result.h<0){
+        
+        
+        if (Number.isNaN(pimg.dimensions.y)){
+          h=containerH;
+          y=0;
+        }else if (pimg.dimensions.y>1e10){ // Positive Infinity. Extend towards top
+          y=0;
+          h=containerH-solve_result.y;
+        }else if (pimg.dimensions.y<-1e10){ // Negative Infinity
+          y=containerH-solve_result.y;
+          h=solve_result.y;
+        }else{
+          //solve result is the coordinates of the bottom edge, so compensate for that.
+          y=containerH-solve_result.y-solve_result.h;
+          h=solve_result.h;
+        }
+        
+        if (h<0 || w<0){
           dom.style.display="none";
         }else{
-          dom.style.height=solve_result.h+"px";
-          dom.style.bottom=solve_result.y+"px";
+          dom.style.width=w+"px";
+          dom.style.left=x+"px";
+          dom.style.height=h+"px";
+          dom.style.top=y+"px";
+          
+          if (pimg.type==="tile"){
+            // The background is anchored to the origin.
+            // Calculate the origin coords in screen coordinate system
+            let originX=containerW/2+solve_result.x;
+            let originY=containerH-solve_result.y;
+            // Calculate the origin in relative coordinates
+            let relcoord_originX=(originX-x)/w;
+            let relcoord_originY=(originY-y)/h;
+            dom.style.backgroundPosition=
+              ""+(relcoord_originX*100)+"% "+
+              ""+(relcoord_originY*100)+"%";
+            dom.style.backgroundSize=
+              ""+pimg.tile_size.x*solve_result.scaling_factor+"px "
+              ""+pimg.tile_size.y*solve_result.scaling_factor+"px ";
+          }
         }
+        
       }
       
       if (dom.style.display !== "none") dom_count_rendered++;
