@@ -18,17 +18,57 @@
   flex-direction:row;
   gap:8px;
 }
+
+.map-link-button{
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  gap:0.2em;
+  
+  padding-top: 0.3em;
+  padding-bottom: 0.2em;
+  padding-left: 0.8em;
+  padding-right: 0.8em;
+  
+  text-decoration:none;
+  border-radius:0.5em;
+  
+  color:var(--color-text-auto);
+  background-color:var(--color-background-auto);
+  border-style:solid;
+  border-width:2px;
+  font-weight:700;
+}
+
 #venue-map-link-naver{
-  background-color:var(--color-background-naver);
-  color:var(--color-text-naver);
+  border-color:var(--color-naver-base);
+  background-color:light-dark(
+    var(--color-naver-lighter),
+    var(--color-background-dark));
+}
+#venue-map-link-naver > img{
+  width:30px;
+  height:30px;
 }
 #venue-map-link-kakao{
-  background-color:var(--color-background-kakao);
-  color:var(--color-text-kakao);
+  border-color:var(--color-kakao-base);
+  background-color:light-dark(
+    var(--color-kakao-lighter),
+    var(--color-background-dark));
+}
+#venue-map-link-kakao > img{
+  width:24px;
+  height:24px;
 }
 #venue-map-link-google{
-  background-color:var(--color-background-google);
-  color:var(--color-text-google);
+  border-color:var(--color-google-base);
+  background-color:light-dark(
+    var(--color-google-lighter),
+    var(--color-background-dark));
+}
+#venue-map-link-google > img{
+  width:24px;
+  height:24px;
 }
 #map-outer{
   width:min(600px,100%);

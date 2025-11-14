@@ -100,16 +100,19 @@
   /* All colors were chosen arbitrarily if not commented otherwise. */
   
   /* Official #03CF5D */
-  --color-background-naver:#cbf9d7;
-  --color-text-naver: #03CF5D; /* = Official */
+  --color-naver-lighter:#cbf9d7;
+  --color-naver-darker: #188d47;
+  --color-naver-base: #03CF5D; /* = Official */
   
   /* Official #FFCD00 */
-  --color-background-kakao:#f4dd80;
-  --color-text-kakao: #a2881f;
+  --color-kakao-lighter:#feffcb;
+  --color-kakao-darker: #a2881f;
+  --color-kakao-base: #FFCD00; /* = Official */
   
   /* Official #4285F4 */
-  --color-background-google:#b9ddff;
-  --color-text-google:#1a63c2;
+  --color-google-lighter:#cde7ff;
+  --color-google-darker:#1a63c2;
+  --color-google-base:#4285F4; /* = Official */
   
   /* Seoul Subway Line 5 */
   --color-background-line5: #d6c4dd;
