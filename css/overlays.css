@@ -1,0 +1,177 @@
+/* Stuff that is displayed over the page. Mostly stuff in #stickies */
+
+
+/* Debug panel */
+#debug-print-area{
+  z-index:99;
+  background-color:#00000040;
+  color:#88FF8880;
+  position:absolute;
+  bottom:0;
+  left:0;
+  width:160px;
+  font-size:10px;
+  font-family:monospace;
+  font-weight:700;
+  padding:4px;
+  display:flex;
+  flex-direction:column-reverse;
+}
+#debug-features-buttons{
+  display:flex;
+  flex-direction:row;
+  justify-content:space-around;
+  margin-top:2px;
+}
+#debug-features-buttons > div{
+  width:60px;
+  text-align:center;
+  background:#00000040;
+  pointer-events:auto;
+  cursor:pointer;
+  user-select:none;
+  font-size:1.3em;
+}
+#debug-button-feature-auto{
+  text-align:center;
+  background:#00000040;
+  pointer-events:auto;
+  cursor:pointer;
+  user-select:none;
+  font-size:1.3em;
+}
+
+/* Hanmari in the bottom right corner. L2D or image. */
+#l2d-container{
+  width:min(40vw,50lvh);
+  height:min(40vw,50lvh);
+  position:absolute;
+  right:0;
+  bottom:0;
+  z-index:22;
+  pointer-events:none;
+}
+#hmr-image-container{
+  width:min(40vw,50lvh);
+  height:min(40vw,50lvh);
+  position:absolute;
+  right:0;
+  bottom:0;
+  z-index:20;
+  pointer-events:none;
+}
+#hmr-image-container > img{
+  position:absolute;
+  max-width:100%;
+  max-height:100%;
+  bottom:0;
+  right:0;
+}
+
+/* Email popup */
+#email-popup{
+  z-index:30;
+  pointer-events:auto;
+  justify-content:center;
+  align-items:center;
+  background-color:#000000A0;
+}
+#email-display-body{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  width:240px;
+  height:120px;
+  background-color:var(--color-background-light);
+  color:var(--color-text-dark);
+  text-align:center;
+  gap:16px;
+}
+/* Buttons on top right */
+#switch-positioner{
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  align-items:flex-end;
+  gap:8px;
+  margin-top:16px;
+  margin-right:16px;
+}
+/* the buttons */
+#switch-positioner > div{
+  font-weight:700;
+  font-size:1.0em;
+  padding:8px;
+  border-radius:8px;
+  cursor:pointer;
+  opacity:0;
+  transition: all 1s;
+}
+#switch-positioner > div.activated{
+  opacity:1.0;
+}
+#langswitch-btn{
+  background-color:var(--color-button-bg);
+  color:var(--color-button-text);
+}
+#themeswitch-btn{
+  /* Follows the opposite theme. */
+  background-color:light-dark(var(--color-background-dark),var(--color-background-light));
+  color:light-dark(var(--color-text-light),var(--color-text-dark));
+}
+
+/* Mobile sidebar button */
+#sb-button-positioner{
+  display:flex;
+  flex-direction:row;
+  justify-content:flex-start;
+  align-items:flex-start;
+}
+#sb-btn{
+  margin:16px;
+  width:96px;
+  height:96px;
+  cursor:pointer;
+  object-fit: contain;
+  pointer-events:auto;
+}
+
+
+/* Responsive Section */
+/* Targeting down to 300px. */
+
+/* Mobile mode */
+@media (width<640px) {
+  #sb-btn{
+    display:block;
+  }
+  #l2d-container{
+    width:min(70vw,40lvh);
+    height:min(70vw,40lvh);
+  }
+  #hmr-image-container{
+    width:min(70vw,40lvh);
+    height:min(70vw,40lvh);
+  }
+}
+
+/* Smaller Mobiles */
+@media (width<480px) {
+}
+
+/* Ridiculously Small Mobiles */
+@media (width<360px) {
+}
+
+/* Mobile ladder */
+/* PC <-640-> Big Mobile <-480-> Small Mobile <-360-> Ridiculous <-300-> I give up */
+@media (width>=480px) and (width<640px) {
+  /* 640 ~ 480 : Big Mobiles */
+}
+@media (width>=360px) and (width<480px) {
+  /* 480 ~ 360 : Small Mobiles */
+}
+@media (width<360px) {
+  /* 360 ~ 300 : Ridiculously Small Mobiles */
+}

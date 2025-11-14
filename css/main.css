@@ -1,0 +1,258 @@
+/* CSS of the main page. Mostly the sky-mode content. */
+
+/* This is the topmost element that covers the entire screen. */
+#whole-screen-div{
+  overflow:hidden;
+}
+
+/* contains blanker and afterscroll */
+#main-content-backdrop{
+	max-width:1000px;
+	width:calc(100% - 128px);
+	margin-left:auto;
+	margin-right:auto;
+	position:relative;
+	display:flex;
+	flex-direction:column;
+	transition-property: backdrop-filter, background-color, box-shadow;
+	transition-duration:0.5s;
+}
+
+/* Is box-shadow performance-intensive? idk */
+#main-content-backdrop.activated{
+  /*background-image: linear-gradient(
+    to right,
+    hsl(from var(--color-main-backdrop) h s l / 0%) 0%,
+    var(--color-main-backdrop) 2% 98%,
+    hsl(from var(--color-main-backdrop) h s l / 0%) 100%);*/
+  background-color:var(--color-main-backdrop);
+  box-shadow:0 0 10px var(--color-main-backdrop-shadow);
+}
+#main-content-backdrop.css-filters{
+  
+}
+/* If CSS filter enabled - use blur() */
+#main-content-backdrop.activated.css-filters{
+  backdrop-filter: blur(3px);
+}
+/* If CSS filter disabled - just darken the background more. */
+#main-content-backdrop.activated:not(.css-filters){
+  background-color:var(--color-main-backdrop-noblur);
+}
+
+/* Contains all scrollable content. */
+#content-scroller{
+	position:absolute;
+	bottom:0;
+    right:0;
+    left:0;
+    top:0;
+    z-index:10;
+	overflow-y:scroll;
+	overflow-x:hidden;
+}
+
+/* Make sure afterscroll content is not visible at the start */
+#screen-blanker{
+  height:100lvh;
+}
+
+/* Actual content after scrolling. */
+#pages-container{
+  min-height:100svh;
+  align-self:stretch;
+  display:flex;
+  flex-direction:column;
+  filter:brightness(30%);
+  transition-property: filter;
+  transition-duration:0.5s;
+  padding-left:64px;
+  padding-right:64px;
+  position:relative;
+}
+#pages-container.activated{
+  filter:none;
+}
+
+/* MalangPony logo positioning */
+#mpn-logo-spacer{
+  position:absolute;
+  top:6lvmin;
+  left:0;
+  right:0;
+}
+#mpn_logo_container{
+  margin-left:auto;
+  margin-right:auto;
+  width:min(100lvh,80vw);
+  height:min(50lvh,40vw);
+  position:relative;
+}
+#mpn_logo_container > img{
+  position:absolute;
+  left:0;
+  top:0;
+  right:0;
+  bottom:0;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+
+/* Sky color */
+#sky-bg{
+  background: linear-gradient(0deg,#181365,#4f3773,#6d4c79);
+}
+
+/* Scroll-inviter */
+#scroll-inviter-container{
+  position:absolute;
+  top:70lvh;
+  left:0;
+  right:0;
+  display:flex;
+  flex-direction:row;
+  justify-content:center;
+}
+@keyframes scroll-inviter-anim{
+  from{
+    margin-top:0px;
+    opacity:0.5;
+  }
+  to{
+    margin-top:24px;
+    opacity:0.8;
+  }
+  
+}
+#scroll-inviter{
+  animation-name:scroll-inviter-anim;
+  animation-direction:alternate;
+  animation-duration:1.5s;
+  animation-iteration-count:infinite;
+  animation-timing-function: ease-in-out;
+  
+  color:var(--color-text-light);
+  font-weight:700;
+  
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+}
+.si-text{
+  font-size:1.5em;
+}
+.si-arrow{
+  font-size:4em;
+  opacity:0.8;
+}
+
+/* Footer */
+#footer-divider{
+  margin-top:32px;
+  margin-bottom:16px;
+  margin-left:64px;
+  margin-right:64px;
+  width:100%;
+  height:2px;
+  opacity:0.5;
+  background-image: linear-gradient(
+    to right,
+    hsl(from var(--color-text-auto) h s l / 0%) 0%,
+    var(--color-text-auto) 10% 90%,
+    hsl(from var(--color-text-auto) h s l / 0%) 100%)
+}
+#footer-content{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  margin-bottom:16px;
+  gap:8px;
+}
+#footer-text-contact{
+  font-weight:700;
+}
+#footer-sns-buttons{
+  display:flex;
+  flex-direction:row;
+  justify-content:center;
+  align-items:center;
+  gap:8px;
+}
+#footer-sns-buttons > a{
+  border-radius:4px;
+  width:42px;
+  height:42px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  cursor:pointer;
+}
+#footer-sns-buttons > a > img{
+  display:block; /* inline-block can cause weird spacing issues */
+}
+
+#footer-sns-buttons > a{
+  background-color:var(--template-malang-text);
+}
+
+/* Every logo has a different visual size, so it is manually matched here.*/
+#footer-sns-button-twitter > img{
+  width:60%;
+  height:60%;
+}
+#footer-sns-button-bluesky > img{
+  width:70%;
+  height:70%;
+}
+#footer-sns-button-discord > img{
+  width:70%;
+  height:70%;
+}
+#footer-sns-button-email > .material-symbols-rounded{
+  font-size:32px;
+  color:#FFFFFF;
+}
+
+#footer-disclaimer{
+  text-align:center;
+  font-size:0.8em;
+  font-weight:400;
+}
+
+/* Responsive Section */
+/* Targeting down to 300px. */
+
+/* Mobile mode */
+@media (width<640px) {
+  #main-content-backdrop{
+    width:100%;
+  }
+  #pages-container{
+    padding-left:32px;
+    padding-right:32px;
+  }
+}
+
+/* Smaller Mobiles */
+@media (width<480px) {
+}
+
+/* Ridiculously Small Mobiles */
+@media (width<360px) {
+}
+
+/* Mobile ladder */
+/* PC <-640-> Big Mobile <-480-> Small Mobile <-360-> Ridiculous <-300-> I give up */
+@media (width>=480px) and (width<640px) {
+  /* 640 ~ 480 : Big Mobiles */
+}
+@media (width>=360px) and (width<480px) {
+  /* 480 ~ 360 : Small Mobiles */
+}
+@media (width<360px) {
+  /* 360 ~ 300 : Ridiculously Small Mobiles */
+}

@@ -1,0 +1,55 @@
+/* CSS for all pages in #pages-container */
+
+
+
+/* Common styles for all page content */
+.page-content{
+	display:flex;
+	flex-direction:column;
+	align-items:center;
+	justify-content:flex-start;
+	margin-top:32px;
+    margin-bottom:32px;
+    color:var(--color-text-auto);
+}
+
+.page-title{
+  font-size:3.0em;
+  font-weight:700;
+  text-align:center;
+  margin-top:24px;
+  margin-bottom:24px;
+}
+.page-text-body{
+  font-weight:400;
+  text-align:left;
+  margin-top:32px;
+}
+
+
+/* Responsive Section */
+/* Targeting down to 300px. */
+
+/* Mobile mode */
+@media (width<640px) {
+}
+
+/* Smaller Mobiles */
+@media (width<480px) {
+}
+
+/* Ridiculously Small Mobiles */
+@media (width<360px) {
+}
+
+/* Mobile ladder */
+/* PC <-640-> Big Mobile <-480-> Small Mobile <-360-> Ridiculous <-300-> I give up */
+@media (width>=480px) and (width<640px) {
+  /* 640 ~ 480 : Big Mobiles */
+}
+@media (width>=360px) and (width<480px) {
+  /* 480 ~ 360 : Small Mobiles */
+}
+@media (width<360px) {
+  /* 360 ~ 300 : Ridiculously Small Mobiles */
+}

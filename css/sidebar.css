@@ -1,0 +1,334 @@
+/* Sidebar CSS. Stuff inside #sidebar-positioner */
+
+/* Sidebar positioning & animation*/
+#sidebar-positioner{
+  display:flex;
+  flex-direction:row;
+  justify-content:flex-start;
+  align-items:center;
+  width:100%;
+  height:100%;
+  margin-left:max(8px,calc((100vw - 1000px) / 2 - 60px));
+  position:relative;
+}
+#sidebar-animation-container{
+  position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  right:0;
+  z-index:2;
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  justify-content:flex-start;
+}
+#sidebar-intro-anim{
+  width:320px; 
+  height:320px; 
+  margin-left:-80px; 
+}
+#letter-magic-spritesheet-animation{
+  width:100%;
+  height:100%;
+  background-image:url("../sprites-prototype/MPN2-Prototype-Image-LetterMagicSpSht.png");
+}
+
+/* The actual sidebar*/
+#sidebar{
+  /*border:3px solid #d3bf84; */
+  
+  max-height:calc(100dvh - 64px);
+  
+  border-image-source: url("../sprites-prototype/MPN2-Prototype-Image-Scroll.png");
+  border-image-width:60px;
+  border-image-outset:0px;
+  border-image-slice: 550 445 445 420 fill;
+  
+  position:relative;
+}
+.langmode-en #sidebar{
+  width:16em;
+}
+.langmode-ko #sidebar{
+  width:12em;
+}
+#sidebar.css-filters{
+  filter:drop-shadow(8px 8px 10px #00000080);
+}
+#sb-close-button-container{
+  position:absolute;
+  top: 8px;
+  right:32px;
+  width:80px;
+  height:80px;
+  z-index:+3;
+  cursor:pointer;
+}
+#sb-close-button{
+  position:absolute;
+  top: 8px;
+  right:8px;
+  bottom: 8px;
+  left:8px;
+}
+
+#sidebar-content{
+  overflow:hidden;
+  
+  
+  /* The reason why we use both margins and padings 
+   * is because overflow cut-off is only affected by the margin box.
+   * by mixing and matching margins and paddings, we can position the element
+   * and the cut-off. */
+  margin-top:24px;
+  margin-left:24px;
+  margin-bottom:32px;
+  
+  padding-top:16px;
+  padding-bottom:16px;
+  
+  flex-shrink:0;
+  width:calc( 100% + 40px );
+  
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:flex-start;
+  text-align:left;
+  
+  color:var(--color-sidebar-text-normal);
+  
+  gap:0.6em;
+}
+
+.langmode-ko .sb-divider{
+  width:8em;
+}
+.langmode-en .sb-divider{
+  width:12em;
+}
+.sb-divider{
+  
+  background-image: linear-gradient(
+    to right,
+    hsl(from var(--color-sidebar-text-normal) h s l / 0%) 0%,
+    var(--color-sidebar-text-normal) 10% 60%,
+    hsl(from var(--color-sidebar-text-normal) h s l / 0%) 100%);
+  height:2px;
+}
+.sb-category-container{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  
+}
+
+.sb-entry{
+  
+}
+.sb-entry:hover{
+  color:var(--color-sidebar-text-hover);
+}
+.sb-link::after{
+  content:"";
+  display:inline-block;
+  /*max-height:0.8em;*/
+  height:1.0em;
+  width:3.6em;
+
+  transition-property: opacity, margin;
+  transition-duration:0.5s;
+  opacity:0;
+  margin-left:-10px;
+  
+  background-repeat:no-repeat;
+  background-size:contain;
+  background-image: url("../sprites/FiM_S8E01_11m24s_EDIT01_Fill-644A20+HFlip+ResizeX128.png");
+  
+  /*background-image: linear-gradient(black, white);*/
+  /*background-color:#F0F;*/
+}
+.sb-link:not(.sb-link-disabled):not(.sb-link-selected):hover::after{
+  margin-left:4px;
+  opacity:1.0;
+}
+.sb-link.sb-link-selected::after{
+  background-image: url("../sprites/FiM_S8E01_11m24s_EDIT01_HFlip+ResizeX128.png");
+  opacity:1.0;
+  margin-left:4px;
+}
+
+.sb-category-container .sb-category-header::after{
+  display:inline-block;
+  transition-property: opacity;
+  transition-duration:0.5s;
+  opacity:0;
+  
+  margin-left:4px;
+  /* Symbols font is bigger than default font 
+   * so we try to manually match the size here...*/
+  
+  /* Kind of a hack, but we use transform:scale here
+   * so this won't affect the line height.*/
+  transform:scale(1.2); 
+}
+.sb-category-container .sb-category-header:hover::after{
+  opacity:1;
+}
+.sb-category-container.sbcc-expanded .sb-category-header::after{
+  /*content:".";*/
+  content:"chevron_line_up";
+  font-family:'Material Symbols Rounded';
+}
+.sb-category-container:not(.sbcc-expanded) .sb-category-header::after{
+  /*content:"...";*/
+  content:"unfold_more";
+  font-family:'Material Symbols Rounded';
+}
+
+.sb-category-header{
+  text-wrap:nowrap;
+  font-size:1.2em;
+  font-weight:700;
+  display:flex;
+  flex-direction:row;
+  flex-wrap:nowrap;
+  align-items:center;
+  cursor:pointer;
+}
+
+.sb-category-header::before{
+  font-family:'Material Symbols Rounded';
+  display:inline-block;
+}
+
+.sb-category-container.sbcc-expanded .sb-category-header:not(.sb-link-toplevel)::before{
+  content:"arrow_drop_down";
+  transform:scale(1.3); 
+}
+.sb-category-container:not(.sbcc-expanded) .sb-category-header:not(.sb-link-toplevel)::before{
+  content:"arrow_right";
+  transform:scale(1.3); 
+}
+.sb-category-header.sb-link-toplevel::before{
+  content:"stat_0";
+  
+}
+
+.sbch-icon{
+  font-size:0.7em;
+  width:1.2em;
+  text-align:center;
+  margin-right:4px;
+}
+.sb-category-content{
+  margin-left:1.4em;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  transition-property:gap margin;
+  transition-duration:0.5s;
+  transition-timing-function: cubic-bezier(0, 0.6, 0.4, 1);
+  
+  margin-top:0;
+  margin-bottom:0;
+  gap:0;
+}
+.sbcc-expanded .sb-category-content{
+  margin-top:0.5em;
+  margin-bottom:-0.2em;
+  gap:0.3em;
+}
+.sb-link{
+  text-wrap:nowrap;
+  text-align:left;
+  font-weight:700;
+  cursor:pointer;
+}
+.sb-link-toplevel{
+  font-size:1.2em;
+}
+.sb-link-sublevel{
+  font-size:1.1em;
+  transition-property:height;
+  transition-duration:0.5s;
+  transition-timing-function: cubic-bezier(0, 0.6, 0.4, 1);
+  overflow-y:hidden;
+  height:0px;
+}
+.sbcc-expanded .sb-category-content .sb-link-sublevel{
+  height:1.4em;
+}
+.sb-link-active{
+}
+.sb-link-disabled{
+  opacity:0.3;
+  cursor:unset;
+}
+.sb-link-selected{
+  color:var(--color-sidebar-text-selected);
+}
+
+
+/* Responsive Section */
+/* Targeting down to 300px. */
+
+/* Mobile mode */
+@media (width<640px) {
+  #sidebar-positioner{
+    justify-content:flex-start;
+    align-items:flex-start;
+  }
+  #sidebar-animation-container{
+    align-items:flex-start;
+  }
+  #sidebar-intro-anim{
+    width:240px; 
+    height:240px; 
+    margin-left:-60px; 
+    margin-top:-60px;
+  }
+  /* The below rule has two identical ID selectors in order to raise the specificity.
+   * This is to override the class+ID selector that was declared above.*/
+  #sidebar#sidebar{
+    width:calc(100vw - 32px);
+    height:calc(100dvh - 32px);
+    margin-top:16px;
+    margin-left:16px;
+  }
+  #sidebar-content{
+    position:absolute;
+    top: 40px;
+    bottom: 40px;
+    left: 32px;
+    right: 32px;
+    
+    margin:0;
+    padding:0;
+    
+    font-size:1.5em;
+    justify-content:space-evenly;
+    overflow-y:scroll;
+  }
+}
+
+/* Smaller Mobiles */
+@media (width<480px) {
+}
+
+/* Ridiculously Small Mobiles */
+@media (width<360px) {
+}
+
+/* Mobile ladder */
+/* PC <-640-> Big Mobile <-480-> Small Mobile <-360-> Ridiculous <-300-> I give up */
+@media (width>=480px) and (width<640px) {
+  /* 640 ~ 480 : Big Mobiles */
+}
+@media (width>=360px) and (width<480px) {
+  /* 480 ~ 360 : Small Mobiles */
+}
+@media (width<360px) {
+  /* 360 ~ 300 : Ridiculously Small Mobiles */
+}

@@ -1,0 +1,251 @@
+/* Page: Mascot (#page-mascot) */
+
+.icon-dark{
+  display:none;
+}
+.dark-mode .icon-dark{
+  display:block;
+}
+.icon-light{
+  display:none;
+}
+.light-mode .icon-light{
+  display:block;
+}
+
+#mascot-preamble{
+  color:var(--color-text-auto);
+  font-size:1.5em;
+  margin-top:12px;
+  margin-bottom:12px;
+}
+
+.hanmari{
+  --character-fg:light-dark(
+    var(--character-hanmari-mane-black),
+    var(--character-hanmari-body));
+  --character-bg:light-dark(
+    var(--character-hanmari-body),
+    var(--character-hanmari-mane-black));
+  --character-minimize-bg:var(--character-hanmari-body);
+}
+.leebyeori{
+  --character-fg:light-dark(
+    var(--character-leebyeori-mane-brown),
+    var(--character-leebyeori-body));
+  --character-bg:light-dark(
+    var(--character-leebyeori-body),
+    var(--character-leebyeori-mane-brown));
+  --character-minimize-bg:var(--character-leebyeori-body);
+}
+
+#mascot-selector{
+  display:flex;
+  flex-direction:row-reverse;
+}
+.mascot-selector-divider{
+  width:1px;
+  align-self:stretch;
+  margin-left:2px;
+  margin-right:2px;
+  /*background-color:var(--color-text-auto);*/
+}
+
+.mascot-container{
+  --mascot-container-width:min(80vw,600px);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  overflow:hidden;
+  transition-property: max-height, max-width, background-color,filter;
+  transition-duration:1.0s, 1.0s, 1.0s, 0.3s;
+  max-width:var(--mascot-container-width);
+  max-height:calc(var(--mascot-container-width) * 1.0);
+  background-color:transparent;
+  position:relative;
+}
+.mascot-container.isolate{
+  max-width:calc(var(--mascot-container-width) * 0.50);
+  max-height:calc(var(--mascot-container-width) / 1.556 );
+}
+.mascot-container.isolate.minimize{
+  max-width:50px;
+  background-color:var(--character-minimize-bg);
+  filter:brightness(0.7);
+}
+.mascot-container.isolate.minimize:hover{
+  filter:none;
+}
+
+.refsheet-thumb-isolated{
+  filter:none;
+  transition-property: filter;
+  transition-duration:0.3s;
+}
+.mascot-container.isolate:hover .refsheet-thumb-isolated{
+  filter:drop-shadow(0 0 6px var(--character-minimize-bg));
+}
+
+.mascot-content{
+  width:var(--mascot-container-width);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+.mascot-title{
+  display:flex;
+  flex-direction:row;
+  align-items:flex-end;
+  gap:8px;
+  margin-top:12px;
+  font-size:2.0em;
+  font-weight:700;
+  color: var(--character-fg);
+}
+.mascot-title .sublang{
+  font-size:0.7em;
+}
+.mascot-bio{
+  color: var(--character-fg);
+}
+
+.refsheet-image{
+  width:var(--mascot-container-width);
+  height: calc(var(--mascot-container-width) / 1.556);
+  position:relative;
+  /*border: 2px solid var(--character-bg);*/
+  transition-property: width, margin;
+  transition-duration:1.0s;
+  flex-shrink:0;
+  flex-grow:0;
+}
+.hanmari.isolate .refsheet-image{
+  /*width:min(40vw,300px);*/
+  margin-left:calc(var(--mascot-container-width) * -0.07);
+}
+.leebyeori.isolate .refsheet-image{
+  /*width:min(40vw,300px);*/
+  margin-left:calc(var(--mascot-container-width) * 0.10);
+}
+.hanmari.isolate.minimize .refsheet-image{
+  /*width:min(40vw,300px);*/
+  margin-left:calc(var(--mascot-container-width) * 0.15);
+}
+.leebyeori.isolate.minimize .refsheet-image{
+  /*width:min(40vw,300px);*/
+  margin-left:calc(var(--mascot-container-width) * -0.05);
+}
+.mascot-label-positioner{
+  position:absolute;
+  left:-100px;
+  right:-100px;
+  top:calc(var(--mascot-container-width) * 0.45);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.mascot-label{
+  opacity:0;
+  transition-property: opacity, transform;
+  transition-duration:1.0s;
+  transform:none;
+  pointer-events:none;
+  color:#F00;
+  z-index:10;
+  font-size:24px;
+  color: var(--character-fg);
+  background-color:var(--character-bg);
+  border-radius:4px;
+  padding:8px;
+}
+.isolate .mascot-label{
+  opacity:1;
+}
+.hanmari.minimize .mascot-label{
+  transform:rotate(90deg);
+}
+.leebyeori.minimize .mascot-label{
+  transform:rotate(-90deg);
+}
+.refsheet-image > img{
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  width:100%;
+  height:100%;
+}
+
+.refsheet-thumb-full{
+  z-index:1;
+  opacity:1;
+  transition-property: opacity;
+  transition-duration:1.0s;
+}
+.isolate .refsheet-thumb-full{
+  opacity:0;
+}
+.refsheet-thumb-isolated{
+  z-index:2;
+}
+/* Download line */
+.refsheet-downloads{
+  margin-top:12px;
+  margin-bottom:12px;
+  display:flex;
+  flex-direction:row;
+  justify-content:space-evenly;
+  gap:8px;
+}
+/* Download links */
+.refsheet-downloads > a{
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  gap:4px;
+  
+  padding-top: 6px;
+  padding-bottom: 4px;
+  padding-left: 12px;
+  padding-right: 12px;
+  
+  text-decoration:none;
+  border-radius:4px;
+  
+  background-color:var(--character-fg);
+  color:var(--character-bg);
+  font-weight:700;
+}
+.refsheet-downloads > a > .material-symbols-rounded{
+  font-size:1.5em;
+  color:var(--character-bg);
+}
+
+
+/* Responsive Section */
+/* Targeting down to 300px. */
+
+/* Mobile mode */
+@media (width<640px) {
+}
+
+/* Smaller Mobiles */
+@media (width<480px) {
+}
+
+/* Ridiculously Small Mobiles */
+@media (width<360px) {
+}
+
+/* Mobile ladder */
+/* PC <-640-> Big Mobile <-480-> Small Mobile <-360-> Ridiculous <-300-> I give up */
+@media (width>=480px) and (width<640px) {
+  /* 640 ~ 480 : Big Mobiles */
+}
+@media (width>=360px) and (width<480px) {
+  /* 480 ~ 360 : Small Mobiles */
+}
+@media (width<360px) {
+  /* 360 ~ 300 : Ridiculously Small Mobiles */
+}

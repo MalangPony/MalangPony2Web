@@ -20,11 +20,11 @@ Timetable: Colors... maybe textures?
 Timetable: vert text for korean?
 Maybe: constallations?
 Gradient instead of boxblur in content-backdrop
-Separate CSS files
 idle on sky mode - a smol hanmari horizontally moves across screen
 in timetable and vendor hall, link to apply page & art gallery
 timetable details time too small
 stars - bigger and less density ... or smaller
+Make sidebar button more obvious that it's a button
 
 RIGHT BEFORE PUSH TO PROD
 Change all domains (testing.malangpony) to a PHP expression (<?php echo $webroot;?>)

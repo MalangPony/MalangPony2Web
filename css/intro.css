@@ -1,0 +1,66 @@
+/* Page: Intro (#page-intro) */
+
+#logo-orig{
+  margin-left:64px;
+  margin-right:64px;
+  max-width:min(600px , 100%);
+  align-self:center;
+}
+
+#ticket{
+  background-image : url("../sprites-prototype/MPN2-Prototype-Image-Ticket.png");
+  background-size: contain;
+  background-repeat:no-repeat;
+  background-position: center;
+  width:240px;
+  height:160px;
+  font-size:1.5em;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  padding:32px;
+  margin-top:64px;
+  transition-property: transform margin-bottom;
+  transition-duration:0.5s;
+  transition-timing-function: ease-in-out;
+  transform:rotate(10deg);
+  pointer-events:auto;
+  color:var(--color-text-dark);
+}
+#ticket:hover{
+  transform:rotate(0deg);
+}
+#ticket.css-filters{
+  filter:drop-shadow(8px 8px 10px #00000080);
+}
+#ticket.css-filters:hover{
+  filter:drop-shadow(0 0 8px #ffff85);
+}
+
+
+/* Responsive Section */
+/* Targeting down to 300px. */
+
+/* Mobile mode */
+@media (width<640px) {
+}
+
+/* Smaller Mobiles */
+@media (width<480px) {
+}
+
+/* Ridiculously Small Mobiles */
+@media (width<360px) {
+}
+
+/* Mobile ladder */
+/* PC <-640-> Big Mobile <-480-> Small Mobile <-360-> Ridiculous <-300-> I give up */
+@media (width>=480px) and (width<640px) {
+  /* 640 ~ 480 : Big Mobiles */
+}
+@media (width>=360px) and (width<480px) {
+  /* 480 ~ 360 : Small Mobiles */
+}
+@media (width<360px) {
+  /* 360 ~ 300 : Ridiculously Small Mobiles */
+}

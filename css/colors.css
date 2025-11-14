@@ -1,0 +1,135 @@
+/* Color templates */
+
+:root{
+  /* Directly copied from the color guide */
+  --template-malang-PP:#FF91DB;
+  --template-malang-FS:#F7E38F;
+  --template-malang-RD:#70BCFF;
+  --template-malang-AJ:#F5B96E;
+  --template-malang-TS:#AD8CD9;
+  --template-malang-TWI:#765C99;
+  --template-malang-bg:#DBD8E9;
+  --template-malang-text:#2F4575;
+  --template-malang-outline:#FFFFFF;
+  
+  --template-hanmari-red:#C7303E;
+  --template-hanmari-orange:#F19246;
+  --template-hanmari-yellow:#FCC665;
+  --template-hanmari-green:#41B46D;
+  --template-hanmari-blue:#6683D0;
+  --template-hanmari-violet:#514061;
+  --template-hanmari-outline:#FFFFFF;
+  
+  /* Copied from refsheet */
+  --character-hanmari-mane-red:#da183a;
+  --character-hanmari-mane-orange:#ff8c2e;
+  --character-hanmari-mane-blue:#6086d7;
+  --character-hanmari-mane-green:#00b765;
+  --character-hanmari-mane-lime:#c3cd22;
+  --character-hanmari-mane-black:#363437;
+  --character-hanmari-body:#fff6e2;
+  --character-hanmari-eye-magenta:#ab2367;
+  --character-hanmari-eye-pink:#ffb5c3;
+  
+  --character-leebyeori-mane-green:#bec427;
+  --character-leebyeori-mane-gold:#af9623;
+  --character-leebyeori-mane-brown:#aa6322;
+  --character-leebyeori-body:#fec746;
+  --character-leebyeori-magic:#faf67a;
+  --character-leebyeori-eye:#fdc45a;
+  
+  /* Text colors*/
+  /* Note: The dark/light refers to the lightness of the text. */
+  /* Therefore, in LIGHT mode, the DARK text color should be used. */
+  /* And in DARK mode, the LIGHT text color should be used. */
+  --color-text-dark: var(--template-malang-text);
+  --color-text-light: var(--template-malang-bg);
+  --color-text-auto: light-dark(var(--color-text-dark),var(--color-text-light));
+  --color-text-reversed: light-dark(var(--color-text-light),var(--color-text-dark));
+  
+  --color-sidebar-text-normal:#644a20;
+  --color-sidebar-text-selected:var(--template-malang-text);
+  --color-sidebar-text-hover:#101010;
+  
+  /* Background */
+  --color-background-light: #F0F0F0;
+  --color-background-dark: #202020;
+  --color-background-default:light-dark(
+    var(--color-background-light),var(--color-background-dark));
+  
+  --color-main-backdrop:light-dark(
+    hsl(from var(--template-malang-bg) h s l / 60%),
+    hsl(0deg 0% 0% / 40%));
+  /* Below value is used then backdrop-filter is disabled. */
+  /* To retain visibility, the alpha should be increased. */
+  --color-main-backdrop-noblur:light-dark(
+    hsl(from var(--template-malang-bg) h s l / 85%),
+    hsl(0deg 0% 0% / 80%));
+  
+  /* Borders */
+  --color-embed-border-light: #FFFFFF;
+  --color-embed-border-dark: var(--template-malang-TS);
+  --color-embed-border-auto: light-dark(
+    var(--color-embed-border-light),
+    var(--color-embed-border-dark));
+  
+  --color-embed-glow-light: #FFFFFF;
+  --color-embed-glow-dark: var(--template-malang-TS);
+  --color-embed-glow-auto: light-dark(
+    var(--color-embed-glow-light),
+    var(--color-embed-glow-dark));
+  
+  /* Effects */
+  --color-main-backdrop-shadow:light-dark(
+    hsl(from var(--template-malang-bg) h s l / 80%),
+    hsl(0deg 0% 0% / 80%));
+  
+  /* Page specific: News */
+  --color-bluesky-backdrop: var(--color-background-default);
+  --color-bluesky-text: var(--color-text-auto);
+  
+  /* Buttons */
+  --color-button-bg: var(--color-background-default);
+  --color-button-text: var(--color-text-auto);
+  
+  /* External Brands */
+  /* All colors were chosen arbitrarily if not commented otherwise. */
+  
+  /* Official #03CF5D */
+  --color-background-naver:#cbf9d7;
+  --color-text-naver: #03CF5D; /* = Official */
+  
+  /* Official #FFCD00 */
+  --color-background-kakao:#f4dd80;
+  --color-text-kakao: #a2881f;
+  
+  /* Official #4285F4 */
+  --color-background-google:#b9ddff;
+  --color-text-google:#1a63c2;
+  
+  /* Seoul Subway Line 5 */
+  --color-background-line5: #d6c4dd;
+  --color-text-line5: #8B50A4;
+  --color-route-line5: var(--color-text-line5);
+  
+  /* Seoul Subway Line 2 */
+  --color-background-line2:#dcf9df;
+  --color-text-line2:#33A23D;
+  --color-route-line2: var(--color-text-line2);
+  
+  /* Seoul Blue bus */
+  --color-background-bluebus:#d8dbff;
+  --color-text-bluebus:#363db6;
+  --color-route-bluebus: var(--color-text-bluebus);
+  
+  /* Yes, they actually use #000 (Official) */
+  --color-background-twitter:#000000;
+  
+  /* Bsky doesn't have an official brand guideline,
+   * but they seem to be using #006AFF on their site. */
+  --color-background-bluesky:#006AFF;
+  
+  /* Discord::Dark (Official) */
+  --color-background-discord:#1f1f1f;
+  
+}
