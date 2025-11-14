@@ -1,4 +1,4 @@
-/* CSS of the main page. Mostly the sky-mode content. */
+/* CSS of the main page. Anything outside #pages-container */
 
 /* This is the topmost element that covers the entire screen. */
 #whole-screen-div{
@@ -195,7 +195,10 @@
   display:block; /* inline-block can cause weird spacing issues */
 }
 
-#footer-sns-buttons > a{
+.dark-mode #footer-sns-buttons > a{
+  background-color:var(--template-malang-TWI);
+}
+.light-mode #footer-sns-buttons > a{
   background-color:var(--template-malang-text);
 }
 

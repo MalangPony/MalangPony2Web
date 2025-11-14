@@ -165,7 +165,7 @@ for (const dat of ParallaxData.images){
   if ("illuminated" in dat) illuminated=dat.illuminated;
   let tile_size=Vector2.ZERO;
   if ("tile_size" in dat) tile_size= new Vector2(dat.tile_size[0],dat.tile_size[1]);
-  console.log(dat);
+  //console.log(dat);
   parallax_field_data.push({
     definition:new ParallaxImage(
       new Vector3(dat.location[0],dat.location[1],dat.location[2]),
