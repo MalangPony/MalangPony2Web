@@ -1,0 +1,42 @@
+/* Full-screen canvas */
+.fullsize{
+	position:absolute;
+	top:0;
+    bottom:0;
+    left:0;
+    right:0;
+}
+
+/* Page: Conbook */
+.download-button{
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  gap:0.2em;
+  
+  padding-top: 0.3em;
+  padding-bottom: 0.2em;
+  padding-left: 0.8em;
+  padding-right: 0.8em;
+  
+  text-decoration:none;
+  border-radius:0.3em;
+  
+  background-color:var(--color-text-reversed);
+  color:var(--color-background-reversed);
+  font-weight:700;
+}
+
+.download-button::before{
+  content:"download";
+  font-family:'Material Symbols Rounded';
+  font-size:1.5em;
+}
+
+/* Border for embeds */
+.embed-frame{
+  box-shadow: 0 0 16px var(--color-embed-glow-auto);
+  border: 2px solid var(--color-embed-border-auto);
+  border-radius:16px;
+  overflow:hidden;
+}
