@@ -54,8 +54,12 @@
   /* Background */
   --color-background-light: #F0F0F0;
   --color-background-dark: #202020;
-  --color-background-default:light-dark(
+  
+  --color-background-auto:light-dark(
     var(--color-background-light),var(--color-background-dark));
+  --color-background-reversed:light-dark(
+    var(--color-background-dark),var(--color-background-light));
+  --color-background-default:var(--color-background-auto);
   
   --color-main-backdrop:light-dark(
     hsl(from var(--template-malang-bg) h s l / 60%),

@@ -165,6 +165,7 @@ export let camera_locations={
 	venue:     [-100, camera_y,  -800, 1.0, camera_default_tilt],
 	previous:  [   0, camera_y, -1000, 1.2, camera_default_tilt],
 	mascot:    [-200, camera_y,  -100, 1.0, camera_default_tilt],
+	credits:   [   0, camera_y,  1000, 1.0, camera_default_tilt],
 }
 
 // Camera parameters in sky mode.

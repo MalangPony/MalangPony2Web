@@ -15,6 +15,7 @@ import * as Timetable from "./timetable.js";
 import * as Dyntex from "./dyntex.js";
 import * as Maps from "./maps.js";
 import * as Cookies from "./cookies.js";
+import * as Credits from "./credits.js";
 
 // DOM
 const body_dom = document.querySelector("body");

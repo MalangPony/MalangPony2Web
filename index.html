@@ -25,6 +25,7 @@
 <link href="css/venue.css" rel="stylesheet" />
 <link href="css/timetable.css" rel="stylesheet" />
 <link href="css/previous.css" rel="stylesheet" />
+<link href="css/credits.css" rel="stylesheet" />
 <link href="css/etc.css" rel="stylesheet" />
 </head>
 
@@ -164,7 +165,7 @@
             <span class="langspan-ko">지원 및 도움</span>
           </div>
           <div class="sb-category-content">
-            <div class="sb-entry sb-link sb-link-disabled sb-link-sublevel" pageid="credits">
+            <div class="sb-entry sb-link sb-link-active sb-link-sublevel" pageid="credits">
               <span class="langspan-en">Staff</span>
               <span class="langspan-ko">크레딧</span>
             </div>
@@ -429,7 +430,7 @@
           
           <div id="previous-content">
             <div class="centerhead">1회 말랑포니 2025.02.15</div>
-            
+            <!--
             <iframe width="560" height="315" style="max-width:80%;" 
             src="https://www.youtube.com/embed/ZtCIdW_r-U8" 
             frameborder="0"  allowfullscreen></iframe>
@@ -447,7 +448,7 @@
             <a href="https://testing.malangpony.com/post25L/gallery" class="prev-gallery-btn malang">
                 <span class="material-symbols-rounded">photo_camera</span>
                 말랑 리틀 포니 사진 갤러리
-            </a>
+            </a>-->
             
             <div id="prev-site-links">
                 이전 웹사이트:
@@ -552,7 +553,65 @@
               </div> <!-- .mascot-content -->
             </div> <!-- .mascot-container -->
           </div> <!-- #mascot-selector -->
-        </div>
+        </div> <!-- #page-mascot -->
+        
+        <div id="page-credits" class="page-content" style="display:none;">
+          <div class="page-title">
+            <span class="langspan-en">CREDITS!!!</span>
+            <span class="langspan-ko">크레딧이다!!!</span>
+          </div>
+          
+          <template id="credits-template-section">
+            <div class="credits-section">
+              <div class="credits-section-name">
+                <span class="langspan-ko"></span>
+                <span class="langspan-en"></span>
+              </div>
+              <div class="credits-section-divider"></div>
+              <div class="credits-section-content">
+                <!-- bunch of .credits-entry-container -->
+              </div>
+            </div>
+          </template>
+          <template id="credits-template-listing">
+            <div class="credits-entry-container">
+              <div class="credits-entry-name">
+                <span class="langspan-ko"></span>
+                <span class="langspan-en"></span>
+              </div>
+              <div class="credits-entry-role-list">
+                <!-- bunch of credits-entry-role -->
+              </div>
+            </div>
+          </template>
+          
+          <div id="credits-columns">
+            <div id="credits-staff-container" class="credits-container">
+              <div class="credits-header">
+                <span class="langdiv-ko">스태프</span>
+                <span class="langdiv-en">Staff</span>
+              </div>
+              <!-- Content will be inserted here by JS. (credits.js) -->
+            </div> 
+            <div id="credits-sponsor-container" class="credits-container">
+              <div class="credits-header">
+                <span class="langdiv-ko">스폰서</span>
+                <span class="langdiv-en">Sponsor</span>
+              </div>
+              <!-- Content will be inserted here by JS. (credits.js) -->
+            </div> 
+          </div>
+          
+        </div> <!-- #page-credits -->
+        
+        <div id="page-inquiries" class="page-content" style="display:none;">
+          <div class="page-title">
+            <span class="langspan-en">INQUIRIES!!!</span>
+            <span class="langspan-ko">문의다!!!</span>
+          </div>
+          
+        </div> <!-- #page-inquiries -->
+        
       </div>
       
       <div id="footer-divider"></div>
