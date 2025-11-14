@@ -11,5 +11,4 @@ RewriteRule ^conbook$ index.html
 RewriteRule ^register$ index.html
 RewriteRule ^involved$ index.html
 RewriteRule ^credits$ index.html
-RewriteRule ^sponsors$ index.html
 RewriteRule ^inquiries$ index.html
