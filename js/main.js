@@ -839,7 +839,7 @@ function page_transition(name){
 // Setup sidebar buttons
 let sidebar_buttons_active=document.querySelectorAll(".sb-link-active");
 for (const sb of sidebar_buttons_active){
-  let pageid=sb.getAttribute("pageid");
+  let pageid=sb.getAttribute("data-pageid");
   sb.addEventListener("click",()=>{
     sidebar_clicked(pageid);
   });
@@ -847,7 +847,7 @@ for (const sb of sidebar_buttons_active){
 
 function sidebar_buttons_activate(pageid_active){
   for (const sb of sidebar_buttons_active){
-    let pageid=sb.getAttribute("pageid");
+    let pageid=sb.getAttribute("data-pageid");
     if (pageid===pageid_active) sb.classList.add("sb-link-selected");
     else sb.classList.remove("sb-link-selected");
   }
@@ -969,7 +969,7 @@ for (const clicked_sbcc of sbccs){
   clicked_header.addEventListener("click",expand);
   let clicked_sbcc_links=clicked_sbcc.querySelectorAll(".sb-link");
   for (const sbl of clicked_sbcc_links){
-    let pageid=sbl.getAttribute("pageid");
+    let pageid=sbl.getAttribute("data-pageid");
     sidebar_expand_functions[pageid]=expand;
   }
 }
