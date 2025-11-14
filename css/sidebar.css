@@ -127,7 +127,7 @@
 .sb-entry{
   
 }
-.sb-entry:hover{
+.sb-entry:not(.sb-link-disabled):hover{
   color:var(--color-sidebar-text-hover);
 }
 .sb-link::after{
