@@ -97,12 +97,14 @@
   --color-button-text: var(--color-text-auto);
   
   /* Tiers */
-  --color-tier-standard:var(--template-hanmari-green);
-  --color-tier-sponsor:var(--template-hanmari-yellow);
-  --color-tier-mane:var(--template-hanmari-orange);
-  --color-tier-princess:var(--template-hanmari-red);
-  --color-tier-spirit:var(--template-hanmari-blue);
-  --color-tier-onsite:var(--template-hanmari-violet);
+  --color-tier-standard:var(--template-malang-RD);
+  --color-tier-sponsor:var(--template-malang-PP);
+  --color-tier-mane:var(--template-malang-FS);
+  --color-tier-princess:var(--template-malang-TS);
+  --color-tier-spirit:#D0D0D0;
+  --color-tier-onsite:var(--template-malang-AJ);
+  
+  --color-perks-text:#101010;
   
   
   /* External Brands */

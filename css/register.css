@@ -122,7 +122,7 @@
 
 .register-tier-perk{
 	padding:2px;
-	color:#000;
+	color:var(--color-perks-text);
 	background-color:var(--perk-color-base);
 	border-radius:2px;
 	width:auto;
@@ -140,11 +140,21 @@
 	margin-left:8px;
 	display:none;
 	font-size:0.9em;
+	opacity:0.8;
 }
 .register-tier-entry.tier-detail-mode .perk-detail{
 	display:block;
 }
 
-.register-tier-perk.perk-overwritten{
-	opacity:0.3;
+.register-tier-perk.perk-overwritten.perk-overwritten{
+	background-color:#606060;
+	/*display:none;*/
+	
+}
+.register-tier-perk.perk-overwritten .perk-name{
+	text-decoration-line: line-through;
+	text-decoration-thickness: 3px;
+}
+.register-tier-perk.perk-inherited{
+	background-color:#B0B0B0;
 }

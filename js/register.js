@@ -232,7 +232,7 @@ for (const tier_id in tiers_data){
 	
 	let perks_id_list=[];
 	let perks_original_tier={};
-	let perks_overwritten=[];
+	let perk_overwritten_by={};
 	let tier_ptr=tier_id;
 	while (tier_ptr){
 		// Concatenate the perks list
@@ -249,7 +249,7 @@ for (const tier_id in tiers_data){
 	for( const perk_id of perks_id_list ){
 		if (perks_data[perk_id].overwrites){
 			if (perks_data[perk_id].overwrites in perks_original_tier){
-				perks_overwritten[perks_data[perk_id].overwrites]=true;
+				perk_overwritten_by[perks_data[perk_id].overwrites]=perk_id;
 			}
 		}
 	}
@@ -267,13 +267,21 @@ for (const tier_id in tiers_data){
 		let desc_en=perks_data[perk_id].desc_en;
 		if (!desc_ko) desc_ko="설명 설명 설명...";
 		if (!desc_en) desc_en="Explanation goes here...";
+		
+		if (perk_id in perk_overwritten_by){
+			perk_dom.querySelector(".register-tier-perk").classList.add("perk-overwritten");
+			desc_ko="아래 <strong>"+perks_data[perk_overwritten_by[perk_id]].name_ko+"</strong>으로 대체됩니다."
+			desc_en="Replaced by <strong>"+perks_data[perk_overwritten_by[perk_id]].name_en+"</strong> below."
+		}
+		
 		perk_dom.querySelector(".perk-detail .langspan-ko").innerHTML=
 			desc_ko;
 		perk_dom.querySelector(".perk-detail .langspan-en").innerHTML=
 			desc_en;
 		
-		if (perks_overwritten[perk_id]){
-			perk_dom.querySelector(".register-tier-perk").classList.add("perk-overwritten");
+		
+		if (perks_original_tier[perk_id] !== tier_id){
+			perk_dom.querySelector(".register-tier-perk").classList.add("perk-inherited");
 		}
 		
 		perk_dom.querySelector(".register-tier-perk").classList.add(

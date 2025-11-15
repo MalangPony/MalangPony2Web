@@ -27,6 +27,11 @@ stars - bigger and less density ... or smaller
 Make sidebar button more obvious that it's a button
 Move camera center to left of screen (make them visible)
 Content height less than 100vh
+Left-align page: rules, 
+Make page title fancier
+Timetable colors follow palette
+
+
 
 RIGHT BEFORE PUSH TO PROD
 Change all domains (testing.malangpony) to a PHP expression (<?php echo $webroot;?>)
