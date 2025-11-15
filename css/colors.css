@@ -160,4 +160,8 @@
   --color-discord-light-blurple:#e0e3ff;
   --color-discord-black:#000000;
   
+  
+  --color-witchform-base: #fdff85; /* Website button color */
+  --color-witchform-fg:#000; /* This is the value they use in their site */
+  --color-witchform-bg:#FFF; /* This is the value they use in their site */
 }
