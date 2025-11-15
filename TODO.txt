@@ -25,6 +25,8 @@ in timetable and vendor hall, link to apply page & art gallery
 timetable details time too small
 stars - bigger and less density ... or smaller
 Make sidebar button more obvious that it's a button
+Move camera center to left of screen (make them visible)
+Content height less than 100vh
 
 RIGHT BEFORE PUSH TO PROD
 Change all domains (testing.malangpony) to a PHP expression (<?php echo $webroot;?>)

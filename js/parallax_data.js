@@ -13,6 +13,7 @@
 // If Z<3000, the image will be placed in front of the fireworks.
 // If Z>3000, the image will be placed behind the fireworks.
 // The firework system will follow the offset at Z=3000
+// The sky follows the offset at Z=10000
 
 // Size [Required]:
 // Intrinsic size. Will be this size if 500px away from camera.
@@ -59,29 +60,36 @@ export let images=[
 		type:"image",
 		src:"sprites-prototype/MPN2-Prototype-Image-Namsan.png"
 	},
+	{ // Airship
+		location:[1000,3000,3700],
+		size:[2000,2000*(365/500)],
+		type:"image",
+		src:"sprites-prototype/MPN2-Prototype-Image-D1628188D.png",
+		illuminated:"sprites-prototype/MPN2-Prototype-Image-D1628188.png",
+	},
 	{ // Cloud #1 - hat
-		location:[300,1500,4000],
+		location:[1300,2500,4000],
 		size:[1000,1000*(197/500)],
 		type:"image",
 		src:"sprites-prototype/MPN2-Prototype-Image-D1628947.png",
 		illuminated:"sprites-prototype/MPN2-Prototype-Image-D1628947B.png",
 	},
 	{ // Cloud #2 - flat
-		location:[-2000,2500,4000],
+		location:[-2000,4000,4000],
 		size:[1000,1000*(333/500)],
 		type:"image",
 		src:"sprites-prototype/MPN2-Prototype-Image-D1628954.png",
 		illuminated:"sprites-prototype/MPN2-Prototype-Image-D1628954B.png"
 	},
 	{ // Cloud #3 - swirly
-		location:[-2500,1500,4000],
+		location:[-3500,2000,4000],
 		size:[1000,1000*(200/500)],
 		type:"image",
 		src:"sprites-prototype/MPN2-Prototype-Image-D1629031.png",
 		illuminated:"sprites-prototype/MPN2-Prototype-Image-D1629031B.png"
 	},
 	{ // Cloud #4 - round
-		location:[2200,3000,4000],
+		location:[3100,3500,4000],
 		size:[1000,1000*(333/500)],
 		type:"image",
 		src:"sprites-prototype/MPN2-Prototype-Image-D1629034.png",
@@ -111,34 +119,104 @@ export let images=[
 		type:"image",
 		src:"sprites/BGO-002_RESIZE.png"
 	},
-	{ //BASS CANNON
-		location:[-400,0,300],
-		size:[200,200*(458/500)],
+	{ //Trixie's Wagon
+		location:[-1500,0,800],
+		size:[400,400*(430/500)],
 		type:"image",
-		src:"sprites-prototype/MPN2-Prototype-Image-D1718519.png"
+		src:"sprites-prototype/MPN2-Prototype-Image-D595907D.png"
 	},
+	{ //Trixie's Stage
+		location:[0,0,1500],
+		size:[1000,1000*(397/500)],
+		type:"image",
+		src:"sprites-prototype/MPN2-Prototype-Image-D1446383D.png"
+	},
+	{ //Vinyl's Set
+		location:[-600,0,700],
+		size:[500,500*(340/500)],
+		type:"image",
+		src:"sprites-prototype/MPN2-Prototype-Image-D1718220D.png"
+	},
+	
+	{ //PARTY CANNON
+		location:[-800,0,400],
+		size:[200,200*(415/500)],
+		type:"image",
+		src:"sprites-prototype/MPN2-Prototype-Image-D1088400D.png"
+	},
+
+	{ //Chariot
+		location:[800,0,-800],
+		size:[500,500*(347/500)],
+		type:"image",
+		src:"sprites-prototype/MPN2-Prototype-Image-D3599406D.png"
+	},
+
+	{ //Tree #1
+		location:[-800,0,1000],
+		size:[500,500*(500/428)],
+		type:"image",
+		src:"sprites-prototype/MPN2-Prototype-Image-D1687812.png"
+	},
+	{ //Tree #2
+		location:[1300,0,800],
+		size:[500,500*(460/500)],
+		type:"image",
+		src:"sprites-prototype/MPN2-Prototype-Image-D1695788D.png"
+	},
+	{ //Tree #3
+		location:[800,0,1300],
+		size:[500,500*(588/537)],
+		type:"image",
+		src:"sprites-prototype/MPN2-Prototype-Image-D1633676D.png"
+	},	
+	{ //PP
+		location:[800,0,200],
+		size:[300,300],
+		type:"image",
+		src:"sprites-prototype/MPN2-Prototype-Image-D451590.png"
+	},
+	{ //DH
+		location:[1500,0,1500],
+		size:[300,300*(500/350)],
+		type:"image",
+		src:"sprites-prototype/MPN2-Prototype-Image-D819252.png"
+	},
+	{ //Cherilee
+		location:[-1000,0,0],
+		size:[400,400*(245/500)],
+		type:"image",
+		src:"sprites-prototype/MPN2-Prototype-Image-D1225414.png"
+	},
+	{ //Printing
+		location:[500,0,-300],
+		size:[400,400*(316/500)],
+		type:"image",
+		src:"sprites-prototype/MPN2-Prototype-Image-D43450.png"
+	},
+
 	// Maybe combine all the guards into a single image? 
 	// Might be better for performance...
 	{ //Guard #1
-		location:[500,0,700],
+		location:[650,0,700],
 		size:[150,150*(2500/1650)],
 		type:"image",
 		src:"sprites/BGP-002-A_RESIZE.png"
 	},
 	{ //Guard #2
-		location:[700,0,700],
+		location:[750,0,700],
 		size:[150,150*(2500/1650)],
 		type:"image",
 		src:"sprites/BGP-002-C_RESIZE.png"
 	},
 	{ //Guard #3
-		location:[900,0,700],
+		location:[850,0,700],
 		size:[150,150*(2500/1650)],
 		type:"image",
 		src:"sprites/BGP-002-B_RESIZE.png"
 	},
 	{ //Guard #4
-		location:[1100,0,700],
+		location:[950,0,700],
 		size:[150,150*(2500/1650)],
 		type:"image",
 		src:"sprites/BGP-002-D_RESIZE.png"
@@ -150,7 +228,18 @@ export let images=[
 		type:"",
 		src:""
 	},*/
-]
+];
+const GRASS_COUNT=10;
+const GRASS_SIZE=40;
+for(let i=0;i<GRASS_COUNT;i++){
+	images.push({ // Grass #1
+		location:[Math.random()*5000-2500,-0.5*GRASS_SIZE,3000*i/GRASS_COUNT],
+		size:[NaN,GRASS_SIZE],
+		tile_size:[GRASS_SIZE*30,GRASS_SIZE],
+		type:"tile",
+		src:"sprites-prototype/MPN2-Prototype-Image-GrassTile.png"
+	})
+}
 
 // Camera locations.
 let camera_y=200;
@@ -158,15 +247,15 @@ let camera_default_tilt=+0.7
 // X Y Z Zoom Tilt
 export let camera_locations={
 	intro:     [   0, camera_y,  -500, 1.0, camera_default_tilt],
-	about:     [   0,      100,  -200, 0.8, camera_default_tilt],
+	about:     [-1000,camera_y,  -300, 1.0, camera_default_tilt],
 	coc:       [ 800, camera_y,   300, 1.0, camera_default_tilt],
-	news:      [   0,      800, -1000, 1.0, +1.2],
-	timetable: [-500, camera_y,  -500, 1.0, camera_default_tilt],
-	venue:     [-100, camera_y,  -800, 1.0, camera_default_tilt],
-	previous:  [   0, camera_y, -1000, 1.2, camera_default_tilt],
+	news:      [ 800, camera_y,  -100, 1.0, camera_default_tilt],
+	timetable: [   0, camera_y,  1000, 1.0, camera_default_tilt],
+	venue:     [ 800, camera_y, -1200, 1.0, camera_default_tilt],
+	previous:  [1500, camera_y,  1000, 1.0, camera_default_tilt],
 	mascot:    [-200, camera_y,  -100, 1.0, camera_default_tilt],
-	credits:   [   0, camera_y,  1000, 1.0, camera_default_tilt],
-	conbook:   [-800, camera_y,   300, 1.0, camera_default_tilt],
+	credits:   [-500, camera_y,  -500, 1.0, camera_default_tilt],
+	conbook:   [ 500, camera_y,  -600, 1.0, camera_default_tilt],
 	inquiries: [-300, camera_y,   300, 1.0, camera_default_tilt],
 	register:  [ 400, camera_y,   100, 1.0, camera_default_tilt]
 }

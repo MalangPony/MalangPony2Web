@@ -354,11 +354,11 @@ function recalculate_parallax_images(cam_param,illumination_ratio=0.0){
             let originX=containerW/2+solve_result.x;
             let originY=containerH-solve_result.y;
             // Calculate the origin in relative coordinates
-            let relcoord_originX=(originX-x)/w;
-            let relcoord_originY=(originY-y)/h;
+            let relcoord_originX=(originX-x);
+            let relcoord_originY=(originY-y);
             dom.style.backgroundPosition=
-              ""+(relcoord_originX*100)+"% "+
-              ""+(relcoord_originY*100)+"%";
+              ""+relcoord_originX+"px "+
+              ""+relcoord_originY+"px";
             dom.style.backgroundSize=
               ""+pimg.tile_size.x*solve_result.scaling_factor+"px "
               ""+pimg.tile_size.y*solve_result.scaling_factor+"px ";
