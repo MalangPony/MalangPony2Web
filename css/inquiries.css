@@ -1,0 +1,91 @@
+/* Page: Inquiries */
+#inquiries-list{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:8px;
+}
+a.inquiries-entry{
+  text-decoration:none;
+}
+.inquiries-entry{
+  height:100px;
+  width:500px;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  gap:4px;
+  border-radius: 16px;
+  padding:16px;
+  background-color:var(--color-background-default);
+  color:var(--color-text-dark);
+  position:relative;
+  line-height:1.4em;
+  overflow:hidden;
+}
+.inquiries-icon{
+  position:absolute;
+  opacity:0.5;
+  right:-8px;
+  bottom:-8px;
+  max-height:80px;
+  transform:rotate(10deg);
+}
+.inquiries-title{
+  font-size:1.2em;
+  font-weight:400;
+}
+.inquiries-handle{
+  font-size:1.5em;
+  font-weight:700;
+}
+.inquiries-body{
+  
+}
+#inquiries-twitter{
+  background-color:light-dark(
+    var(--color-twitter-light-bg),
+    var(--color-twitter-dark-bg));
+  color:light-dark(
+    var(--color-twitter-light-fg),
+    var(--color-twitter-dark-fg));
+}
+#inquiries-bluesky{
+  background-color:light-dark(
+    var(--color-bluesky-light-bg),
+    var(--color-bluesky-dark-bg));
+  color:light-dark(
+    var(--color-bluesky-light-fg),
+    var(--color-bluesky-dark-fg));
+}
+#inquiries-discord{
+  background-color:light-dark(
+    var(--color-discord-light-blurple),
+    var(--color-discord-dark));
+  color:var(--color-discord-blurple);
+}
+#inquiries-discord > .inquiries-handle{
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  gap:4px;
+}
+#inquiries-discord > .inquiries-handle > .material-symbols-rounded{
+  margin-top:0.1em;
+}
+#inquiries-email{
+  background-color:light-dark(
+    var(--color-background-light),
+    var(--template-malang-TWI));
+  color:var(--color-text-auto);
+}
+#inquiries-email > .inquiries-icon > .material-symbols-rounded{
+  font-size:100px;
+  color:var(--color-text-auto);
+}
+#inquiries-email > img {
+  max-height:2.0em;
+  align-self:flex-start;
+  margin-top:-0.4em;
+  margin-bottom:-0.4em;
+}

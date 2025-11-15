@@ -130,13 +130,24 @@
   --color-route-bluebus: var(--color-text-bluebus);
   
   /* Yes, they actually use #000 (Official) */
-  --color-background-twitter:#000000;
+  --color-twitter-base:#000000;
+  --color-twitter-white:#F9F9F9;
+  --color-twitter-light-fg:rgb(15, 20, 25);
+  --color-twitter-light-bg:#FFFFFF;
+  --color-twitter-dark-fg:rgb(239, 243, 244);
+  --color-twitter-dark-bg:#15202b;
   
-  /* Bsky doesn't have an official brand guideline,
-   * but they seem to be using #006AFF on their site. */
-  --color-background-bluesky:#006AFF;
+  /* Bsky doesn't seem have an official brand guideline.
+   * Below values are from the website. */
+  --color-bluesky-base:#0085FF;
+  --color-bluesky-dark-bg:#151d28;
+  --color-bluesky-light-bg:#FFFFFF;
+  --color-bluesky-dark-fg:rgb(15, 115, 255);
+  --color-bluesky-light-fg:rgb(0, 106, 255);
   
-  /* Discord::Dark (Official) */
-  --color-background-discord:#1f1f1f;
-  
+  /* All official colors from brand kit */
+  --color-discord-dark:#1f1f1f;
+  --color-discord-blurple:#5865F2;
+  --color-discord-light-blurple:#e0e3ff;
+  --color-discord-black:#000000;
 }

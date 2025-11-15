@@ -167,6 +167,7 @@ export let camera_locations={
 	mascot:    [-200, camera_y,  -100, 1.0, camera_default_tilt],
 	credits:   [   0, camera_y,  1000, 1.0, camera_default_tilt],
 	conbook:   [-800, camera_y,   300, 1.0, camera_default_tilt],
+	inquiries: [-300, camera_y,   300, 1.0, camera_default_tilt]
 }
 
 // Camera parameters in sky mode.
