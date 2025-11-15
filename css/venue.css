@@ -19,26 +19,7 @@
   gap:8px;
 }
 
-.map-link-button{
-  display:flex;
-  flex-direction:row;
-  align-items:center;
-  gap:0.2em;
-  
-  padding-top: 0.3em;
-  padding-bottom: 0.2em;
-  padding-left: 0.8em;
-  padding-right: 0.8em;
-  
-  text-decoration:none;
-  border-radius:0.5em;
-  
-  color:var(--color-text-auto);
-  background-color:var(--color-background-auto);
-  border-style:solid;
-  border-width:2px;
-  font-weight:700;
-}
+
 
 #venue-map-link-naver{
   border-color:var(--color-naver-base);

@@ -96,6 +96,15 @@
   --color-button-bg: var(--color-background-default);
   --color-button-text: var(--color-text-auto);
   
+  /* Tiers */
+  --color-tier-standard:var(--template-hanmari-green);
+  --color-tier-sponsor:var(--template-hanmari-yellow);
+  --color-tier-mane:var(--template-hanmari-orange);
+  --color-tier-princess:var(--template-hanmari-red);
+  --color-tier-spirit:var(--template-hanmari-blue);
+  --color-tier-onsite:var(--template-hanmari-violet);
+  
+  
   /* External Brands */
   /* All colors were chosen arbitrarily if not commented otherwise. */
   
@@ -150,4 +159,5 @@
   --color-discord-blurple:#5865F2;
   --color-discord-light-blurple:#e0e3ff;
   --color-discord-black:#000000;
+  
 }

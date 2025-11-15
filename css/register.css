@@ -1,0 +1,141 @@
+
+#register-witchform-link{
+	margin:16px;
+	font-size:1.6em;
+}
+#register-witchform-link > img{
+	max-height:1.3em;
+	margin-top:-0.2em;
+}
+#register-tiers-list{
+	display:flex;
+	flex-direction:column;
+	align-items:center;
+	gap:8px;
+}
+
+.register-tier-entry.tier-standard{
+	--tier-color-base:var(--color-tier-standard);
+}
+.register-tier-entry.tier-sponsor{
+	--tier-color-base:var(--color-tier-sponsor);
+}
+.register-tier-entry.tier-mane{
+	--tier-color-base:var(--color-tier-mane);
+}
+.register-tier-entry.tier-princess{
+	--tier-color-base:var(--color-tier-princess);
+}
+.register-tier-entry.tier-spirit{
+	--tier-color-base:var(--color-tier-spirit);
+}
+.register-tier-entry.tier-onsite{
+	--tier-color-base:var(--color-tier-onsite);
+}
+
+.register-tier-entry{
+	border-radius:8px;
+	border-style:solid;
+	border-width:2px;
+	border-color:var(--tier-color-base);
+	width: calc(100% - 20vw);
+	padding:8px;
+	display:flex;
+	flex-direction:column;
+	align-items:stretch;
+	gap:8px;
+	background-color:hsl(from var(--color-background-dark) h s l / 50%);
+	cursor:pointer;
+}
+.register-tier-entry-separator{
+	height:2px;
+	background-color:var(--tier-color-base);;
+	margin-left:16px;
+	margin-right:16px;
+}
+.register-tier-title{
+	display:flex;
+	flex-direction:row;
+	align-items:flex-end;
+}
+.register-tier-icon{
+	
+}
+.register-tier-name{
+	font-size:1.8em;
+	font-weight:700;
+	color:var(--tier-color-base);
+}
+.register-tier-description{
+	color:var(--color-text-light);
+}
+.register-tier-limit{
+	color:var(--tier-color-base);
+	margin-left:4px;
+	font-size:1.0em;
+}
+.register-tier-title-spacer{
+	flex-grow:1;
+}
+.register-tier-price{
+	font-size:1.0em;
+	font-weight:700;
+	color:var(--tier-color-base);
+}
+.register-tier-perks-list{
+	display:flex;
+	flex-direction:row;
+	flex-wrap:wrap;
+	gap:4px;
+}
+.register-tier-entry.tier-detail-mode .register-tier-perks-list{
+	flex-direction:column;
+}
+
+.register-tier-perk.tier-standard{
+	--perk-color-base:var(--color-tier-standard);
+}
+.register-tier-perk.tier-sponsor{
+	--perk-color-base:var(--color-tier-sponsor);
+}
+.register-tier-perk.tier-mane{
+	--perk-color-base:var(--color-tier-mane);
+}
+.register-tier-perk.tier-princess{
+	--perk-color-base:var(--color-tier-princess);
+}
+.register-tier-perk.tier-spirit{
+	--perk-color-base:var(--color-tier-spirit);
+}
+.register-tier-perk.tier-onsite{
+	--perk-color-base:var(--color-tier-onsite);
+}
+
+.register-tier-perk{
+	padding:2px;
+	color:#000;
+	background-color:var(--perk-color-base);
+	border-radius:2px;
+	width:auto;
+	display:flex;
+	flex-direction:row;
+	align-items:center;
+}
+.perk-name{
+	
+}
+.register-tier-entry.tier-detail-mode .perk-name{
+	font-weight:700;
+}
+.perk-detail{
+	margin-left:8px;
+	display:none;
+	font-size:0.9em;
+}
+.register-tier-entry.tier-detail-mode .perk-detail{
+	display:block;
+}
+
+.register-tier-perk.perk-overwritten{
+	opacity:0.3;
+}

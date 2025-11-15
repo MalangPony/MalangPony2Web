@@ -16,6 +16,7 @@ import * as Dyntex from "./dyntex.js";
 import * as Maps from "./maps.js";
 import * as Cookies from "./cookies.js";
 import * as Credits from "./credits.js";
+import * as Register from "./register.js";
 
 // DOM
 const body_dom = document.querySelector("body");

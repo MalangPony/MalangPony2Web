@@ -212,7 +212,6 @@ function generate_group(primary_role_id){
 		let role_list=entry_dom.querySelector(".credits-entry-role-list");
 		for (const role_id of entry.roles){
 			let role=role_definitions[role_id];
-			console.log(role_id,role);
 			let role_dom = document.createElement("div");
 			role_dom.classList.add("credits-entry-role");
 			
