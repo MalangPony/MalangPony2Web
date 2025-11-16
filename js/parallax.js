@@ -52,13 +52,15 @@ class CameraParameters{
   position= Vector3.ZERO;
   zoom=1;
   tilt=0;
-  constructor(p,z,t){
+  x_center=0.5;
+  constructor(p,z,t,xc){
     this.position=p;
     this.zoom=z;
     this.tilt=t;
+    this.x_center=xc;
   }
   toString(){
-    return "CamParam(LOC="+this.position+", ZOOM="+this.zoom.toFixed(2)+", TILT="+this.tilt.toFixed(2)+")";
+    return "CamParam(LOC="+this.position+", ZOOM="+this.zoom.toFixed(2)+", TILT="+this.tilt.toFixed(2)+", XC="+this.x_center.toFixed(2)+")";
   }
 }
 
@@ -67,52 +69,61 @@ class AnimatedCamera{
   #positionAV;
   #zoomAV;
   #tiltAV;
+  #xcenterAV;
   
   constructor(){
     this.#positionAV=new AnimatedValue(new Vector3(0,0,-500));
     this.#zoomAV=new AnimatedValue(1);
     this.#tiltAV=new AnimatedValue(0);
+    this.#xcenterAV=new AnimatedValue(0.5);
     this.#positionAV.set_ease(3,true,true);
     this.#zoomAV.set_ease(3,true,true);
     this.#tiltAV.set_ease(3,true,true);
+    this.#xcenterAV.set_ease(3,true,true);
   }  
   
   get_value(){
     return new CameraParameters(
       this.#positionAV.calculate_value(),
       this.#zoomAV.calculate_value(),
-      this.#tiltAV.calculate_value()
+      this.#tiltAV.calculate_value(),
+      this.#xcenterAV.calculate_value()
     );
   }
   tick(dt){
     this.#positionAV.tick(dt);
     this.#zoomAV.tick(dt);
     this.#tiltAV.tick(dt);
+    this.#xcenterAV.tick(dt);
   }
   
   was_changed_this_tick(){
     return this.#positionAV.changed_this_tick ||
       this.#zoomAV.changed_this_tick ||
-      this.#tiltAV.changed_this_tick;
+      this.#tiltAV.changed_this_tick ||
+      this.#xcenterAV.changed_this_tick;
   }
   
   animate_to(cp){
     this.#positionAV.animate_to(cp.position);
     this.#zoomAV.animate_to(cp.zoom);
     this.#tiltAV.animate_to(cp.tilt);
+    this.#xcenterAV.animate_to(cp.x_center);
   }
   jump_to(cp){
     this.#positionAV.jump_to(cp.position);
     this.#zoomAV.jump_to(cp.zoom);
     this.#tiltAV.jump_to(cp.tilt);
+    this.#xcenterAV.jump_to(cp.x_center);
   }
   jump_to_end(){
     this.#positionAV.jump_to_end();
     this.#zoomAV.jump_to_end();
     this.#tiltAV.jump_to_end();
+    this.#xcenterAV.jump_to_end();
   }
   toString(){
-    return "CamParam(LOC="+this.#positionAV.calculate_value()+", ZOOM="+this.#zoomAV.calculate_value().toFixed(2)+", TILT="+this.#tiltAV.calculate_value().toFixed(2)+")";
+    return "CamParam(LOC="+this.#positionAV.calculate_value()+", ZOOM="+this.#zoomAV.calculate_value().toFixed(2)+", TILT="+this.#tiltAV.calculate_value().toFixed(2)+", XC="+this.#xcenterAV.calculate_value().toFixed(2)+")";
   }
 }
 let animated_camera = new AnimatedCamera();
@@ -153,7 +164,8 @@ function solve_camera(camera_parameters,parallax_image){
     "y":offset_location.y+(500*camera_parameters.zoom*camera_parameters.tilt),
     "w":scaled_dim.x, 
     "h":scaled_dim.y,
-    "scaling_factor":size_multiplier
+    "scaling_factor":size_multiplier,
+    "x_center":camera_parameters.x_center
   };
 }
 
@@ -321,7 +333,7 @@ function recalculate_parallax_images(cam_param,illumination_ratio=0.0){
           w=solve_result.w;
           // SolveResult X=0 is the center of screen so...
           // And we need to account for the image size as well.
-          x=containerW/2+solve_result.x-solve_result.w/2;
+          x=containerW*solve_result.x_center+solve_result.x-solve_result.w/2;
         }
         
         
@@ -351,7 +363,7 @@ function recalculate_parallax_images(cam_param,illumination_ratio=0.0){
           if (pimg.type==="tile"){
             // The background is anchored to the origin.
             // Calculate the origin coords in screen coordinate system
-            let originX=containerW/2+solve_result.x;
+            let originX=containerW*solve_result.x_center+solve_result.x;
             let originY=containerH-solve_result.y;
             // Calculate the origin in relative coordinates
             let relcoord_originX=(originX-x);
@@ -457,7 +469,8 @@ for (const k in ParallaxData.camera_locations){
   camera_param_presets[k]=new CameraParameters(
     new Vector3(v[0],v[1],v[2]),
     v[3], //Zoom
-    v[4] //Tilt
+    v[4], //Tilt
+    v[5] //X-Center
   )
 }
 // Initial location.
