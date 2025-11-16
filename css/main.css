@@ -3,19 +3,41 @@
 /* This is the topmost element that covers the entire screen. */
 #whole-screen-div{
   overflow:hidden;
+  
+  
+  /* Main Content spacing calculations */
+  /* These margins are applied at first. */
+  /* If there is space left over, we try to equalize the margins first */
+  /* And if space is still left over, it is distributed to both sides equally. */
+  --mcd-left:192px;
+  --mcd-right:64px;
+  
+  --mcd-difference: calc(var(--mcd-left) - var(--mcd-right));
+  --mcd-margins: calc(var(--mcd-left) + var(--mcd-right));
+  --mcd-width: min(calc(100% - var(--mcd-margins)), 1000px);
+  --mcd-space-around: calc(100% - var(--mcd-width));
+  --mcd-space-excess: calc( var(--mcd-space-around) - var(--mcd-margins));
+  --mcd-space-equalize: min(var(--mcd-space-excess),var(--mcd-difference));
+  --mcd-space-distributed: calc((var(--mcd-space-excess) - var(--mcd-space-equalize)) /2 );
+  --mcd-margin-left: calc(var(--mcd-left) + var(--mcd-space-distributed));
+  --mcd-margin-right: calc(var(--mcd-left) + var(--mcd-space-equalize) + var(--mcd-space-distributed));
 }
 
 /* contains blanker and afterscroll */
 #main-content-backdrop{
-	max-width:1000px;
-	width:calc(100% - 128px);
-	margin-left:auto;
-	margin-right:auto;
-	position:relative;
-	display:flex;
-	flex-direction:column;
-	transition-property: backdrop-filter, background-color, box-shadow;
-	transition-duration:0.5s;
+  
+  width:var(--mcd-width);
+  /*
+  margin-left:calc( var(--mcd-left) + (var(--mcd-space-excess) /2) );
+  margin-right:calc( var(--mcd-right) + (var(--mcd-space-excess) /2) );*/
+  margin-left:var(--mcd-margin-left);
+  margin-right:var(--mcd-margin-right);
+  
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  transition-property: backdrop-filter, background-color, box-shadow;
+  transition-duration:0.5s;
 }
 
 /* Is box-shadow performance-intensive? idk */
@@ -233,6 +255,8 @@
 @media (width<640px) {
   #main-content-backdrop{
     width:100%;
+    margin-left:0;
+	margin-right:0;
   }
   #pages-container{
     padding-left:32px;
