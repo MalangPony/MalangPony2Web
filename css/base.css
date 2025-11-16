@@ -49,6 +49,13 @@ canvas{
 	display:none;
 }
 
+.langmode-ko .lang-en{
+	display:none;
+}
+.langmode-en .lang-ko{
+	display:none;
+}
+
 
 /* Responsive Section */
 /* Targeting down to 300px. */

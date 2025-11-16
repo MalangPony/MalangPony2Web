@@ -246,18 +246,19 @@ let camera_y=200;
 let camera_default_tilt=+0.7
 // X Y Z Zoom Tilt
 export let camera_locations={
-	intro:     [   0, camera_y,  -500, 1.0, camera_default_tilt],
-	about:     [-1000,camera_y,  -300, 1.0, camera_default_tilt],
-	coc:       [ 800, camera_y,   300, 1.0, camera_default_tilt],
-	news:      [ 800, camera_y,  -100, 1.0, camera_default_tilt],
-	timetable: [   0, camera_y,  1000, 1.0, camera_default_tilt],
-	venue:     [ 800, camera_y, -1200, 1.0, camera_default_tilt],
-	previous:  [1500, camera_y,  1000, 1.0, camera_default_tilt],
-	mascot:    [-200, camera_y,  -100, 1.0, camera_default_tilt],
-	credits:   [-500, camera_y,  -500, 1.0, camera_default_tilt],
-	conbook:   [ 500, camera_y,  -600, 1.0, camera_default_tilt],
-	inquiries: [-300, camera_y,   300, 1.0, camera_default_tilt],
-	register:  [ 400, camera_y,   100, 1.0, camera_default_tilt]
+	intro:     [   0, camera_y,  -500, 1.0, camera_default_tilt], //Center
+	about:     [-1000,camera_y,  -300, 1.0, camera_default_tilt], //Cherilee
+	coc:       [ 800, camera_y,   300, 1.0, camera_default_tilt], //Guards
+	news:      [ 800, camera_y,  -100, 1.0, camera_default_tilt], //PP
+	timetable: [   0, camera_y,  1000, 1.0, camera_default_tilt], //Stage
+	venue:     [ 800, camera_y, -1200, 1.0, camera_default_tilt], //Carriage
+	previous:  [1500, camera_y,  1000, 1.0, camera_default_tilt], //Whooves
+	mascot:    [-200, camera_y,  -100, 1.0, camera_default_tilt], //N/A
+	credits:   [   0,      300, -1500, 1.3, camera_default_tilt], //Dolly Zoom
+	conbook:   [ 500, camera_y,  -600, 1.0, camera_default_tilt], //Press
+	inquiries: [-600, camera_y,   300, 1.0, camera_default_tilt], //Vinyl's Set
+	involved:  [-1500,camera_y,   400, 1.0, camera_default_tilt], //Wagon
+	register:  [   0,      100,  -200, 0.7, camera_default_tilt], //Wide-Angle
 }
 
 // Camera parameters in sky mode.
