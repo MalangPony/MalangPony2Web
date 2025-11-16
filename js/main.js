@@ -821,22 +821,48 @@ function page_transition(name){
     
   sidebar_buttons_activate(name);
   
+  let on_intro=(currently_on_page==="intro");
+  let to_intro=(name==="intro");
+  
+  let animation_start_time=0;
+  // Hide current page
   let anim3=main_content_backdrop.animate(
     [{ opacity: "1.0" },{ opacity: "0.0" }],
-    {duration: 500,delay:0});
+    {duration: 500,delay:animation_start_time});
+  animation_start_time+=500;
+  
   anim3.onfinish= () => {
     last.style.display="none";
     target.style.display="flex";
+    main_content_backdrop.style.opacity=0;
     if (name==="intro") sky_enable();
     else sky_disable();
     if (name==="intro" && Config.OPTION_HIDE_HANMARI_ON_NONINTRO_PAGES) 
       show_hanmari();
   }
+  
+  
+  if ( on_intro && (!to_intro) ){ // Enter Castle
+    
+    let duration=Castle.enter_animation(500,()=>{});
+    animation_start_time+=duration;
+  }
+  
+  if ( (!on_intro) && to_intro ){ // Exit Castle
+    
+    let duration=Castle.exit_animation(500,()=>{});
+    animation_start_time+=duration;
+  }
+  
+  // Show next page
   let anim4=main_content_backdrop.animate(
     [{ opacity: "0.0" },{ opacity: "1.0" }],
-    {duration: 500,delay:500});
+    {duration: 500,delay:animation_start_time});
   anim4.onfinish= () => {
+    main_content_backdrop.style.opacity=1;
   }
+  
+  
   
   currently_on_page=name;
   
