@@ -17,6 +17,7 @@ import * as Maps from "./maps.js";
 import * as Cookies from "./cookies.js";
 import * as Credits from "./credits.js";
 import * as Register from "./register.js";
+import * as Castle from "./castle.js";
 
 // DOM
 const body_dom = document.querySelector("body");
@@ -46,6 +47,7 @@ const lmsa = document.getElementById("letter-magic-spritesheet-animation");
 
 const lang_btn = document.getElementById("langswitch-btn");
 const theme_btn = document.getElementById("themeswitch-btn");
+const castlemode_btn = document.getElementById("castlemode-btn");
 const sb_btn = document.getElementById("sb-btn");
 const sb_close_btn = document.getElementById("sb-close-button-container");
 
@@ -147,6 +149,7 @@ function transition_sky(){
   pages_container.classList.remove("activated");
   lang_btn.classList.remove("activated");
   theme_btn.classList.remove("activated");
+  castlemode_btn.classList.remove("activated");
   sb_btn.classList.remove("activated");
   
   if (mobile_mode) sidebar_button_hide_mobile();
@@ -175,6 +178,7 @@ function transition_ground(){
   pages_container.classList.add("activated");
   lang_btn.classList.add("activated");
   theme_btn.classList.add("activated");
+  castlemode_btn.classList.add("activated");
   sb_btn.classList.add("activated");
   
   window.setTimeout(()=>{
@@ -528,12 +532,17 @@ function forceScrollUp(){
 }
 content_scroller.addEventListener("scroll", (e) => { 
   let scroll_progress_ratio=1;
+  let scroll_pixels=0;
+  let scroll_maxium=0;
   
   if (!sky_disabled) {
-    let scroll_pixels=content_scroller.scrollTop;
-    let scroll_maxium=screen_blanker.clientHeight;
+    scroll_pixels=content_scroller.scrollTop;
+    scroll_maxium=screen_blanker.clientHeight;
     scroll_progress_ratio=scroll_pixels/scroll_maxium;
+    if (scroll_pixels>scroll_maxium) scroll_pixels=scroll_maxium;
   }
+  
+  scroll_progress_ratio=Math.min(Math.max(scroll_progress_ratio,0),1);
   
   // Hide scroll inviter if scroll ratio > 30%
   if (scroll_inviter_active && (scroll_progress_ratio>0.3)){
@@ -545,8 +554,6 @@ content_scroller.addEventListener("scroll", (e) => {
       scroll_inviter_container.style.display="none";
     }
   }
-  
-  scroll_progress_ratio=Math.min(Math.max(scroll_progress_ratio,0),1);
   
   // Update sky
   // This will match the star movement.
@@ -567,6 +574,7 @@ content_scroller.addEventListener("scroll", (e) => {
   // Update subsystems
   Stars.set_scroll_progress(scroll_progress_ratio);
   Fireworks.set_scroll_progress(scroll_progress_ratio);
+  Castle.report_scroll_progress(scroll_pixels,scroll_maxium);
   
   let darken_strength=1-((scroll_progress_ratio-0.8)*5);
   if (darken_strength<0) darken_strength=0;
@@ -1055,3 +1063,20 @@ mascot_container_lbr.addEventListener("click",()=>{
   }
 });
 apply_mascot_selection_mode();
+
+
+let castle_mode=true;
+function set_castle_mode(cm){
+  if (cm) 
+    castlemode_btn.innerHTML='<span style="font-weight:700;">2D(Castle)</span> / <span style="opacity:0.3;">3D(Field)</span>';
+  else
+    castlemode_btn.innerHTML='<span style="opacity:0.3;">2D(Castle)</span> / <span style="font-weight:700;">3D(Field)</span>';
+  castle_mode=cm;
+  Parallax.set_parallax_active(!cm);
+  Castle.set_active(cm);
+}
+set_castle_mode(true);
+
+castlemode_btn.addEventListener("click",()=>{
+  set_castle_mode(!castle_mode);
+});

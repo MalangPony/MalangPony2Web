@@ -76,7 +76,7 @@
 
 /* Make sure afterscroll content is not visible at the start */
 #screen-blanker{
-  height:100lvh;
+  height:min(200lvh,2000px);
 }
 
 /* Actual content after scrolling. */

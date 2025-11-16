@@ -269,6 +269,18 @@ function populate_parallax_images(){
 if (Config.OPTION_ENABLE_PARALLAX_BG)
   populate_parallax_images();
 
+let parallax_active=true;
+export function set_parallax_active(active){
+  parallax_active=active;
+  if (active){
+    image_container_near.style.display="block";
+    image_container_far.style.display="block";
+  }else{
+    image_container_near.style.display="none";
+    image_container_far.style.display="none";
+  }
+}
+
 // Recalculate image positions from camera position.
 let last_cam_param=null;
 let last_illum_ratio=1000;
@@ -524,6 +536,7 @@ export function animationTick(dt){
   if (!Config.OPTION_ENABLE_PARALLAX_BG) return;
   if (!PerformanceManager.check_feature_enabled(
       PerformanceManager.Feature.PARALLAX_GROUND)) return;
+  if (!parallax_active) return;
   
   // Animate camera
   animated_camera.tick(dt);
@@ -598,3 +611,5 @@ export function calculate_offset_from_sky_mode_to_ground_mode(z_coords){
   console.log(`Intro Sky to Ground Z ${z_coords} YOF ${y_translation_by_yoffset} YTT ${y_translation_by_tilt} TOT ${y_total_delta}`);
   return y_total_delta;
 }
+
+
