@@ -18,6 +18,7 @@ import * as Cookies from "./cookies.js";
 import * as Credits from "./credits.js";
 import * as Register from "./register.js";
 import * as Castle from "./castle.js";
+import * as StaticBG from "./static_bg.js";
 
 // DOM
 const body_dom = document.querySelector("body");
@@ -795,6 +796,9 @@ function page_transition_instant(name){
     L2D.set_hanmari_size_instant(Config.OPTION_NONINTRO_PAGE_HANMARI_SHRINK_FACTOR);
   }
   
+  StaticBG.activate_page_bg_instant(name);
+  if (name !== "intro") Castle.enter_instant();
+  
   if (name=="timetable") Timetable.enter_timetable_page();
   else Timetable.exit_timetable_page();
   
@@ -842,17 +846,20 @@ function page_transition(name){
   }
   
   
-  if ( on_intro && (!to_intro) ){ // Enter Castle
-    
+  if ( castle_mode && on_intro && (!to_intro) ){ // Enter Castle
     let duration=Castle.enter_animation(500,()=>{});
     animation_start_time+=duration;
-  }
-  
-  if ( (!on_intro) && to_intro ){ // Exit Castle
-    
+    StaticBG.activate_page_bg(name,animation_start_time,500);
+  }else if ( castle_mode && (!on_intro) && to_intro ){ // Exit Castle
+    StaticBG.activate_page_bg(name,animation_start_time,500);
     let duration=Castle.exit_animation(500,()=>{});
     animation_start_time+=duration;
+    
+  }else{ // move inside castle
+    StaticBG.activate_page_bg(name,animation_start_time,500);
   }
+  
+  
   
   // Show next page
   let anim4=main_content_backdrop.animate(
@@ -1100,6 +1107,8 @@ function set_castle_mode(cm){
   castle_mode=cm;
   Parallax.set_parallax_active(!cm);
   Castle.set_active(cm);
+  StaticBG.set_active(cm);
+  StaticBG.activate_page_bg_instant(currently_on_page);
 }
 set_castle_mode(true);
 

@@ -102,10 +102,6 @@ export function set_active(b){
 	else castle_container.style.display="none";
 }
 
-let layer_parent_width=0;
-let layer_parent_left=0;
-let layer_parent_bottom=0;
-
 function recalculate_size(){
 	let containerW=castle_container.clientWidth;
 	let containerH=castle_container.clientHeight;
@@ -113,8 +109,8 @@ function recalculate_size(){
 	let targetW=containerW;
 	if (containerW>1500) targetW=1500;
 	
-	layer_parent_width=targetW;
-	layer_parent_left=(containerW-targetW)/2;
+	let layer_parent_width=targetW;
+	let layer_parent_left=(containerW-targetW)/2;
 	layers_parent.style.width=layer_parent_width+"px";
 	layers_parent.style.left=layer_parent_left+"px";
 }
@@ -138,7 +134,7 @@ export function report_scroll_progress(current,maximum){
 		let img=layer_doms[layer_name];
 		let layer_def=castle_layers[layer_name];
 		//img.style.bottom=(current-maximum)*layer_def.parallax_multiplier+"px";
-		layer_parent_bottom=current-maximum;
+		let layer_parent_bottom=current-maximum;
 		layers_parent.style.bottom=layer_parent_bottom+"px";
 	}
 
@@ -182,32 +178,33 @@ function calculate_zoom_parameters(){
 	};
 }
 
-function animate_transform(params,delay,duration,ease,callback){
+function animate_transform(fromP,toP,delay,duration,ease,callback){
 	let anim_zoom=layers_parent.animate([
 			{ 
-				left: layer_parent_left+"px",
-				bottom: layer_parent_bottom+"px",
-				width: layer_parent_width+"px"
+				left: fromP.left+"px",
+				bottom: fromP.bottom+"px",
+				width: fromP.width+"px"
 			},{ 
-				left: params.left+"px",
-				bottom: params.bottom+"px",
-				width: params.width+"px"
+				left: toP.left+"px",
+				bottom: toP.bottom+"px",
+				width: toP.width+"px"
 			}],{
 		duration: duration,
 		delay:delay,
 		easing:ease
 	});
 	anim_zoom.onfinish= () => {
-		layer_parent_left=params.left;
-		layer_parent_bottom=params.bottom;
-		layer_parent_width=params.width;
-		layers_parent.style.left=layer_parent_left+"px";
-		layers_parent.style.bottom=layer_parent_bottom+"px";
-		layers_parent.style.width=layer_parent_width+"px";
+		layers_parent.style.left=toP.left+"px";
+		layers_parent.style.bottom=toP.bottom+"px";
+		layers_parent.style.width=toP.width+"px";
 		callback();
 	};
 }
-
+export function enter_instant(){
+	whiteout.style.opacity=1;
+	whiteout.style.display="block";
+	layers_parent.style.display="none";
+}
 export function enter_animation(delay,finished_callback){
 	let door_glow=layer_doms.door_glow;
 	
@@ -235,8 +232,9 @@ export function enter_animation(delay,finished_callback){
 		layers_parent.style.display="none";
 	};
 	
-	let zp=calculate_zoom_parameters();
-	animate_transform(zp,delay+500,1000,"cubic-bezier(0.7, 0, 1, 0.3)",finished_callback);
+	let zp1=calculate_out_parameters();
+	let zp2=calculate_zoom_parameters();
+	animate_transform(zp1,zp2,delay+500,1000,"cubic-bezier(0.7, 0, 1, 0.3)",finished_callback);
 	
 	return 1500;
 }
@@ -266,7 +264,9 @@ export function exit_animation(delay,finished_callback){
 		layer_doms.door_glow.style.opacity=0;
 	};
 	
-	let zp=calculate_out_parameters();
-	animate_transform(zp,delay,1000,"cubic-bezier(0, 0.7, 0.3, 1)",finished_callback);
+	
+	let zp2=calculate_out_parameters();
+	let zp1=calculate_zoom_parameters();
+	animate_transform(zp1,zp2,delay,1000,"cubic-bezier(0, 0.7, 0.3, 1)",finished_callback);
 	return 1000;
 }
