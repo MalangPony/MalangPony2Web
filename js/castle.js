@@ -7,42 +7,42 @@ let castle_container = document.getElementById("castle-container");
 
 const castle_layers={
 	river:{
-		filename:"3700225E1-L1D.png",
+		filename:"D3700225E1-L1D-R50p.png",
 		layer_order:1,
 		parallax_multiplier:1.2,
 	},
 	trees:{
-		filename:"3700225E1-L2D.png",
+		filename:"D3700225E1-L2D-R50p.png",
 		layer_order:2,
 		parallax_multiplier:0.8
 	},
 	castle_back:{
-		filename:"3700225E1-L3D.png",
+		filename:"D3700225E1-L3D-R50p.png",
 		layer_order:3,
 		parallax_multiplier:0.9
 	},
 	ground:{
-		filename:"3700225E1-L4D.png",
+		filename:"D3700225E1-L4D-R50p.png",
 		layer_order:4,
 		parallax_multiplier:1.1
 	},
 	castle_front:{
-		filename:"3700225E1-L5D.png",
+		filename:"D3700225E1-L5D-R50p.png",
 		layer_order:5,
 		parallax_multiplier:1.0
 	},
 	door_closed:{
-		filename:"3700225E1-L6D.png",
+		filename:"D3700225E1-L6D-R50p.png",
 		layer_order:6,
 		parallax_multiplier:1.0
 	},
 	door_glow:{
-		filename:"3700225E1-L6O.png",
+		filename:"D3700225E1-L6O-R50p.png",
 		layer_order:7,
 		parallax_multiplier:1.0
 	},
 	bridge:{
-		filename:"3700225E1-L7D.png",
+		filename:"D3700225E1-L7D-R50p.png",
 		layer_order:8,
 		parallax_multiplier:1.1
 	},
