@@ -753,14 +753,12 @@ function show_hanmari_instant(){
 let sky_disabled=false;
 function sky_disable(){
   screen_blanker.style.display="none";
-  mpn_logo_container.style.display="none";
   scroll_inviter_container.style.display="none";
   sky_disabled=true;
   forceScrollUp();
 }
 function sky_enable(){
   screen_blanker.style.display="block";
-  mpn_logo_container.style.display="block";
   scroll_inviter_container.style.display="block";
   sky_disabled=false;
   forceScrollDown();

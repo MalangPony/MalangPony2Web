@@ -1,11 +1,6 @@
 /* Page: Intro (#page-intro) */
 
-#logo-orig{
-  margin-left:64px;
-  margin-right:64px;
-  max-width:min(600px , 100%);
-  align-self:center;
-}
+
 
 #ticket{
   background-image : url("../sprites-prototype/MPN2-Prototype-Image-Ticket.png");

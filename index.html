@@ -224,13 +224,7 @@
     </div> <!-- #debug-print-area -->
   </div> <!-- #stickies -->
   <div id="content-scroller">
-    <div id="mpn-logo-spacer">
-      <div id="mpn_logo_container">
-        <img id="logo-orig" src="sprites-prototype/MPN2-Prototype-Image-LogoPlain.png" style="z-index:3;opacity:0;">
-        <img id="logo-flash01" src="sprites-prototype/MPN2-Prototype-Image-LogoGlow.png" style="z-index:2;opacity:0;">
-        <img id="logo-base" src="sprites-prototype/MPN2-Prototype-Image-LogoDark.png" style="z-index:1;">
-      </div>
-    </div>
+    
     <!-- 
       The below seemingly useless div is needed for Chromium browsers.
       Without this div, chromium will anchor the scroll progress
@@ -255,9 +249,21 @@
       
       <div id="screen-blanker"></div>
       
+
+      <div id="intro-logo">
+        <img id="logo-orig" src="sprites-prototype/MPN2-Prototype-Image-LogoPlain.png" style="z-index:3;opacity:0;">
+        <img id="logo-flash01" src="sprites-prototype/MPN2-Prototype-Image-LogoGlow.png" style="z-index:2;opacity:0;">
+        <img id="logo-base" src="sprites-prototype/MPN2-Prototype-Image-LogoDark.png" style="z-index:1;">
+      </div>
+      
+      <div id="nonintro-header-content" style="display:none;">
+        <img id="logo-intro" 
+            src="sprites-prototype/MPN2-Prototype-Image-LogoPlain.png">
+      </div>
+            
       <div id="pages-container">
         <div id="page-intro" class="page-content">
-          <img id="logo-orig" src="sprites-prototype/MPN2-Prototype-Image-LogoPlain.png">
+          
           
           <div class="page-title centered">
             <span class="langspan-en">Malfoy!!!</span>

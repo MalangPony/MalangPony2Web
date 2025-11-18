@@ -14,8 +14,8 @@
   
   --mcd-difference: calc(var(--mcd-left) - var(--mcd-right));
   --mcd-margins: calc(var(--mcd-left) + var(--mcd-right));
-  --mcd-width: min(calc(100% - var(--mcd-margins)), 1000px);
-  --mcd-space-around: calc(100% - var(--mcd-width));
+  --mcd-width: min(calc(100vw - var(--mcd-margins)), 1000px);
+  --mcd-space-around: calc(100vw - var(--mcd-width));
   --mcd-space-excess: calc( var(--mcd-space-around) - var(--mcd-margins));
   --mcd-space-equalize: min(var(--mcd-space-excess),var(--mcd-difference));
   --mcd-space-distributed: calc((var(--mcd-space-excess) - var(--mcd-space-equalize)) /2 );
@@ -27,9 +27,6 @@
 #main-content-backdrop{
   
   width:var(--mcd-width);
-  /*
-  margin-left:calc( var(--mcd-left) + (var(--mcd-space-excess) /2) );
-  margin-right:calc( var(--mcd-right) + (var(--mcd-space-excess) /2) );*/
   margin-left:var(--mcd-margin-left);
   margin-right:var(--mcd-margin-right);
   
@@ -97,20 +94,26 @@
 }
 
 /* MalangPony logo positioning */
-#mpn-logo-spacer{
-  position:absolute;
-  top:6lvmin;
-  left:0;
-  right:0;
+/* It's a bit complicated due to it being sticky at the bottom */
+#intro-logo{
+  --intrologo-side-margins: 32px; /* Margin around main container */
+  --intrologo-max-width: calc(var(--mcd-width) - ( var(--intrologo-side-margins) *2 ));
+  --intrologo-aspect-ratio:2.5; /* Roughly match the logo aspect ratio*/
+  --intrologo-max-height:50svh;
+  --intrologo-bottom-margin:40svh; /* The point where it gets stuck. */
+  /* 100svh - (Max height + bottom margin) is the top margin and should be positive. */
+  
+  align-self:center;
+  position:sticky;
+  aspect-ratio:var(--intrologo-aspect-ratio);
+  bottom:var(--intrologo-bottom-margin);
+  height:min(
+    400px, 
+    var(--intrologo-max-height), 
+    calc(var(--intrologo-max-width) / var(--intrologo-aspect-ratio)));
+  
 }
-#mpn_logo_container{
-  margin-left:auto;
-  margin-right:auto;
-  width:min(100lvh,80vw);
-  height:min(50lvh,40vw);
-  position:relative;
-}
-#mpn_logo_container > img{
+#intro-logo > img{
   position:absolute;
   left:0;
   top:0;
@@ -120,6 +123,7 @@
   height:100%;
   object-fit:contain;
 }
+
 
 /* Sky color */
 #sky-bg{
