@@ -81,7 +81,9 @@ const mascot_container_lbr=document.getElementById("mascot-container-lbr");
 
 const sky_bg = document.getElementById("sky-bg");
 
-
+const intro_logo = document.getElementById("intro-logo");
+const nonintro_header =  document.getElementById("nonintro-header-content");
+//const header_divider = document.getElementById("header-divider");
 
 
 // Initial values
@@ -859,12 +861,18 @@ function page_transition_instant(name){
     show_hanmari_instant();
     L2D.set_hanmari_size_instant(1.0);
     l2d_ground_transition_progress=0;
+    nonintro_header.style.display="none";
+    //header_divider.style.display="none";
+    intro_logo.style.display="block";
   }else {
     sky_disable();
     if (Config.OPTION_HIDE_HANMARI_ON_NONINTRO_PAGES)
       hide_hanmari_instant();
     l2d_ground_transition_progress=1;
     L2D.set_hanmari_size_instant(Config.OPTION_NONINTRO_PAGE_HANMARI_SHRINK_FACTOR);
+    nonintro_header.style.display="flex";
+    //header_divider.style.display="block";
+    intro_logo.style.display="none";
   }
   
   StaticBG.activate_page_bg_instant(name);
@@ -914,6 +922,15 @@ function page_transition(name){
     else sky_disable();
     if (name==="intro" && Config.OPTION_HIDE_HANMARI_ON_NONINTRO_PAGES) 
       show_hanmari();
+    if (name==="intro"){
+      nonintro_header.style.display="none";
+      //header_divider.style.display="none";
+      intro_logo.style.display="block";
+    }else{
+      nonintro_header.style.display="flex";
+      //header_divider.style.display="block";
+      intro_logo.style.display="none";
+    }
   }
   
   

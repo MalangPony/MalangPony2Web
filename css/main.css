@@ -76,6 +76,18 @@
   height:min(200lvh,2000px);
 }
 
+#nonintro-header-content{
+  margin-top:16px;
+  display:flex;
+  flex-direction:row;
+  justify-content:center;
+  align-items:center;
+}
+#logo-header{
+  max-height:150px;
+  max-width:80%;
+}
+
 #main-content-actual{
   position:relative;
   display:flex;
@@ -195,7 +207,7 @@
 }
 
 /* Footer */
-#footer-divider{
+.main-content-divider{
   margin-top:32px;
   margin-bottom:16px;
   margin-left:64px;
