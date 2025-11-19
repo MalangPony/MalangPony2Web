@@ -982,8 +982,10 @@ let mq_mobile=window.matchMedia("(width <= 640px)");
 let mobile_mode=mq_mobile.matches;
 function mobile_enter(){
   body_dom.classList.add("mobile-mode");
-  sidebar_hide_instant();
-  sidebar_button_animate_mobile();
+  if (!in_sky_mode) {
+    sidebar_hide_instant();
+    sidebar_button_animate_mobile();
+  }
   Timetable.enter_mobile();
 }
 function mobile_leave(){
