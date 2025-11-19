@@ -302,7 +302,7 @@
 
 /* Mobile mode */
 @media (width<640px) {
-  #whole-screen-div{
+  :root{
     --mcd-width:100vw;
     --mcd-margin-left:0px;
     --mcd-margin-right:0px;
