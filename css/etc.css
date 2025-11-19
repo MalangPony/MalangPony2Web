@@ -6,7 +6,43 @@
   color:var(--color-bluesky-text);
 }
 
-
+#news-sns-button-twitter{
+  background-color:light-dark(
+    var(--color-twitter-light-bg),
+    var(--color-twitter-dark-bg));
+  color:light-dark(
+    var(--color-twitter-light-fg),
+    var(--color-twitter-dark-fg));
+}
+#news-sns-button-twitter > img{
+  max-height:1.0em;
+  transform:scale(1.1);
+  margin-right:0.2em;
+}
+#news-sns-button-bluesky{
+  background-color:light-dark(
+    var(--color-bluesky-light-bg),
+    var(--color-bluesky-dark-bg));
+  color:light-dark(
+    var(--color-bluesky-light-fg),
+    var(--color-bluesky-dark-fg));
+}
+#news-sns-button-bluesky > img{
+  max-height:1.0em;
+  transform:scale(1.2);
+  margin-right:0.2em;
+}
+#news-sns-button-discord{
+  background-color:light-dark(
+    var(--color-discord-light-blurple),
+    var(--color-discord-dark));
+  color:var(--color-discord-blurple);
+}
+#news-sns-button-discord > img{
+  max-height:1.0em;
+  transform:scale(1.2);
+  margin-right:0.2em;
+}
 
 /* Responsive Section */
 /* Targeting down to 300px. */
