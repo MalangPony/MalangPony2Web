@@ -788,6 +788,23 @@ function show_hanmari_instant(){
 
 // Page transition
 let currently_on_page="intro";
+
+// Custom page setup and cleanup functions may be defined here.
+let page_setup_functions={};
+let page_cleanup_functions={};
+
+// We add the iframe only when the page is actually loaded
+// because Youtube's iframe is extremely noisy on the js console.
+page_setup_functions["previous"]=function(){
+  document.getElementById("yt-embed-container-mpn1").innerHTML='<iframe src="https://www.youtube.com/embed/ZtCIdW_r-U8" frameborder="0"  allowfullscreen></iframe>';
+  document.getElementById("yt-embed-container-mpnL").innerHTML=' <iframe src="https://www.youtube.com/embed/GTEJi7Jr5Cc" frameborder="0"  allowfullscreen></iframe>';
+}
+// This makes sure the videos actually stop when you move to another page.
+page_cleanup_functions["previous"]=function(){
+  document.getElementById("yt-embed-container-mpn1").innerHTML='';
+  document.getElementById("yt-embed-container-mpnL").innerHTML='';
+}
+
 // Transition without animation.
 function page_transition_instant(name){
 
@@ -795,9 +812,14 @@ function page_transition_instant(name){
 
   let last=document.getElementById("page-"+currently_on_page);
   if (last===null) return;
-
+  
   let target=document.getElementById("page-"+name);
   if (target===null) return;
+  
+  let cleanup_func=page_cleanup_functions[currently_on_page];
+  let setup_func=page_setup_functions[name];
+  if (cleanup_func) cleanup_func();
+  if (setup_func) setup_func();
 
   last.style.display="none";
   target.style.display="flex";
@@ -842,6 +864,10 @@ function page_transition(name){
   let target=document.getElementById("page-"+name);
   if (target===null) return;
   
+  let cleanup_func=page_cleanup_functions[currently_on_page];
+  let setup_func=page_setup_functions[name];
+  
+  
   if (name!=="intro" && Config.OPTION_HIDE_HANMARI_ON_NONINTRO_PAGES) 
     hide_hanmari();
   if (name !== "intro")
@@ -874,6 +900,8 @@ function page_transition(name){
     }else{
       main_content_backdrop.classList.remove("on-intro-page");
     }
+    if (cleanup_func) cleanup_func();
+    if (setup_func) setup_func();
   }
   
   

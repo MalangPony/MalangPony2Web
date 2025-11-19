@@ -90,6 +90,16 @@
   font-weight:700;
 }
 
+.previous-yt-embed{
+  align-self:stretch;
+  display:flex;
+  flex-direction:row;
+  justify-content:center;
+}
+.previous-yt-embed > iframe{
+  width: calc(100% - 32px);
+  aspect-ratio: 1.777;
+}
 
 /* Responsive Section */
 /* Targeting down to 300px. */
