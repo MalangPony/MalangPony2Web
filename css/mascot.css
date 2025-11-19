@@ -73,18 +73,21 @@
   background-color:var(--character-minimize-bg);
   filter:brightness(0.7);
 }
-.mascot-container.isolate.minimize:hover{
-  filter:none;
-}
-
 .refsheet-thumb-isolated{
   filter:none;
   transition-property: filter;
   transition-duration:0.3s;
 }
-.mascot-container.isolate:hover .refsheet-thumb-isolated{
-  filter:drop-shadow(0 0 6px var(--character-minimize-bg));
+
+@media ((hover: hover) and (pointer: fine)) {
+  .mascot-container.isolate.minimize:hover{
+    filter:none;
+  }
+  .mascot-container.isolate:hover .refsheet-thumb-isolated{
+    filter:drop-shadow(0 0 6px var(--character-minimize-bg));
+  }
 }
+
 
 .mascot-content{
   width:var(--mascot-container-width);

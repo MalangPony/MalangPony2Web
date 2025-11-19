@@ -62,19 +62,22 @@
 	background-color: #2F4575;
 	color:#FFF;
 }
-.malang:hover{
-	background-color: #FFF;
-	color:#2F4575;
-}
+
 
 .malang_old{
 	border-color: #5f4385;
 	background-color: #5f4385;
 	color:#FFF;
 }
-.malang_old:hover{
-	background-color: #FFF;
-	color:#5f4385;
+@media ((hover: hover) and (pointer: fine)) {
+  .malang:hover{
+      background-color: #FFF;
+      color:#2F4575;
+  }
+  .malang_old:hover{
+      background-color: #FFF;
+      color:#5f4385;
+  }
 }
 
 #prev-site-links{

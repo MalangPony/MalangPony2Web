@@ -22,15 +22,18 @@
   pointer-events:auto;
   color:var(--color-text-dark);
 }
-#ticket:hover{
-  transform:rotate(0deg);
-}
 #ticket.css-filters{
   filter:drop-shadow(8px 8px 10px #00000080);
 }
-#ticket.css-filters:hover{
-  filter:drop-shadow(0 0 8px #ffff85);
+@media ((hover: hover) and (pointer: fine)) {
+  #ticket:hover{
+    transform:rotate(0deg);
+  }
+  #ticket.css-filters:hover{
+    filter:drop-shadow(0 0 8px #ffff85);
+  }
 }
+
 
 
 /* Responsive Section */

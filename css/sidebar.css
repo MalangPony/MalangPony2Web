@@ -119,8 +119,10 @@
 .sb-entry{
   
 }
-.sb-entry:not(.sb-link-disabled):hover{
-  color:var(--color-sidebar-text-hover);
+@media ((hover: hover) and (pointer: fine)) {
+  .sb-entry:not(.sb-link-disabled):hover{
+    color:var(--color-sidebar-text-hover);
+  }
 }
 .sb-link::after{
   content:"";
@@ -141,9 +143,11 @@
   /*background-image: linear-gradient(black, white);*/
   /*background-color:#F0F;*/
 }
-.sb-link:not(.sb-link-disabled):not(.sb-link-selected):hover::after{
-  margin-left:4px;
-  opacity:1.0;
+@media ((hover: hover) and (pointer: fine)) {
+  .sb-link:not(.sb-link-disabled):not(.sb-link-selected):hover::after{
+    margin-left:4px;
+    opacity:1.0;
+  }
 }
 .sb-link.sb-link-selected::after{
   background-image: url("../sprites/FiM_S8E01_11m24s_EDIT01_HFlip+ResizeX128.png");
@@ -165,8 +169,10 @@
    * so this won't affect the line height.*/
   transform:scale(1.2); 
 }
-.sb-category-container .sb-category-header:hover::after{
-  opacity:1;
+@media ((hover: hover) and (pointer: fine)) {
+  .sb-category-container .sb-category-header:hover::after{
+    opacity:1;
+  }
 }
 .sb-category-container.sbcc-expanded .sb-category-header::after{
   /*content:".";*/
