@@ -678,13 +678,31 @@ function scroll_callback(){
 content_scroller.addEventListener("scroll",scroll_callback);
 window.setTimeout(scroll_callback,0); // Call after load
 
+let pageid_to_name_en={};
+let pageid_to_name_ko={};
+
+let sbls=document.querySelectorAll(".sb-link");
+for (const sbl of sbls){
+  let pageid=sbl.getAttribute("data-pageid");
+  let kspan=sbl.querySelector(".langspan-ko");
+  let espan=sbl.querySelector(".langspan-en");
+  if (pageid){
+    if (kspan) pageid_to_name_ko[pageid]=kspan.innerHTML;
+    if (espan) pageid_to_name_en[pageid]=espan.innerHTML;
+  }
+}
+
 function autoset_title(){
-  let q=".sb-link[data-pageid="+currently_on_page+"] .langspan-"+current_lang;
-  let dom=document.querySelector(q)
   let title="";
-  if (current_lang=="ko") title=title+"말랑포니!";
-  else if (current_lang=="en") title=title+"MalangPony";
-  if (dom) title=title+" - "+dom.innerHTML;
+  if (current_lang=="ko") {
+    title=title+"말랑포니!";
+    if (pageid_to_name_ko[currently_on_page]) 
+      title=title+" - "+pageid_to_name_ko[currently_on_page];
+  }else if (current_lang=="en"){
+    title=title+"MalangPony";
+    if (pageid_to_name_en[currently_on_page]) 
+      title=title+" - "+pageid_to_name_en[currently_on_page];
+  }
   document.title=title;
 }
 
@@ -943,6 +961,27 @@ function page_transition(name){
   
   if (name=="timetable") Timetable.enter_timetable_page();
   else Timetable.exit_timetable_page();
+}
+
+// Setup all .internal-page-link-buttons
+let iplbs=document.querySelectorAll(".internal-page-link-button");
+for(const iplb of iplbs){
+  let pageid=iplb.getAttribute("data-pageid");
+  if (!pageid) continue;
+  let nameK=pageid_to_name_ko[pageid];
+  let nameE=pageid_to_name_en[pageid];
+  //console.log(pageid,nameK,nameE);
+  iplb.addEventListener("click",()=>{
+    page_transition(pageid);
+  });
+  let kspan=document.createElement("span");
+  kspan.classList.add("langspan-ko");
+  kspan.innerHTML=nameK;
+  let espan=document.createElement("span");
+  espan.classList.add("langspan-en");
+  espan.innerHTML=nameE;
+  iplb.appendChild(kspan);
+  iplb.appendChild(espan);
 }
 
 
