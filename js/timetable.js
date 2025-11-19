@@ -502,7 +502,21 @@ function timetable_build(ttd){
 			block_dom.style.backgroundImage=gradient_def;
 		}else{
 			block_dom.style.backgroundColor=bg_color;
+			
 		}
+		//block_dom.style.backgroundColor={}[block.column];
+		//block_dom.style.backgroundImage="none";
+		/*
+		block_dom.style.backgroundColor={
+			"main-stage":"hsl(0deg 90% 80%)",
+			"main-side":"hsl(90deg 90% 80%)",
+			"sub-hall":"hsl(180deg 90% 80%)",
+			"lobby":"hsl(270deg 90% 80%)"
+		}[colgroup];*/
+		//block_dom.style.backgroundColor="hsl("+(base_x/2)+"deg 90% 80%)";
+		//let h_left=base_x/2;
+		//let h_right=(base_width+base_x)/2;
+		//block_dom.style.backgroundImage="linear-gradient(to right, hsl("+h_left+"deg 90% 80%) 0% , hsl("+h_right+"deg 90% 80%) 100%)";
 		
 		
 		if (vertical){

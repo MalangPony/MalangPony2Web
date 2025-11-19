@@ -18,7 +18,7 @@ export let blocks=[
 	"name_en":"Opening Ceremonies",
 	"start_time":"10:00",
 	"end_time":"10:30",
-	"color_preset":"panel-lecture",
+	"color_preset":"event-critical",
 	"column":"main-stage",
 	"description_en":"The story begins here!",
 	"description_kr":"드디어 행사의 시작!",
@@ -31,7 +31,7 @@ export let blocks=[
 	"name_en":"Drawing Show",
 	"start_time":"10:30",
 	"end_time":"12:00",
-	"color_preset":"panel-audience",
+	"color_preset":"panel-main",
 	"column":"main-stage",
 	"description_en":"Let's draw ponies!<br>(Art skills optional)",
 	"description_kr":"모두 다함께 포니를 그려봐요!<br>잘그리든 못 그리든 상관 없습니다!",
@@ -44,7 +44,7 @@ export let blocks=[
 	"name_en":"All the Pony Videos!",
 	"start_time":"12:00",
 	"end_time":"13:30",
-	"color_preset":"panel-chill",
+	"color_preset":"panel-sub",
 	"column":"main-stage",
 	"description_en":"Going through some legendary pony videos.",
 	"description_kr":"역대 명작 포니 영상을 다함께 시청해봐요.",
@@ -57,7 +57,7 @@ export let blocks=[
 	"name_en":"Horse Quiz 2: Electric Boogaloo",
 	"start_time":"13:30",
 	"end_time":"15:00",
-	"color_preset":"panel-audience",
+	"color_preset":"panel-main",
 	"column":"main-stage",
 	"description_en":"Do you know your pony?<br>Test your MLP trivia skills!",
 	"description_kr":"포니에 대해 얼마나 알고 계신가요?<br>흥미진진 포니 퀴즈쇼!",
@@ -83,7 +83,7 @@ export let blocks=[
 	"name_en":"Don't Forget the Lyrics",
 	"start_time":"15:30",
 	"end_time":"17:00",
-	"color_preset":"panel-audience",
+	"color_preset":"panel-main",
 	"column":"main-stage",
 	"description_en":"Can you remember the lyrics to<br>all the songs of MLP?",
 	"description_kr":"포니 노래들의 가사를 전부 기억하고 계신가요?",
@@ -109,7 +109,7 @@ export let blocks=[
 	"name_en":"Closing Ceremonies",
 	"start_time":"17:30",
 	"end_time":"18:30",
-	"color_preset":"panel-audience",
+	"color_preset":"event-critical",
 	"column":"main-stage",
 	"description_en":"Photos, Raffles, and Goodbyes.",
 	"description_kr":"사진, 래플, 그리고 아쉬운 작별인사",
@@ -135,7 +135,7 @@ export let blocks=[
 	"name_en":"Night Show",
 	"start_time":"19:30",
 	"end_time":"20:30",
-	"color_preset":"panel-audience",
+	"color_preset":"panel-main",
 	"column":"main-stage",
 	"description_en":"Move your body to some pony beats!",
 	"description_kr":"포니클럽 개장!<br>포니 음악에 맞추어 즐겨봐요!",
@@ -148,7 +148,7 @@ export let blocks=[
 	"name_en":"Brony Chill Time",
 	"start_time":"20:30",
 	"end_time":"23:00",
-	"color_preset":"panel-audience",
+	"color_preset":"panel-sub",
 	"column":"main-stage",
 	"description_en":"Time to chill and talk with<br>all the other bronies.",
 	"description_kr":"다른 포덕들과 수다를 떨 시간",
@@ -161,7 +161,7 @@ export let blocks=[
 	"name_en":"Sketch Corner",
 	"start_time":"09:00",
 	"end_time":"20:00",
-	"color_preset":"event-sub",
+	"color_preset":"long-running",
 	"column":"main-side-sketch",
 	"description_en":"Draw away in this free-for-all canvas",
 	"description_kr":"누구든 참여할수 있는 캔버스에서<br>함께 그림을 그려봐요",
@@ -174,7 +174,7 @@ export let blocks=[
 	"name_en":"Art Gallery and Awards",
 	"start_time":"09:00",
 	"end_time":"18:00",
-	"color_preset":"event-major",
+	"color_preset":"long-running",
 	"column":"main-side-gallery",
 	"description_en":"The one and only Pony Art Gallery.<br>Vote on your favorite art piece!",
 	"description_kr":"포니 그림 감상 갤러리입니다.<br>가장 마음에 드는 작품에 투표해 보세요!",
@@ -187,7 +187,7 @@ export let blocks=[
 	"name_en":"Snack Bar & Lounge",
 	"start_time":"09:00",
 	"end_time":"21:30",
-	"color_preset":"event-sub",
+	"color_preset":"long-running",
 	"column":"main-side-lounge",
 	"description_en":"A place to relax and recharge.",
 	"description_kr":"쉬고 재충전할 수 있는 공간입니다.",
@@ -200,7 +200,7 @@ export let blocks=[
 	"name_en":"Merch Shrine",
 	"start_time":"09:00",
 	"end_time":"19:00",
-	"color_preset":"event-sub",
+	"color_preset":"long-running",
 	"column":"main-side-shrine",
 	"description_en":"How much merch is too much merch?<br>Show off all your pony merchandise!",
 	"description_kr":"자신의 굿즈를 자랑해보세요",
@@ -228,7 +228,7 @@ export let blocks=[
 	"name_en":"Tabletop Games & Arcade",
 	"start_time":"10:30",
 	"end_time":"13:30",
-	"color_preset":"panel-audience",
+	"color_preset":"panel-sub",
 	"column":"sub-hall",
 	"description_en":"Pony-themed computer games and board games",
 	"description_kr":"포니 테마의 컴퓨터 게임과 보드게임",
@@ -241,7 +241,7 @@ export let blocks=[
 	"name_en":"How to Draw Ponies",
 	"start_time":"13:30",
 	"end_time":"15:30",
-	"color_preset":"panel-lecture",
+	"color_preset":"panel-sub",
 	"column":"sub-hall",
 	"description_en":"A crash course on pony art",
 	"description_kr":"포니 전문 아티스트분에게 듣는<br>포니 그림 강좌",
@@ -254,7 +254,7 @@ export let blocks=[
 	"name_en":"Panel #1",
 	"start_time":"15:30",
 	"end_time":"16:30",
-	"color_preset":"panel-lecture",
+	"color_preset":"panel-open",
 	"column":"sub-hall",
 	"description_en":"(Slot for panelists.)<br>(Apply to be a panelist now!)",
 	"description_kr":"(패널 발표용 시간입니다.)<br>(패널리스트 신청은 열려있습니다!)",
@@ -267,7 +267,7 @@ export let blocks=[
 	"name_en":"Panel #2",
 	"start_time":"16:30",
 	"end_time":"17:30",
-	"color_preset":"panel-lecture",
+	"color_preset":"panel-open",
 	"column":"sub-hall",
 	"description_en":"(Slot for panelists.)<br>(Apply to be a panelist now!)",
 	"description_kr":"(패널 발표용 시간입니다.)<br>(패널리스트 신청은 열려있습니다!)",
@@ -293,7 +293,7 @@ export let blocks=[
 	"name_en":"Panel #3",
 	"start_time":"18:30",
 	"end_time":"19:30",
-	"color_preset":"panel-lecture",
+	"color_preset":"panel-open",
 	"column":"sub-hall",
 	"description_en":"(Slot for panelists.)<br>(Apply to be a panelist now!)",
 	"description_kr":"(패널 발표용 시간입니다.)<br>(패널리스트 신청은 열려있습니다!)",
@@ -319,7 +319,7 @@ export let blocks=[
 	"name_en":"MyLittleKaraoke",
 	"start_time":"20:00",
 	"end_time":"21:30",
-	"color_preset":"panel-audience",
+	"color_preset":"panel-sub",
 	"column":"sub-hall",
 	"description_en":"Let's Sing!",
 	"description_kr":"포니 노래를 불러봐요!",
@@ -332,7 +332,7 @@ export let blocks=[
 	"name_en":"Registration",
 	"start_time":"09:00",
 	"end_time":"18:00",
-	"color_preset":"event-major",
+	"color_preset":"event-critical",
 	"column":"lobby-reg",
 	"description_en":"Receive your badge here.",
 	"description_kr":"이곳에서 참가증을 수령하세요.",
@@ -345,7 +345,7 @@ export let blocks=[
 	"name_en":"Doodle Board",
 	"start_time":"09:00",
 	"end_time":"21:30",
-	"color_preset":"event-sub",
+	"color_preset":"long-running",
 	"column":"lobby-side",
 	"description_en":"A HUGE canvas for all your doodles and signatures.",
 	"description_kr":"낙서와 방명록을 위한 거대한 캔버스!",
@@ -515,36 +515,34 @@ export let column_groups=[
 export let color_presets=[
 	{
 	"name":"buffer",
-	"color":"#C0C0C0"
+	"color":"var(--color-timetable-buffer)"
 	},
 	{
-	"name":"panel-lecture",
-	"color":"#c7ffbe"
+	"name":"event-critical",
+	"color":"var(--color-timetable-event-critical)"
 	},
 	{
-	"name":"panel-audience",
-	"color":"#ffb2b2"
+	"name":"panel-main",
+	"color":"var(--color-timetable-panel-main)"
 	},
 	{
-	"name":"panel-chill",
-	"color":"#a2c7ff"
+	"name":"panel-sub",
+	"color":"var(--color-timetable-panel-sub)"
 	},
 	{
-	"name":"event-sub",
-	"color":"#e8a2ff"
+	"name":"long-running",
+	"color":"var(--color-timetable-long-running)"
 	},
 	{
-	"name":"event-major",
-	"color":"#a9afff"
+	"name":"panel-open",
+	"color":"var(--color-timetable-panel-open)"
 	},
 	{
 	"name":"vendor-main",
-	"color":"#7cc6ff",
-	"color_list":["#b8e3ff","#7cc6ff"],
+	"color":"var(--color-timetable-vendor-main)",
+	"color_list":[
+		"var(--color-timetable-vendor-pre)",
+		"var(--color-timetable-vendor-main)"],
 	"color_transition_minutes":[30]
-	},
-	{
-	"name":"vendor-sponsor",
-	"color":"#b8e3ff"
 	}
 ];

@@ -18,8 +18,6 @@ idle on sky mode - a smol hanmari horizontally moves across screen
 in timetable and vendor hall, link to apply page & art gallery
 timetable details time too small
 stars - bigger and less density ... or smaller
-Make sidebar button more obvious that it's a button
-Timetable colors follow palette
 
 
 

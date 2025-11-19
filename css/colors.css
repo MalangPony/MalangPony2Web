@@ -107,6 +107,16 @@
   
   --color-perks-text:#101010;
   
+  /* Timetable */
+  --color-timetable-event-critical:#ffb0e3;
+  --color-timetable-vendor-main:#d7c5ff;
+  --color-timetable-vendor-pre:#e8ddff;
+  --color-timetable-buffer:#d8d8d8;
+  --color-timetable-long-running:#edffb3;
+  --color-timetable-panel-main:#b2ffcc;
+  --color-timetable-panel-open:#ffd1a9;
+  --color-timetable-panel-sub:#afe0ff;
+  
   
   /* External Brands */
   /* All colors were chosen arbitrarily if not commented otherwise. */
