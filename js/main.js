@@ -671,6 +671,16 @@ function scroll_callback(){
 content_scroller.addEventListener("scroll",scroll_callback);
 window.setTimeout(scroll_callback,0); // Call after load
 
+function autoset_title(){
+  let q=".sb-link[data-pageid="+currently_on_page+"] .langspan-"+current_lang;
+  let dom=document.querySelector(q)
+  let title="";
+  if (current_lang=="ko") title=title+"말랑포니!";
+  else if (current_lang=="en") title=title+"MalangPony";
+  if (dom) title=title+" - "+dom.innerHTML;
+  document.title=title;
+}
+
 // Language switching
 let current_lang="ko";
 let all_langs=["ko","en"];
@@ -711,73 +721,13 @@ function apply_lang(code){
     else body_dom.classList.remove("langmode-"+lang);
   }
   
+  autoset_title();
+  
   // Save to cookie
   Cookies.createCookie("language",code);
 }
 
-lang_btn.onclick= ()=>{
-  if (current_lang=="ko") apply_lang("en");
-  else apply_lang("ko");
-}
 
-// Get lang value from cookie
-let lang_from_cookie=null;
-const langCookieRaw = Cookies.readCookie("language");
-console.log("language cookie value: "+langCookieRaw);
-if (langCookieRaw) {
-  if (all_langs.includes(langCookieRaw)) lang_from_cookie=langCookieRaw;
-  else console.log("Error: Language cookie value invalid!");
-}
-
-// Get lang value from environment
-let lang_from_environment=null;
-for (const lang of navigator.languages){
-  for (const langcode of all_langs){
-    if (lang.startsWith(langcode)){
-      lang_from_environment=langcode;
-      break;
-    }
-  }
-  if (lang_from_environment !== null) break;
-}
-console.log("Language detected from environment: "+lang_from_environment);
-
-// Set lang value
-if (lang_from_cookie !== null) {
-  console.log("Apply language from cookie: "+lang_from_cookie);
-  apply_lang(lang_from_cookie);
-} else if (lang_from_environment !== null){
-  console.log("Apply language from environment: "+lang_from_environment);
-  apply_lang(lang_from_environment);
-}else{
-  console.log("Language fallback to EN");
-  apply_lang("en");
-}
-
-
-
-// Get theme from cookie
-let theme_from_cookie=Cookies.readCookie("theme");
-
-// Get theme from media query
-let mq_darkmode=window.matchMedia("(prefers-color-scheme: dark)");
-let darkmode_media_query_result=mq_darkmode.matches;
-
-// Set initial theme
-let darkmode=darkmode_media_query_result;
-
-// If there was a cookie, override it with the cookie value.
-if (theme_from_cookie){
-  if (theme_from_cookie==="L"){
-    console.log("Set theme to Light, from cookie");
-    darkmode=false;
-  }else if (theme_from_cookie==="D"){
-    console.log("Set theme to Dark, from cookie");
-    darkmode=true;
-  }
-}else{
-  console.log("No theme cookie, follow media query; DM="+darkmode);
-}
 
 function apply_darkmode(darkmode){
   if (darkmode) {
@@ -800,8 +750,7 @@ theme_btn.onclick= ()=>{
   apply_darkmode(darkmode);
 }
 
-// Apply initial
-apply_darkmode(darkmode);
+
 
 // Hanmari hide/show
 function hide_hanmari(){
@@ -878,6 +827,7 @@ function page_transition_instant(name){
   if (name=="timetable") Timetable.enter_timetable_page();
   else Timetable.exit_timetable_page();
   
+  autoset_title();
   sidebar_buttons_activate(name);
 }
 // Transition with animation.
@@ -953,6 +903,8 @@ function page_transition(name){
   
   
   currently_on_page=name;
+  
+  autoset_title();
   
   if (name=="timetable") Timetable.enter_timetable_page();
   else Timetable.exit_timetable_page();
@@ -1142,7 +1094,7 @@ function sidebar_autoexpand(){
 let mascot_selection_mode=0;
 
 function apply_mascot_selection_mode(){
-  console.log("MSM",mascot_selection_mode);
+  //console.log("MSM",mascot_selection_mode);
   if (mascot_selection_mode==0){
     mascot_container_hmr.classList.add("isolate");
     mascot_container_hmr.classList.remove("minimize");
@@ -1198,3 +1150,73 @@ set_castle_mode(true);
 castlemode_btn.addEventListener("click",()=>{
   set_castle_mode(!castle_mode);
 });
+
+
+// Initial Setup
+
+lang_btn.onclick= ()=>{
+  if (current_lang=="ko") apply_lang("en");
+  else apply_lang("ko");
+}
+
+// Get lang value from cookie
+let lang_from_cookie=null;
+const langCookieRaw = Cookies.readCookie("language");
+console.log("language cookie value: "+langCookieRaw);
+if (langCookieRaw) {
+  if (all_langs.includes(langCookieRaw)) lang_from_cookie=langCookieRaw;
+  else console.log("Error: Language cookie value invalid!");
+}
+
+// Get lang value from environment
+let lang_from_environment=null;
+for (const lang of navigator.languages){
+  for (const langcode of all_langs){
+    if (lang.startsWith(langcode)){
+      lang_from_environment=langcode;
+      break;
+    }
+  }
+  if (lang_from_environment !== null) break;
+}
+console.log("Language detected from environment: "+lang_from_environment);
+
+// Set lang value
+if (lang_from_cookie !== null) {
+  console.log("Apply language from cookie: "+lang_from_cookie);
+  apply_lang(lang_from_cookie);
+} else if (lang_from_environment !== null){
+  console.log("Apply language from environment: "+lang_from_environment);
+  apply_lang(lang_from_environment);
+}else{
+  console.log("Language fallback to EN");
+  apply_lang("en");
+}
+
+
+
+// Get theme from cookie
+let theme_from_cookie=Cookies.readCookie("theme");
+
+// Get theme from media query
+let mq_darkmode=window.matchMedia("(prefers-color-scheme: dark)");
+let darkmode_media_query_result=mq_darkmode.matches;
+
+// Set initial theme
+let darkmode=darkmode_media_query_result;
+
+// If there was a cookie, override it with the cookie value.
+if (theme_from_cookie){
+  if (theme_from_cookie==="L"){
+    console.log("Set theme to Light, from cookie");
+    darkmode=false;
+  }else if (theme_from_cookie==="D"){
+    console.log("Set theme to Dark, from cookie");
+    darkmode=true;
+  }
+}else{
+  console.log("No theme cookie, follow media query; DM="+darkmode);
+}
+
+// Apply initial
+apply_darkmode(darkmode);
