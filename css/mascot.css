@@ -52,7 +52,7 @@
 }
 
 .mascot-container{
-  --mascot-container-width:min(80vw,600px);
+  --mascot-container-width:calc(var(--mcd-width) - 96px);
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -60,7 +60,8 @@
   transition-property: max-height, max-width, background-color,filter;
   transition-duration:1.0s, 1.0s, 1.0s, 0.3s;
   max-width:var(--mascot-container-width);
-  max-height:calc(var(--mascot-container-width) * 1.0);
+  /* Just a rough estimate of how tall things should be. */
+  max-height:calc((var(--mascot-container-width) /1.5) + 20em);
   background-color:transparent;
   position:relative;
 }
@@ -213,6 +214,9 @@
 
 /* Mobile mode */
 @media (width<640px) {
+  .refsheet-downloads{
+    flex-direction:column;
+  }
 }
 
 /* Smaller Mobiles */

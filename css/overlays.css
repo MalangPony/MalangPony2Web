@@ -109,6 +109,7 @@
   transition: all 1s;
   background-color:var(--color-button-bg);
   color:var(--color-button-text);
+  box-shadow:4px 4px 8px #00000080;
 }
 #switch-positioner > div.activated{
   opacity:1.0;

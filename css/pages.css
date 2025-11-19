@@ -19,6 +19,8 @@
   text-align:center;
   margin-top:24px;
   margin-bottom:24px;
+  /*margin-left:32px;
+  margin-right:32px;*/
   display:flex;
   flex-direction:row;
   align-items:center;
@@ -40,7 +42,6 @@
 .page-title.centered::before{
   display:block;
   flex-grow:1;
-  margin-left:16px;
   margin-right:16px;
   height:4px;
   background-image:linear-gradient(
@@ -54,7 +55,6 @@
   display:block;
   flex-grow:1;
   margin-left:16px;
-  margin-right:16px;
   height:4px;
   background-image:linear-gradient(
     to right,
@@ -66,8 +66,6 @@
 
 .page-text-body{
   align-self:stretch;
-  padding-left:64px;
-  padding-right:32px;
   font-weight:400;
   text-align:left;
   margin-top:32px;
@@ -76,12 +74,16 @@
   text-align:center;
 }
 .page-text-body h1{
-  margin-top:32px;
+  margin-top:2.0em;
   font-size:32px;
+  /*margin-left:32px;
+  margin-right:32px;*/
 }
 .page-text-body p{
-  font-size:16px;
+  font-size:1.0em;
   margin-top:4px;
+  /*margin-left:32px;
+  margin-right:32px;*/
 }
 
 /* Responsive Section */
@@ -89,6 +91,18 @@
 
 /* Mobile mode */
 @media (width<640px) {
+  .page-title{
+    /*margin-left:16px;
+    margin-right:16px;*/
+  }
+  .page-text-body h1{
+    /*margin-left:16px;
+    margin-right:16px;*/
+  }
+  .page-text-body p{
+    /*margin-left:16px;
+    margin-right:16px;*/
+  }
 }
 
 /* Smaller Mobiles */

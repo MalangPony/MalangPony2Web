@@ -801,8 +801,8 @@ let page_cleanup_functions={};
 // We add the iframe only when the page is actually loaded
 // because Youtube's iframe is extremely noisy on the js console.
 page_setup_functions["previous"]=function(){
-  document.getElementById("yt-embed-container-mpn1").innerHTML='<iframe src="https://www.youtube.com/embed/ZtCIdW_r-U8" frameborder="0"  allowfullscreen></iframe>';
-  document.getElementById("yt-embed-container-mpnL").innerHTML=' <iframe src="https://www.youtube.com/embed/GTEJi7Jr5Cc" frameborder="0"  allowfullscreen></iframe>';
+  document.getElementById("yt-embed-container-mpn1").innerHTML='<iframe src="https://www.youtube.com/embed/ZtCIdW_r-U8" frameborder="0" class="embed-frame" allowfullscreen></iframe>';
+  document.getElementById("yt-embed-container-mpnL").innerHTML=' <iframe src="https://www.youtube.com/embed/GTEJi7Jr5Cc" frameborder="0"  class="embed-frame" allowfullscreen></iframe>';
 }
 // This makes sure the videos actually stop when you move to another page.
 page_cleanup_functions["previous"]=function(){
@@ -1103,6 +1103,7 @@ function sidebar_expand_all(){
 function sidebar_expand_and_lock(){
   sidebar_expand_all();
   sidebar_category_interactive=false;
+  sidebar.classList.add("sb-expand-forced");
 }
 // Collapse everything
 function sidebar_collapse_all(){
@@ -1116,6 +1117,7 @@ function sidebar_collapse_all(){
 function sidebar_collapse_and_unlock(){
   sidebar_collapse_all();
   sidebar_category_interactive=true;
+  sidebar.classList.remove("sb-expand-forced");
 }
 function sidebar_autoexpand(){
   let current_expand_func=sidebar_expand_functions[currently_on_page];

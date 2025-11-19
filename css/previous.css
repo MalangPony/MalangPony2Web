@@ -99,6 +99,7 @@
 .previous-yt-embed > iframe{
   width: calc(100% - 32px);
   aspect-ratio: 1.777;
+  margin:16px;
 }
 
 /* Responsive Section */

@@ -94,6 +94,10 @@
   gap:0.6em;
 }
 
+#sidebar-content > *{ 
+  flex-shrink:0;
+}
+
 .langmode-ko .sb-divider{
   width:8em;
 }
@@ -117,7 +121,7 @@
 }
 
 .sb-entry{
-  
+  pointer-events:auto;
 }
 @media ((hover: hover) and (pointer: fine)) {
   .sb-entry:not(.sb-link-disabled):hover{
@@ -183,6 +187,9 @@
   /*content:"...";*/
   content:"unfold_more";
   font-family:'Material Symbols Rounded';
+}
+#sidebar.sb-expand-forced .sb-category-container .sb-category-header::after{
+  display:none;
 }
 
 .sb-category-header{
@@ -305,9 +312,15 @@
     margin:0;
     padding:0;
     
-    font-size:1.5em;
+    font-size:1.8em; /* These texts are effectively buttons, so we need it to be BIG*/
     justify-content:space-evenly;
     overflow-y:scroll;
+  }
+  .langmode-ko .sb-divider{
+    width:70vw;
+  }
+  .langmode-en .sb-divider{
+    width:70vw;
   }
 }
 

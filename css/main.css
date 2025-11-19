@@ -138,8 +138,8 @@
   filter:brightness(30%);
   transition-property: filter;
   transition-duration:0.5s;
-  padding-left:64px;
-  padding-right:64px;
+  padding-left:32px;
+  padding-right:32px;
   position:relative;
 }
 #pages-container.activated{
@@ -306,6 +306,7 @@
     --mcd-width:100vw;
     --mcd-margin-left:0px;
     --mcd-margin-right:0px;
+    --intrologo-center-height-from-top:25svh;
   }
   #main-content-backdrop{
     width:100%;
@@ -313,8 +314,11 @@
 	margin-right:0;
   }
   #pages-container{
-    padding-left:32px;
-    padding-right:32px;
+    padding-left:24px;
+    padding-right:24px;
+  }
+  #scroll-inviter-container{
+    top:50lvh;
   }
 }
 

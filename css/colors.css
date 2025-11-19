@@ -53,7 +53,7 @@
   --color-sidebar-background:#ffe4bf;
   
   /* Background */
-  --color-background-light: #F0F0F0;
+  --color-background-light: #F8F8F8;
   --color-background-dark: #202020;
   
   --color-background-auto:light-dark(
@@ -90,7 +90,7 @@
     hsl(0deg 0% 0% / 80%));
   
   /* Page specific: News */
-  --color-bluesky-backdrop: var(--color-background-default);
+  --color-bluesky-backdrop: var(--color-background-auto);
   --color-bluesky-text: var(--color-text-auto);
   
   /* Buttons */
