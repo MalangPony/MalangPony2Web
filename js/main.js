@@ -182,18 +182,38 @@ function transition_ground(){
   castlemode_btn.classList.add("activated");
   sb_btn.classList.add("activated");
   
-  window.setTimeout(()=>{
-    if (!in_sky_mode) {
-      if (mobile_mode) sidebar_button_animate_mobile();
-      else sidebar_intro_animate();
-    }},100);
-      
+
+  if (mobile_mode) sidebar_button_animate_mobile();
+  else sidebar_intro_animate();
+
   L2D.transition_ground();
 }
 
 
 // Spike Magic animation
+
+// As overlapping animations can cause glitches,
+// we keep track of ongoing animations so we can cancel everything
+// before starting another animation group.
+
+// All potentially ongoing animations.
+let sidebar_animations=[];
+
+function force_finish_all_sidebar_animations(){
+  for (const anim of sidebar_animations){
+    if (anim.playState=="running") anim.finish();
+  }
+  sidebar_animations.length=0;
+}
 function sidebar_magic_animate(){
+  force_finish_all_sidebar_animations();
+  // Run the animation code after 0 delay.
+  // This is to give enough time for all the animations 
+  // finished by force_finish_all_sidebar_animations() to run their onfinish code.
+  // If not wrapped around this dummy delay, all the animation code below
+  // will run before the force-finished animation's onfinish code
+  // which messes up the animation.
+  window.setTimeout(()=>{
   sia.style.display="block";
   
   const animation_frame_count=16;
@@ -201,22 +221,28 @@ function sidebar_magic_animate(){
   const actual_size_y=lmsa.clientHeight;
   lmsa.style.backgroundSize=`${actual_size_x*animation_frame_count}px ${actual_size_y}px`;
   
-  let anim1=lmsa.animate(
+  let anim_slide=lmsa.animate(
     [{backgroundPositionX:"0"},{backgroundPositionX:"100%"}],
-    {duration:1200,delay:0,easing:`steps(${animation_frame_count-1})`})
-  let anim2=lmsa.animate(
+    {duration:1200,delay:0,easing:`steps(${animation_frame_count-1})`});
+  sidebar_animations.push(anim_slide);
+  let anim_fadein=lmsa.animate(
     [{opacity:"0.0"},{opacity:"1.0"}],
     {duration:500,delay:0,easing:"linear"});
-  let anim3=lmsa.animate(
+  sidebar_animations.push(anim_fadein);
+  let anim_rise=lmsa.animate(
     [{transform:"translate(0,+100px)"},{transform:"none"}],
-    {duration:1000,delay:0,easing:"cubic-bezier(.18,.58,.6,.99)"})
-  anim1.onfinish=(e)=>{
+    {duration:1000,delay:0,easing:"cubic-bezier(.18,.58,.6,.99)"});
+  sidebar_animations.push(anim_rise);
+  anim_slide.onfinish=(e)=>{
     sia.style.display="none";
   };
+  },0);
 }
 
 // After magic_animate, open up the scroll
 function sidebar_intro_animate(){
+  force_finish_all_sidebar_animations();
+  window.setTimeout(()=>{
   sidebar.classList.remove("sb-mobile-mode");
   sidebar.classList.add("sb-expanded");
   
@@ -226,60 +252,73 @@ function sidebar_intro_animate(){
   sidebar_collapse_and_unlock();
   sidebar_autoexpand();
   
-  let anim4=sidebar.animate(
+  let anim_scale=sidebar.animate(
     [{transform:"scale(0.0)"},
      {transform:"scale(1.0)"}],
     {duration:400,delay:1100,easing:"ease-out"});
-  let anim5=sidebar.animate(
+  sidebar_animations.push(anim_scale);
+  let anim_unfold=sidebar.animate(
     [{maxHeight:"64px"},
      {maxHeight:"calc(100dvh - 64px)"}],
     {duration:1000,delay:1500,easing:"ease-in-out"});
+  sidebar_animations.push(anim_unfold);
   
   sidebar.style.transform="scale(0)";
   sidebar.style.display="flex";
   sidebar.style.maxHeight="64px";
   
-  anim4.onfinish=(e)=>{
+  anim_scale.onfinish=(e)=>{
     sidebar.style.transform="none";
   };
   
-  anim5.onfinish=(e)=>{
+  anim_unfold.onfinish=(e)=>{
     sidebar.style.maxHeight="calc(100dvh - 64px)";
   }
+  },0);
 }
 
 // Pop in the mobile sidebar button
 function sidebar_button_animate_mobile(){
+  force_finish_all_sidebar_animations();
+  window.setTimeout(()=>{
   sidebar_magic_animate();
   
-  let anim4=sb_btn.animate(
+  let anim_popin=sb_btn.animate(
     [{transform:"scale(0.0)"},
      {transform:"scale(1.0)"}],
-    {duration:400,delay:1100,easing:"ease-out"})
+    {duration:400,delay:1100,easing:"ease-out"});
+  sidebar_animations.push(anim_popin);
   
   sb_btn.style.display="block";
   sb_btn.style.transform="scale(0.0)";
   
-  anim4.onfinish=(e)=>{
+  anim_popin.onfinish=(e)=>{
     sb_btn.style.transform="none";
   };  
+  },0);
 }
 
 // Hide the sidebar button
 function sidebar_button_hide_mobile(){
-  
-  let anim1=sb_btn.animate(
+  force_finish_all_sidebar_animations();
+  window.setTimeout(()=>{
+  let anim_slideout=sb_btn.animate(
     [{marginLeft:"16px"},
      {marginLeft:"-160px"}],
-    {duration:500,delay:0,easing:"ease-in"})
-  anim1.onfinish = (e)=>{
+    {duration:500,delay:0,easing:"ease-in"});
+  sidebar_animations.push(anim_slideout);
+  
+  anim_slideout.onfinish = (e)=>{
     sb_btn.style.display="none";
     sb_btn.style.marginLeft="16px";
   }
+  },0);
 }
 
 // Open up the scroll in fullscreen (mobile mode)
 function sidebar_intro_animate_mobile(){
+  force_finish_all_sidebar_animations();
+  window.setTimeout(()=>{
   sidebar.classList.add("sb-mobile-mode");
   sidebar.classList.add("sb-expanded");
   
@@ -289,100 +328,118 @@ function sidebar_intro_animate_mobile(){
   // Expand all categories and lock it open
   sidebar_expand_and_lock();
   
-  let anim4=sidebar.animate(
+  let anim_fadein=sidebar.animate(
     [{opacity:"0"},
      {opacity:"1"}],
     {duration:300,delay:0,easing:"ease-out"});
-  let anim2=sidebar.animate(
+  sidebar_animations.push(anim_fadein);
+  let anim_scaleX=sidebar.animate(
     [{maxWidth:"0"},
      {maxWidth:"100vw"}],
     {duration:300,delay:0,easing:"ease-in-out"});
-  anim2.onfinish= ()=>{
+  sidebar_animations.push(anim_scaleX);
+  anim_scaleX.onfinish= ()=>{
     sidebar.style.maxWidth="100vw";
   }
   sidebar.style.maxHeight="0";
-  let anim5=sidebar.animate(
+  let anim_scaleY=sidebar.animate(
     [{maxHeight:"0"},
      {maxHeight:"100dvh"}],
     {duration:300,delay:0,easing:"ease-in-out"});
-  anim5.onfinish= ()=>{
+  sidebar_animations.push(anim_scaleY);
+  anim_scaleY.onfinish= ()=>{
     sidebar.style.maxHeight="100dvh";
   };
-  let anim6=sb_btn.animate(
+  let anim_button_fadeout=sb_btn.animate(
     [{opacity:1},
      {opacity:0}],
-    {duration:300,delay:0,easing:"linear"})
+    {duration:300,delay:0,easing:"linear"});
+  sidebar_animations.push(anim_button_fadeout);
   sb_btn.style.opacity=1;
-  anim6.onfinish=(e)=>{
+  anim_button_fadeout.onfinish=(e)=>{
     sb_btn.style.opacity=0;
   };  
   
   sb_close_btn.style.display="block";
   sb_close_btn.style.opacity=0;
-  let anim7=sb_close_btn.animate(
+  let anim_closebutton_fadein=sb_close_btn.animate(
     [{opacity:0},
      {opacity:1}],
     {duration:300,delay:200,easing:"linear"});
-  anim7.onfinish=(e)=>{
-    console.log("A7F");
+  sidebar_animations.push(anim_closebutton_fadein);
+  anim_closebutton_fadein.onfinish=(e)=>{
     sb_close_btn.style.opacity=1;
   };  
+  },0);
 }
 
 // Desktop mode, hide scroll
 function sidebar_hide(){
+  force_finish_all_sidebar_animations();
+  window.setTimeout(()=>{
   sidebar.classList.remove("sb-mobile-mode");
   sidebar.classList.remove("sb-expanded");
   
-  let anim1=sidebar.animate(
+  let anim_slideout=sidebar.animate(
     [{marginLeft:"0"},
      {marginLeft:"-160px"}],
-    {duration:500,delay:0,easing:"ease-in"})
-  anim1.onfinish = (e)=>{
+    {duration:500,delay:0,easing:"ease-in"});
+  sidebar_animations.push(anim_slideout);
+  anim_slideout.onfinish = (e)=>{
     sidebar.style.display="none";
     sidebar.style.marginLeft="0";
   }
   
   // Not really needed, I think...
   sb_close_btn.style.display="none";
+  },0);
 }
 
 // Mobile mode, hide fullscreen scroll
 function sidebar_hide_mobile(){
+  force_finish_all_sidebar_animations();
+  window.setTimeout(()=>{
   sidebar.classList.add("sb-mobile-mode");
   sidebar.classList.remove("sb-expanded");
   
-  let anim1=sidebar.animate(
+  let anim_scroll_fadeout=sidebar.animate(
     [{opacity:1},
      {opacity:0}],
-    {duration:300,delay:0,easing:"linear"})
-  anim1.onfinish = (e)=>{
+    {duration:300,delay:0,easing:"linear"});
+  sidebar_animations.push(anim_scroll_fadeout);
+  anim_scroll_fadeout.onfinish = (e)=>{
     sidebar.style.display="none";
   }
   
-  let anim4=sb_btn.animate(
+  let anim_button_fadein=sb_btn.animate(
     [{opacity:0},
      {opacity:1}],
-    {duration:300,delay:0,easing:"linear"})
+    {duration:300,delay:0,easing:"linear"});
+  sidebar_animations.push(anim_button_fadein);
   sb_btn.style.opacity=0;
-  anim4.onfinish=(e)=>{
+  anim_button_fadein.onfinish=(e)=>{
     sb_btn.style.opacity=1;
   };  
   
   sb_close_btn.style.display="block";
   sb_close_btn.style.opacity=1;
-  let anim7=sb_close_btn.animate(
+  let anim_scroll_close_button_fadeout=sb_close_btn.animate(
     [{opacity:1},
      {opacity:0}],
-    {duration:200,delay:0,easing:"linear"})
-  anim7.onfinish=(e)=>{
+    {duration:200,delay:0,easing:"linear"});
+  sidebar_animations.push(anim_scroll_close_button_fadeout);
+  anim_scroll_close_button_fadeout.onfinish=(e)=>{
     sb_close_btn.style.display="none";
   };  
+  },0);
 }
 function sidebar_hide_instant(){
+  force_finish_all_sidebar_animations();
+  window.setTimeout(()=>{
   sidebar.style.display="none";
   sb_close_btn.style.display="none";
   sidebar.classList.remove("sb-expanded");
+  },0);
 }
 
 // Sidebar close button
@@ -756,6 +813,7 @@ function sky_disable(){
   scroll_inviter_container.style.display="none";
   sky_disabled=true;
   forceScrollUp();
+  if (in_sky_mode) transition_ground();
 }
 function sky_enable(){
   screen_blanker.style.display="block";
