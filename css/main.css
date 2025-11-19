@@ -76,9 +76,21 @@
   height:min(200lvh,2000px);
 }
 
+#main-content-actual{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  align-self:stretch;
+  min-height:100svh;
+}
+
+#main-content-filler{
+  flex-grow:1;
+}
+
 /* Actual content after scrolling. */
 #pages-container{
-  min-height:100svh;
+  
   align-self:stretch;
   display:flex;
   flex-direction:column;
