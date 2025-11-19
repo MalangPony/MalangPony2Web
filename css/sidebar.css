@@ -56,6 +56,7 @@
   height:80px;
   z-index:+3;
   cursor:pointer;
+  pointer-events:auto;
 }
 #sb-close-button{
   position:absolute;
@@ -92,6 +93,11 @@
   color:var(--color-sidebar-text-normal);
   
   gap:0.6em;
+}
+
+/* Only grab mouse from the entire scroll if in mobile mode. */
+.sb-mobile-mode #sidebar{
+  pointer-events:auto;
 }
 
 #sidebar-content > *{ 

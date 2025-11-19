@@ -365,6 +365,7 @@ function sidebar_intro_animate_mobile(){
   sb_btn_outer_animator.style.opacity=1;
   anim_button_fadeout.onfinish=(e)=>{
     sb_btn_outer_animator.style.opacity=0;
+    sb_btn_outer_animator.style.display="none";
   };  
   
   sb_close_btn.style.display="block";
@@ -430,6 +431,7 @@ function sidebar_hide_mobile(){
      {opacity:1}],
     {duration:300,delay:0,easing:"linear"});
   sidebar_animations.push(anim_button_fadein);
+  sb_btn_outer_animator.style.display="block";
   sb_btn_outer_animator.style.opacity=0;
   anim_button_fadein.onfinish=(e)=>{
     sb_btn_outer_animator.style.opacity=1;
