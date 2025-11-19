@@ -386,8 +386,15 @@ function sidebar_hide(){
     {duration:500,delay:0,easing:"ease-in"});
   sidebar_animations.push(anim_slideout);
   anim_slideout.onfinish = (e)=>{
-    sidebar.style.display="none";
     sidebar.style.marginLeft="0";
+  }
+  let anim_fadeout=sidebar.animate(
+    [{opacity:"1"},
+     {opacity:"0"}],
+    {duration:500,delay:0,easing:"linear"});
+  sidebar_animations.push(anim_fadeout);
+  anim_fadeout.onfinish = (e)=>{
+    sidebar.style.display="none";
   }
   
   // Not really needed, I think...

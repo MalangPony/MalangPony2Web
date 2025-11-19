@@ -1,28 +1,20 @@
-/* Sidebar CSS. Stuff inside #sidebar-positioner */
+/* Sidebar CSS. Stuff inside #sidebar-container */
 
 /* Sidebar positioning & animation*/
-#sidebar-positioner{
+.sidebar-positioner{
+  position:absolute;
+  top:0;
+  bottom:0;
+  right:0;
   display:flex;
   flex-direction:row;
   justify-content:flex-start;
   align-items:center;
   width:100%;
   height:100%;
-  margin-left:max(8px,var(--mcd-space-distributed));
-  position:relative;
+  left:max(8px,var(--mcd-space-distributed));
 }
-#sidebar-animation-container{
-  position:absolute;
-  left:0;
-  top:0;
-  bottom:0;
-  right:0;
-  z-index:2;
-  display:flex;
-  flex-direction:row;
-  align-items:center;
-  justify-content:flex-start;
-}
+
 #sidebar-intro-anim{
   width:320px; 
   height:320px; 
@@ -276,7 +268,7 @@
 
 /* Mobile mode */
 @media (width<640px) {
-  #sidebar-positioner{
+  .sidebar-positioner{
     justify-content:flex-start;
     align-items:flex-start;
   }

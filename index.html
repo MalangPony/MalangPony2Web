@@ -50,15 +50,11 @@
     <!-- Zindex allocation: -->
     <!-- 99 #debug-print-area -->
     <!-- 30 #email-popup -->
-    <!-- 10 #sidebar-positioner -->
+    <!-- 11  #sidebar-animation-container -->
+    <!-- 10 #sidebar-container -->
     <!-- 6  #sb-button-positioner -->
     <!-- 5  #switch-positioner -->
-    <!-- 2  #sidebar-animation-container -->
-    <div id="sidebar-animation-container">
-        <div id="sidebar-intro-anim" style="display:none;">
-          <div id="letter-magic-spritesheet-animation"></div>
-        </div>
-    </div>
+    
     
     <div id="email-popup" class="fullsize" style="display:none;">
       <div id="email-display-body">
@@ -68,7 +64,13 @@
       </div>
     </div>
     
-    <div id="sidebar-positioner" class="fullsize" style="z-index:10;">
+    <div id="sidebar-animation-container" class="sidebar-positioner" style="z-index:11;">
+        <div id="sidebar-intro-anim" style="display:none;">
+          <div id="letter-magic-spritesheet-animation"></div>
+        </div>
+    </div>
+    
+    <div id="sidebar-container" class="sidebar-positioner" style="z-index:10;">
       
       <div id="sidebar" class="css-filters" style="pointer-events:auto;display:none;">
         <div id="sb-close-button-container">
