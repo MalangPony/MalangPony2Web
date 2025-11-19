@@ -484,7 +484,8 @@ window.setInterval(()=>{
   debug_print_acms.innerHTML="Anim CB taking "+avg.toFixed(2)+" ms"
 },500);
 
-
+const l2d_ground_transition_per_second=2.0;
+let l2d_ground_transition_progress=0.0;
 
 let last_t=NaN;
 function animationCallback(time) {
@@ -528,6 +529,17 @@ function animationCallback(time) {
   logo_image_flash01.style.opacity=firework_light_factor;
   
   Parallax.set_illumination(firework_light_factor*0.3);
+  
+  if (in_sky_mode)
+    l2d_ground_transition_progress-=dt*l2d_ground_transition_per_second;
+  else
+    l2d_ground_transition_progress+=dt*l2d_ground_transition_per_second;
+  
+  if (l2d_ground_transition_progress<0) l2d_ground_transition_progress=0;
+  if (l2d_ground_transition_progress>1) l2d_ground_transition_progress=1;
+  L2D.set_darken_strength(1-l2d_ground_transition_progress);
+  L2D.set_staring_strength(l2d_ground_transition_progress);
+    
   
   // Debug prints
   debug_print_featurelevel.innerHTML = "Feature Level "+PerformanceManager.get_feature_level();
@@ -626,8 +638,8 @@ content_scroller.addEventListener("scroll", (e) => {
   // Update parallax
   Parallax.set_scroll_progress(scroll_progress_ratio);
   
-  // Transition if 95% scrolled
-  if (scroll_progress_ratio>0.95){
+  // Transition if 90% scrolled
+  if (scroll_progress_ratio>0.90){
     if (in_sky_mode) transition_ground();
   }else{
     if (!in_sky_mode) transition_sky();
@@ -640,13 +652,6 @@ content_scroller.addEventListener("scroll", (e) => {
   Stars.set_scroll_progress(scroll_progress_ratio);
   Fireworks.set_scroll_progress(scroll_progress_ratio);
   Castle.report_scroll_progress(scroll_pixels,scroll_maxium);
-  
-  let darken_strength=1-((scroll_progress_ratio-0.8)*5);
-  if (darken_strength<0) darken_strength=0;
-  if (darken_strength>1) darken_strength=1.0;
-  L2D.set_darken_strength(darken_strength);
-  L2D.set_staring_strength(1-darken_strength);
-  
 });
 
 // Language switching
@@ -851,11 +856,12 @@ function page_transition_instant(name){
     sky_enable();
     show_hanmari_instant();
     L2D.set_hanmari_size_instant(1.0);
+    l2d_ground_transition_progress=0;
   }else {
     sky_disable();
     if (Config.OPTION_HIDE_HANMARI_ON_NONINTRO_PAGES)
       hide_hanmari_instant();
-    
+    l2d_ground_transition_progress=1;
     L2D.set_hanmari_size_instant(Config.OPTION_NONINTRO_PAGE_HANMARI_SHRINK_FACTOR);
   }
   
