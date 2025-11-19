@@ -259,6 +259,7 @@ export let camera_locations={
 	inquiries: [-600, camera_y,   300, 1.0, camera_default_tilt,0.1], //Vinyl's Set
 	involved:  [-1500,camera_y,   400, 1.0, camera_default_tilt,0.1], //Wagon
 	register:  [   0,      100,  -200, 0.7, camera_default_tilt,0.1], //Wide-Angle
+	internal:  [ 300, camera_y,   300, 1.0, camera_default_tilt,0.1], //N/A
 }
 
 // Camera parameters in sky mode.

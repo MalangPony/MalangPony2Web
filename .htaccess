@@ -12,3 +12,4 @@ RewriteRule ^register$ index.html
 RewriteRule ^involved$ index.html
 RewriteRule ^credits$ index.html
 RewriteRule ^inquiries$ index.html
+RewriteRule ^internal$ index.html

@@ -13,6 +13,7 @@ let background_images={
 	timetable: "sprites-prototype/MPN2-Prototype-Image-S1E26-SS03.jpg",
 	venue:     "sprites-prototype/MPN2-Prototype-Image-S1E26-SS03.jpg",
 	conbook:   "sprites-prototype/MPN2-Prototype-Image-S1E26-SS03.jpg",
+	internal:  "sprites-prototype/MPN2-Prototype-Image-S1E26-SS03.jpg",
 	
 	involved:  "sprites-prototype/MPN2-Prototype-Image-S1E26-SS04.jpg",
 	register:  "sprites-prototype/MPN2-Prototype-Image-S1E26-SS04.jpg",

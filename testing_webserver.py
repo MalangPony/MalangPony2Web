@@ -13,7 +13,8 @@ rewrite_map={
 	"/register":"/",
 	"/involved":"/",
 	"/credits":"/",
-	"/inquiries":"/"
+	"/inquiries":"/",
+	"/internal":"/"
 	}
 PORT = 8003
 
