@@ -144,7 +144,7 @@ let line_munrae=new kakao.maps.Polyline({
   strokeOpacity:0.8,
   strokeColor:"var(--color-route-line2)",
   strokeStyle:"dashed",
-  strokeWeight:2,
+  strokeWeight:4,
 });
 let bounds_munrae=calculate_polyline_bounds(line_munrae);
 
@@ -163,7 +163,7 @@ let line_yangpyong=new kakao.maps.Polyline({
   strokeOpacity:0.8,
   strokeColor:"var(--color-route-line5)",
   strokeStyle:"dashed",
-  strokeWeight:2,
+  strokeWeight:4,
 });
 let bounds_yangpyong=calculate_polyline_bounds(line_yangpyong);
 
@@ -173,9 +173,9 @@ directions_munrae.addEventListener("click",()=>{
   //line_yangpyong.setOptions({strokeOpacity:0});
   flash_polyline(
     line_munrae,3000,250,
-    {strokeOpacity:1.0,strokeWeight:5,strokeStyle:"solid"},
-    {strokeOpacity:0.5,strokeWeight:5,strokeStyle:"solid"},
-    {strokeOpacity:1.0,strokeWeight:3,strokeStyle:"dashed"});
+    {strokeOpacity:1.0,strokeWeight:6,strokeStyle:"solid"},
+    {strokeOpacity:0.5,strokeWeight:6,strokeStyle:"solid"},
+    {strokeOpacity:1.0,strokeWeight:4,strokeStyle:"dashed"});
   kkm.setBounds(bounds_munrae,50);
   container.scrollIntoView({behavior:"smooth",block:"nearest"});
 });
@@ -185,9 +185,9 @@ directions_yangpyong.addEventListener("click",()=>{
   //line_munrae.setOptions({strokeOpacity:0});
   flash_polyline(
     line_yangpyong,3000,250,
-    {strokeOpacity:1.0,strokeWeight:5,strokeStyle:"solid"},
-    {strokeOpacity:0.5,strokeWeight:5,strokeStyle:"solid"},
-    {strokeOpacity:1.0,strokeWeight:3,strokeStyle:"dashed"});
+    {strokeOpacity:1.0,strokeWeight:6,strokeStyle:"solid"},
+    {strokeOpacity:0.5,strokeWeight:6,strokeStyle:"solid"},
+    {strokeOpacity:1.0,strokeWeight:4,strokeStyle:"dashed"});
   kkm.setBounds(bounds_yangpyong,50);
   container.scrollIntoView({behavior:"smooth",block:"nearest"});
 });
