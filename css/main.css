@@ -188,7 +188,7 @@
   margin-bottom:16px;
   margin-left:64px;
   margin-right:64px;
-  width:100%;
+  align-self:stretch;
   height:2px;
   opacity:0.5;
   background-image: linear-gradient(
