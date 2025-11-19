@@ -120,19 +120,57 @@
 }
 
 /* Mobile sidebar button */
+/* DOM Tree:
+ * #sb-button-positioner : Positions children to top left corner
+ *   #sb-btn-outer-animator : Handles fade-in and slide-out animations only
+ *     #sb-btn-active-area : Where the click handler is attached.
+ *       #sb-btn-image-container : Defines image dimensions
+ *         #sb-btn-image : Actual image
+ *
+ */
 #sb-button-positioner{
   display:flex;
   flex-direction:row;
   justify-content:flex-start;
   align-items:flex-start;
 }
-#sb-btn{
-  margin:16px;
-  width:96px;
-  height:96px;
+@keyframes attention-grab{
+   0%  { transform: scale(1.0) rotate(  0deg); }
+   5%  { transform: scale(1.1) rotate(  0deg); }
+   8%  { transform: scale(1.1) rotate(  3deg); }
+  11%  { transform: scale(1.1) rotate( -3deg); }
+  14%  { transform: scale(1.1) rotate(  3deg); }
+  17%  { transform: scale(1.1) rotate( -3deg); }
+  20%  { transform: scale(1.1) rotate(  3deg); }
+  23%  { transform: scale(1.1) rotate(  0deg); }
+  28%  { transform: scale(1.0) rotate(  0deg); }
+}
+#sb-btn-active-area{
   cursor:pointer;
-  object-fit: contain;
+  position:relative;
   pointer-events:auto;
+  transition-property:transform;
+  transition-duration:0.5s;
+  padding:16px;
+}
+#sb-btn-active-area:hover{
+  transform:scale(1.1);
+}
+/* Contains the image. Does the attention-grab animation.*/
+#sb-btn-image-container{
+  filter:drop-shadow(4px 4px 8px #00000080);
+  animation-name: attention-grab;
+  animation-duration:5.0s;
+  animation-iteration-count:infinite;
+  animation-direction: normal;
+}
+#sb-btn-active-area.inhibit-animation > #sb-btn-image-container{
+  animation-name:none;
+} 
+#sb-btn-image{
+  object-fit: contain;
+  max-width:130px;
+  display:block;
 }
 
 

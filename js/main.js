@@ -49,7 +49,8 @@ const lmsa = document.getElementById("letter-magic-spritesheet-animation");
 const lang_btn = document.getElementById("langswitch-btn");
 const theme_btn = document.getElementById("themeswitch-btn");
 const castlemode_btn = document.getElementById("castlemode-btn");
-const sb_btn = document.getElementById("sb-btn");
+const sb_btn_active_area = document.getElementById("sb-btn-active-area");
+const sb_btn_outer_animator = document.getElementById("sb-btn-outer-animator");
 const sb_close_btn = document.getElementById("sb-close-button-container");
 
 const scroll_inviter_container = document.getElementById("scroll-inviter-container");
@@ -153,7 +154,6 @@ function transition_sky(){
   lang_btn.classList.remove("activated");
   theme_btn.classList.remove("activated");
   castlemode_btn.classList.remove("activated");
-  sb_btn.classList.remove("activated");
   
   if (mobile_mode) sidebar_button_hide_mobile();
   else sidebar_hide();
@@ -182,7 +182,6 @@ function transition_ground(){
   lang_btn.classList.add("activated");
   theme_btn.classList.add("activated");
   castlemode_btn.classList.add("activated");
-  sb_btn.classList.add("activated");
   
 
   if (mobile_mode) sidebar_button_animate_mobile();
@@ -285,17 +284,17 @@ function sidebar_button_animate_mobile(){
   window.setTimeout(()=>{
   sidebar_magic_animate();
   
-  let anim_popin=sb_btn.animate(
+  let anim_popin=sb_btn_outer_animator.animate(
     [{transform:"scale(0.0)"},
      {transform:"scale(1.0)"}],
     {duration:400,delay:1100,easing:"ease-out"});
   sidebar_animations.push(anim_popin);
   
-  sb_btn.style.display="block";
-  sb_btn.style.transform="scale(0.0)";
+  sb_btn_outer_animator.style.display="block";
+  sb_btn_outer_animator.style.transform="scale(0.0)";
   
   anim_popin.onfinish=(e)=>{
-    sb_btn.style.transform="none";
+    sb_btn_outer_animator.style.transform="none";
   };  
   },0);
 }
@@ -304,25 +303,31 @@ function sidebar_button_animate_mobile(){
 function sidebar_button_hide_mobile(){
   force_finish_all_sidebar_animations();
   window.setTimeout(()=>{
-  let anim_slideout=sb_btn.animate(
-    [{marginLeft:"16px"},
+  let anim_slideout=sb_btn_outer_animator.animate(
+    [{marginLeft:"0px"},
      {marginLeft:"-160px"}],
     {duration:500,delay:0,easing:"ease-in"});
   sidebar_animations.push(anim_slideout);
   
   anim_slideout.onfinish = (e)=>{
-    sb_btn.style.display="none";
-    sb_btn.style.marginLeft="16px";
+    sb_btn_outer_animator.style.display="none";
+    sb_btn_outer_animator.style.marginLeft="0px";
   }
   },0);
 }
 
+let sidebar_opened_in_mobile=false;
 // Open up the scroll in fullscreen (mobile mode)
 function sidebar_intro_animate_mobile(){
   force_finish_all_sidebar_animations();
   window.setTimeout(()=>{
   sidebar.classList.add("sb-mobile-mode");
   sidebar.classList.add("sb-expanded");
+  
+  if (!sidebar_opened_in_mobile){
+    sidebar_opened_in_mobile=true;
+    sb_btn_active_area.classList.add("inhibit-animation");
+  }
   
   sidebar.style.transform="none";
   sidebar.style.display="flex";
@@ -352,14 +357,14 @@ function sidebar_intro_animate_mobile(){
   anim_scaleY.onfinish= ()=>{
     sidebar.style.maxHeight="100dvh";
   };
-  let anim_button_fadeout=sb_btn.animate(
+  let anim_button_fadeout=sb_btn_outer_animator.animate(
     [{opacity:1},
      {opacity:0}],
     {duration:300,delay:0,easing:"linear"});
   sidebar_animations.push(anim_button_fadeout);
-  sb_btn.style.opacity=1;
+  sb_btn_outer_animator.style.opacity=1;
   anim_button_fadeout.onfinish=(e)=>{
-    sb_btn.style.opacity=0;
+    sb_btn_outer_animator.style.opacity=0;
   };  
   
   sb_close_btn.style.display="block";
@@ -420,14 +425,14 @@ function sidebar_hide_mobile(){
     sidebar.style.display="none";
   }
   
-  let anim_button_fadein=sb_btn.animate(
+  let anim_button_fadein=sb_btn_outer_animator.animate(
     [{opacity:0},
      {opacity:1}],
     {duration:300,delay:0,easing:"linear"});
   sidebar_animations.push(anim_button_fadein);
-  sb_btn.style.opacity=0;
+  sb_btn_outer_animator.style.opacity=0;
   anim_button_fadein.onfinish=(e)=>{
-    sb_btn.style.opacity=1;
+    sb_btn_outer_animator.style.opacity=1;
   };  
   
   sb_close_btn.style.display="block";
@@ -1001,7 +1006,7 @@ mq_mobile.onchange= ()=>{
   if (match) mobile_enter();
   else mobile_leave();
 };
-sb_btn.onclick=sidebar_intro_animate_mobile;
+sb_btn_active_area.onclick=sidebar_intro_animate_mobile;
 
 if (mq_mobile.matches) mobile_enter();
 else mobile_leave();

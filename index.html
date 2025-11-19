@@ -203,7 +203,13 @@
     </div>
     
     <div id="sb-button-positioner" class="fullsize" style="z-index:6;">
-      <img src="sprites/OBJ-002_RESIZE.png" id="sb-btn" style="display:none;"> 
+      <div id="sb-btn-outer-animator" style="display:none;"> <!-- Handles fade-in and slide-out animation -->
+        <div id="sb-btn-active-area"> <!-- This is where the click handler is connected to-->
+          <div id="sb-btn-image-container">
+            <img id="sb-btn-image" src="sprites/OBJ-002_RESIZE_5PxOutline.png"> 
+          </div>
+        </div>
+      </div>
     </div>
     
     <div id="timetable-mobile-move-button" class="fullsize" style="z-index:4;display:none;">

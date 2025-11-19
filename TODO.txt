@@ -1,19 +1,13 @@
-firework art <- This is harder than it sounds due to aerodynamic drag simulation.
 honor prefers-reduced-motion
-Do something about the ground
-Assume all features start disabled.
-Stars move only if animated? is this right?
 Create alternatives for all disablable features
 Save perf level in cookie (maybe)
 Firework colors randomize
 Do something about feature oscillation
-Create rest of the pages
 A low-power device warning when feature level is low?
 Directional light fx (create normal map...?)
 Hanmari ignores clicks in sky mode. Maybe fix this?
 BG free-roam mode
 ...or BG view mode
-Unify logo (make top logo follow scroll)
 Put some BG objects (far objects) in the sky
 Timetable: Improve mobile UI - maybe auto-expand with scroll progress?
 Timetable: Colors... maybe textures?
@@ -25,10 +19,6 @@ in timetable and vendor hall, link to apply page & art gallery
 timetable details time too small
 stars - bigger and less density ... or smaller
 Make sidebar button more obvious that it's a button
-Move camera center to left of screen (make them visible)
-Content height less than 100vh
-Left-align page: rules, 
-Make page title fancier
 Timetable colors follow palette
 
 
