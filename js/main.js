@@ -596,8 +596,21 @@ let screen_resize_observer = new ResizeObserver(()=>{
 screen_resize_observer.observe(wsd);
 
 
-//TODO change this JS-based animation to
-// a CSS-based animation with "animation-timeline: scroll()" 
+// Disble sky in non-intro pages
+let sky_disabled=false;
+function sky_disable(){
+  screen_blanker.style.display="none";
+  scroll_inviter_container.style.display="none";
+  sky_disabled=true;
+  forceScrollUp();
+  if (in_sky_mode) transition_ground();
+}
+function sky_enable(){
+  screen_blanker.style.display="block";
+  scroll_inviter_container.style.display="block";
+  sky_disabled=false;
+  forceScrollDown();
+}
 
 let scroll_inviter_active=true;
 function forceScrollDown(){
@@ -607,7 +620,7 @@ function forceScrollDown(){
 function forceScrollUp(){
   content_scroller.scrollTop=0;
 }
-content_scroller.addEventListener("scroll", (e) => { 
+function scroll_callback(){ 
   let scroll_progress_ratio=1;
   let scroll_pixels=0;
   let scroll_maxium=0;
@@ -652,7 +665,9 @@ content_scroller.addEventListener("scroll", (e) => {
   Stars.set_scroll_progress(scroll_progress_ratio);
   Fireworks.set_scroll_progress(scroll_progress_ratio);
   Castle.report_scroll_progress(scroll_pixels,scroll_maxium);
-});
+};
+content_scroller.addEventListener("scroll",scroll_callback);
+window.setTimeout(scroll_callback,0); // Call after load
 
 // Language switching
 let current_lang="ko";
@@ -818,21 +833,7 @@ function show_hanmari_instant(){
   L2D.unpause_render();
 }
 
-// Disble sky in non-intro pages
-let sky_disabled=false;
-function sky_disable(){
-  screen_blanker.style.display="none";
-  scroll_inviter_container.style.display="none";
-  sky_disabled=true;
-  forceScrollUp();
-  if (in_sky_mode) transition_ground();
-}
-function sky_enable(){
-  screen_blanker.style.display="block";
-  scroll_inviter_container.style.display="block";
-  sky_disabled=false;
-  forceScrollDown();
-}
+
 
 // Page transition
 let currently_on_page="intro";
@@ -853,6 +854,7 @@ function page_transition_instant(name){
   
   currently_on_page=name;
   if (currently_on_page==="intro") {
+    // Note: Currently this branch is never taken.
     sky_enable();
     show_hanmari_instant();
     L2D.set_hanmari_size_instant(1.0);
