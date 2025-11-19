@@ -96,21 +96,28 @@
 /* MalangPony logo positioning */
 /* It's a bit complicated due to it being sticky at the bottom */
 #intro-logo{
-  --intrologo-side-margins: 32px; /* Margin around main container */
-  --intrologo-max-width: calc(var(--mcd-width) - ( var(--intrologo-side-margins) *2 ));
-  --intrologo-aspect-ratio:2.5; /* Roughly match the logo aspect ratio*/
+  /* Margin from main container */
+  --intrologo-side-margins: 32px; 
+  /* Roughly match the logo aspect ratio*/
+  --intrologo-aspect-ratio:2.5; 
+  /* Max height of logo. */
   --intrologo-max-height:50svh;
-  --intrologo-bottom-margin:40svh; /* The point where it gets stuck. */
-  /* 100svh - (Max height + bottom margin) is the top margin and should be positive. */
+  /* The center position of logo, measured from the top of the screen.*/
+  --intrologo-center-height-from-top:35svh;
   
+  /* Automatically calculated values */
+  --intrologo-max-width: calc(var(--mcd-width) - ( var(--intrologo-side-margins) *2 ));
+  --intrologo-height:min(
+    400px, 
+    var(--intrologo-max-height), 
+    calc(var(--intrologo-max-width) / var(--intrologo-aspect-ratio)));
+  /* Set the bottom margin so it sticks until reaching a certain scroll progress. */
+  --intrologo-bottom-margin:calc(100svh - ( var(--intrologo-height) /2 ) - var(--intrologo-center-height-from-top));
   align-self:center;
   position:sticky;
   aspect-ratio:var(--intrologo-aspect-ratio);
   bottom:var(--intrologo-bottom-margin);
-  height:min(
-    400px, 
-    var(--intrologo-max-height), 
-    calc(var(--intrologo-max-width) / var(--intrologo-aspect-ratio)));
+  height:var(--intrologo-height);
   
 }
 #intro-logo > img{
@@ -257,6 +264,11 @@
 
 /* Mobile mode */
 @media (width<640px) {
+  #whole-screen-div{
+    --mcd-width:100vw;
+    --mcd-margin-left:0px;
+    --mcd-margin-right:0px;
+  }
   #main-content-backdrop{
     width:100%;
     margin-left:0;
