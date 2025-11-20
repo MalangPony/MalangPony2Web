@@ -95,12 +95,10 @@
 	font-weight:700;
 }
 .credits-entry-role-list{
-	
-	/*display:flex;*/
-	display:none;
+	display:flex;
 	flex-direction:row;
 	justify-content:flex-start;
-	gap:8px;
+	gap:4px;
 }
 .credits-entry-role{
 	font-size:0.8em;
@@ -108,6 +106,19 @@
 	border-radius:4px;
 	/*background:var(--color-background-reversed);
 	color:var(--color-text-reversed);*/
+}
+.credits-entry-role.primary-role{
+	font-weight:700;
+}
+.credits-entry-sns-list{
+	display:flex;
+	flex-direction:row;
+	justify-content:flex-start;
+	gap:4px;
+}
+.credits-entry-sns{
+	color:var(--color-text-auto);
+	font-size:0.9em;
 }
 
 /* Responsive Section */

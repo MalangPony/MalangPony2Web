@@ -28,8 +28,61 @@ const sponsor_container = document.getElementById("credits-sponsor-container");
 const template_section  = document.getElementById("credits-template-section");
 const template_listing  = document.getElementById("credits-template-listing");
 
+function generate_entry(entry,list_roles=true,list_sns=true){
+	let entry_dom = template_listing.content.cloneNode(true);
+	
+	entry_dom.querySelector(".credits-entry-name > .langspan-ko").innerHTML=entry.name_ko;
+	entry_dom.querySelector(".credits-entry-name > .langspan-en").innerHTML=entry.name_en;
+	
+	
+	let role_list=entry_dom.querySelector(".credits-entry-role-list");
+	for (const role_id of entry.roles){
+		let role=CreditsData.role_definitions[role_id];
+		let role_dom = document.createElement("div");
+		role_dom.classList.add("credits-entry-role");
+		if (role_id==entry.primary) role_dom.classList.add("primary-role");
+		
+		let role_ko=document.createElement("span");
+		role_ko.classList.add("langspan-ko");
+		role_ko.innerHTML=role.ko;
+		role_dom.appendChild(role_ko);
+		
+		let role_en=document.createElement("span");
+		role_en.classList.add("langspan-en");
+		role_en.innerHTML=role.en;
+		role_dom.appendChild(role_en);
+		
+		role_list.appendChild(role_dom);
+	}
+	if (!list_roles) role_list.style.display="none";
+	
+	
+	let sns_list = entry_dom.querySelector(".credits-entry-sns-list");
+	for (const sns_id in entry.socials){
+		let sns_dom = document.createElement("a");
+		sns_dom.classList.add("credits-entry-sns");
+		sns_dom.href=entry.socials[sns_id];
+		
+		let sns_ko=document.createElement("span");
+		sns_ko.classList.add("langspan-ko");
+		sns_ko.innerHTML=sns_id;
+		sns_dom.appendChild(sns_ko);
+		
+		let sns_en=document.createElement("span");
+		sns_en.classList.add("langspan-en");
+		sns_en.innerHTML=sns_id;
+		sns_dom.appendChild(sns_en);
+		
+		sns_list.appendChild(sns_dom);
+	}
+	if (!list_sns) sns_list.style.display="none";
+	
+	
+	return entry_dom;
+}
+
 // Generate a list of people with the given primary role
-function generate_group(primary_role_id){
+function generate_group(primary_role_id,list_roles=true){
 	let group=CreditsData.role_definitions[primary_role_id];
 	
 	let group_dom = template_section.content.cloneNode(true);
@@ -38,48 +91,20 @@ function generate_group(primary_role_id){
 	group_dom.querySelector(".credits-section-name > .langspan-en").innerHTML=group.en;
 	
 	let group_content_container = group_dom.querySelector(".credits-section-content");
-	for (const entry of CreditsData.credits_list){
-		if (entry.primary !== primary_role_id) continue;
-		
-		let entry_dom = template_listing.content.cloneNode(true);
-		
-		
-		entry_dom.querySelector(".credits-entry-name > .langspan-ko").innerHTML=entry.name_ko;
-		entry_dom.querySelector(".credits-entry-name > .langspan-en").innerHTML=entry.name_en;
-		
-		let role_list=entry_dom.querySelector(".credits-entry-role-list");
-		for (const role_id of entry.roles){
-			let role=CreditsData.role_definitions[role_id];
-			let role_dom = document.createElement("div");
-			role_dom.classList.add("credits-entry-role");
-			
-			let role_ko=document.createElement("span");
-			role_ko.classList.add("langspan-ko");
-			role_ko.innerHTML=role.ko;
-			role_dom.appendChild(role_ko);
-			
-			let role_en=document.createElement("span");
-			role_en.classList.add("langspan-en");
-			role_en.innerHTML=role.en;
-			role_dom.appendChild(role_en);
-			
-			role_list.appendChild(role_dom);
-			
-		}
-		
-		
-		group_content_container.appendChild(entry_dom);
+	for (const credits_entry of CreditsData.credits_list){
+		if (credits_entry.primary !== primary_role_id) continue;
+		group_content_container.appendChild(generate_entry(credits_entry,list_roles));
 	}
 	return group_dom;
 }
 
 // Head is always at the top
-staff_container.appendChild(generate_group("head"));
+staff_container.appendChild(generate_group("head",true));
 for (const group_id of primary_roles){
-	staff_container.appendChild(generate_group(group_id));
+	staff_container.appendChild(generate_group(group_id,true));
 }
 
 // Tier order
-sponsor_container.appendChild(generate_group("princess"));
-sponsor_container.appendChild(generate_group("mane"));
-sponsor_container.appendChild(generate_group("sponsor"));
+sponsor_container.appendChild(generate_group("princess",false));
+sponsor_container.appendChild(generate_group("mane",false));
+sponsor_container.appendChild(generate_group("sponsor",false));

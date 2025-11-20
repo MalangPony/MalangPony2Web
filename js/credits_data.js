@@ -14,6 +14,7 @@ export const credits_list=[
 		name_ko:"메가타로",
 		name_en:"Megatarot",
 		socials:{
+			twitter:"https://x.com/megatarot"
 		},
 		roles:["accounting"],
 		primary:"accounting",
@@ -23,6 +24,7 @@ export const credits_list=[
 		name_ko:"쇼트케이크",
 		name_en:"Shortcake Sweets",
 		socials:{
+			twitter:"https://x.com/ShortcakeSweetz"
 		},
 		roles:["accounting"],
 		primary:"accounting",
@@ -32,6 +34,7 @@ export const credits_list=[
 		name_ko:"디바인",
 		name_en:"Nine the Divine",
 		socials:{
+			bluesky:"https://bsky.app/profile/ninethedivine.bsky.social"
 		},
 		roles:["pr"],
 		primary:"pr",
@@ -41,6 +44,8 @@ export const credits_list=[
 		name_ko:"양말",
 		name_en:"SheepPony",
 		socials:{
+			twitter:"https://x.com/SheepPony",
+			bluesky:"https://bsky.app/profile/sheeppony.bsky.social"
 		},
 		roles:["web","design"],
 		primary:"web",
@@ -50,6 +55,7 @@ export const credits_list=[
 		name_ko:"TruthOrMare",
 		name_en:"TruthOrMare",
 		socials:{
+			// Intentionally left blank
 		},
 		roles:["assistant"],
 		primary:"assistant",
@@ -59,6 +65,7 @@ export const credits_list=[
 		name_ko:"EightonEight",
 		name_en:"EightonEight",
 		socials:{
+			naver_blog:"https://blog.naver.com/fbud818"
 		},
 		roles:["assistant"],
 		primary:"assistant",
@@ -68,6 +75,7 @@ export const credits_list=[
 		name_ko:"IZuchi",
 		name_en:"IZuchi",
 		socials:{
+			twitter:"https://x.com/kari_izuchi"
 		},
 		roles:["artist","design"],
 		primary:"artist",
@@ -77,6 +85,8 @@ export const credits_list=[
 		name_ko:"마렌",
 		name_en:"Marenlicious",
 		socials:{
+			twitter:"https://x.com/Marenlicious",
+			bluesky:"https://bsky.app/profile/marenlicious.bsky.social"
 		},
 		roles:["artist","design"],
 		primary:"artist",
