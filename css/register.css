@@ -94,23 +94,25 @@
 }
 .register-tier-perks-list{
 	display:flex;
-	flex-direction:column;
+	/*flex-direction:column;*/
+	flex-direction:row;
 	flex-wrap:wrap;
 	gap:4px;
 }
+/*
 .register-tier-perks-row{
 	display:flex;
 	flex-direction:row;
 	flex-wrap:wrap;
 	gap:4px;
-	/*justify-content:space-between;*/
-}
+}*/
 .register-tier-entry.tier-detail-mode .register-tier-perks-list{
 	flex-direction:column;
 }
+/*
 .register-tier-entry.tier-detail-mode .register-tier-perks-row{
 	flex-direction:column;
-}
+}*/
 
 #register-tiers-list .tier-standard{
 	--perk-color-base:var(--color-tier-standard);
@@ -166,10 +168,12 @@
 	text-decoration-line: line-through;
 	text-decoration-thickness: 3px;
 }
-/*
+
 .register-tier-perk.perk-inherited{
 	background-color:#B0B0B0;
-}*/
+	/*background-color:var(--color-background-light);*/
+	/*background-color:#E0E0E0;*/
+}
 .register-tier-perks-inherit-divider{
 	height:24px;
 	font-size:32px;
@@ -205,4 +209,15 @@
 		hsl(from var(--perk-color-base) h s l / 0%)
 	);
 	content:"";
+}
+.register-tier-perks-inherit-marker{
+	display:flex;
+	flex-direction:row;
+	align-items:center;
+	justify-content:center;
+	color:var(--perk-color-base);
+	font-size:1.2em;
+	font-weight:700;
+	text-align:center;
+	width:1.5em;
 }

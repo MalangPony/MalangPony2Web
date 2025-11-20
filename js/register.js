@@ -62,17 +62,25 @@ for (const tier_id in TierData.tiers_data){
 	for (const inherited_tid of tier_inheritance_chain){
 		let inherited_tdata = TierData.tiers_data[inherited_tid];
 		
+		
 		if ((tier_inheritance_chain.length>1) && (inherited_tid === tier_id)){
 			// This is the original tier, not inherited.
+			/*
 			let perk_inherit_divider = document.createElement("div");
 			perk_inherit_divider.classList.add(inherited_tdata.css_class);
 			perk_inherit_divider.classList.add("register-tier-perks-inherit-divider");
 			perk_inherit_divider.innerHTML="+";
-			perks_list_dom.appendChild(perk_inherit_divider);
+			perks_list_dom.appendChild(perk_inherit_divider);*/
+			let perk_inherit_marker = document.createElement("div");
+			perk_inherit_marker.classList.add(inherited_tdata.css_class);
+			perk_inherit_marker.classList.add("register-tier-perks-inherit-marker");
+			perk_inherit_marker.innerHTML="+";
+			perks_list_dom.appendChild(perk_inherit_marker);
 		}
-		
+		/*
 		let perks_row_dom=document.createElement("div");
 		perks_row_dom.classList.add("register-tier-perks-row");
+		*/
 		
 		for( const perk_id of inherited_tdata.perks_list ){
 			let perk_dom = tier_perk_template.content.cloneNode(true);
@@ -107,9 +115,10 @@ for (const tier_id in TierData.tiers_data){
 			perk_dom.querySelector(".register-tier-perk").classList.add(
 				inherited_tdata.css_class);
 			
-			perks_row_dom.appendChild(perk_dom);
+			//perks_row_dom.appendChild(perk_dom);
+			perks_list_dom.appendChild(perk_dom);
 		}
-		perks_list_dom.appendChild(perks_row_dom);
+		//perks_list_dom.appendChild(perks_row_dom);
 	}
 	
 	
