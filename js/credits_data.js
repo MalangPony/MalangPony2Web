@@ -168,3 +168,10 @@ export const role_definitions={
 	mane:{en:"Mane Six",ko:"메인식스"},
 	sponsor:{en:"Sponsor",ko:"스폰서"}
 };
+
+// SNS Defs
+export const sns_definitions={
+	twitter:{en:"Twitter/X",ko:"트위터(X)",color:"var(--color-twitter-auto)"},
+	bluesky:{en:"Bluesky",ko:"블루스카이",color:"var(--color-bluesky-auto)"},
+	naver_blog:{en:"Naver Blog",ko:"네이버 블로그",color:"var(--color-naver-auto)"},
+}

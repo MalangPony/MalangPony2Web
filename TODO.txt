@@ -18,8 +18,16 @@ idle on sky mode - a smol hanmari horizontally moves across screen
 in timetable and vendor hall, link to apply page & art gallery
 timetable details time too small
 stars - bigger and less density ... or smaller
-
-
+Make all link-buttons inherit from the same class
+space between royal and spirit
+a divider and a plus sign between inherited and new perks
+explain in text how perks work
+Page transition speed in Config -> Speed up 1.0 -> 0.6?
+Page behind gets scrolled when mobile sidebar is open
+Delete support page, credits inside about-us category
+Use contact-us button design everywehree
+delete roles inside credits page
+directions from far away
 
 RIGHT BEFORE PUSH TO PROD
 Change all domains (testing.malangpony) to a PHP expression (<?php echo $webroot;?>)

@@ -36,6 +36,7 @@ function generate_entry(entry,list_roles=true,list_sns=true){
 	
 	
 	let role_list=entry_dom.querySelector(".credits-entry-role-list");
+	role_list.style.height="1.2em";
 	for (const role_id of entry.roles){
 		let role=CreditsData.role_definitions[role_id];
 		let role_dom = document.createElement("div");
@@ -58,25 +59,41 @@ function generate_entry(entry,list_roles=true,list_sns=true){
 	
 	
 	let sns_list = entry_dom.querySelector(".credits-entry-sns-list");
+	//sns_list.style.height="1.2em";
+	sns_list.style.height="0em";
 	for (const sns_id in entry.socials){
 		let sns_dom = document.createElement("a");
 		sns_dom.classList.add("credits-entry-sns");
 		sns_dom.href=entry.socials[sns_id];
+		sns_dom.target="_blank";
+		sns_dom.style.color=CreditsData.sns_definitions[sns_id].color;
 		
 		let sns_ko=document.createElement("span");
 		sns_ko.classList.add("langspan-ko");
-		sns_ko.innerHTML=sns_id;
+		sns_ko.innerHTML=CreditsData.sns_definitions[sns_id].ko;
 		sns_dom.appendChild(sns_ko);
 		
 		let sns_en=document.createElement("span");
 		sns_en.classList.add("langspan-en");
-		sns_en.innerHTML=sns_id;
+		sns_en.innerHTML=CreditsData.sns_definitions[sns_id].en;
 		sns_dom.appendChild(sns_en);
 		
 		sns_list.appendChild(sns_dom);
 	}
 	if (!list_sns) sns_list.style.display="none";
 	
+	let sns_mode=false;
+	entry_dom.querySelector(".credits-entry-name")
+			 .addEventListener("click",()=>{
+		sns_mode=!sns_mode;
+		if (sns_mode){
+			role_list.style.height="0em";
+			sns_list.style.height="1.2em";
+		}else{
+			role_list.style.height="1.2em";
+			sns_list.style.height="0em";
+		}
+	});
 	
 	return entry_dom;
 }

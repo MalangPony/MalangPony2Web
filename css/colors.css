@@ -125,6 +125,7 @@
   --color-naver-lighter:#cbf9d7;
   --color-naver-darker: #188d47;
   --color-naver-base: #03CF5D; /* = Official */
+  --color-naver-auto: var(--color-naver-base);
   
   /* Official #FFCD00 */
   --color-kakao-lighter:#feffcb;
@@ -158,6 +159,8 @@
   --color-twitter-light-bg:#FFFFFF;
   --color-twitter-dark-fg:rgb(239, 243, 244);
   --color-twitter-dark-bg:#15202b;
+  --color-twitter-auto:light-dark(
+    var(--color-twitter-base),var(--color-twitter-white));
   
   /* Bsky doesn't seem have an official brand guideline.
    * Below values are from the website. */
@@ -166,6 +169,7 @@
   --color-bluesky-light-bg:#FFFFFF;
   --color-bluesky-dark-fg:rgb(15, 115, 255);
   --color-bluesky-light-fg:rgb(0, 106, 255);
+  --color-bluesky-auto:var(--color-bluesky-base);
   
   /* All official colors from brand kit */
   --color-discord-dark:#1f1f1f;
