@@ -3,9 +3,13 @@ export const credits_list=[
 	{
 		name_ko:"종이수술",
 		name_en:"PaperSurgery",
-		socials:{
-			twitter:"https://x.com/PaperSurgery"
-		},
+		socials:[
+			{
+				link:"https://x.com/PaperSurgery",
+				site:"twitter",
+				handle:"@PaperSurgery"
+			}
+		],
 		roles:["head","design"],
 		primary:"head",
 		profile_pic:null
@@ -13,9 +17,13 @@ export const credits_list=[
 	{
 		name_ko:"메가타로",
 		name_en:"Megatarot",
-		socials:{
-			twitter:"https://x.com/megatarot"
-		},
+		socials:[
+			{
+				link:"https://x.com/megatarot",
+				site:"twitter",
+				handle:"@megatarot"
+			}
+		],
 		roles:["accounting"],
 		primary:"accounting",
 		profile_pic:null
@@ -23,9 +31,13 @@ export const credits_list=[
 	{
 		name_ko:"쇼트케이크",
 		name_en:"Shortcake Sweets",
-		socials:{
-			twitter:"https://x.com/ShortcakeSweetz"
-		},
+		socials:[
+			{
+				link:"https://x.com/ShortcakeSweetz",
+				site:"twitter",
+				handle:"@ShortcakeSweetz"
+			}
+		],
 		roles:["accounting"],
 		primary:"accounting",
 		profile_pic:null
@@ -33,9 +45,13 @@ export const credits_list=[
 	{
 		name_ko:"디바인",
 		name_en:"Nine the Divine",
-		socials:{
-			bluesky:"https://bsky.app/profile/ninethedivine.bsky.social"
-		},
+		socials:[
+			{
+				link:"https://bsky.app/profile/ninethedivine.bsky.social",
+				site:"bluesky",
+				handle:"@ninethedivine"
+			}
+		],
 		roles:["pr"],
 		primary:"pr",
 		profile_pic:null
@@ -43,10 +59,18 @@ export const credits_list=[
 	{
 		name_ko:"양말",
 		name_en:"SheepPony",
-		socials:{
-			twitter:"https://x.com/SheepPony",
-			bluesky:"https://bsky.app/profile/sheeppony.bsky.social"
-		},
+		socials:[
+			{
+				link:"https://x.com/SheepPony",
+				site:"twitter",
+				handle:"@SheepPony"
+			},
+			{
+				link:"https://bsky.app/profile/sheeppony.bsky.social",
+				site:"bluesky",
+				handle:"@sheeppony"
+			},
+		],
 		roles:["web","design"],
 		primary:"web",
 		profile_pic:null
@@ -54,9 +78,9 @@ export const credits_list=[
 	{
 		name_ko:"TruthOrMare",
 		name_en:"TruthOrMare",
-		socials:{
+		socials:[
 			// Intentionally left blank
-		},
+		],
 		roles:["assistant"],
 		primary:"assistant",
 		profile_pic:null
@@ -64,9 +88,13 @@ export const credits_list=[
 	{
 		name_ko:"EightonEight",
 		name_en:"EightonEight",
-		socials:{
-			naver_blog:"https://blog.naver.com/fbud818"
-		},
+		socials:[
+			{
+				link:"https://blog.naver.com/fbud818",
+				site:"naver-blog",
+				handle:"fbud818"
+			}
+		],
 		roles:["assistant"],
 		primary:"assistant",
 		profile_pic:null
@@ -74,9 +102,13 @@ export const credits_list=[
 	{
 		name_ko:"IZuchi",
 		name_en:"IZuchi",
-		socials:{
-			twitter:"https://x.com/kari_izuchi"
-		},
+		socials:[
+			{
+				link:"https://x.com/kari_izuchi",
+				site:"twitter",
+				handle:"@kari_izuchi"
+			}
+		],
 		roles:["artist","design"],
 		primary:"artist",
 		profile_pic:null
@@ -84,10 +116,18 @@ export const credits_list=[
 	{
 		name_ko:"마렌",
 		name_en:"Marenlicious",
-		socials:{
-			twitter:"https://x.com/Marenlicious",
-			bluesky:"https://bsky.app/profile/marenlicious.bsky.social"
-		},
+		socials:[
+			{
+				link:"https://x.com/Marenlicious",
+				site:"twitter",
+				handle:"@Marenlicious"
+			},
+			{
+				link:"https://bsky.app/profile/marenlicious.bsky.social",
+				site:"bluesky",
+				handle:"@marenlicious"
+			},
+		],
 		roles:["artist","design"],
 		primary:"artist",
 		profile_pic:null
@@ -97,7 +137,7 @@ export const credits_list=[
 	{
 		name_ko:"김스폰",
 		name_en:"Kim Spon",
-		socials:{},
+		socials:[],
 		roles:["sponsor"],
 		primary:"sponsor",
 		profile_pic:null
@@ -105,7 +145,7 @@ export const credits_list=[
 	{
 		name_ko:"박스폰",
 		name_en:"Park Spon",
-		socials:{},
+		socials:[],
 		roles:["sponsor"],
 		primary:"sponsor",
 		profile_pic:null
@@ -113,7 +153,7 @@ export const credits_list=[
 	{
 		name_ko:"리스폰",
 		name_en:"Lee Spon",
-		socials:{},
+		socials:[],
 		roles:["sponsor"],
 		primary:"sponsor",
 		profile_pic:null
@@ -121,7 +161,7 @@ export const credits_list=[
 	{
 		name_ko:"김식스",
 		name_en:"Kim Six",
-		socials:{},
+		socials:[],
 		roles:["mane"],
 		primary:"mane",
 		profile_pic:null
@@ -129,7 +169,7 @@ export const credits_list=[
 	{
 		name_ko:"이식스",
 		name_en:"Lee Six",
-		socials:{},
+		socials:[],
 		roles:["mane"],
 		primary:"mane",
 		profile_pic:null
@@ -137,7 +177,7 @@ export const credits_list=[
 	{
 		name_ko:"김공주",
 		name_en:"Kim Prin",
-		socials:{},
+		socials:[],
 		roles:["princess"],
 		primary:"princess",
 		profile_pic:null
@@ -168,10 +208,3 @@ export const role_definitions={
 	mane:{en:"Mane Six",ko:"메인식스"},
 	sponsor:{en:"Sponsor",ko:"스폰서"}
 };
-
-// SNS Defs
-export const sns_definitions={
-	twitter:{en:"Twitter/X",ko:"트위터(X)",color:"var(--color-twitter-auto)"},
-	bluesky:{en:"Bluesky",ko:"블루스카이",color:"var(--color-bluesky-auto)"},
-	naver_blog:{en:"Naver Blog",ko:"네이버 블로그",color:"var(--color-naver-auto)"},
-}

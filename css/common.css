@@ -32,6 +32,7 @@
   font-size:1.5em;
 }
 
+
 .link-button{
   display:flex;
   flex-direction:row;
@@ -52,6 +53,117 @@
   border-width:2px;
   font-weight:700;
   line-height:0;
+}
+
+/* A button. May also have .twitter .bluesky .discord .naver-blog classes. */
+/* Color scheme and logo will be automatically applied. */
+/* If .inline class is added, will convert this to an inline link.*/
+.sns-link-button{
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  gap:0.2em;
+  
+  padding-top: 0.3em;
+  padding-bottom: 0.2em;
+  padding-left: 0.6em;
+  padding-right: 0.6em;
+  
+  text-decoration:none;
+  border-radius:0.5em;
+  
+  color:var(--color-text-auto);
+  background-color:var(--color-background-auto);
+  
+  border-style:solid;
+  border-width:2px;
+  font-weight:700;
+  line-height:0;
+}
+.sns-link-button.inline.inline{
+  display:inline-flex;
+  background:none;
+  border:none;
+  border-bottom-style:solid;
+  border-bottom-width:0.1em;
+  border-radius:0;
+  padding-left: 0.3em;
+  padding-right: 0.3em;
+}
+
+.sns-link-button::before{
+  content:"";
+  display:block;
+  height:1.0em;
+  width:1.0em;
+  margin-right:0.2em;
+  background-size: contain;
+  background-position:center;
+}
+
+.sns-link-button.twitter{
+  background-color:light-dark(
+    var(--color-twitter-light-bg),
+    var(--color-twitter-dark-bg));
+  color:light-dark(
+    var(--color-twitter-light-fg),
+    var(--color-twitter-dark-fg));
+}
+.light-mode .sns-link-button.twitter::before{
+  background-image:url("/siteicons/X_logo-black_Rsz64px.png");
+  transform:scale(1.0);
+}
+.dark-mode .sns-link-button.twitter::before{
+  background-image:url("/siteicons/X_logo-white_Rsz64px.png");
+  transform:scale(1.0);
+}
+
+.sns-link-button.bluesky{
+  background-color:light-dark(
+    var(--color-bluesky-light-bg),
+    var(--color-bluesky-dark-bg));
+  color:light-dark(
+    var(--color-bluesky-light-fg),
+    var(--color-bluesky-dark-fg));
+}
+.sns-link-button.bluesky::before{
+  background-image:url("/siteicons/Bluesky_Logo_Wikipedia_1024px_Rsz64px.png");
+  transform:scale(1.2);
+}
+/*
+.light-mode .sns-link-button.bluesky::before{
+  background-image:url("/siteicons/Bluesky_Logo_Wikipedia_1024px_White-Rsz64px.png");
+}
+.dark-mode .sns-link-button.bluesky::before{
+  background-image:url("/siteicons/Bluesky_Logo_Wikipedia_1024px_Rsz64px.png");
+}*/
+
+.sns-link-button.discord{
+  background-color:light-dark(
+    var(--color-discord-light-blurple),
+    var(--color-discord-dark));
+  color:var(--color-discord-blurple);
+}
+.sns-link-button.discord::before{
+  background-image:url("/siteicons/Discord-Symbol-Blurple_Rsz64px.png");
+  transform:scale(1.2);
+}
+/*
+.light-mode .sns-link-button.discord::before{
+  background-image:url("/siteicons/Discord-Symbol-Blurple_Rsz64px.png");
+}
+.dark-mode .sns-link-button.discord::before{
+  background-image:url("/siteicons/Discord-Symbol-Purewhite_Rsz64px.png");
+}*/
+.sns-link-button.naver-blog{
+  background-color:light-dark(
+    var(--color-naver-lighter),
+    var(--color-naver-darker));
+  color:var(--color-naver-base);
+}
+.sns-link-button.naver-blog::before{
+  background-image:url("/siteicons/favicon_nblog.png");
+  transform:scale(1.0);
 }
 
 .internal-page-link-button{

@@ -28,46 +28,23 @@ const sponsor_container = document.getElementById("credits-sponsor-container");
 const template_section  = document.getElementById("credits-template-section");
 const template_listing  = document.getElementById("credits-template-listing");
 
-function generate_entry(entry,list_roles=true,list_sns=true){
+function generate_entry(entry,list_sns=true){
 	let entry_dom = template_listing.content.cloneNode(true);
 	
 	entry_dom.querySelector(".credits-entry-name > .langspan-ko").innerHTML=entry.name_ko;
 	entry_dom.querySelector(".credits-entry-name > .langspan-en").innerHTML=entry.name_en;
 	
-	
-	let role_list=entry_dom.querySelector(".credits-entry-role-list");
-	role_list.style.height="1.2em";
-	for (const role_id of entry.roles){
-		let role=CreditsData.role_definitions[role_id];
-		let role_dom = document.createElement("div");
-		role_dom.classList.add("credits-entry-role");
-		if (role_id==entry.primary) role_dom.classList.add("primary-role");
-		
-		let role_ko=document.createElement("span");
-		role_ko.classList.add("langspan-ko");
-		role_ko.innerHTML=role.ko;
-		role_dom.appendChild(role_ko);
-		
-		let role_en=document.createElement("span");
-		role_en.classList.add("langspan-en");
-		role_en.innerHTML=role.en;
-		role_dom.appendChild(role_en);
-		
-		role_list.appendChild(role_dom);
-	}
-	if (!list_roles) role_list.style.display="none";
-	
-	
+
 	let sns_list = entry_dom.querySelector(".credits-entry-sns-list");
-	//sns_list.style.height="1.2em";
-	sns_list.style.height="0em";
-	for (const sns_id in entry.socials){
+	for (const sns_entry of entry.socials){
 		let sns_dom = document.createElement("a");
 		sns_dom.classList.add("credits-entry-sns");
-		sns_dom.href=entry.socials[sns_id];
+		sns_dom.classList.add("sns-link-button");
+		sns_dom.classList.add("inline");
+		sns_dom.classList.add(sns_entry.site);
+		sns_dom.href=sns_entry.link;
 		sns_dom.target="_blank";
-		sns_dom.style.color=CreditsData.sns_definitions[sns_id].color;
-		
+		/*
 		let sns_ko=document.createElement("span");
 		sns_ko.classList.add("langspan-ko");
 		sns_ko.innerHTML=CreditsData.sns_definitions[sns_id].ko;
@@ -77,11 +54,13 @@ function generate_entry(entry,list_roles=true,list_sns=true){
 		sns_en.classList.add("langspan-en");
 		sns_en.innerHTML=CreditsData.sns_definitions[sns_id].en;
 		sns_dom.appendChild(sns_en);
-		
+		*/
+		sns_dom.innerHTML=sns_entry.handle;
 		sns_list.appendChild(sns_dom);
 	}
 	if (!list_sns) sns_list.style.display="none";
 	
+	/*
 	let sns_mode=false;
 	entry_dom.querySelector(".credits-entry-name")
 			 .addEventListener("click",()=>{
@@ -93,7 +72,7 @@ function generate_entry(entry,list_roles=true,list_sns=true){
 			role_list.style.height="1.2em";
 			sns_list.style.height="0em";
 		}
-	});
+	});*/
 	
 	return entry_dom;
 }
