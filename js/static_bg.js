@@ -11,6 +11,34 @@ export function set_active(b){
 	else bg_container.style.display="block";
 }
 
+const LR_IMAGE_WIDTH_THRESHOLD=1500;
+
+let lr_image_active=(bg_container.clientWidth>LR_IMAGE_WIDTH_THRESHOLD);
+let screen_resize_observer = new ResizeObserver(()=>{
+	let w=bg_container.clientWidth;
+	if (lr_image_active && (w<LR_IMAGE_WIDTH_THRESHOLD)){
+		for (const bgid in BackgroundData.background_definitions){
+			 if (bgid===currently_active_image){
+				animations[bgid].anim_out(0,1000);
+			} else{
+				animations[bgid].jump_out();
+			}
+		}
+		lr_image_active=false;
+	}
+	if ((!lr_image_active) && (w>LR_IMAGE_WIDTH_THRESHOLD)){
+		for (const bgid in BackgroundData.background_definitions){
+			 if (bgid===currently_active_image){
+				animations[bgid].anim_in(0,1000);
+			} else{
+				animations[bgid].jump_in();
+			}
+		}
+		lr_image_active=true;
+	}
+});
+screen_resize_observer.observe(bg_container);
+
 let currently_active_image="";
 
 let image_doms={};
@@ -188,7 +216,8 @@ function activate_img(target_bgid,delay,duration){
 				{duration: duration, delay:delay});
 			anim.onfinish=()=>{img.style.opacity=1;}
 			
-			animations[bgid].anim_in(delay,duration);
+			if (lr_image_active)
+				animations[bgid].anim_in(delay,duration);
 		}else if (bgid===target_bgid){
 			// Image being faded in. 
 			// The old image will be laid on top and be faded out.
@@ -201,7 +230,8 @@ function activate_img(target_bgid,delay,duration){
 			// the characters should be invisible at the start.
 			// hence the .jump_out() call.
 			animations[bgid].jump_out();
-			animations[bgid].anim_in(delay+duration/2,duration/2);
+			if (lr_image_active)
+				animations[bgid].anim_in(delay+duration/2,duration/2);
 		}else if (bgid===currently_active_image){
 			// Image being faded out.
 			img.style.display="block";
@@ -211,7 +241,8 @@ function activate_img(target_bgid,delay,duration){
 				{duration: duration, delay:delay});
 			anim.onfinish=()=>{img.style.display="none";}
 			
-			animations[bgid].anim_out(delay,duration/2);
+			if (lr_image_active)
+				animations[bgid].anim_out(delay,duration/2);
 		} else{
 			img.style.display="none";
 		}
@@ -233,10 +264,12 @@ function activate_img_instant(target_bgid){
 			img.style.display="block";
 			img.style.zIndex=2;
 			img.style.opacity=1;
-			animations[bgid].jump_in();
+			if (lr_image_active) animations[bgid].jump_in();
+			else  animations[bgid].jump_out();
 		} else{
 			img.style.display="none";
 		}
 	}
 	currently_active_image=target_bgid;
 }
+

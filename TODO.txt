@@ -18,14 +18,12 @@ idle on sky mode - a smol hanmari horizontally moves across screen
 in timetable and vendor hall, link to apply page & art gallery
 timetable details time too small
 stars - bigger and less density ... or smaller
-a divider and a plus sign between inherited and new perks
 explain in text how perks work
 Page transition speed in Config -> Speed up 1.0 -> 0.6?
 Page behind gets scrolled when mobile sidebar is open
 Use contact-us button design everywehree
 directions from far away: ICN, GMP, Seoul, GBT
 641 when clicked, route or stop
-BG multiple layers? BG tile and character L/R
 
 
 RIGHT BEFORE PUSH TO PROD
