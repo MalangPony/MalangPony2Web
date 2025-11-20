@@ -22,6 +22,7 @@
 	align-items:stretch;
 	gap:8px;
 	max-width:600px;
+	width: 100%;
 }
 
 .register-tier-entry.tier-standard{
@@ -93,35 +94,46 @@
 }
 .register-tier-perks-list{
 	display:flex;
+	flex-direction:column;
+	flex-wrap:wrap;
+	gap:4px;
+}
+.register-tier-perks-row{
+	display:flex;
 	flex-direction:row;
 	flex-wrap:wrap;
 	gap:4px;
+	/*justify-content:space-between;*/
 }
 .register-tier-entry.tier-detail-mode .register-tier-perks-list{
 	flex-direction:column;
 }
+.register-tier-entry.tier-detail-mode .register-tier-perks-row{
+	flex-direction:column;
+}
 
-.register-tier-perk.tier-standard{
+#register-tiers-list .tier-standard{
 	--perk-color-base:var(--color-tier-standard);
 }
-.register-tier-perk.tier-sponsor{
+#register-tiers-list .tier-sponsor{
 	--perk-color-base:var(--color-tier-sponsor);
 }
-.register-tier-perk.tier-mane{
+#register-tiers-list .tier-mane{
 	--perk-color-base:var(--color-tier-mane);
 }
-.register-tier-perk.tier-princess{
+#register-tiers-list .tier-princess{
 	--perk-color-base:var(--color-tier-princess);
 }
-.register-tier-perk.tier-spirit{
+#register-tiers-list .tier-spirit{
 	--perk-color-base:var(--color-tier-spirit);
 }
-.register-tier-perk.tier-onsite{
+#register-tiers-list .tier-onsite{
 	--perk-color-base:var(--color-tier-onsite);
 }
 
 .register-tier-perk{
-	padding:2px;
+	padding:0.3em;
+	font-size:0.9em;
 	color:var(--color-perks-text);
 	background-color:var(--perk-color-base);
 	border-radius:2px;
@@ -149,12 +161,48 @@
 .register-tier-perk.perk-overwritten.perk-overwritten{
 	background-color:#606060;
 	/*display:none;*/
-	
 }
 .register-tier-perk.perk-overwritten .perk-name{
 	text-decoration-line: line-through;
 	text-decoration-thickness: 3px;
 }
+/*
 .register-tier-perk.perk-inherited{
 	background-color:#B0B0B0;
+}*/
+.register-tier-perks-inherit-divider{
+	height:24px;
+	font-size:32px;
+	font-weight:700;
+	text-align:center;
+	display:flex;
+	flex-direction:row;
+	align-items:center;
+	justify-content:center;
+	color:var(--perk-color-base);
+	align-self:stretch;
+}
+.register-tier-perks-inherit-divider::before{
+	display:block;
+	flex-grow:1;
+	margin-right:4px;
+	height:4px;
+	background-image:linear-gradient(
+		to left,
+		var(--perk-color-base),
+		hsl(from var(--perk-color-base) h s l / 0%)
+	);
+	content:"";
+}
+.register-tier-perks-inherit-divider::after{
+	display:block;
+	flex-grow:1;
+	margin-left:4px;
+	height:4px;
+	background-image:linear-gradient(
+		to right,
+		var(--perk-color-base),
+		hsl(from var(--perk-color-base) h s l / 0%)
+	);
+	content:"";
 }
