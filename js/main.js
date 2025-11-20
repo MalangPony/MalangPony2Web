@@ -963,15 +963,15 @@ function page_transition(name){
   else Timetable.exit_timetable_page();
 }
 
-// Setup all .internal-page-link-buttons
-let iplbs=document.querySelectorAll(".internal-page-link-button");
-for(const iplb of iplbs){
-  let pageid=iplb.getAttribute("data-pageid");
+// Setup all .internal-page-autolink
+let ipals=document.querySelectorAll(".internal-page-autolink");
+for(const ipal of ipals){
+  let pageid=ipal.getAttribute("data-pageid");
   if (!pageid) continue;
   let nameK=pageid_to_name_ko[pageid];
   let nameE=pageid_to_name_en[pageid];
   //console.log(pageid,nameK,nameE);
-  iplb.addEventListener("click",()=>{
+  ipal.addEventListener("click",()=>{
     page_transition(pageid);
   });
   let kspan=document.createElement("span");
@@ -980,8 +980,9 @@ for(const iplb of iplbs){
   let espan=document.createElement("span");
   espan.classList.add("langspan-en");
   espan.innerHTML=nameE;
-  iplb.appendChild(kspan);
-  iplb.appendChild(espan);
+  ipal.appendChild(kspan);
+  ipal.appendChild(espan);
+  ipal.style.cursor="pointer";
 }
 
 

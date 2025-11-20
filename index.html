@@ -17,6 +17,7 @@
 <link href="css/colors.css" rel="stylesheet" />
 <link href="css/base.css" rel="stylesheet" />
 <link href="css/common.css" rel="stylesheet" />
+<link href="css/link_buttons.css" rel="stylesheet" />
 <link href="css/main.css" rel="stylesheet" />
 <link href="css/sidebar.css" rel="stylesheet" />
 <link href="css/overlays.css" rel="stylesheet" />
@@ -328,7 +329,7 @@
             <h2 class="langdiv-en">The Venue</h2>
             <p class="langdiv-ko">
               이번의 행사 장소는 <strong>올댓마인드</strong>입니다.<br>
-              <span class="internal-page-link-button" data-pageid="venue"></span>
+              <span class="internal-page-autolink link-button inline color-internal icon-internal generate-icon" data-pageid="venue"></span>
               말랑말랑말랑<br>
               말랑말랑말랑<br>
               말랑말랑말랑<br>
@@ -374,15 +375,15 @@
             <div class="langdiv-en" style="margin-top:8px;">Updates are also posted on:</div>
             
             <div id="news-sns-row">
-              <a class="sns-link-button twitter">
+              <a class="link-button color-twitter icon-twitter generate-icon">
                 <span class="langspan-ko">트위터(X)</span>
                 <span class="langspan-en">Twitter/X</span>
                 </a>
-              <a class="sns-link-button bluesky">
+              <a class="link-button color-bluesky icon-bluesky generate-icon">
                 <span class="langspan-ko">블루스카이</span>
                 <span class="langspan-en">Bluesky</span>
                 </a>
-              <a class="sns-link-button discord">
+              <a class="link-button color-discord icon-discord generate-icon">
                 <span class="langspan-ko">디스코드</span>
                 <span class="langspan-en">Discord</span>
                 </a>
@@ -437,22 +438,22 @@
             서울시 영등포구 문래로 55 2층
           </div>
           
-          <div id="venue-map-site-links">
+          <div id="venue-map-site-links" style="font-size:20px;">
             <a href="https://naver.me/xY4sP1mO" target="_blank"
-              class="link-button" id="venue-map-link-naver">
-              <img src="siteicons/favicon_nmap.png">
+              class="link-button color-naver icon-naver-map generate-icon" 
+              id="venue-map-link-naver">
               <span class="langspan-ko">네이버 지도</span>
               <span class="langspan-en">Naver Maps</span>
             </a>
             <a href="https://kko.kakao.com/fqgpAUYJWh" target="_blank"
-              class="link-button" id="venue-map-link-kakao">
-              <img src="siteicons/favicon_kkm_32px.png">
+              class="link-button color-kakao icon-kakao-map generate-icon" 
+              id="venue-map-link-kakao">
               <span class="langspan-ko">카카오맵</span>
               <span class="langspan-en">Kakao Maps</span>
             </a>
             <a href="https://maps.app.goo.gl/KuLBmTggmEXde3Q46" target="_blank"
-              class="link-button" id="venue-map-link-google">
-              <img src="siteicons/favicon_gmaps.png">
+              class="link-button color-google icon-google-maps generate-icon" 
+              id="venue-map-link-google">
               <span class="langspan-ko">구글맵스</span>
               <span class="langspan-en">Google Maps</span>
             </a>
@@ -528,8 +529,9 @@
             
             <div id="yt-embed-container-mpn1" class="previous-yt-embed"></div>
             
-            <a href="https://malangpony.com/old/post25/gallery" class="prev-gallery-btn malang_old">
-                <span class="material-symbols-rounded">photo_camera</span>
+            <a href="https://malangpony.com/old/post25/gallery" 
+              class="link-button icon-camera generate-icon color-malang-one" 
+              style="font-size:20px;">
                 <span class="langspan-ko">1회 말랑포니 사진 갤러리</span>
                 <span class="langspan-en">MalangPony 1 Photo Gallery</span>
             </a>
@@ -539,8 +541,9 @@
             
             <div id="yt-embed-container-mpnL" class="previous-yt-embed"></div>
             
-            <a href="https://testing.malangpony.com/post25L/gallery" class="prev-gallery-btn malang">
-                <span class="material-symbols-rounded">photo_camera</span>
+            <a href="https://testing.malangpony.com/post25L/gallery" 
+              class="link-button icon-camera generate-icon color-malang-little" 
+              style="font-size:20px;">
                 <span class="langspan-ko">말랑 리틀 포니 사진 갤러리</span>
                 <span class="langspan-en">MalangLittlePony Photo Gallery</span>
             </a>
@@ -604,15 +607,18 @@
                   <div class="sublang  langdiv-ko">Han Mari</div>
                 </div>
                 <div class="refsheet-downloads">
-                  <a href="image/KimMari_Reference_Full.png" download class="download-button">
+                  <a href="image/KimMari_Reference_Full.png" download 
+                  class="link-button color-hanmari icon-download generate-icon">
                     <span class="langspan-ko">레퍼런스 시트 (고화질)</span>
                     <span class="langspan-en">Reference Sheet (HQ)</span>
                   </a>
-                  <a href="image/Hanmari_CM_rev1_3000px.png" download class="download-button">
+                  <a href="image/Hanmari_CM_rev1_3000px.png" download 
+                  class="link-button color-hanmari icon-download generate-icon">
                     <span class="langspan-ko">큐티마크 (PNG)</span>
                      <span class="langspan-en">Cutie Mark (PNG)</span>
                   </a>
-                  <a href="image/Hanmari_CM_rev1_TRIM.svg" download class="download-button">
+                  <a href="image/Hanmari_CM_rev1_TRIM.svg" download 
+                  class="link-button color-hanmari icon-download generate-icon">
                     <span class="langspan-ko">큐티마크 (SVG)</span>
                      <span class="langspan-en">Cutie Mark (SVG)</span>
                   </a>
@@ -647,7 +653,8 @@
                   <div class="sublang  langdiv-ko">Lee Byeori</div>
                 </div>
                 <div class="refsheet-downloads">
-                  <a href="image/LeeByeori_Reference_Full.png" download class="download-button">
+                  <a href="image/LeeByeori_Reference_Full.png" download 
+                  class="link-button color-leebyeori icon-download generate-icon">
                     <span class="langspan-ko">레퍼런스 시트 (고화질)</span>
                     <span class="langspan-en">Reference Sheet (HQ)</span>
                   </a>
@@ -811,7 +818,8 @@
           </div>
           
           <a href="documents/TestDocument.pdf" download 
-              class="download-button" style="margin-top:16px;margin-bottom:16px;">
+              class="link-button icon-download generate-icon" 
+              style="margin-top:16px;margin-bottom:16px;font-size:1.3em;">
             <span class="langspan-ko">PDF 다운로드</span>
             <span class="langspan-en">Download PDF</span>
           </a>
@@ -830,6 +838,17 @@
             <span class="langspan-en">Registration</span>
             <span class="langspan-ko">등록</span>
           </div>
+          
+          <div style="height:8px;"></div>
+          <a id="register-witchform-link" 
+            class="link-button icon-witchform generate-icon color-witchform" 
+            style="font-size:24px;"
+            onclick="alert('soon...');">
+            <span class="langspan-en">Register Now!</span>
+            <span class="langspan-ko">지금 등록하기</span>
+          </a>
+          <div style="height:16px;"></div>
+          
           <template id="register-tier-entry-template">
             <div class="register-tier-entry">
               <div class="register-tier-title">
@@ -861,13 +880,6 @@
               </div>
             </div>
           </template>
-          <a id="register-witchform-link" class="link-button" onclick="alert('soon...');">
-            <img src="siteicons/WF_CropAlpha_Black.png" class="ldimg-light">
-            <img src="siteicons/WF_CropAlpha_White.png" class="ldimg-dark">
-            <span class="langspan-en">Register Now!</span>
-            <span class="langspan-ko">지금 등록하기</span>
-
-          </a>
           <div id="register-tiers-list">
             <!-- [.register-tier-entry]+ inserted by JS -->
           </div>
@@ -884,11 +896,11 @@
             <h1 class="lang-en">Panelist Applications</h1>
             <p class="lang-ko">
               참가자 패널 설명...<br>
-              패널 시간표는 <span class="internal-page-link-button" data-pageid="timetable"></span>을 참고해 주세요.
+              패널 시간표는 <span class="internal-page-autolink link-button inline color-internal icon-internal generate-icon" data-pageid="timetable"></span>을 참고해 주세요.
             </p>
             <p class="lang-en">
               Panelist explanation...<br>
-              Refer to <span class="internal-page-link-button" data-pageid="timetable"></span> for the panel times.
+              Refer to <span class="internal-page-autolink link-button inline color-internal icon-internal generate-icon" data-pageid="timetable"></span> for the panel times.
             </p>
             
             <h1 class="lang-ko">부스 접수</h1>

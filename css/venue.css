@@ -21,36 +21,7 @@
 
 
 
-#venue-map-link-naver{
-  border-color:var(--color-naver-base);
-  background-color:light-dark(
-    var(--color-naver-lighter),
-    var(--color-background-dark));
-}
-#venue-map-link-naver > img{
-  width:30px;
-  height:30px;
-}
-#venue-map-link-kakao{
-  border-color:var(--color-kakao-base);
-  background-color:light-dark(
-    var(--color-kakao-lighter),
-    var(--color-background-dark));
-}
-#venue-map-link-kakao > img{
-  width:24px;
-  height:24px;
-}
-#venue-map-link-google{
-  border-color:var(--color-google-base);
-  background-color:light-dark(
-    var(--color-google-lighter),
-    var(--color-background-dark));
-}
-#venue-map-link-google > img{
-  width:24px;
-  height:24px;
-}
+
 #map-outer{
   width:min(600px,100%);
   height:400px;

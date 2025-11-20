@@ -202,11 +202,6 @@
   justify-content:space-evenly;
   gap:8px;
 }
-/* Download links */
-.refsheet-downloads .download-button{
-  background-color:var(--character-fg);
-  color:var(--character-bg);
-}
 
 
 /* Responsive Section */

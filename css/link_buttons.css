@@ -1,0 +1,222 @@
+
+
+/* A button. Should be a <a> element. */
+/* May also have: .twitter .bluesky .discord .naver-blog .download .internal */
+/* May have the .auto-color class, and the color will be set automatically. */
+/* May have the .auto-icon class, and the icon will be added automatically.*/
+/* May have the .manual-icon class, and the first child will be positioned as the icon. */
+/* If .inline class is added, will convert this to an inline link.*/
+.link-button{
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  gap:0.2em;
+  
+  padding-top: 0.4em;
+  padding-bottom: calc( 0.4em - 2px );
+  padding-left: 0.8em;
+  padding-right: 0.8em;
+  
+  text-decoration:none;
+  border-radius:0.5em;
+  
+  color:var(--color-text-auto);
+  background-color:var(--color-background-auto);
+  
+  border-style:solid;
+  border-width: 2px;
+  font-weight:700;
+}
+
+.link-button.inline.inline{
+  display:inline-flex;
+  background:none;
+  border:none;
+  border-bottom-style:solid;
+  border-bottom-width:0.1em;
+  border-radius:0;
+  padding-left: 0.3em;
+  padding-right: 0.3em;
+  padding-bottom: 0em;
+  padding-top: 0em;
+}
+
+.link-button.manual-icon:first-child{
+  max-height:1.0em;
+  max-width:1.0em;
+}
+
+.link-button.generate-icon::before{
+  content:"";
+  display:block;
+  height:1.0em;
+  width:1.0em;
+  font-size:1.0em;
+  margin-right:0.3em;
+  background-size: contain;
+  background-position:center;
+}
+
+.link-button.color-twitter{
+  background-color:light-dark(
+    var(--color-twitter-light-bg),
+    var(--color-twitter-dark-bg));
+  color:light-dark(
+    var(--color-twitter-light-fg),
+    var(--color-twitter-dark-fg));
+}
+
+.light-mode .link-button.icon-twitter::before{
+  background-image:url("/siteicons/X_logo-black_Rsz64px.png");
+  transform:scale(1.0);
+}
+.dark-mode .link-button.icon-twitter::before{
+  background-image:url("/siteicons/X_logo-white_Rsz64px.png");
+  transform:scale(1.0);
+}
+
+.link-button.color-bluesky{
+  background-color:light-dark(
+    var(--color-bluesky-light-bg),
+    var(--color-bluesky-dark-bg));
+  color:light-dark(
+    var(--color-bluesky-light-fg),
+    var(--color-bluesky-dark-fg));
+}
+.link-button.icon-bluesky::before{
+  background-image:url("/siteicons/Bluesky_Logo_Wikipedia_1024px_Rsz64px.png");
+  transform:scale(1.2);
+}
+
+
+.link-button.color-discord{
+  background-color:light-dark(
+    var(--color-discord-light-blurple),
+    var(--color-discord-dark));
+  color:var(--color-discord-blurple);
+}
+.link-button.icon-discord::before{
+  background-image:url("/siteicons/Discord-Symbol-Blurple_Rsz64px.png");
+  transform:scale(1.2);
+}
+
+.link-button.color-naver{
+  background-color:light-dark(
+    var(--color-naver-lighter),
+    var(--color-background-dark));
+  color:light-dark(
+    var(--color-naver-darker),
+    var(--color-naver-base));
+}
+.link-button.icon-naver-blog::before{
+  background-image:url("/siteicons/favicon_nblog.png");
+  transform:scale(1.0);
+}
+
+.link-button.icon-internal::before{
+  content:"open_in_browser";
+  font-family:'Material Symbols Rounded';
+  transform:scale(1.4);
+  margin-top:-0.5em;
+}
+
+.link-button.icon-download::before{
+  content:"download";
+  font-family:'Material Symbols Rounded';
+  transform:scale(1.4);
+  margin-top:-0.5em;
+}
+
+.link-button.icon-camera::before{
+  content:"photo_camera";
+  font-family:'Material Symbols Rounded';
+  transform:scale(1.4);
+  margin-top:-0.5em;
+}
+
+.link-button.color-internal{
+  background-color:var(--color-background-auto);
+  color:light-dark(
+    var(--template-malang-TWI),
+    var(--template-malang-TS));
+}
+
+.link-button.color-malang-little{
+  background-color:#2F4575;
+  color:#FFF;
+}
+.link-button.color-malang-one{
+  background-color:#5f4385;
+  color:#FFF;
+}
+
+.link-button.color-hanmari{
+  color:light-dark(
+    var(--character-hanmari-mane-black),
+    var(--character-hanmari-body));
+  background:light-dark(
+    var(--character-hanmari-body),
+    var(--character-hanmari-mane-black));
+}
+.link-button.color-leebyeori{
+  color:light-dark(
+    var(--character-leebyeori-mane-brown),
+    var(--character-leebyeori-body));
+  background:light-dark(
+    var(--character-leebyeori-body),
+    var(--character-leebyeori-mane-brown));
+}
+
+.link-button.icon-naver-map::before{
+  background-image:url("/siteicons/favicon_nmap.png");
+  transform:scale(1.4);
+  margin-top:-0.2em;
+}
+
+.link-button.color-kakao{
+  color:light-dark(
+    var(--color-kakao-darker),
+    var(--color-kakao-base));
+  background-color:light-dark(
+    var(--color-kakao-lighter),
+    var(--color-background-dark));
+}
+.link-button.icon-kakao-map::before{
+  background-image:url("/siteicons/favicon_kkm_32px.png");
+  transform:scale(1.2);
+  margin-top:-0.1em;
+}
+
+.link-button.color-google{
+  color:var(--color-google-base);
+  background-color:light-dark(
+    var(--color-google-lighter),
+    var(--color-background-dark));
+}
+.link-button.icon-google-maps::before{
+  background-image:url("/siteicons/favicon_gmaps.png");
+  transform:scale(1.2);
+  margin-top:-0.1em;
+}
+
+.light-mode .link-button.icon-witchform::before{
+  background-image:url("/siteicons/WF_CropAlpha_Black.png");
+  transform:scale(1.5);
+  margin-top:-0.2em;
+}
+.dark-mode .link-button.icon-witchform::before{
+  background-image:url("/siteicons/WF_CropAlpha_White.png");
+  transform:scale(1.5);
+  margin-top:-0.2em;
+}
+
+.link-button.color-witchform{
+  background-color:light-dark(
+      var(--color-witchform-base),
+      var(--color-background-dark)
+  );
+  color:light-dark(
+      var(--color-witchform-fg),
+      var(--color-witchform-bg)
+  );
+}

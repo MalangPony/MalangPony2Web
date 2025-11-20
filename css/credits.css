@@ -88,7 +88,8 @@
 .credits-entry-container{
 	display:flex;
 	flex-direction:column;
-	align-items:flex-start;	
+	align-items:flex-start;
+	gap:2px;
 	margin-top:4px;
 	margin-bottom:4px;
 }

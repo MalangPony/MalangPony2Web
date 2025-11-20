@@ -1,21 +1,5 @@
 
-#register-witchform-link{
-	margin:16px;
-	font-size:1.6em;
-	border-color:var(--color-witchform-base);
-	background-color:light-dark(
-		var(--color-witchform-base),
-		var(--color-background-dark)
-	);
-	color:light-dark(
-		var(--color-witchform-fg),
-		var(--color-witchform-bg)
-	);
-}
-#register-witchform-link > img{
-	max-height:1.3em;
-	margin-top:-0.2em;
-}
+
 #register-tiers-list{
 	display:flex;
 	flex-direction:column;

@@ -35,50 +35,7 @@
 	flex-grow:1;
 }
 
-.prev-gallery-btn{
-  text-decoration: none;
-  display:block;
-  font-weight:bold;
-  text-align:center;
-  display:flex;
-  flex-direction:row;
-  align-items:center;
-  transition-property: background-color, color;
-  transition-duration: 0.5s;
-  padding-left:12px;
-  padding-right:12px;
-  padding-top:4px;
-  padding-bottom:4px;
-  font-size:1.2em;
-  border-radius:8px;
-  gap:8px;
-  border: 4px solid;
-}
-.prev-gallery-btn > .material-symbols-rounded {
-	font-size:32px;
-}
-.malang{
-	border-color: #2F4575;
-	background-color: #2F4575;
-	color:#FFF;
-}
 
-
-.malang_old{
-	border-color: #5f4385;
-	background-color: #5f4385;
-	color:#FFF;
-}
-@media ((hover: hover) and (pointer: fine)) {
-  .malang:hover{
-      background-color: #FFF;
-      color:#2F4575;
-  }
-  .malang_old:hover{
-      background-color: #FFF;
-      color:#5f4385;
-  }
-}
 
 #prev-site-links{
   font-size:0.8em; 

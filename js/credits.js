@@ -39,9 +39,16 @@ function generate_entry(entry,list_sns=true){
 	for (const sns_entry of entry.socials){
 		let sns_dom = document.createElement("a");
 		sns_dom.classList.add("credits-entry-sns");
-		sns_dom.classList.add("sns-link-button");
+		sns_dom.classList.add("link-button");
 		sns_dom.classList.add("inline");
-		sns_dom.classList.add(sns_entry.site);
+		sns_dom.classList.add("generate-icon");
+		if (sns_entry.site=="naver-blog"){
+			sns_dom.classList.add("icon-naver-blog");
+			sns_dom.classList.add("color-naver");
+		}else{
+			sns_dom.classList.add("icon-"+sns_entry.site);
+			sns_dom.classList.add("color-"+sns_entry.site);
+		}
 		sns_dom.href=sns_entry.link;
 		sns_dom.target="_blank";
 		/*
