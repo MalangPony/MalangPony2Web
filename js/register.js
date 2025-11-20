@@ -49,6 +49,7 @@ const tiers_data={
 		limit:3
 	},
 	spirit:{
+		margin_top:32,
 		name_en:"Spirit Badge",
 		name_ko:"영혼 보내기",
 		desc_en:"For those who can't attend in person<br>Note to people outside of Korea: You will need to pay for overseas shipping separately.",
@@ -61,6 +62,7 @@ const tiers_data={
 		limit:Infinity
 	},
 	onsite:{
+		margin_top:16,
 		name_en:"On-Site Badge",
 		name_ko:"현장등록",
 		desc_en:"We will offer a limited unmber of on-site registrations for those who missed the pre-registration.",
@@ -228,6 +230,10 @@ for (const tier_id in tiers_data){
 		tier_dom.querySelector(".register-tier-limit.langdiv-ko").style.disply="none";
 		tier_dom.querySelector(".register-tier-limit.langdiv-en").style.disply="none";
 	}
+	
+	let tier_margin_top = tier.margin_top;
+	if (tier_margin_top) 
+		tier_dom.querySelector(".register-tier-entry").style.marginTop=tier_margin_top+"px";
 	
 	
 	let perks_id_list=[];
