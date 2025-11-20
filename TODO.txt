@@ -28,7 +28,6 @@ Use contact-us button design everywehree
 delete roles inside credits page
 directions from far away: ICN, GMP, Seoul, GBT
 641 when clicked, route or stop
-Map ATM label hide
 BG multiple layers? BG tile and character L/R
 
 

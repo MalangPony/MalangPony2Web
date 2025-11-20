@@ -75,8 +75,8 @@ var marker = new kakao.maps.Marker({
 marker.setMap(kkm);
 
 // Overlay below marker
-let overlayContent='<div style="margin-top:12px;border:2px solid #F00;background-color:#F88;text-align:center;font-size:16px;">말랑포니 행사 장소<br><strong>올댓마인드</strong></div>'
-var customOverlay = new kakao.maps.CustomOverlay({
+let overlayContent='<div style="margin-top:12px;padding:8px;border-radius:8px;background-color:hsl(from var(--template-malang-TWI) h s l / 90%);color:var(--color-text-light);text-align:center;font-size:16px;">말랑포니 행사 장소<br><strong>올댓마인드</strong></div>'
+var placeLabel = new kakao.maps.CustomOverlay({
     map: kkm,
     position: positionATM,
     content: overlayContent,
@@ -220,11 +220,19 @@ kakao.maps.event.addListener(kkm, 'bounds_changed', ()=>{
   if (centeredX && centeredY) mbj.style.display="none";
   else mbj.style.display="flex";
 });
-// Hide drawing if zoomed out
+
+// Zoom-dependent Visibility
 kakao.maps.event.addListener(kkm, 'zoom_changed', function() {
   let zl=kkm.getLevel();
-  if (zl>5.5) drawing1.setVisible(false);
-  else drawing1.setVisible(true);
+  
+  drawing1.setVisible( zl<5.5 );
+
+  placeLabel.setVisible( (zl>4.5) && (zl<6.5) );
+  
+  
+  line_munrae.setMap( (zl<6.5) ? kkm : null );
+  line_yangpyong.setMap( (zl<6.5) ? kkm : null );
+  
 });
 
 function recenter(){
