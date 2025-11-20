@@ -1,26 +1,6 @@
 import { AnimatedValue } from "./animator.js";
+import * as BackgroundData from "./background_data.js";
 
-let background_images={
-	intro:     "", 
-	
-	news:      "sprites-prototype/MPN2-Prototype-Image-S1E26-SS06.jpg",
-	
-	about:     "sprites-prototype/MPN2-Prototype-Image-S1E26-SS02.jpg",
-	previous:  "sprites-prototype/MPN2-Prototype-Image-S1E26-SS02.jpg",
-	coc:       "sprites-prototype/MPN2-Prototype-Image-S1E26-SS02.jpg",
-	mascot:    "sprites-prototype/MPN2-Prototype-Image-S1E26-SS02.jpg",
-	
-	timetable: "sprites-prototype/MPN2-Prototype-Image-S1E26-SS03.jpg",
-	venue:     "sprites-prototype/MPN2-Prototype-Image-S1E26-SS03.jpg",
-	conbook:   "sprites-prototype/MPN2-Prototype-Image-S1E26-SS03.jpg",
-	internal:  "sprites-prototype/MPN2-Prototype-Image-S1E26-SS03.jpg",
-	
-	involved:  "sprites-prototype/MPN2-Prototype-Image-S1E26-SS04.jpg",
-	register:  "sprites-prototype/MPN2-Prototype-Image-S1E26-SS04.jpg",
-	
-	credits:   "sprites-prototype/MPN2-Prototype-Image-S1E26-SS05.jpg",
-	inquiries: "sprites-prototype/MPN2-Prototype-Image-S1E26-SS05.jpg",
-}
 
 let bg_container=document.getElementById("staticbg-container");
 
@@ -32,142 +12,231 @@ export function set_active(b){
 }
 
 let currently_active_image="";
-let images=[];
-for (const page in background_images){
-	let src=background_images[page];
-	if (!src) continue;
-	if (images.includes(src)) continue;
-	images.push(src);
-}
 
 let image_doms={};
-let image_opacity_av={};
-for (const src of images){
-	let img = document.createElement("img");
-	img.src=src;
-	img.style.display="none";
-	img.style.position="absolute";
-	img.style.top=0;
-	img.style.left=0;
-	img.style.width="100%";
-	img.style.height="100%";
-	img.style.objectFit="cover";
-	bg_container.appendChild(img);
-	let av=new AnimatedValue(0);
-	av.set_ease(1,false,false);
-	image_opacity_av[src]=av;
-	image_doms[src]=img;
+let animations={};
+for (const bgid in BackgroundData.background_definitions){
+	let bgdef=BackgroundData.background_definitions[bgid];
+	
+	let bg_scene = document.createElement("div");
+	bg_scene.classList.add("staticbg-scene");
+	bg_scene.style.display="none";
+	bg_scene.style.position="absolute";
+	bg_scene.style.top=0;
+	bg_scene.style.left=0;
+	bg_scene.style.width="100%";
+	bg_scene.style.height="100%";
+	
+	let bgfill_left = document.createElement("div");
+	bgfill_left.classList.add("staticbg-fill-left");
+	bgfill_left.style.backgroundColor=bgdef.outer_fill_left;
+	bgfill_left.style.position="absolute";
+	bgfill_left.style.top=0;
+	bgfill_left.style.left=0;
+	bgfill_left.style.width="50%";
+	bgfill_left.style.height="100%";
+	bgfill_left.style.zIndex=1;
+	bg_scene.appendChild(bgfill_left);
+	
+	let bgfill_right = document.createElement("div");
+	bgfill_right.classList.add("staticbg-fill-right");
+	bgfill_right.style.backgroundColor=bgdef.outer_fill_right;
+	bgfill_right.style.position="absolute";
+	bgfill_right.style.top=0;
+	bgfill_right.style.right=0;
+	bgfill_right.style.width="50%";
+	bgfill_right.style.height="100%";
+	bgfill_right.style.zIndex=1;
+	bg_scene.appendChild(bgfill_right);
+	
+	let bg_base = null;
+	if (bgdef.base_image){
+		bg_base = document.createElement("div");
+		bg_base.classList.add("staticbg-base-image");
+		bg_base.style.backgroundImage="url("+bgdef.base_image+")";
+		bg_base.style.backgroundSize="auto 100%";
+		bg_base.style.backgroundPosition="center";
+		bg_base.style.backgroundRepeat="no-repeat";
+		bg_base.style.position="absolute";
+		bg_base.style.top=0;
+		bg_base.style.right=0;
+		bg_base.style.width="100%";
+		bg_base.style.height="100%";
+		bg_base.style.zIndex=2;
+		bg_scene.appendChild(bg_base);
+	}
+	let bg_left = null;
+	if (bgdef.left_image){
+		bg_left = document.createElement("div");
+		bg_left.classList.add("staticbg-left-image");
+		bg_left.style.backgroundImage="url("+bgdef.left_image+")";
+		bg_left.style.backgroundSize="auto 100%";
+		bg_left.style.backgroundPosition="right";
+		bg_left.style.backgroundRepeat="no-repeat";
+		bg_left.style.position="absolute";
+		if (bgdef.left_align==="bottom") bg_left.style.bottom=0;
+		else if (bgdef.left_align==="top") bg_left.style.top=0;
+		else bg_left.style.top="calc( 100svh - "+(bgdef.left_height_vh/2)+"svh)";
+		bg_left.style.left=0;
+		bg_left.style.width="calc(var(--mcd-margin-left) - "+bgdef.left_margin_px+"px)";
+		bg_left.style.height=bgdef.left_height_vh+"svh";
+		bg_left.style.zIndex=3;
+		bg_scene.appendChild(bg_left);
+	}
+	
+	let bg_right = null;
+	if (bgdef.right_image){
+		bg_right = document.createElement("div");
+		bg_right.classList.add("staticbg-right-image");
+		bg_right.style.backgroundImage="url("+bgdef.right_image+")";
+		bg_right.style.backgroundSize="auto 100%";
+		bg_right.style.backgroundPosition="left";
+		bg_right.style.backgroundRepeat="no-repeat";
+		bg_right.style.position="absolute";
+		if (bgdef.left_align==="bottom") bg_right.style.bottom=0;
+		else if (bgdef.left_align==="top") bg_right.style.top=0;
+		else bg_right.style.top="calc( 100svh - "+(bgdef.right_height_vh/2)+"svh)";
+		bg_right.style.right=0;
+		bg_right.style.width="calc(var(--mcd-margin-right) - "+bgdef.right_margin_px+"px)";
+		bg_right.style.height=bgdef.right_height_vh+"svh";
+		bg_right.style.zIndex=3;
+		bg_scene.appendChild(bg_right);
+	}
+	
+	bg_container.appendChild(bg_scene);
+	
+	function animate_in(delay,duration){
+		if (bg_left){
+			let left=bg_left.animate(
+				[{left:"-100px",opacity:0},{left:"0",opacity:1}],
+				{duration: duration, delay:delay,
+				easing:"ease-out"});
+			left.onfinish=()=>{
+				bg_left.style.left=0;
+				bg_left.style.opacity=1;
+			};
+		}
+		if (bg_right){
+			let right=bg_right.animate(
+				[{right:"-100px",opacity:0},{right:"0",opacity:1}],
+				{duration: duration, delay:delay,
+				easing:"ease-out"});
+			right.onfinish=()=>{
+				bg_right.style.right=0;
+				bg_right.style.opacity=1;
+			};
+		}
+	}
+	function animate_out(delay,duration){
+		if (bg_left){
+			let left=bg_left.animate(
+				[{left:"0",opacity:1},{left:"-100px",opacity:0}],
+				{duration: duration, delay:delay,
+				easing:"ease-in"});
+			left.onfinish=()=>{bg_left.style.opacity=0;};
+		}
+		if (bg_right){
+			let right=bg_right.animate(
+				[{right:"0",opacity:1},{right:"-100px",opacity:0}],
+				{duration: duration, delay:delay,
+				easing:"ease-in"});
+			right.onfinish=()=>{bg_right.style.opacity=0;};
+		}
+	}
+	function jump_in(){
+		if (bg_left){
+			bg_left.style.left=0;
+			bg_left.style.opacity=1;
+		}
+		if (bg_right){
+			bg_right.style.right=0;
+			bg_right.style.opacity=1;
+		}
+	}
+	function jump_out(){
+		if (bg_left){
+			bg_left.style.opacity=0;
+		}
+		if (bg_right){
+			bg_right.style.opacity=0;
+		}
+	}
+	
+	animations[bgid]={
+		anim_in:animate_in,anim_out:animate_out,
+		jump_in:jump_in,jump_out:jump_out};
+	image_doms[bgid]=bg_scene;
 }
 
 export function activate_page_bg(pageid,delay,duration){
-	activate_img(background_images[pageid],delay,duration);
+	activate_img(BackgroundData.page_to_background_id[pageid],delay,duration);
 }
 // Call with target_src="" to clear image.
-function activate_img(target_src,delay,duration){
-	if (target_src===currently_active_image) return;
+function activate_img(target_bgid,delay,duration){
+	if (target_bgid===currently_active_image) return;
 	
-	for (const src of images){
-		let av=image_opacity_av[src];
-		let img=image_doms[src];
+	for (const bgid in BackgroundData.background_definitions){
+		let img=image_doms[bgid];
 		
-		if ((src===target_src) && (!currently_active_image)){
+		if ((bgid===target_bgid) && (!currently_active_image)){
 			// Special case for fading in with no active image
 			img.style.display="block";
 			img.style.zIndex=2;
 			img.style.opacity=0;
 			let anim=img.animate(
 				[{opacity:0},{opacity:1}],
-				{duration: duration, delay:delay})
+				{duration: duration, delay:delay});
 			anim.onfinish=()=>{img.style.opacity=1;}
-		}else if (src===target_src){
+			
+			animations[bgid].anim_in(delay,duration);
+		}else if (bgid===target_bgid){
+			// Image being faded in. 
+			// The old image will be laid on top and be faded out.
+			// So this doesn't really have to do much.
 			img.style.display="block";
 			img.style.zIndex=1;
 			img.style.opacity=1;
-		}else if (src===currently_active_image){
+			
+			// Since we start the animation a little later,
+			// the characters should be invisible at the start.
+			// hence the .jump_out() call.
+			animations[bgid].jump_out();
+			animations[bgid].anim_in(delay+duration/2,duration/2);
+		}else if (bgid===currently_active_image){
+			// Image being faded out.
 			img.style.display="block";
 			img.style.zIndex=2;
 			let anim=img.animate(
 				[{opacity:1},{opacity:0}],
-				{duration: duration, delay:delay})
+				{duration: duration, delay:delay});
 			anim.onfinish=()=>{img.style.display="none";}
+			
+			animations[bgid].anim_out(delay,duration/2);
 		} else{
 			img.style.display="none";
 		}
 	}
-	currently_active_image=target_src;
+	currently_active_image=target_bgid;
 }
+
 export function activate_page_bg_instant(pageid){
-	activate_img(background_images[pageid]);
+	activate_img_instant(BackgroundData.page_to_background_id[pageid]);
 }
 // Call with target_src="" to clear image.
-function activate_img_instant(target_src){
-	if (target_src===currently_active_image) return;
+function activate_img_instant(target_bgid){
+	if (target_bgid===currently_active_image) return;
 	
-	for (const src of images){
-		let av=image_opacity_av[src];
-		let img=image_doms[src];
+	for (const bgid in BackgroundData.background_definitions){
+		let img=image_doms[bgid];
 		
-		 if (src===target_src){
+		if (bgid===target_bgid){
 			img.style.display="block";
 			img.style.zIndex=2;
 			img.style.opacity=1;
+			animations[bgid].jump_in();
 		} else{
 			img.style.display="none";
 		}
 	}
-	currently_active_image=target_src;
+	currently_active_image=target_bgid;
 }
-/*
-export function activate_page_bg(pageid){
-	//console.log("APBG",pageid);
-	let target_src=background_images[pageid];
-	//console.log("TSRC",target_src);
-	for (const src of images){
-		let av=image_opacity_av[src];
-		let img=image_doms[src];
-		
-		if (src===target_src) av.animate_to(1);
-		else av.animate_to(0);
-	}
-}
-
-export function animationTick(dt){
-	let any_visible=false;
-	for (const src of images){
-		let av=image_opacity_av[src];
-		let img=image_doms[src];
-		av.tick(dt);
-		
-		let opacity=av.calculate_value();
-		//console.log(src,opacity);
-		if (opacity<0.0001){
-			// Image is not visible. Hide if needed and move on.
-			if ((img.style.display!=="none")){
-				img.style.display="none";
-			}
-			continue;
-		}
-		
-		any_visible=true;
-		
-		if ((opacity>0.0001) && (img.style.display!=="block"))
-			img.style.display="block";
-		
-		if ((opacity>0.9999)){
-			// Image is fully visible. Set 100% and move on.
-			if (img.style.opacity!=="1"){
-				img.style.opacity="1";
-			}
-			continue;
-		}
-		
-		img.style.opacity=opacity;
-		
-		
-		
-	}
-	
-	if (!any_visible) bg_container.style.display="none";
-	else bg_container.style.display="block";
-}
-*/

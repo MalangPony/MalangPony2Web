@@ -935,12 +935,12 @@ function page_transition(name){
     animation_start_time+=duration;
     StaticBG.activate_page_bg(name,animation_start_time,500);
   }else if ( castle_mode && (!on_intro) && to_intro ){ // Exit Castle
-    StaticBG.activate_page_bg(name,animation_start_time,500);
+    StaticBG.activate_page_bg(name,0,1000);
     let duration=Castle.exit_animation(500,()=>{});
     animation_start_time+=duration;
     
   }else{ // move inside castle
-    StaticBG.activate_page_bg(name,animation_start_time,500);
+    StaticBG.activate_page_bg(name,0,1000);
   }
   
   

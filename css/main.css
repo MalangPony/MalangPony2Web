@@ -21,7 +21,7 @@
   --mcd-space-equalize: min(var(--mcd-space-excess),var(--mcd-difference));
   --mcd-space-distributed: calc((var(--mcd-space-excess) - var(--mcd-space-equalize)) /2 );
   --mcd-margin-left: calc(var(--mcd-left) + var(--mcd-space-distributed));
-  --mcd-margin-right: calc(var(--mcd-left) + var(--mcd-space-equalize) + var(--mcd-space-distributed));
+  --mcd-margin-right: calc(var(--mcd-right) + var(--mcd-space-equalize) + var(--mcd-space-distributed));
   
   
   /* MalangPony logo positioning */
