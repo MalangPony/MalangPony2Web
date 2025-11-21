@@ -24,6 +24,7 @@ Page behind gets scrolled when mobile sidebar is open
 Use contact-us button design everywehree
 directions from far away: ICN, GMP, Seoul, GBT
 641 when clicked, route or stop
+in get involved, use inquiry box
 
 
 RIGHT BEFORE PUSH TO PROD

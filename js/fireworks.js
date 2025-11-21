@@ -143,7 +143,7 @@ class FireworkEntity extends GlowingCircleEntity{
     
     if (this.fuze_seconds<0) {
       // Explode now!
-      spawn_firework_burst(this.position,this.velocity);
+      spawn_firework_burst(this.position,this.velocity,this);
     }else{
       // We are traveling - spawn some trail particles!
       this.distance_travelled_without_particle+=
@@ -195,6 +195,20 @@ function offset_all_entities(dx,dy){
 const PARTICLE_PHYSICS_GRAVITY=300;
 
 
+const firework_color_presets=[
+  ["#FFFFFF","#FF91DB","#FF91DB00"],
+  ["#FFFFFF","#F7E38F","#F7E38F00"],
+  ["#FFFFFF","#70BCFF","#70BCFF00"],
+  ["#FFFFFF","#F5B96E","#F5B96E00"],
+  ["#FFFFFF","#AD8CD9","#AD8CD900"],
+
+  ["#FFFFFF","#C7303E","#C7303E00"],
+  //["#FFFFFF","#F19246","#F1924600"], // Removed, too similar to AJ
+  //["#FFFFFF","#FCC665","#FCC66500"], //Removed, too similar to FS
+  //["#FFFFFF","#41B46D","#41B46D00"], //Removed
+  //["#FFFFFF","#6683D0","#6683D000"], //Removed
+  //["#FFFFFF","#514061","#51406100"], //Removed, too dark
+];
 let last_explosion_location=new Vector2();
 function spawn_firework_rocket(cs){
   let h=cs.height;
@@ -245,6 +259,8 @@ function spawn_firework_rocket(cs){
   }
   
   // Actually spawn the firework entity.
+  let random_color=firework_color_presets[
+    Math.floor(Math.random()*firework_color_presets.length)];
   let e= new FireworkEntity();
   e.position=new Vector2(px,py);
   e.velocity=new Vector2(vx,-vy);
@@ -253,11 +269,11 @@ function spawn_firework_rocket(cs){
   e.lifetime=fuze+0.01;
   e.radius=20;
   e.life_size_power=0.5;
-  e.inner_color="#FFFFFF";
+  e.inner_color=random_color[0];
   e.border_feather=5;
-  e.glow_color="#FF0000";
+  e.glow_color=random_color[1];
   e.glow_radius=30;
-  e.edge_color="#FF000000";
+  e.edge_color=random_color[2];
   
   //console.log(`FWE ${w} ${h} ${px} ${py} ${vx} ${vy} ${fuze}`);
   
@@ -278,7 +294,7 @@ export function time_since_last_firework_explosion(){
 
 // Spawn the firework explosion
 // Just spawning a bunch of GlowingCircleEntities with a random velocity.
-function spawn_firework_burst(center=null,initial_velocity=null){
+function spawn_firework_burst(center=null,initial_velocity=null,parent=null){
   let particle_highcount=PerformanceManager.check_feature_enabled(
     PerformanceManager.Feature.FIREWORKS_HIGHCOUNT);
   
@@ -288,7 +304,10 @@ function spawn_firework_burst(center=null,initial_velocity=null){
   if (initial_velocity===null){
     initial_velocity=new Vector2(0,0);
   }
+  let random_color=firework_color_presets[
+      Math.floor(Math.random()*firework_color_presets.length)];
   for (let i=0;i<(particle_highcount?50:20);i++){
+    
     let e=new GlowingCircleEntity();
     e.position=center.add(Vector2.random().multiply(30));
     e.velocity=Vector2.random().multiply(1000).add(initial_velocity);
@@ -297,11 +316,14 @@ function spawn_firework_burst(center=null,initial_velocity=null){
     e.radius=10;
     e.lifetime=2.0;
     e.life_size_power=3.0;
-    e.inner_color="#FFFFFF";
+    //e.inner_color=random_color[0];
+    e.inner_color=parent.inner_color;
     e.border_feather=2;
-    e.glow_color="#00FF00";
+    //e.glow_color=random_color[1];
+    e.glow_color=parent.glow_color;
     e.glow_radius=10;
-    e.edge_color="#00FF0000";
+   // e.edge_color=random_color[2];
+    e.edge_color=parent.edge_color;
     entity_array.push(e);
   }
   // Call burst callbacks
