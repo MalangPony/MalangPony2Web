@@ -121,8 +121,8 @@ for (const bgid in BackgroundData.background_definitions){
 		bg_right.style.backgroundPosition="left";
 		bg_right.style.backgroundRepeat="no-repeat";
 		bg_right.style.position="absolute";
-		if (bgdef.left_align==="bottom") bg_right.style.bottom=0;
-		else if (bgdef.left_align==="top") bg_right.style.top=0;
+		if (bgdef.right_align==="bottom") bg_right.style.bottom=0;
+		else if (bgdef.right_align==="top") bg_right.style.top=0;
 		else bg_right.style.top="calc( 100svh - "+(bgdef.right_height_vh/2)+"svh)";
 		bg_right.style.right=0;
 		bg_right.style.width="calc(var(--mcd-margin-right) - "+bgdef.right_margin_px+"px)";

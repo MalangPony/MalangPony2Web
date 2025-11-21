@@ -77,7 +77,7 @@ export let background_definitions={
 		left_height_vh:60,
 		left_margin_px:16,
 		right_image:"/sprites-prototype/MPN2-Prototype-Image-D1108682.png",
-		right_align:"bottom",
+		right_align:"top",
 		right_height_vh:60,
 		right_margin_px:16,
 	},
