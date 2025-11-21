@@ -513,7 +513,7 @@ function timetable_build(ttd){
 			"sub-hall":"hsl(180deg 90% 80%)",
 			"lobby":"hsl(270deg 90% 80%)"
 		}[colgroup];*/
-		//block_dom.style.backgroundColor="hsl("+(base_x/2)+"deg 90% 80%)";
+		//block_dom.style.backgroundColor="hsl("+(base_x/2)+"deg 60% 85%)";
 		//let h_left=base_x/2;
 		//let h_right=(base_width+base_x)/2;
 		//block_dom.style.backgroundImage="linear-gradient(to right, hsl("+h_left+"deg 90% 80%) 0% , hsl("+h_right+"deg 90% 80%) 100%)";
@@ -605,7 +605,6 @@ function timetable_build(ttd){
 			right-left+tt_cg_side_extension*2);
 		cg_outline_dom.style.height=px2em(
 			max_y+tt_cg_bottom_extension);
-		cg_outline_dom.style.background="linear-gradient(to bottom, "+cg.ramp_color_top+", "+cg.ramp_color_bottom+")";
 		
 		cg_label_dom.style.height=px2em(tt_cg_top_extension);
 		cg_outline_dom.appendChild(cg_label_dom);

@@ -43,7 +43,7 @@
   /* Therefore, in LIGHT mode, the DARK text color should be used. */
   /* And in DARK mode, the LIGHT text color should be used. */
   --color-text-dark: var(--template-malang-text);
-  --color-text-light: var(--template-malang-bg);
+  --color-text-light: #FFF;
   --color-text-auto: light-dark(var(--color-text-dark),var(--color-text-light));
   --color-text-reversed: light-dark(var(--color-text-light),var(--color-text-dark));
   
@@ -108,14 +108,15 @@
   --color-perks-text:#202020;
   
   /* Timetable */
-  --color-timetable-event-critical:#ffb0e3;
-  --color-timetable-vendor-main:#d7c5ff;
-  --color-timetable-vendor-pre:#e8ddff;
-  --color-timetable-buffer:#d8d8d8;
-  --color-timetable-long-running:#edffb3;
-  --color-timetable-panel-main:#b2ffcc;
-  --color-timetable-panel-open:#ffd1a9;
-  --color-timetable-panel-sub:#afe0ff;
+  --color-timetable-event-critical:  #F8FAB5;
+  --color-timetable-vendor-main:     #FFCCFF;
+  --color-timetable-vendor-pre:      #FFE6FF;
+  --color-timetable-buffer:          #ECECEC;
+  --color-timetable-long-running:    #AFFAD7;
+  --color-timetable-panel-main:      #afe0ff;
+  --color-timetable-panel-open:      #ffd1a9;
+  --color-timetable-panel-sub:       #afe0ff;
+  --color-timetable-night-show:      #e8ddff;
   
   /* Directions */
   /* Seoul Subway Line 5 */

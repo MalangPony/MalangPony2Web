@@ -135,7 +135,7 @@ export let blocks=[
 	"name_en":"Night Show",
 	"start_time":"19:30",
 	"end_time":"20:30",
-	"color_preset":"panel-main",
+	"color_preset":"night-show",
 	"column":"main-stage",
 	"description_en":"Move your body to some pony beats!",
 	"description_kr":"포니클럽 개장!<br>포니 음악에 맞추어 즐겨봐요!",
@@ -480,36 +480,28 @@ export let column_groups=[
 	"fullname_kr":"메인 홀",
 	"fullname_en":"Mane Hall",
 	"line2_kr":"(무대)",
-	"line2_en":"(Stage)",
-	"ramp_color_top":   "rgba(255,210,230, 0.5)",
-	"ramp_color_bottom":"rgba(255,210,230, 0.0)"
+	"line2_en":"(Stage)"
 	},
 	{
 	"name":"main-side",
 	"fullname_kr":"메인 홀",
 	"fullname_en":"Mane Hall",
 	"line2_kr":"(측면)",
-	"line2_en":"(Side)",
-	"ramp_color_top":   "rgba(210,255,210, 0.5)",
-	"ramp_color_bottom":"rgba(210,255,210, 0.0)"
+	"line2_en":"(Side)"
 	},
 	{
 	"name":"sub-hall",
 	"fullname_kr":"서브 홀",
 	"fullname_en":"Sub Hall",
 	"line2_kr":"",
-	"line2_en":"",
-	"ramp_color_top":   "rgba(220,210,255, 0.5)",
-	"ramp_color_bottom":"rgba(220,210,255, 0.0)"
+	"line2_en":""
 	},
 	{
 	"name":"lobby",
 	"fullname_kr":"로비",
 	"fullname_en":"Lobby",
 	"line2_kr":"",
-	"line2_en":"",
-	"ramp_color_top":   "rgba(255,255,200, 0.5)",
-	"ramp_color_bottom":"rgba(255,255,200, 0.0)"
+	"line2_en":""
 	}
 ];
 export let color_presets=[
@@ -536,6 +528,10 @@ export let color_presets=[
 	{
 	"name":"panel-open",
 	"color":"var(--color-timetable-panel-open)"
+	},
+{
+	"name":"night-show",
+	"color":"var(--color-timetable-night-show)"
 	},
 	{
 	"name":"vendor-main",

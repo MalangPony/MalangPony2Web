@@ -25,6 +25,7 @@ Use contact-us button design everywehree
 directions from far away: ICN, GMP, Seoul, GBT
 641 when clicked, route or stop
 in get involved, use inquiry box
+In credits page, align staff and sponsor header with divider
 
 
 RIGHT BEFORE PUSH TO PROD

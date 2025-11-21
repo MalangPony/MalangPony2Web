@@ -5,6 +5,7 @@
 #ttable-positioner{
   font-size:min(1.5vw,16px);
 }
+
 #ttable-container{
 }
 .timetable-dom-root{
@@ -30,6 +31,10 @@
   text-align:center;
   
   color:var(--color-text-dark);
+  
+  border-color:hsl( from var(--color-text-dark) h s l / 70%);
+  border-width:2px;
+  border-style:solid;
 }
 
 .timetable-block-body.timetable-block-mouseover{
@@ -147,6 +152,10 @@
   top:0;
   border-radius:0.5em;
   z-index:50;
+  background:linear-gradient(
+    to bottom, 
+    hsl(from var(--color-text-auto) h s l / 50%), 
+    hsl(from var(--color-text-auto) h s l / 0%));
 }
 .timetable-cgroup-label{
   /* Set dynamically at timetable.js: 
@@ -161,6 +170,7 @@
   align-items:center;
   flex-direction:column;
   gap:0.2em;
+  color: var(--color-text-reversed);
 }
 .timetable-cgroup-label-line2{
   font-size:0.8em;
