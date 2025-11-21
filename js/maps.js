@@ -86,15 +86,15 @@ var placeLabel = new kakao.maps.CustomOverlay({
 
 // Route functions
 
-let flashing_functions=[];
-let delayed_functions=[];
+let cleanup_functions=[];
+let cleanup_timeout_ids=[];
 // Flash a polyline pl,
 // Over duration milliseconds, every interval milliseconds.
 // Flash between optA and optB, settling on optE at the end.
 function flash_polyline(pl,duration,interval,optA,optB,optE){
   // Cancel everything else. Only one route may be flashed at a time.
-  for (const iid of flashing_functions) window.clearInterval(iid);
-  for (const iid of delayed_functions) window.clearTimeout(iid);
+  for (const f of cleanup_functions) f();
+  for (const iid of cleanup_timeout_ids) window.clearTimeout(iid);
   
   let parity=true;
   pl.setOptions(optA); // Apply optA immediately.
@@ -103,14 +103,21 @@ function flash_polyline(pl,duration,interval,optA,optB,optE){
     if (parity) pl.setOptions(optA);
     else pl.setOptions(optB);
   },interval);
-  flashing_functions.push(interval_id);
   
-  // Timeout to clear the interval.
-  let timeout_id=window.setTimeout(()=>{
+  //Cleanup
+  let cleaned_up=false;
+  function cleanup(){
+    if (cleaned_up) return;
     window.clearInterval(interval_id);
     pl.setOptions(optE);
-  },duration);
-  delayed_functions.push(timeout_id);
+    cleaned_up=true;
+  }
+  cleanup_functions.push(cleanup);
+  
+  // Cleanup should be run automatically.
+  
+  let timeout_id=window.setTimeout(cleanup,duration);
+  cleanup_timeout_ids.push(timeout_id);
 }
 function calculate_polyline_bounds(pl){
   let latMax=-1000;
