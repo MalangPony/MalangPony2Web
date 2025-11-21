@@ -307,6 +307,7 @@
     height:calc(100dvh - 32px);
     margin-top:16px;
     margin-left:16px;
+    pointer-events:auto;
   }
   #sidebar-content{
     position:absolute;
