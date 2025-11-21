@@ -117,6 +117,35 @@
   --color-timetable-panel-open:#ffd1a9;
   --color-timetable-panel-sub:#afe0ff;
   
+  /* Directions */
+  /* Seoul Subway Line 5 */
+  --color-background-line5: #d6c4dd;
+  --color-text-line5: #8B50A4;
+  --color-route-line5: var(--color-text-line5);
+  
+  /* Seoul Subway Line 2 */
+  --color-background-line2:#dcf9df;
+  --color-text-line2:#33A23D;
+  --color-route-line2: var(--color-text-line2);
+  
+  /* Seoul Blue bus */
+  --color-background-bluebus:#ced3ff;
+  --color-text-bluebus:#363db6;
+  --color-route-bluebus: var(--color-text-bluebus);
+  
+  --color-background-airport:#c1faff;
+  --color-text-airport:#049fad;
+  --color-route-airport: var(--color-text-airport);
+  
+  --color-background-railway:#d9d9d9;
+  --color-text-railway:#323232;
+  --color-route-railway: var(--color-text-railway);
+  
+  --color-background-gsbus:#ffd7dd;
+  --color-text-gsbus:#ce203a;
+  --color-route-gsbus: var(--color-text-gsbus);
+  
+  
   
   /* External Brands */
   /* All colors were chosen arbitrarily if not commented otherwise. */
@@ -136,21 +165,6 @@
   --color-google-lighter:#cde7ff;
   --color-google-darker:#1a63c2;
   --color-google-base:#4285F4; /* = Official */
-  
-  /* Seoul Subway Line 5 */
-  --color-background-line5: #d6c4dd;
-  --color-text-line5: #8B50A4;
-  --color-route-line5: var(--color-text-line5);
-  
-  /* Seoul Subway Line 2 */
-  --color-background-line2:#dcf9df;
-  --color-text-line2:#33A23D;
-  --color-route-line2: var(--color-text-line2);
-  
-  /* Seoul Blue bus */
-  --color-background-bluebus:#d8dbff;
-  --color-text-bluebus:#363db6;
-  --color-route-bluebus: var(--color-text-bluebus);
   
   /* Yes, they actually use #000 (Official) */
   --color-twitter-base:#000000;

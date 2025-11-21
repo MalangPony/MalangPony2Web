@@ -58,6 +58,13 @@
   flex-direction:column;
   gap:8px;
 }
+#directions-intercity-divider{
+  margin-top:16px;
+  margin-bottom:8px;
+  font-size:1.5em;
+  font-weight:700;
+  text-align:center;
+}
 .directions-listing{
   height:100px;
   display:flex;
@@ -73,7 +80,7 @@
 }
 .directions-icon{
   position:absolute;
-  opacity:0.5;
+  opacity:0.8;
   top:0;
   right:0;
   max-height:100%;
@@ -104,7 +111,30 @@
 #directions-bus .directions-title{
   color: var(--color-text-bluebus);
 }
-
+#directions-icn{
+  background-color: var(--color-background-airport);
+}
+#directions-icn .directions-title{
+  color: var(--color-text-airport);
+}
+#directions-gmp{
+  background-color: var(--color-background-airport);
+}
+#directions-gmp .directions-title{
+  color: var(--color-text-airport);
+}
+#directions-railway{
+  background-color: var(--color-background-railway);
+}
+#directions-railway .directions-title{
+  color: var(--color-text-railway);
+}
+#directions-gsbus{
+  background-color: var(--color-background-gsbus);
+}
+#directions-gsbus .directions-title{
+  color: var(--color-text-gsbus);
+}
 
 /* Responsive Section */
 /* Targeting down to 300px. */
