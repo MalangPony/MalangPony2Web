@@ -3,21 +3,21 @@
 export let page_to_background_id={
 	intro:     "", 
 	
-	news:      "cloudsdale",
-	credits:   "cloudsdale",
+	news:      "library",
 	
 	about:     "manehattan",
 	previous:  "manehattan",
 	coc:       "manehattan",
 	mascot:    "manehattan",
+	credits:   "manehattan",
 	
-	timetable: "library",
-	venue:     "library",
-	conbook:   "library",
-	internal:  "library",
+	timetable: "cloudsdale",
+	venue:     "cloudsdale",
+	conbook:   "cloudsdale",
+	internal:  "cloudsdale",
 	
-	involved:  "cloudsdale",
-	register:  "cloudsdale",
+	involved:  "library",
+	register:  "library",
 	
 	
 	inquiries: "nothing",
@@ -40,7 +40,7 @@ export let background_definitions={
 		right_margin_px:0,
 	},
 	
-	cloudsdale:{
+	library:{
 		outer_fill_right:"#81262d",
 		outer_fill_left:"#a4463e",
 		base_image:"/sprites-prototype/MPN2-Prototype-Image-D3612742.jpg",
@@ -68,7 +68,7 @@ export let background_definitions={
 		right_margin_px:16,
 	},
 	
-	library:{
+	cloudsdale:{
 		outer_fill_left:"#64a2b7",
 		outer_fill_right:"#64a2b7",
 		base_image:"/sprites-prototype/MPN2-Prototype-Image-D3666326.jpg",
