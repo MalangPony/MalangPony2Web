@@ -49,7 +49,7 @@ export const tiers_data={
 		limit:3
 	},
 	spirit:{
-		margin_top:32,
+		margin_top:64,
 		name_en:"Spirit Badge",
 		name_ko:"영혼 보내기",
 		desc_en:"For those who can't attend in person<br>Note to people outside of Korea: You will need to pay for overseas shipping separately.",

@@ -185,7 +185,7 @@
 }
 
 .register-tier-perk.perk-overwritten.perk-overwritten{
-	background-color:#606060;
+	background-color:light-dark(#828282,#606060);
 	/*display:none;*/
 }
 .register-tier-perk.perk-overwritten .perk-name{

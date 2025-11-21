@@ -26,7 +26,10 @@ directions from far away: ICN, GMP, Seoul, GBT
 641 when clicked, route or stop
 in get involved, use inquiry box
 In credits page, align staff and sponsor header with divider
-
+Add fragment link in involved top
+HMR L2D petting detection
+final bend at the door, for venue routes
+"see more" button in register page entries
 
 RIGHT BEFORE PUSH TO PROD
 Change all domains (testing.malangpony) to a PHP expression (<?php echo $webroot;?>)
