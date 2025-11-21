@@ -31,41 +31,79 @@
 .register-tier-entry{
 	border-radius:8px;
 	border-style:solid;
-	border-width:2px;
+	border-width:4px;
 	border-color:var(--tier-color-base);
-	padding:12px;
+	overflow:hidden;
 	display:flex;
 	flex-direction:column;
 	align-items:stretch;
-	gap:8px;
-	background-color:hsl(from var(--color-background-dark) h s l / 50%);
+	/*
+	background-color: light-dark(
+		hsl(from var(--color-background-dark) h s l / 70%),
+		hsl(from var(--color-background-dark) h s l / 50%));*/
+	background-color: hsl(from var(--color-background-auto) h s l / 30%);
 	cursor:pointer;
 }
+.register-tier-header{
+	display:flex;
+	flex-direction:column;
+	align-items:stretch;
+	border-bottom-style:dotted;
+	border-bottom-width:2px;
+	border-bottom-color: hsl(from var(--tier-color-base) h s l / 100%);
+	gap:8px;
+	padding-bottom:8px;
+}
+/*
 .register-tier-entry-separator{
 	height:2px;
 	background-color:var(--tier-color-base);;
 	margin-left:16px;
 	margin-right:16px;
-}
+}*/
 .register-tier-title{
 	display:flex;
 	flex-direction:row;
 	align-items:flex-end;
 }
+.register-topleft{
+	background-color:#0F0;
+	display:flex;
+	flex-direction:row;
+	padding-top:8px;
+	padding-left:56px;
+	padding-right:16px;
+	padding-bottom:8px;
+	border-bottom-right-radius:16px;
+	position:relative;
+	background-color: hsl(from var(--tier-color-base) h s l / 100%);
+	overflow:hidden;
+}
 .register-tier-icon{
-	
+	width:48px;
+	height:48px;
+	transform:rotate(10deg);
+	opacity:1.0;
+	position:absolute;
+	top:-4px;
+	left:-4px;
+	background-image:url("/sprites-prototype/hanmari_CM_rev1_100px.png");
+	background-position:center;
+	background-size:contain;
 }
 .register-tier-name{
 	font-size:1.8em;
 	font-weight:700;
-	color:var(--tier-color-base);
+	color:var(--color-text-dark);
 }
 .register-tier-description{
-	color:var(--color-text-light);
+	color:var(--color-text-auto);
+	margin-left:16px;
 }
 .register-tier-limit{
-	color:var(--tier-color-base);
-	margin-left:4px;
+	color:var(--color-text-auto);
+	margin-left:12px;
+	
 	font-size:1.0em;
 }
 .register-tier-title-spacer{
@@ -74,7 +112,8 @@
 .register-tier-price{
 	font-size:1.0em;
 	font-weight:700;
-	color:var(--tier-color-base);
+	color:var(--color-text-auto);
+	margin-right:16px;
 }
 .register-tier-perks-list{
 	display:flex;
@@ -82,6 +121,7 @@
 	flex-direction:row;
 	flex-wrap:wrap;
 	gap:4px;
+	padding:12px;
 }
 /*
 .register-tier-perks-row{
@@ -154,7 +194,7 @@
 }
 
 .register-tier-perk.perk-inherited{
-	background-color:#B0B0B0;
+	background-color:light-dark(#D0D0D0,#B0B0B0);
 	/*background-color:var(--color-background-light);*/
 	/*background-color:#E0E0E0;*/
 }
@@ -199,7 +239,7 @@
 	flex-direction:row;
 	align-items:center;
 	justify-content:center;
-	color:var(--perk-color-base);
+	color:var(--color-text-auto);
 	font-size:1.2em;
 	font-weight:700;
 	text-align:center;
