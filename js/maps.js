@@ -102,7 +102,7 @@ var marker = new kakao.maps.Marker({
 marker.setMap(kkm);
 
 // Overlay below marker
-let overlayContent='<div style="margin-top:12px;padding:8px;border-radius:8px;background-color:hsl(from var(--template-malang-TWI) h s l / 90%);color:var(--color-text-light);text-align:center;font-size:16px;">말랑포니 행사 장소<br><strong>올댓마인드</strong></div>'
+let overlayContent='<div class="atm-label-overlay">말랑포니 행사 장소<br><strong>올댓마인드</strong></div>'
 var placeLabel = new kakao.maps.CustomOverlay({
     map: kkm,
     position: positionATM,
@@ -185,7 +185,7 @@ let routes={
     points:MapData.route_B641ToATM,
     waypoints:[
       {point:MapData.point_BusStopA,ko:"영문초등학교 정류장",en:"Bus Stop"},
-      {point:MapData.point_BusStopB,ko:"영문초등학교 정류장",en:"Bus Stop"},
+      {point:MapData.point_BusStopB,ko:"영문초등학교 정류장",en:"Bus Stop",topalign:true},
     ],
     color:"var(--color-route-bluebus)",
     focus_button:directions_bus,
@@ -199,7 +199,7 @@ let routes={
       MapData.route_YangpyeongToATM,
     ),
     waypoints:[
-      {point:MapData.point_ICN1,ko:"인천국제공항 1터미널",en:"ICN Terminal 1"},
+      {point:MapData.point_ICN1,ko:"인천국제공항 1터미널",en:"ICN Terminal 1",topalign:true},
       {point:MapData.point_ICN2,ko:"인천국제공항 2터미널",en:"ICN Terminal 2"},
       {point:MapData.point_GMP,ko:"환승",en:"Transfer"},
     ],
@@ -291,12 +291,25 @@ for (const k in routes){
   });
   route.focus_button.style.cursor="pointer";
   route.wp_overlays=[];
+  
   for (const wp of route.waypoints){
+    let topalign=!!wp.topalign; // Convert undefined to false
+    let overlay_content="";
+    overlay_content+='<div class="route-waypoint-container">';
+     if (topalign)
+      overlay_content+='<div class="route-waypoint-arrow">arrow_drop_up</div>';
+    overlay_content+=  '<div class="route-waypoint-text">';
+    overlay_content+=    '<span class="lang-en">'+wp.en+'</span>';
+    overlay_content+=    '<span class="lang-ko">'+wp.ko+'</span>';
+    overlay_content+=  '</div>';
+    if (!topalign)
+      overlay_content+='<div class="route-waypoint-arrow">arrow_drop_down</div>';
+    overlay_content+='</div>';
     let overlay= new kakao.maps.CustomOverlay({
         position: array_to_latlng(wp.point),
-        content: '<div style="display:flex;flex-direction:column;align-items:center;"><div style="padding:2px;border-radius:8px;background-color:hsl(from var(--template-malang-TWI) h s l / 90%);color:var(--color-text-light);text-align:center;font-size:16px;"><span class="lang-en">'+wp.en+'</span><span class="lang-ko">'+wp.ko+'</span></div><span class="material-symbols-rounded" style="color:var(--template-malang-TWI);margin-top:-0.35em;font-size:2.0em;height:0.8em;">arrow_drop_down</span></div>',
+        content: overlay_content,
         xAnchor:0.5,
-        yAnchor: 1.0
+        yAnchor: topalign? 0.0 : 1.0
     });
     if (route.shown) overlay.setMap(kkm);
     route.wp_overlays.push(overlay);

@@ -30,6 +30,38 @@
 #kakaomap-content{
   width:100%;height:100%;
 }
+
+#kakaomap-content .atm-label-overlay{
+  margin-top:12px;
+  padding:8px;
+  border-radius:8px;
+  background-color:hsl(from var(--template-malang-TWI) h s l / 90%);
+  color:var(--color-text-light);
+  text-align:center;
+  font-size:16px;
+}
+
+#kakaomap-content .route-waypoint-container{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+#kakaomap-content .route-waypoint-text{
+  padding:4px;
+  border-radius:8px;
+  background-color:hsl(from var(--template-malang-TWI) h s l / 90%);
+  color:var(--color-text-light);
+  text-align:center;
+  font-size:16px;
+}
+#kakaomap-content .route-waypoint-arrow{
+  color:var(--template-malang-TWI);
+  margin-top:-0.40em;
+  font-size:2.0em;
+  height:0.8em;
+  font-family:"Material Symbols Rounded";
+}
+
 #map-btn-jump{
   position:absolute;
   top:16px;
@@ -51,6 +83,8 @@
   height:48px;
   width:48px;
 }
+
+
 #directions-container{
   width:min(600px,100%);
   margin-top:16px;
