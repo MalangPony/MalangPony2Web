@@ -22,14 +22,10 @@ explain in text how perks work
 Page transition speed in Config -> Speed up 1.0 -> 0.6?
 Page behind gets scrolled when mobile sidebar is open
 Use contact-us button design everywehree
-directions from far away: ICN, GMP, Seoul, GBT
-641 when clicked, route or stop
 in get involved, use inquiry box
 In credits page, align staff and sponsor header with divider
 Add fragment link in involved top
 HMR L2D petting detection
-final bend at the door, for venue routes
-"see more" button in register page entries
 PAGE MAY BE BROKEN ENTIERLY IN IPAD - NEED CHECK
 Changing language when a route is displayed in the map will throw off the waypoint position x-alignment
 
