@@ -11,7 +11,7 @@ export function set_active(b){
 	else bg_container.style.display="block";
 }
 
-const LR_IMAGE_WIDTH_THRESHOLD=1500;
+const LR_IMAGE_WIDTH_THRESHOLD=1400;
 
 let lr_image_active=(bg_container.clientWidth>LR_IMAGE_WIDTH_THRESHOLD);
 let screen_resize_observer = new ResizeObserver(()=>{
@@ -19,7 +19,7 @@ let screen_resize_observer = new ResizeObserver(()=>{
 	if (lr_image_active && (w<LR_IMAGE_WIDTH_THRESHOLD)){
 		for (const bgid in BackgroundData.background_definitions){
 			 if (bgid===currently_active_image){
-				animations[bgid].anim_out(0,1000);
+				animations[bgid].anim_out(0,500);
 			} else{
 				animations[bgid].jump_out();
 			}
@@ -29,7 +29,7 @@ let screen_resize_observer = new ResizeObserver(()=>{
 	if ((!lr_image_active) && (w>LR_IMAGE_WIDTH_THRESHOLD)){
 		for (const bgid in BackgroundData.background_definitions){
 			 if (bgid===currently_active_image){
-				animations[bgid].anim_in(0,1000);
+				animations[bgid].anim_in(0,500);
 			} else{
 				animations[bgid].jump_in();
 			}
@@ -218,6 +218,8 @@ function activate_img(target_bgid,delay,duration){
 			
 			if (lr_image_active)
 				animations[bgid].anim_in(delay,duration);
+			else
+				animations[bgid].jump_out();
 		}else if (bgid===target_bgid){
 			// Image being faded in. 
 			// The old image will be laid on top and be faded out.
