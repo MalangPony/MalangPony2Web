@@ -24,6 +24,8 @@ for (const tier_id in TierData.tiers_data){
 		tier_data.price+",000원";
 	tier_dom.querySelector(".register-tier-price.langdiv-en").innerHTML=
 		tier_data.price+",000 KRW";
+		
+	tier_dom.querySelector(".register-tier-icon").src=tier_data.icon;
 	
 	if (Number.isFinite(tier_data.limit)){
 		tier_dom.querySelector(".register-tier-limit.langdiv-ko").innerHTML=

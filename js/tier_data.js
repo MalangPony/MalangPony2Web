@@ -10,7 +10,8 @@ export const tiers_data={
 		perks_list:["standard_badge","standard_lanyard","conbook"],
 		inherit_exclude:[],
 		price:35,
-		limit:Infinity
+		limit:Infinity,
+		icon:"/sprites-prototype/circle_64dp_2854C5_FILL0_wght700_GRAD0_opsz48.png"
 	},
 	sponsor:{
 		name_en:"Sponsor",
@@ -22,7 +23,8 @@ export const tiers_data={
 		perks_list:["conbook_mention","website_mention","ecobag","light_stick","poster","sticker_pack","plastic_folder","tin_badge"],
 		inherit_exclude:[],
 		price:75,
-		limit:Infinity
+		limit:Infinity,
+		icon:"/sprites-prototype/favorite_64dp_6B2346_FILL0_wght700_GRAD0_opsz48.png"
 	},
 	mane:{
 		name_en:"Mane Six",
@@ -34,7 +36,8 @@ export const tiers_data={
 		perks_list:["opening_closing_mention","vendor_priority","tumbler","acrylic_stand","mascot_charms"],
 		inherit_exclude:[],
 		price:150,
-		limit:6
+		limit:6,
+		icon:"/sprites-prototype/hexagon_64dp_B89230_FILL0_wght700_GRAD0_opsz48.png"
 	},
 	princess:{
 		name_en:"Royal Princess",
@@ -46,7 +49,8 @@ export const tiers_data={
 		perks_list:["backstage","vendor_highest_priority","custom_badge","acrylic_diorama","large_tapestry","commision_tapestry","oc_in_website_bg","signed_poster","dinner_with_staff","staff_hotline","opening_closing_shoutout"],
 		inherit_exclude:[],
 		price:400,
-		limit:3
+		limit:3,
+		icon:"/sprites-prototype/chess_queen_64dp_321D71_FILL0_wght700_GRAD0_opsz48.png"
 	},
 	spirit:{
 		margin_top:64,
@@ -59,7 +63,8 @@ export const tiers_data={
 		perks_list:[],
 		inherit_exclude:[],
 		price:25,
-		limit:Infinity
+		limit:Infinity,
+		icon:"/sprites-prototype/motion_blur_64dp_434343_FILL0_wght700_GRAD0_opsz48.png"
 	},
 	onsite:{
 		margin_top:16,
@@ -72,7 +77,8 @@ export const tiers_data={
 		perks_list:["daiso_badge"],
 		inherit_exclude:[],
 		price:45,
-		limit:14
+		limit:14,
+		icon:"/sprites-prototype/add_2_64dp_A96424_FILL0_wght700_GRAD0_opsz48.png"
 	},
 };
 
