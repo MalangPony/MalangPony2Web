@@ -30,6 +30,8 @@ Add fragment link in involved top
 HMR L2D petting detection
 final bend at the door, for venue routes
 "see more" button in register page entries
+PAGE MAY BE BROKEN ENTIERLY IN IPAD - NEED CHECK
+Changing language when a route is displayed in the map will throw off the waypoint position x-alignment
 
 RIGHT BEFORE PUSH TO PROD
 Change all domains (testing.malangpony) to a PHP expression (<?php echo $webroot;?>)

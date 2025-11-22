@@ -10,6 +10,10 @@ let page_venue=document.getElementById("page-venue");
 let directions_munrae = document.getElementById("directions-munrae");
 let directions_yangpyong = document.getElementById("directions-yangpyong");
 let directions_bus = document.getElementById("directions-bus");
+let directions_icn = document.getElementById("directions-icn");
+let directions_gmp = document.getElementById("directions-gmp");
+let directions_railway = document.getElementById("directions-railway");
+let directions_gsbus = document.getElementById("directions-gsbus");
 
 function array_to_latlng(a){
   return new kakao.maps.LatLng(a[0], a[1]); 
@@ -21,8 +25,14 @@ function convert_to_polyline_path(a){
   }
   return ret;
 }
-function concatenate_route(a,b){
-  return a.slice(a,a.length-1).concat(b);
+function concatenate_route(...a){
+  if (a.length==1) {
+    return a[0];
+  }
+  let end_trimmed=a[0].slice(0,a[0].length-1);
+  let args_rest=a.slice(1);
+  let recursive_retval=concatenate_route(...args_rest);
+  return end_trimmed.concat(recursive_retval);
 }
 
 //AllThatMind location
@@ -157,37 +167,140 @@ function calculate_polyline_bounds(pl){
 let routes={
   munrae:{
     points:MapData.route_MunraeToATM,
+    waypoints:[],
     color:"var(--color-route-line2)",
-    focus_button:directions_munrae
+    focus_button:directions_munrae,
+    zl_max:6.5,
+    shown_by_default:true
   },
   yangpyong:{
     points:MapData.route_YangpyeongToATM,
+    waypoints:[],
     color:"var(--color-route-line5)",
-    focus_button:directions_yangpyong
+    focus_button:directions_yangpyong,
+    zl_max:6.5,
+    shown_by_default:true
+  },
+  bus:{
+    points:MapData.route_B641ToATM,
+    waypoints:[
+      {point:MapData.point_BusStopA,ko:"영문초등학교 정류장",en:"Bus Stop"},
+      {point:MapData.point_BusStopB,ko:"영문초등학교 정류장",en:"Bus Stop"},
+    ],
+    color:"var(--color-route-bluebus)",
+    focus_button:directions_bus,
+    zl_max:6.5,
+    shown_by_default:false
+  },
+  icn:{
+    points:concatenate_route(
+      MapData.route_ICN2GMP,
+      MapData.route_GMP2Yangpyeong,
+      MapData.route_YangpyeongToATM,
+    ),
+    waypoints:[
+      {point:MapData.point_ICN1,ko:"인천국제공항 1터미널",en:"ICN Terminal 1"},
+      {point:MapData.point_ICN2,ko:"인천국제공항 2터미널",en:"ICN Terminal 2"},
+      {point:MapData.point_GMP,ko:"환승",en:"Transfer"},
+    ],
+    color:"var(--color-route-airport)",
+    focus_button:directions_icn,
+    zl_max:null,
+    shown_by_default:false
+  },
+  gmp:{
+    points:concatenate_route(
+      MapData.route_GMP2Yangpyeong,
+      MapData.route_YangpyeongToATM,
+    ),
+    waypoints:[
+      {point:MapData.point_GMP,ko:"김포공항",en:"GMP"},
+    ],
+    color:"var(--color-route-airport)",
+    focus_button:directions_gmp,
+    zl_max:null,
+    shown_by_default:false
+  },
+  xbt:{
+    points:concatenate_route(
+      MapData.route_ExBusTermToYeoido,
+      MapData.route_YeoidoToYangpyeong,
+      MapData.route_YangpyeongToATM,
+    ),
+    waypoints:[
+      {point:MapData.point_EBT9,ko:"서울고속버스터미널",en:"Seoul Express Bus Terminal"},
+      {point:MapData.point_Yeoido,ko:"환승",en:"Transfer"},
+    ],
+    color:"var(--color-route-gsbus)",
+    focus_button:directions_gsbus,
+    zl_max:null,
+    shown_by_default:false
+  },
+  railway:{
+    points:concatenate_route(
+      MapData.route_SeoulStnToShindorim,
+      MapData.route_ShindorimToMunrae,
+      MapData.route_MunraeToATM,
+    ),
+    waypoints:[
+      {point:MapData.point_SeoulStn,ko:"서울역",en:"Seoul Station"},
+      {point:MapData.point_Yongsan,ko:"용산역",en:"Yongsan Station"},
+      {point:MapData.point_Shindorim,ko:"환승",en:"Transfer"},
+    ],
+    color:"var(--color-route-railway)",
+    focus_button:directions_railway,
+    zl_max:null,
+    shown_by_default:false
   }
 };
 
 for (const k in routes){
   let route=routes[k];
   route.polyline=new kakao.maps.Polyline({
-    map:kkm,
     path:convert_to_polyline_path(route.points),
-    strokeOpacity:0.8,
+    strokeOpacity:0.7,
     strokeColor:route.color,
     strokeStyle:"dashed",
     strokeWeight:4,
   });
+  if (route.shown_by_default){
+    route.polyline.setMap(kkm)
+    route.shown=true;
+  }else{
+    route.shown=false;
+  }
   route.bounds=calculate_polyline_bounds(route.polyline);
   route.focus_button.addEventListener("click",()=>{
+    for (const otherK in routes){
+      if (k==otherK) continue;
+      let otherRoute=routes[otherK];
+      for (const wpo of otherRoute.wp_overlays) wpo.setMap(null);
+      otherRoute.polyline.setMap(null);
+      otherRoute.shown=false;
+    }
+    route.polyline.setMap(kkm);
+    route.shown=true;
+    for (const wpo of route.wp_overlays) wpo.setMap(kkm);
     flash_polyline(
       route.polyline,3000,250,
       {strokeOpacity:1.0,strokeWeight:6,strokeStyle:"solid"},
       {strokeOpacity:0.5,strokeWeight:6,strokeStyle:"solid"},
-      {strokeOpacity:1.0,strokeWeight:4,strokeStyle:"dashed"});
+      {strokeOpacity:0.7,strokeWeight:4,strokeStyle:"dashed"});
     kkm.setBounds(route.bounds,50);
     container.scrollIntoView({behavior:"smooth",block:"nearest"});
   });
   route.focus_button.style.cursor="pointer";
+  route.wp_overlays=[];
+  for (const wp of route.waypoints){
+    let overlay= new kakao.maps.CustomOverlay({
+        position: array_to_latlng(wp.point),
+        content: '<div style="display:flex;flex-direction:column;align-items:center;"><div style="padding:2px;border-radius:8px;background-color:hsl(from var(--template-malang-TWI) h s l / 90%);color:var(--color-text-light);text-align:center;font-size:16px;"><span class="lang-en">'+wp.en+'</span><span class="lang-ko">'+wp.ko+'</span></div><span class="material-symbols-rounded" style="color:var(--template-malang-TWI);margin-top:-0.35em;font-size:2.0em;height:0.8em;">arrow_drop_down</span></div>',
+        xAnchor:0.5,
+        yAnchor: 1.0
+    });
+    if (route.shown) overlay.setMap(kkm);
+    route.wp_overlays.push(overlay);
+  }
 }
 
 // Drawing #1, near Munrae station
@@ -225,8 +338,13 @@ kakao.maps.event.addListener(kkm, 'zoom_changed', function() {
 
   placeLabel.setVisible( (zl>4.5) && (zl<6.5) );
   
-  line_munrae.setMap( (zl<6.5) ? kkm : null );
-  line_yangpyong.setMap( (zl<6.5) ? kkm : null );
+  for (const k in routes){
+    let route=routes[k];
+    if (route.zl_max && route.shown){
+      if (zl>route.zl_max) route.polyline.setMap(null);
+      else route.polyline.setMap(kkm);
+    }
+  }
   
 });
 

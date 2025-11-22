@@ -203,3 +203,7 @@ export var point_ICN1=[37.4476228, 126.4526627];
 
 export var point_ICN2=[37.4685678, 126.4329681];
 
+export var point_BusStopA=[37.5202079, 126.8878014];
+
+export var point_BusStopB=[37.5200473, 126.8879221];
+
