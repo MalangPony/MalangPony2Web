@@ -228,7 +228,7 @@ let routes={
       MapData.route_YangpyeongToATM,
     ),
     waypoints:[
-      {point:MapData.point_EBT9,ko:"서울고속버스터미널",en:"Seoul Express Bus Terminal"},
+      {point:MapData.point_XBT9,ko:"서울고속버스터미널",en:"Seoul Express Bus Terminal"},
       {point:MapData.point_Yeoido,ko:"환승",en:"Transfer"},
     ],
     color:"var(--color-route-gsbus)",
