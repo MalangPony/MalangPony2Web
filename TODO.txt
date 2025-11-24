@@ -26,8 +26,9 @@ in get involved, use inquiry box
 In credits page, align staff and sponsor header with divider
 Add fragment link in involved top
 HMR L2D petting detection
-PAGE MAY BE BROKEN ENTIERLY IN IPAD - NEED CHECK
+PAGE MAY BE BROKEN ENTIERLY IN IPAD - NEED CHECK ... or not? idk
 Changing language when a route is displayed in the map will throw off the waypoint position x-alignment
+Support middle-click or new tab open in sidebar
 
 RIGHT BEFORE PUSH TO PROD
 Change all domains (testing.malangpony) to a PHP expression (<?php echo $webroot;?>)

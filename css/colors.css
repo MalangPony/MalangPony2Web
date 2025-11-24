@@ -138,12 +138,12 @@
   --color-text-airport:#049fad;
   --color-route-airport: var(--color-text-airport);
   
-  --color-background-railway:#d9d9d9;
-  --color-text-railway:#323232;
+  --color-background-railway:#c4dcfc;
+  --color-text-railway:#005BAC; /* Official Korail color */
   --color-route-railway: var(--color-text-railway);
   
   --color-background-gsbus:#ffd7dd;
-  --color-text-gsbus:#ce203a;
+  --color-text-gsbus:#e13e61;
   --color-route-gsbus: var(--color-text-gsbus);
   
   
