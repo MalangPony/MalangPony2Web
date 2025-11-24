@@ -990,9 +990,12 @@ for(const ipal of ipals){
 let sidebar_buttons_active=document.querySelectorAll(".sb-link-active");
 for (const sb of sidebar_buttons_active){
   let pageid=sb.getAttribute("data-pageid");
-  sb.addEventListener("click",()=>{
+  sb.addEventListener("click",(e)=>{
     sidebar_clicked(pageid);
+    e.preventDefault();
   });
+  if (pageid==="intro") sb.href="/";
+  else sb.href="/"+pageid;
 }
 
 function sidebar_buttons_activate(pageid_active){

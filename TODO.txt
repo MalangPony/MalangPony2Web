@@ -28,7 +28,8 @@ Add fragment link in involved top
 HMR L2D petting detection
 PAGE MAY BE BROKEN ENTIERLY IN IPAD - NEED CHECK ... or not? idk
 Changing language when a route is displayed in the map will throw off the waypoint position x-alignment
-Support middle-click or new tab open in sidebar
+l2d hide when screen is narrow
+make back button work
 
 RIGHT BEFORE PUSH TO PROD
 Change all domains (testing.malangpony) to a PHP expression (<?php echo $webroot;?>)
