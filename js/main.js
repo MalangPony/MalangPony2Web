@@ -832,7 +832,8 @@ page_cleanup_functions["previous"]=function(){
 
 
 // Transition with animation.
-function page_transition(name,animated=true){
+function page_transition(name,animated=true,push_to_history=false){
+  console.log("Page transition to "+name+", animated="+animated+", PTH="+push_to_history);
   // Hide sidebar, even if the transition is invalid.
   if (mobile_mode) sidebar_hide_mobile();
   
@@ -953,16 +954,31 @@ function page_transition(name,animated=true){
     
   }
   
+  
+  
+  if (push_to_history){
+    // Push state before changing the title.
+    let url=window.location.origin+"/"+name;
+    if (to_intro) url=window.location.origin;
+    //console.log("PushState,"+name+" : "+url);
+    window.history.pushState({pageID:name},"",url);
+  }
+  
   currently_on_page=name;
   autoset_title();
   
-  let url=window.location.origin+"/"+name;
-  if (to_intro) url=window.location.origin;
-  window.history.pushState({pageID:name},"",url);
   
   if (name=="timetable") Timetable.enter_timetable_page();
   else Timetable.exit_timetable_page();
 }
+
+window.addEventListener("popstate",(e)=>{
+  let pageid=e.state.pageID;
+  //console.log("PopState,"+pageid);
+  if (pageid){
+    page_transition(pageid,true,false);
+  }
+});
 
 // Setup all .internal-page-autolink
 let ipals=document.querySelectorAll(".internal-page-autolink");
@@ -973,7 +989,7 @@ for(const ipal of ipals){
   let nameE=pageid_to_name_en[pageid];
   //console.log(pageid,nameK,nameE);
   ipal.addEventListener("click",()=>{
-    page_transition(pageid);
+    page_transition(pageid,true,true);
   });
   let kspan=document.createElement("span");
   kspan.classList.add("langspan-ko");
@@ -992,7 +1008,7 @@ let sidebar_buttons_active=document.querySelectorAll(".sb-link-active");
 for (const sb of sidebar_buttons_active){
   let pageid=sb.getAttribute("data-pageid");
   sb.addEventListener("click",(e)=>{
-    page_transition(pageid);
+    page_transition(pageid,true,true);
     e.preventDefault();
   });
   if (pageid==="intro") sb.href="/";
@@ -1051,11 +1067,14 @@ if (window.location.pathname != ""){
     // Valid page location
     Parallax.camera_jump_to_name(path_location); // Jump camera
     forceScrollDown();
-    page_transition(path_location,false);
+    page_transition(path_location,false,false);
   }else{
     console.log("From URL, invalid page: "+path_location);
   }
 }
+
+// Setup first history
+window.history.replaceState({pageID:currently_on_page},"");
 
 
 // Manual performance level set
