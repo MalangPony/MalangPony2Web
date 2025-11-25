@@ -380,6 +380,27 @@
   #scroll-inviter-container{
     top:50lvh;
   }
+  #footer-content{
+    align-items:flex-start;
+    margin-left:32px;
+    
+  }
+  #footer-disclaimer{
+    text-align:left;
+  }
+  .main-content-divider{
+    margin-top:32px;
+    margin-bottom:16px;
+    margin-left:32px;
+    margin-right:32px;
+    align-self:stretch;
+    height:2px;
+    opacity:0.5;
+    background-image: linear-gradient(
+      to right,
+      var(--color-text-auto) 10% 60%,
+      hsl(from var(--color-text-auto) h s l / 0%) 100%)
+  }
 }
 
 /* Smaller Mobiles */
