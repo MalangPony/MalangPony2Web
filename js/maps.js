@@ -56,39 +56,6 @@ export function relayout(){
   kkm.relayout();
 }
 
-// Automatically call relayout on visibility change
-let page_visible=false;
-let visibilityObserver=new MutationObserver((mutations,observer)=>{
-  for (const mutation of mutations) {
-    //console.log(mutation);
-    if (mutation.type=="attributes" && mutation.attributeName==="style"){
-      let now_visible=(page_venue.style.display!=="none");
-      if ((!page_visible) && now_visible) {
-        console.log("Detected Map page becoming visible. Trigger relayout.");
-        relayout();
-      }
-      page_visible=now_visible;
-    }
-  }
-});
-visibilityObserver.observe(page_venue,{attributes:true});
-
-let was_zero_size=true;
-let resizeObserver = new ResizeObserver((entries,observer)=>{
-  let h=container.clientHeight;
-  let w=container.clientWidth;
-  let zero_size=(h*w)<10;
-  if (was_zero_size && (!zero_size)){
-    console.log("Map container went from zero size to nonzero size. Recentering.")
-    // Now not zero-size!
-    relayout();
-    recenter();
-  }
-  was_zero_size=zero_size;
-});
-resizeObserver.observe(container);
-
-
 // Main ATM Marker
 let markerSizeMultiplier=0.3;
 var markerImage = new kakao.maps.MarkerImage(
@@ -458,7 +425,7 @@ function zoom_change(){
 zoom_change();
 kakao.maps.event.addListener(kkm, 'zoom_changed', zoom_change);
 
-function recenter(){
+export function recenter(){
   kkm.jump(positionATM,5,{animate:{duration:500}});
 }
 

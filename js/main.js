@@ -838,6 +838,13 @@ page_cleanup_functions["timetable"]= function(){
 }
 
 
+page_setup_functions["venue"]= function(){
+  Maps.relayout();
+  Maps.recenter();
+}
+page_cleanup_functions["venue"]= function(){
+}
+
 // Transition with animation.
 function page_transition(name,animated=true,push_to_history=false){
   console.log("Page transition to "+name+", animated="+animated+", PTH="+push_to_history);
@@ -889,6 +896,9 @@ function page_transition(name,animated=true,push_to_history=false){
     
     // This is the instant where the transition actually happens.
     anim_hide_old.onfinish= () => {
+      
+      if (cleanup_func) cleanup_func();
+      
       last.style.display="none";
       target.style.display="flex";
       main_content_backdrop.style.opacity=0;
@@ -904,7 +914,7 @@ function page_transition(name,animated=true,push_to_history=false){
       else
         main_content_backdrop.classList.remove("on-intro-page");
       
-      if (cleanup_func) cleanup_func();
+      
       if (setup_func) setup_func();
     }
     
@@ -932,11 +942,12 @@ function page_transition(name,animated=true,push_to_history=false){
   }else{
     
     if (cleanup_func) cleanup_func();
-    if (setup_func) setup_func();
-
+    
     last.style.display="none";
     target.style.display="flex";
     target.style.opacity=1.0;
+    
+    if (setup_func) setup_func();
     
     currently_on_page=name;
     if (currently_on_page==="intro") {
