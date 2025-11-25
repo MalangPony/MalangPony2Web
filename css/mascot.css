@@ -52,7 +52,7 @@
 }
 
 .mascot-container{
-  --mascot-container-width:calc(var(--mcd-width) - 96px);
+  --mascot-container-width:calc(var(--pages-actual-width) - 64px);
   display:flex;
   flex-direction:column;
   align-items:center;

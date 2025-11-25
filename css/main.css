@@ -23,6 +23,9 @@
   --mcd-margin-left: calc(var(--mcd-left) + var(--mcd-space-distributed));
   --mcd-margin-right: calc(var(--mcd-right) + var(--mcd-space-equalize) + var(--mcd-space-distributed));
   
+  /* Below assumes 2% gradient on each side.*/
+  --mcd-inner-width: calc(var(--mcd-width) * 0.96);
+  
   
   /* MalangPony logo positioning */
   /* It's a bit complicated due to it being sticky at the bottom */
@@ -37,7 +40,7 @@
   --intrologo-center-height-from-top:35svh;
   
   /* Automatically calculated values */
-  --intrologo-max-width: calc(var(--mcd-width) - ( var(--intrologo-side-margins) *2 ));
+  --intrologo-max-width: calc(var(--mcd-inner-width) - ( var(--intrologo-side-margins) *2 ));
   --intrologo-height:min(
     400px, 
     var(--intrologo-max-height), 
@@ -112,6 +115,8 @@
     hsl(from var(--mcb-color) h s l / calc(var(--mcb-opacity) * var(--mcb-edge-opacity)  ))  98%,
     hsl(from var(--mcb-color) h s l / calc(var(--mcb-opacity) * var(--mcb-glow-opacity)  ))  98%,
     hsl(from var(--mcb-color) h s l / 0%                                                  ) 100%);
+  padding-left:2%;
+  padding-right:2%;
 }
 .mobile-mode #main-content-backdrop{
   background-image: linear-gradient(
@@ -120,6 +125,8 @@
     hsl(from var(--mcb-color) h s l / calc(var(--mcb-opacity) * var(--mcb-center-opacity)))  20%,
     hsl(from var(--mcb-color) h s l / calc(var(--mcb-opacity) * var(--mcb-center-opacity)))  80%,
     hsl(from var(--mcb-color) h s l / calc(var(--mcb-opacity) * var(--mcb-edge-opacity)  )) 100%);
+  padding-left:0;
+  padding-right:0;
 }
 
 
@@ -187,9 +194,10 @@
   filter:brightness(30%);
   transition-property: filter;
   transition-duration:0.5s;
+  position:relative;
   padding-left:32px;
   padding-right:32px;
-  position:relative;
+  --pages-actual-width:calc(var(--mcd-inner-width) - 64px);
 }
 #pages-container.activated{
   filter:none;
@@ -353,6 +361,7 @@
 @media (width<640px) {
   :root{
     --mcd-width:100vw;
+    --mcd-inner-width:100vw;
     --mcd-margin-left:0px;
     --mcd-margin-right:0px;
     --intrologo-center-height-from-top:25svh;
@@ -365,6 +374,7 @@
   #pages-container{
     padding-left:24px;
     padding-right:24px;
+    --pages-actual-width:calc(var(--mcd-inner-width) - 48px);
   }
   #scroll-inviter-container{
     top:50lvh;
