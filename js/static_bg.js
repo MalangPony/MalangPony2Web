@@ -1,5 +1,6 @@
 import { AnimatedValue } from "./animator.js";
 import * as BackgroundData from "./background_data.js";
+import * as Config  from "./config.js";
 
 
 let bg_container=document.getElementById("staticbg-container");
@@ -11,7 +12,7 @@ export function set_active(b){
 	else bg_container.style.display="block";
 }
 
-const LR_IMAGE_WIDTH_THRESHOLD=1400;
+const LR_IMAGE_WIDTH_THRESHOLD=Config.SCREEN_MINWIDTH_FOR_STATICBG_LR_IMAGE;
 
 let lr_image_active=(bg_container.clientWidth>LR_IMAGE_WIDTH_THRESHOLD);
 let screen_resize_observer = new ResizeObserver(()=>{
