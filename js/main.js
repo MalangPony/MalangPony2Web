@@ -830,6 +830,13 @@ page_cleanup_functions["previous"]=function(){
   document.getElementById("yt-embed-container-mpnL").innerHTML='';
 }
 
+page_setup_functions["timetable"]= function(){
+  Timetable.enter_timetable_page();
+}
+page_cleanup_functions["timetable"]= function(){
+  Timetable.exit_timetable_page();
+}
+
 
 // Transition with animation.
 function page_transition(name,animated=true,push_to_history=false){
@@ -966,10 +973,6 @@ function page_transition(name,animated=true,push_to_history=false){
   
   currently_on_page=name;
   autoset_title();
-  
-  
-  if (name=="timetable") Timetable.enter_timetable_page();
-  else Timetable.exit_timetable_page();
 }
 
 window.addEventListener("popstate",(e)=>{
