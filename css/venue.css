@@ -61,6 +61,11 @@
   height:0.8em;
   font-family:"Material Symbols Rounded";
 }
+#kakaomap-content .station-drawings{
+  pointer-events:none;
+  object-fit: contain;
+}
+
 
 #map-btn-jump{
   position:absolute;

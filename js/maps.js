@@ -316,15 +316,80 @@ for (const k in routes){
   }
 }
 
+/* ZL>7 not shown
+ * ZL=7 not shown
+ * ZL=6 small
+ * ZL=5 medium
+ * ZL=4 big
+ * ZL<4 huge
+ */
+
+function generate_drawing_html(dat,size){
+  let src=dat.src;
+  let aspect=dat.aspect;
+  let height=dat[size].height;
+  return '<img src="'+src+'" class="station-drawings" style="height:'+height+'px;aspect-ratio:'+aspect+'">';
+}
+
 // Drawing #1, near Munrae station
-let drawing1_html='<img src="sprites-prototype/MPN2-Prototype-Image_MapDrawing_Munrae1.png" style="width:150px;height:150px;">'
+let drawing1_data={
+  src:"/sprites/DRW-001-B_Outline50px-ResizeH500.png",
+  aspect:0.79,
+  small:{
+    height:90,
+    location:new kakao.maps.LatLng(37.518522, 126.895471)
+  },
+  medium:{
+    height:120,
+    location:new kakao.maps.LatLng(37.518522, 126.895471)
+  },
+  big:{
+    height:180,
+    location:new kakao.maps.LatLng(37.518522, 126.895471)
+  },
+  huge:{
+    height:240,
+    location:new kakao.maps.LatLng(37.518522, 126.895471)
+  }
+}
+
 var drawing1 = new kakao.maps.CustomOverlay({
     map: kkm,
-    position: new kakao.maps.LatLng(37.51852288426295, 126.89547104210291),
-    content: drawing1_html,
-    xAnchor:0.2,
-    yAnchor: 0.8
+    position: drawing1_data.medium.location,
+    content: generate_drawing_html(drawing1_data,"medium"),
+    xAnchor:0.0,
+    yAnchor: 1.0
 });
+
+// Drawing #2, near Yangpyeong station
+let drawing2_data={
+  src:"/sprites/DRW-001-A_Outline50px-ResizeH500.png",
+  aspect:1.0,
+  small:{
+    height:80,
+    location:new kakao.maps.LatLng(37.526027, 126.886602)
+  },
+  medium:{
+    height:110,
+    location:new kakao.maps.LatLng(37.525827, 126.886602)
+  },
+  big:{
+    height:160,
+    location:new kakao.maps.LatLng(37.525715, 126.886432)
+  },
+  huge:{
+    height:220,
+    location:new kakao.maps.LatLng(37.525715, 126.886432)
+  }
+}
+var drawing2 = new kakao.maps.CustomOverlay({
+    map: kkm,
+    position: drawing2_data.medium.location,
+    content: generate_drawing_html(drawing2_data,"medium"),
+    xAnchor:0.0,
+    yAnchor: 1.0
+});
+
 
 // Event listeners
 // Display jump button if venue is too off to the side
@@ -344,12 +409,43 @@ kakao.maps.event.addListener(kkm, 'bounds_changed', ()=>{
 });
 
 // Zoom-dependent Visibility
-kakao.maps.event.addListener(kkm, 'zoom_changed', function() {
+function zoom_change(){
   let zl=kkm.getLevel();
   
-  drawing1.setVisible( zl<5.5 );
+  if (zl>6.5){ // ZL=7+ (very far)
+    drawing1.setVisible(false);
+    drawing2.setVisible(false);
+  } else if (zl>5.5){ //ZL=6 (small)
+    drawing1.setVisible(true);
+    drawing2.setVisible(true);
+    drawing1.setContent(generate_drawing_html(drawing1_data,"small"));
+    drawing2.setContent(generate_drawing_html(drawing2_data,"small"));
+    drawing1.setPosition(drawing1_data.small.location);
+    drawing2.setPosition(drawing2_data.small.location);
+  } else if (zl>4.5){ //ZL=5 (medium)
+    drawing1.setVisible(true);
+    drawing2.setVisible(true);
+    drawing1.setContent(generate_drawing_html(drawing1_data,"medium"));
+    drawing2.setContent(generate_drawing_html(drawing2_data,"medium"));
+    drawing1.setPosition(drawing1_data.medium.location);
+    drawing2.setPosition(drawing2_data.medium.location);
+  } else if (zl>3.5){ //ZL=4 (big)
+    drawing1.setVisible(true);
+    drawing2.setVisible(true);
+    drawing1.setContent(generate_drawing_html(drawing1_data,"big"));
+    drawing2.setContent(generate_drawing_html(drawing2_data,"big"));
+    drawing1.setPosition(drawing1_data.big.location);
+    drawing2.setPosition(drawing2_data.big.location);
+  } else { //ZL=3- (huge)
+    drawing1.setVisible(true);
+    drawing2.setVisible(true);
+    drawing1.setContent(generate_drawing_html(drawing1_data,"huge"));
+    drawing2.setContent(generate_drawing_html(drawing2_data,"huge"));
+    drawing1.setPosition(drawing1_data.huge.location);
+    drawing2.setPosition(drawing2_data.huge.location);
+  }
 
-  placeLabel.setVisible( (zl>4.5) && (zl<6.5) );
+  placeLabel.setVisible( (zl>4.5) && (zl<6.5) ); //Onlt ZL=5,6
   
   for (const k in routes){
     let route=routes[k];
@@ -358,8 +454,9 @@ kakao.maps.event.addListener(kkm, 'zoom_changed', function() {
       else route.polyline.setMap(kkm);
     }
   }
-  
-});
+}
+zoom_change();
+kakao.maps.event.addListener(kkm, 'zoom_changed', zoom_change);
 
 function recenter(){
   kkm.jump(positionATM,5,{animate:{duration:500}});
