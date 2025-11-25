@@ -123,14 +123,6 @@ PerformanceManager.register_feature_enable_callback(
      ticket.classList.add("css-filters");
     sidebar.classList.add("css-filters");
   });
-PerformanceManager.register_feature_disable_callback(
-  PerformanceManager.Feature.CSS_FILT_ICC_BACKBLUR, ()=>{
-    main_content_backdrop.classList.remove("css-filters");
-  });
-PerformanceManager.register_feature_enable_callback(
-  PerformanceManager.Feature.CSS_FILT_ICC_BACKBLUR, ()=>{
-    main_content_backdrop.classList.add("css-filters");
-  });
 
 // Sky <-> Ground transition
 let in_sky_mode=true;

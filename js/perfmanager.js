@@ -25,7 +25,6 @@ export class Feature{
 	
 	static FIREWORKS_HIGHCOUNT=60;
 	static L2D_FILTERS=61;
-	static CSS_FILT_ICC_BACKBLUR=62;
 	static PARALLAX_ANIMATED=63;
 	
 	// Extra features.

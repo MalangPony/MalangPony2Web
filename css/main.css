@@ -56,31 +56,72 @@
   position:relative;
   display:flex;
   flex-direction:column;
-  transition-property: backdrop-filter, background-color, box-shadow;
-  transition-duration:0.5s;
-}
-
-/* Is box-shadow performance-intensive? idk */
-#main-content-backdrop.activated{
-  /*background-image: linear-gradient(
-    to right,
-    hsl(from var(--color-main-backdrop) h s l / 0%) 0%,
-    var(--color-main-backdrop) 2% 98%,
-    hsl(from var(--color-main-backdrop) h s l / 0%) 100%);*/
-  background-color:var(--color-main-backdrop);
-  box-shadow:0 0 10px var(--color-main-backdrop-shadow);
-}
-#main-content-backdrop.css-filters{
   
 }
-/* If CSS filter enabled - use blur() */
-#main-content-backdrop.activated.css-filters{
-  backdrop-filter: blur(3px);
+
+/* MainContentBackdrop Backgrounds */
+.dark-mode #main-content-backdrop:not(.on-intro-page){
+  --mcb-glow-opacity:30%;
+  --mcb-edge-opacity:60%;
+  --mcb-center-opacity:50%;
+  --mcb-color:#000;
 }
-/* If CSS filter disabled - just darken the background more. */
-#main-content-backdrop.activated:not(.css-filters){
-  background-color:var(--color-main-backdrop-noblur);
+.dark-mode #main-content-backdrop.on-intro-page{
+  --mcb-glow-opacity:30%;
+  --mcb-edge-opacity:70%;
+  --mcb-center-opacity:60%;
+  --mcb-color:#000;
 }
+.light-mode #main-content-backdrop:not(.on-intro-page){
+  --mcb-glow-opacity:30%;
+  --mcb-edge-opacity:60%;
+  --mcb-center-opacity:50%;
+  --mcb-color:#FFF;
+}
+.light-mode #main-content-backdrop.on-intro-page{
+  --mcb-glow-opacity:30%;
+  --mcb-edge-opacity:80%;
+  --mcb-center-opacity:70%;
+  --mcb-color:#FFF;
+}
+@property --mcb-opacity {
+  syntax:"<number>";
+  inherits:false;
+  initial-value:0;
+}
+@property --mcb-color {
+  syntax:"<color>";
+  inherits:false;
+  initial-value:#000;
+}
+#main-content-backdrop{
+  transition-property: --mcb-opacity, --mcb-color;
+  transition-duration:0.5s;
+}
+#main-content-backdrop.activated{
+  --mcb-opacity:1.0;
+}
+#main-content-backdrop{
+  background-image: linear-gradient(
+    to right,
+    hsl(from var(--mcb-color) h s l / 0%                                                  )   0%,
+    hsl(from var(--mcb-color) h s l / calc(var(--mcb-opacity) * var(--mcb-glow-opacity)  ))   2%,
+    hsl(from var(--mcb-color) h s l / calc(var(--mcb-opacity) * var(--mcb-edge-opacity)  ))   2%,
+    hsl(from var(--mcb-color) h s l / calc(var(--mcb-opacity) * var(--mcb-center-opacity)))  20%,
+    hsl(from var(--mcb-color) h s l / calc(var(--mcb-opacity) * var(--mcb-center-opacity)))  80%,
+    hsl(from var(--mcb-color) h s l / calc(var(--mcb-opacity) * var(--mcb-edge-opacity)  ))  98%,
+    hsl(from var(--mcb-color) h s l / calc(var(--mcb-opacity) * var(--mcb-glow-opacity)  ))  98%,
+    hsl(from var(--mcb-color) h s l / 0%                                                  ) 100%);
+}
+.mobile-mode #main-content-backdrop{
+  background-image: linear-gradient(
+    to right,
+    hsl(from var(--mcb-color) h s l / calc(var(--mcb-opacity) * var(--mcb-edge-opacity)  ))   0%,
+    hsl(from var(--mcb-color) h s l / calc(var(--mcb-opacity) * var(--mcb-center-opacity)))  20%,
+    hsl(from var(--mcb-color) h s l / calc(var(--mcb-opacity) * var(--mcb-center-opacity)))  80%,
+    hsl(from var(--mcb-color) h s l / calc(var(--mcb-opacity) * var(--mcb-edge-opacity)  )) 100%);
+}
+
 
 /* Contains all scrollable content. */
 #content-scroller{

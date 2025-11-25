@@ -13,7 +13,6 @@ Timetable: Improve mobile UI - maybe auto-expand with scroll progress?
 Timetable: Colors... maybe textures?
 Timetable: vert text for korean?
 Maybe: constallations?
-Gradient instead of boxblur in content-backdrop
 idle on sky mode - a smol hanmari horizontally moves across screen
 in timetable and vendor hall, link to apply page & art gallery
 timetable details time too small

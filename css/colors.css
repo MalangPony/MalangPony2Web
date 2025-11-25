@@ -62,15 +62,6 @@
     var(--color-background-dark),var(--color-background-light));
   --color-background-default:var(--color-background-auto);
   
-  --color-main-backdrop:light-dark(
-    hsl(from var(--template-malang-bg) h s l / 60%),
-    hsl(0deg 0% 0% / 40%));
-  /* Below value is used then backdrop-filter is disabled. */
-  /* To retain visibility, the alpha should be increased. */
-  --color-main-backdrop-noblur:light-dark(
-    hsl(from var(--template-malang-bg) h s l / 85%),
-    hsl(0deg 0% 0% / 80%));
-  
   /* Borders */
   --color-embed-border-light: #FFFFFF;
   --color-embed-border-dark: var(--template-malang-TS);
@@ -83,11 +74,6 @@
   --color-embed-glow-auto: light-dark(
     var(--color-embed-glow-light),
     var(--color-embed-glow-dark));
-  
-  /* Effects */
-  --color-main-backdrop-shadow:light-dark(
-    hsl(from var(--template-malang-bg) h s l / 80%),
-    hsl(0deg 0% 0% / 80%));
   
   /* Page specific: News */
   --color-bluesky-backdrop: var(--color-background-auto);
