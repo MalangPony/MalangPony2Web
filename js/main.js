@@ -830,134 +830,135 @@ page_cleanup_functions["previous"]=function(){
   document.getElementById("yt-embed-container-mpnL").innerHTML='';
 }
 
-// Transition without animation.
-function page_transition_instant(name){
 
-  if (name===currently_on_page) return;
-
-  let last=document.getElementById("page-"+currently_on_page);
-  if (last===null) return;
-  
-  let target=document.getElementById("page-"+name);
-  if (target===null) return;
-  
-  let cleanup_func=page_cleanup_functions[currently_on_page];
-  let setup_func=page_setup_functions[name];
-  if (cleanup_func) cleanup_func();
-  if (setup_func) setup_func();
-
-  last.style.display="none";
-  target.style.display="flex";
-  target.style.opacity=1.0;
-  
-  currently_on_page=name;
-  if (currently_on_page==="intro") {
-    // Note: Currently this branch is never taken.
-    sky_enable();
-    show_hanmari_instant();
-    L2D.set_hanmari_size_instant(1.0);
-    l2d_ground_transition_progress=0;
-    main_content_backdrop.classList.add("on-intro-page");
-    
-  }else {
-    sky_disable();
-    if (Config.OPTION_HIDE_HANMARI_ON_NONINTRO_PAGES)
-      hide_hanmari_instant();
-    l2d_ground_transition_progress=1;
-    L2D.set_hanmari_size_instant(Config.OPTION_NONINTRO_PAGE_HANMARI_SHRINK_FACTOR);
-    main_content_backdrop.classList.remove("on-intro-page");
-  }
-  
-  StaticBG.activate_page_bg_instant(name);
-  if (name !== "intro") Castle.enter_instant();
-  
-  if (name=="timetable") Timetable.enter_timetable_page();
-  else Timetable.exit_timetable_page();
-  
-  autoset_title();
-  sidebar_buttons_activate(name);
-}
 // Transition with animation.
-function page_transition(name){
+function page_transition(name,animated=true){
+  // Hide sidebar, even if the transition is invalid.
   if (mobile_mode) sidebar_hide_mobile();
   
+  // No-op if the transition is useless
   if (name===currently_on_page) return;
 
+  // Find pages.
   let last=document.getElementById("page-"+currently_on_page);
   if (last===null) return;
 
   let target=document.getElementById("page-"+name);
   if (target===null) return;
   
+  // Custom functions
   let cleanup_func=page_cleanup_functions[currently_on_page];
   let setup_func=page_setup_functions[name];
   
-  
-  if (name!=="intro" && Config.OPTION_HIDE_HANMARI_ON_NONINTRO_PAGES) 
-    hide_hanmari();
-  if (name !== "intro")
-    L2D.set_hanmari_size(Config.OPTION_NONINTRO_PAGE_HANMARI_SHRINK_FACTOR);
-  else
-    L2D.set_hanmari_size(1.0);
-    
-  sidebar_buttons_activate(name);
-  
+  // Are we going to/from the intro page?
   let on_intro=(currently_on_page==="intro");
   let to_intro=(name==="intro");
   
-  let animation_start_time=0;
-  // Hide current page
-  let anim3=main_content_backdrop.animate(
-    [{ opacity: "1.0" },{ opacity: "0.0" }],
-    {duration: 500,delay:animation_start_time});
-  animation_start_time+=500;
+  // Parallax transition
+  if (Parallax.name_defined_in_camera_locations(name))
+    Parallax.camera_animate_to_name(name);
   
-  anim3.onfinish= () => {
-    last.style.display="none";
-    target.style.display="flex";
-    main_content_backdrop.style.opacity=0;
-    if (name==="intro") sky_enable();
-    else sky_disable();
-    if (name==="intro" && Config.OPTION_HIDE_HANMARI_ON_NONINTRO_PAGES) 
-      show_hanmari();
-    if (name==="intro"){
-      main_content_backdrop.classList.add("on-intro-page");
-    }else{
-      main_content_backdrop.classList.remove("on-intro-page");
+  // Open the corresponding sidebar category
+  sidebar_buttons_activate(name);
+  
+  if (animated){
+    
+    // L2D Hanmari size/visibility
+    if ((!to_intro) && Config.OPTION_HIDE_HANMARI_ON_NONINTRO_PAGES) 
+      hide_hanmari();
+    if (!to_intro)
+      L2D.set_hanmari_size(Config.OPTION_NONINTRO_PAGE_HANMARI_SHRINK_FACTOR);
+    else
+      L2D.set_hanmari_size(1.0);
+    
+    let animation_start_time=0;
+    
+    // Hide current page
+    let anim_hide_old=main_content_backdrop.animate(
+      [{ opacity: "1.0" },{ opacity: "0.0" }],
+      {duration: 500,delay:animation_start_time});
+    animation_start_time+=500;
+    
+    // This is the instant where the transition actually happens.
+    anim_hide_old.onfinish= () => {
+      last.style.display="none";
+      target.style.display="flex";
+      main_content_backdrop.style.opacity=0;
+      
+      if (to_intro) sky_enable();
+      else sky_disable();
+      
+      if (to_intro && Config.OPTION_HIDE_HANMARI_ON_NONINTRO_PAGES) 
+        show_hanmari();
+      
+      if (to_intro)
+        main_content_backdrop.classList.add("on-intro-page");
+      else
+        main_content_backdrop.classList.remove("on-intro-page");
+      
+      if (cleanup_func) cleanup_func();
+      if (setup_func) setup_func();
     }
+    
+    // Castle animation
+    if ( castle_mode && on_intro && (!to_intro) ){ // Enter Castle
+      let duration=Castle.enter_animation(animation_start_time,()=>{});
+      animation_start_time+=duration;
+      StaticBG.activate_page_bg(name,animation_start_time,500);
+    }else if ( castle_mode && (!on_intro) && to_intro ){ // Exit Castle
+      StaticBG.activate_page_bg(name,0,1000);
+      let duration=Castle.exit_animation(animation_start_time,()=>{});
+      animation_start_time+=duration;
+    }else{ // move inside castle
+      StaticBG.activate_page_bg(name,0,1000);
+    }
+    
+    // Show next page
+    let anim_show_new=main_content_backdrop.animate(
+      [{ opacity: "0.0" },{ opacity: "1.0" }],
+      {duration: 500,delay:animation_start_time});
+    anim_show_new.onfinish= () => {
+      main_content_backdrop.style.opacity=1;
+    }
+  
+  }else{
+    
     if (cleanup_func) cleanup_func();
     if (setup_func) setup_func();
-  }
-  
-  
-  if ( castle_mode && on_intro && (!to_intro) ){ // Enter Castle
-    let duration=Castle.enter_animation(500,()=>{});
-    animation_start_time+=duration;
-    StaticBG.activate_page_bg(name,animation_start_time,500);
-  }else if ( castle_mode && (!on_intro) && to_intro ){ // Exit Castle
-    StaticBG.activate_page_bg(name,0,1000);
-    let duration=Castle.exit_animation(500,()=>{});
-    animation_start_time+=duration;
+
+    last.style.display="none";
+    target.style.display="flex";
+    target.style.opacity=1.0;
     
-  }else{ // move inside castle
-    StaticBG.activate_page_bg(name,0,1000);
+    currently_on_page=name;
+    if (currently_on_page==="intro") {
+      // Note: Currently this branch is never taken.
+      sky_enable();
+      show_hanmari_instant();
+      L2D.set_hanmari_size_instant(1.0);
+      l2d_ground_transition_progress=0;
+      main_content_backdrop.classList.add("on-intro-page");
+      
+    }else {
+      sky_disable();
+      if (Config.OPTION_HIDE_HANMARI_ON_NONINTRO_PAGES)
+        hide_hanmari_instant();
+      l2d_ground_transition_progress=1;
+      L2D.set_hanmari_size_instant(Config.OPTION_NONINTRO_PAGE_HANMARI_SHRINK_FACTOR);
+      main_content_backdrop.classList.remove("on-intro-page");
+    }
+    
+    StaticBG.activate_page_bg_instant(name);
+    if (name !== "intro") Castle.enter_instant();
+    
   }
-  
-  
-  
-  // Show next page
-  let anim4=main_content_backdrop.animate(
-    [{ opacity: "0.0" },{ opacity: "1.0" }],
-    {duration: 500,delay:animation_start_time});
-  anim4.onfinish= () => {
-    main_content_backdrop.style.opacity=1;
-  }
-  
-  
   
   currently_on_page=name;
-  
   autoset_title();
+  
+  let url=window.location.origin+"/"+name;
+  if (to_intro) url=window.location.origin;
+  window.history.pushState({pageID:name},"",url);
   
   if (name=="timetable") Timetable.enter_timetable_page();
   else Timetable.exit_timetable_page();
@@ -991,7 +992,7 @@ let sidebar_buttons_active=document.querySelectorAll(".sb-link-active");
 for (const sb of sidebar_buttons_active){
   let pageid=sb.getAttribute("data-pageid");
   sb.addEventListener("click",(e)=>{
-    sidebar_clicked(pageid);
+    page_transition(pageid);
     e.preventDefault();
   });
   if (pageid==="intro") sb.href="/";
@@ -1006,23 +1007,6 @@ function sidebar_buttons_activate(pageid_active){
   }
 }
 
-// We change the URL here.
-// This does not actually reload the page.
-function sidebar_clicked(x){
-  page_transition(x);
-  if (!Parallax.name_defined_in_camera_locations(x)) return;
-  Parallax.camera_animate_to_name(x);
-  //window.location.hash = x;
-  
-  if (window.location.protocol==="file:"){
-    console.log("Not rewriting URL because we're in a file URL.")
-  }else{
-    let url=window.location.origin+"/"+x;
-    // Edge case for the intro page
-    if (x==="intro") url=window.location.origin;
-    window.history.pushState({},"",url);
-  }
-}
 
 // Disable/Enable Mobile mode
 let mq_mobile=window.matchMedia("(width <= 640px)");
@@ -1067,7 +1051,7 @@ if (window.location.pathname != ""){
     // Valid page location
     Parallax.camera_jump_to_name(path_location); // Jump camera
     forceScrollDown();
-    page_transition_instant(path_location);
+    page_transition(path_location,false);
   }else{
     console.log("From URL, invalid page: "+path_location);
   }
