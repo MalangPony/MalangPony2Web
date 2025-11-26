@@ -44,7 +44,11 @@ img{
 	display:block;
 }
 
-/* Switches */
+/* Mode Switches. 
+ * .dark-mode, .light-mode, .langmode-*, .mobile-mode
+ * may be added to the <body> element. */
+
+/* Light & Dark Modes */
 .dark-mode .ldimg-light{
 	display:none;
 }
@@ -52,10 +56,19 @@ img{
 	display:none;
 }
 
+/* Language Modes */
 .langmode-ko .lang-en{
 	display:none;
 }
 .langmode-en .lang-ko{
+	display:none;
+}
+
+/* Mobile Modes */
+.mobile-mode .mm-pc{
+	display:none;
+}
+body:not(.mobile-mode) .mm-mobile{
 	display:none;
 }
 

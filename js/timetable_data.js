@@ -209,7 +209,7 @@ export let blocks=[
 	},
 	{ 
 	"display":true,
-	"name_kr":"벤더 홀",
+	"name_kr":"부스 존",
 	"name_en":"Vendor Hall",
 	"start_time":"10:30",
 	"end_time":"17:00",

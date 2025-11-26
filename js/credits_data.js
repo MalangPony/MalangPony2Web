@@ -200,7 +200,7 @@ export const role_definitions={
 	head:{en:"Con Head",ko:"행사 주최"},
 	design:{en:"Design",ko:"디자인"},
 	accounting:{en:"Accounting",ko:"재무"},
-	pr:{en:"Public Relations",ko:"SNS 관리"},
+	pr:{en:"Public Relations",ko:"홍보 및 SNS 관리"},
 	web:{en:"Web Programming",ko:"웹 개발"},
 	assistant:{en:"Assistant",ko:"서무"},
 	artist:{en:"Art",ko:"아티스트"},
