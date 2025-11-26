@@ -20,15 +20,15 @@
 	justify-content:space-around;
 	align-items:flex-start;
 	flex-wrap:wrap;
-	gap:16px;
+	gap:32px;
 }
 .credits-container{
+	--credits-width-eachside:180px;
 	display:flex;
 	flex-direction:column;
 	align-items:center;
 	justify-content:center;
 	flex-wrap:wrap;
-	align-items:stretch;
 	gap:8px;
 	color:var(--color-text-auto);
 }
@@ -44,13 +44,15 @@
 	align-items:stretch;
 	min-height:3.0em;
 	/*border:1px solid red;*/
-	
 }
 .credits-section-name{
+	width:var(--credits-width-eachside);
+	flex-shrink:1;
+	
 	padding-right:8px;
 	font-size:1.0em;
 	font-weight:700;
-	width:120px;
+	
 	display:flex;
 	flex-direction:column;
 	align-items:flex-end;
@@ -70,10 +72,12 @@
 }
 
 .credits-section-content{
-	flex-grow:1;
+	width:var(--credits-width-eachside);
+	flex-shrink:1;
+	
 	padding-left:8px;
 	gap:8px;
-	min-width:160px;
+	
 	padding-top:8px;
 	padding-bottom:8px;
 	display:flex;
@@ -96,18 +100,17 @@
 .credits-entry-name{
 	font-size:1.4em;
 	font-weight:700;
-	cursor:pointer;
 }
 
 .credits-entry-sns-list{
 	display:flex;
-	
-	flex-direction:row;
+	/*
 	flex-wrap:wrap; 
 	align-items:center;
-	/*
+	flex-direction:row;*/
+	
 	align-items:flex-start;
-	flex-direction:column;*/
+	flex-direction:column;
 	
 	justify-content:flex-start;
 	
@@ -125,7 +128,6 @@
 	#credits-columns{
 		flex-direction:column;
 		align-items:center;
-		gap:32px;
 	}
 }
 
