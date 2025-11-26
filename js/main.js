@@ -950,19 +950,23 @@ for(const ipal of ipals){
   if (!pageid) continue;
   let nameK=pageid_to_name_ko[pageid];
   let nameE=pageid_to_name_en[pageid];
-  //console.log(pageid,nameK,nameE);
+  
   ipal.addEventListener("click",()=>{
     page_transition(pageid,true,true);
   });
-  let kspan=document.createElement("span");
-  kspan.classList.add("lang-ko");
-  kspan.innerHTML=nameK;
-  let espan=document.createElement("span");
-  espan.classList.add("lang-en");
-  espan.innerHTML=nameE;
-  ipal.appendChild(kspan);
-  ipal.appendChild(espan);
   ipal.style.cursor="pointer";
+  
+  if (ipal.classList.contains("autofill-pagename")){
+    let kspan=document.createElement("span");
+    kspan.classList.add("lang-ko");
+    kspan.innerHTML=nameK;
+    let espan=document.createElement("span");
+    espan.classList.add("lang-en");
+    espan.innerHTML=nameE;
+    ipal.appendChild(kspan);
+    ipal.appendChild(espan);
+  }
+  
 }
 
 
