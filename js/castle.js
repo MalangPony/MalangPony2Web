@@ -1,6 +1,6 @@
 /* Castle Background */
 import { Vector2, Vector3 } from "./vectors.js";
-import * as Parallax from "./parallax.js";
+import * as Config from "./config.js";
 
 const wsd = document.getElementById("whole-screen-div");
 let castle_container = document.getElementById("castle-container");
@@ -91,9 +91,7 @@ for (const layer_name in castle_layers){
 
 layer_doms.door_glow.style.opacity=0.0;
 
-let scroll_offset = Math.round(Parallax.calculate_offset_from_sky_mode_to_ground_mode(
-  0 //Castle is at Z=0
-));
+let scroll_offset = Config.OPTION_INTRO_CASTLE_SCROLL_AMOUNT;
 
 let active=true;
 export function set_active(b){

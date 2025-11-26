@@ -7,7 +7,6 @@
 import * as Config  from "./config.js";
 import * as Graphics  from "./graphics.js";
 import * as PerformanceManager from "./perfmanager.js";
-import * as Parallax from "./parallax.js";
 
 // DOM definitions
 const wsd = document.getElementById("whole-screen-div");
@@ -102,15 +101,9 @@ function resize_star_area(new_w,new_h){
   }
 }
 
-// Logically, the sky is at Z=10000
-// Without the round here, the scroll_offset will be a float.
-// And since the canvas size can only take on integer values,
-// the target size and canvas size will be mismatched every frame.
-// So, the round here is absolutely necessasary.
-let scroll_offset = Math.round(Parallax.calculate_offset_from_sky_mode_to_ground_mode(
-  Config.OPTION_SKY_LOGICAL_Z_LOCATION
-));
-console.log("StarScrollOffset",scroll_offset);
+
+let scroll_offset = Config.OPTION_INTRO_SKY_SCROLL_AMOUNT;
+
 
 // This should be called from the main JS file.
 export function set_scroll_progress(f){

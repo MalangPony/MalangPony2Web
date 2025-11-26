@@ -12,7 +12,6 @@ export class Feature{
 	
 	// Basic feature set. These are the core visual features.
 	static FIREWORKS = 10;
-	static PARALLAX_GROUND = 11;
 	
 	// L2D is heavy, so it has a lower priority.
 	static HANMARI_L2D = 20;
@@ -25,7 +24,6 @@ export class Feature{
 	
 	static FIREWORKS_HIGHCOUNT=60;
 	static L2D_FILTERS=61;
-	static PARALLAX_ANIMATED=63;
 	
 	// Extra features.
 	// Technically makes things prettier, but barely noticable.

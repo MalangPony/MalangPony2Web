@@ -7,10 +7,8 @@ import { Vector2, Vector3 } from "./vectors.js";
 import * as Config  from "./config.js";
 import * as Fireworks from "./fireworks.js";
 import * as Stars from "./stars.js";
-import * as Parallax from "./parallax.js";
 import * as L2D from "./l2d.js";
 import {FPS_Counter,linear_map} from "./utils.js";
-import * as ParallaxData from "./parallax_data.js";
 import * as Timetable from "./timetable.js";
 import * as Dyntex from "./dyntex.js";
 import * as Maps from "./maps.js";
@@ -48,7 +46,6 @@ const lmsa = document.getElementById("letter-magic-spritesheet-animation");
 
 const lang_btn = document.getElementById("langswitch-btn");
 const theme_btn = document.getElementById("themeswitch-btn");
-const castlemode_btn = document.getElementById("castlemode-btn");
 const sb_btn_active_area = document.getElementById("sb-btn-active-area");
 const sb_btn_outer_animator = document.getElementById("sb-btn-outer-animator");
 const sb_close_btn = document.getElementById("sb-close-button-container");
@@ -145,7 +142,6 @@ function transition_sky(){
   pages_container.classList.remove("activated");
   lang_btn.classList.remove("activated");
   theme_btn.classList.remove("activated");
-  castlemode_btn.classList.remove("activated");
   
   if (mobile_mode) sidebar_button_hide_mobile();
   else sidebar_hide();
@@ -173,7 +169,6 @@ function transition_ground(){
   pages_container.classList.add("activated");
   lang_btn.classList.add("activated");
   theme_btn.classList.add("activated");
-  castlemode_btn.classList.add("activated");
   
 
   if (mobile_mode) sidebar_button_animate_mobile();
@@ -529,8 +524,6 @@ function animationCallback(time) {
   }
   logo_image_flash01.style.opacity=firework_light_factor;
   
-  Parallax.set_illumination(firework_light_factor*0.3);
-  
   if (in_sky_mode)
     l2d_ground_transition_progress-=dt*l2d_ground_transition_per_second;
   else
@@ -550,7 +543,6 @@ function animationCallback(time) {
   // Tick all subsystems
   Stars.animationTick(dt);
   Fireworks.animationTick(dt);
-  Parallax.animationTick(dt);
   L2D.animationTick(dt);
   Dyntex.animationTick(dt);
   
@@ -582,11 +574,8 @@ function recursiveAnimFrameFunc(t){
 requestAnimationFrame(recursiveAnimFrameFunc);
 
 
-// Logically, the sky is at Z=10000
-let sky_offset = Math.round(Parallax.calculate_offset_from_sky_mode_to_ground_mode(
-  Config.OPTION_SKY_LOGICAL_Z_LOCATION
-));
-console.log("SkyScrollOffset",sky_offset);
+
+let sky_offset = Config.OPTION_INTRO_SKY_SCROLL_AMOUNT;
 
 // Sky BG size
 sky_bg.style.height = wsd.clientHeight+sky_offset+"px";  
@@ -649,8 +638,6 @@ function scroll_callback(){
   // Update sky
   // This will match the star movement.
   sky_bg.style.top = "-"+sky_offset*scroll_progress_ratio+"px";
-  // Update parallax
-  Parallax.set_scroll_progress(scroll_progress_ratio);
   
   // Transition if 90% scrolled
   if (scroll_progress_ratio>0.90){
@@ -672,7 +659,7 @@ window.setTimeout(scroll_callback,0); // Call after load
 
 let pageid_to_name_en={};
 let pageid_to_name_ko={};
-
+let pageid_list=[];
 let sbls=document.querySelectorAll(".sb-link");
 for (const sbl of sbls){
   let pageid=sbl.getAttribute("data-pageid");
@@ -682,6 +669,7 @@ for (const sbl of sbls){
     if (kspan) pageid_to_name_ko[pageid]=kspan.innerHTML;
     if (espan) pageid_to_name_en[pageid]=espan.innerHTML;
   }
+  pageid_list.push(pageid);
 }
 
 function autoset_title(){
@@ -834,10 +822,6 @@ function page_transition(name,animated=true,push_to_history=false){
   let on_intro=(currently_on_page==="intro");
   let to_intro=(name==="intro");
   
-  // Parallax transition
-  if (Parallax.name_defined_in_camera_locations(name))
-    Parallax.camera_animate_to_name(name);
-  
   // Open the corresponding sidebar category
   sidebar_buttons_activate(name);
   
@@ -884,11 +868,11 @@ function page_transition(name,animated=true,push_to_history=false){
     }
     
     // Castle animation
-    if ( castle_mode && on_intro && (!to_intro) ){ // Enter Castle
+    if ( on_intro && (!to_intro) ){ // Enter Castle
       let duration=Castle.enter_animation(animation_start_time,()=>{});
       animation_start_time+=duration;
       StaticBG.activate_page_bg(name,animation_start_time,500);
-    }else if ( castle_mode && (!on_intro) && to_intro ){ // Exit Castle
+    }else if ( (!on_intro) && to_intro ){ // Exit Castle
       StaticBG.activate_page_bg(name,0,1000);
       let duration=Castle.exit_animation(animation_start_time,()=>{});
       animation_start_time+=duration;
@@ -1041,10 +1025,9 @@ else mobile_leave();
 if (window.location.pathname != ""){
   let path_location=window.location.pathname.substring(1);
   
-  if (Parallax.name_defined_in_camera_locations(path_location)) {
+  if (pageid_list.includes(path_location)) {
     console.log("From URL, going to page: "+path_location);
     // Valid page location
-    Parallax.camera_jump_to_name(path_location); // Jump camera
     forceScrollDown();
     page_transition(path_location,false,false);
   }else{
@@ -1193,26 +1176,6 @@ mascot_container_lbr.addEventListener("click",()=>{
   }
 });
 apply_mascot_selection_mode();
-
-
-let castle_mode=true;
-function set_castle_mode(cm){
-  if (cm) 
-    castlemode_btn.innerHTML='<span style="font-weight:700;">2D(Castle)</span> / <span style="opacity:0.3;">3D(Field)</span>';
-  else
-    castlemode_btn.innerHTML='<span style="opacity:0.3;">2D(Castle)</span> / <span style="font-weight:700;">3D(Field)</span>';
-  castle_mode=cm;
-  Parallax.set_parallax_active(!cm);
-  Castle.set_active(cm);
-  StaticBG.set_active(cm);
-  StaticBG.activate_page_bg_instant(currently_on_page);
-}
-set_castle_mode(true);
-
-castlemode_btn.addEventListener("click",()=>{
-  set_castle_mode(!castle_mode);
-});
-
 
 // Initial Setup
 
