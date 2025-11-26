@@ -5,6 +5,8 @@ export let page_to_background_id={
 	
 	news:      "library",
 	
+	register:  "cloudsdale",
+	
 	about:     "manehattan",
 	previous:  "manehattan",
 	coc:       "manehattan",
@@ -16,8 +18,9 @@ export let page_to_background_id={
 	conbook:   "cloudsdale",
 	internal:  "cloudsdale",
 	
-	involved:  "library",
-	register:  "library",
+	panelist:  "library",
+	vendor:    "library",
+	artgallery:"library",
 	
 	
 	inquiries: "nothing",

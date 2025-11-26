@@ -87,8 +87,11 @@
 }
 .page-text-body p{
   font-size:1.0em;
-  margin-top:0.3em;
-  margin-bottom:0.7em;
+  margin-top:0.4em;
+  margin-bottom:0.4em;
+}
+.page-text-body ul{
+  list-style-position: inside;
 }
 
 /* Responsive Section */

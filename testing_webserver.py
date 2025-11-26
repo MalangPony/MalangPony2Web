@@ -14,7 +14,10 @@ rewrite_map={
 	"/involved":"/",
 	"/credits":"/",
 	"/inquiries":"/",
-	"/internal":"/"
+	"/internal":"/",
+	"/panelist":"/",
+	"/vendor":"/",
+	"/artgallery":"/"
 	}
 PORT = 8003
 

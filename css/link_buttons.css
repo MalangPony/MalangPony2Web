@@ -1,11 +1,40 @@
 
 
 /* A button. Should be a <a> element. */
-/* May also have: .twitter .bluesky .discord .naver-blog .download .internal */
-/* May have the .auto-color class, and the color will be set automatically. */
-/* May have the .auto-icon class, and the icon will be added automatically.*/
+
+/* May have one of below classes: 
+ *    .icon-twitter 
+ *    .icon-bluesky 
+ *    .color-discord 
+ *    .icon-naver-blog
+ *    .icon-internal
+ *    .icon-download
+ *    .icon-camera
+ *    .icon-generic-link
+ *    .icon-kakao-map
+ *    .icon-google-maps
+ *    .icon-witchform
+ */
+/* Important: The icon will only be generated if .generate-icon class is added.*/
 /* May have the .manual-icon class, and the first child will be positioned as the icon. */
+
+/* May have one of below classes: 
+ *    .color-twitter 
+ *    .color-bluesky 
+ *    .color-discord 
+ *    .color-naver 
+ *    .color-internal
+ *    .color-malang-little
+ *    .color-malang-one
+ *    .color-hanmari
+ *    .color-leebyeori
+ *    .color-kakao
+ *    .color-google
+ *    .color-witchform
+ */
+
 /* If .inline class is added, will convert this to an inline link.*/
+
 .link-button{
   display:flex;
   flex-direction:row;
@@ -129,6 +158,13 @@
 
 .link-button.icon-camera::before{
   content:"photo_camera";
+  font-family:'Material Symbols Rounded';
+  transform:scale(1.4);
+  margin-top:-0.5em;
+}
+
+.link-button.icon-generic-link::before{
+  content:"link";
   font-family:'Material Symbols Rounded';
   transform:scale(1.4);
   margin-top:-0.5em;

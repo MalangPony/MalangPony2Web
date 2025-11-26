@@ -13,3 +13,6 @@ RewriteRule ^involved$ index.html
 RewriteRule ^credits$ index.html
 RewriteRule ^inquiries$ index.html
 RewriteRule ^internal$ index.html
+RewriteRule ^panelist$ index.html
+RewriteRule ^vendor$ index.html
+RewriteRule ^artgallery$ index.html
