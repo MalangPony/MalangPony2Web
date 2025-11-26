@@ -739,6 +739,7 @@ function apply_lang(code){
   }
   
   autoset_title();
+  Maps.lang_changed();
   
   // Save to cookie
   Cookies.createCookie("language",code);

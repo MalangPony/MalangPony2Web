@@ -69,7 +69,7 @@ var marker = new kakao.maps.Marker({
 marker.setMap(kkm);
 
 // Overlay below marker
-let overlayContent='<div class="atm-label-overlay">말랑포니 행사 장소<br><strong>올댓마인드</strong></div>'
+let overlayContent='<div class="atm-label-overlay"><span class="lang-ko">말랑포니 행사 장소</span><span class="lang-en">MalangPony Venue</span><br><strong><span class="lang-ko">올댓마인드</span><span class="lang-en">AllThatMind</span></strong></div>'
 var placeLabel = new kakao.maps.CustomOverlay({
     map: kkm,
     position: positionATM,
@@ -283,6 +283,7 @@ for (const k in routes){
   }
 }
 
+
 /* ZL>7 not shown
  * ZL=7 not shown
  * ZL=6 small
@@ -428,6 +429,28 @@ kakao.maps.event.addListener(kkm, 'zoom_changed', zoom_change);
 export function recenter(){
   kkm.jump(positionATM,5,{animate:{duration:500}});
 }
+
+// This must be called after a language change!
+// Since kakaomap seems to calculate the element size only when
+// an overlay is added, changing the inner text will misalign the overlay.
+// So here, all content with text in them gets "refreshed" so that the
+// element size is re-calculated and gets aligned correctly.
+export function lang_changed(){
+  for (const k in routes){
+    let route=routes[k];
+    for (const wpo of route.wp_overlays){
+      if (route.shown) {
+        //wpo.setMap(null);
+        //wpo.setMap(kkm);
+        wpo.setContent(wpo.getContent());
+      }
+    }
+  }
+  //placeLabel.setMap(null);
+  //placeLabel.setMap(kkm);
+  placeLabel.setContent(placeLabel.getContent());
+}
+lang_changed();
 
 // Jump button
 mbj.style.display="none";
