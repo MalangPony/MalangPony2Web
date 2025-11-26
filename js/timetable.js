@@ -209,11 +209,11 @@ function timetable_build(ttd){
 		// Description
 		let info_time_dom_ko=document.createElement("div");
 		info_time_dom_ko.classList.add("timetable-desc-time");
-		info_time_dom_ko.classList.add("langdiv-ko");
+		info_time_dom_ko.classList.add("lang-ko");
 		
 		let info_time_dom_en=document.createElement("div");
 		info_time_dom_en.classList.add("timetable-desc-time");
-		info_time_dom_en.classList.add("langdiv-en");
+		info_time_dom_en.classList.add("lang-en");
 		
 		if ("time_string_override_en" in block){
 			info_time_dom_ko.innerHTML=block.time_string_override_kr;
@@ -227,13 +227,13 @@ function timetable_build(ttd){
 		
 		let info_text_dom_ko=document.createElement("div");
 		info_text_dom_ko.classList.add("timetable-desc-text");
-		info_text_dom_ko.classList.add("langdiv-ko");
+		info_text_dom_ko.classList.add("lang-ko");
 		info_text_dom_ko.innerHTML=block.description_kr;
 		desc_dom.appendChild(info_text_dom_ko);
 		
 		let info_text_dom_en=document.createElement("div");
 		info_text_dom_en.classList.add("timetable-desc-text");
-		info_text_dom_en.classList.add("langdiv-en");
+		info_text_dom_en.classList.add("lang-en");
 		info_text_dom_en.innerHTML=block.description_en;
 		desc_dom.appendChild(info_text_dom_en);
 		
@@ -443,12 +443,12 @@ function timetable_build(ttd){
 		text_dom.style.fontSize=text_size+"em";
 		
 		var text_kr = document.createElement("span");
-		text_kr.classList.add("langspan-ko");
+		text_kr.classList.add("lang-ko");
 		text_kr.innerHTML=block.name_kr;
 		text_dom.appendChild(text_kr);
 		
 		var text_en = document.createElement("span");
-		text_en.classList.add("langspan-en");
+		text_en.classList.add("lang-en");
 		text_en.innerHTML=block.name_en;
 		text_dom.appendChild(text_en);
 		
@@ -583,19 +583,19 @@ function timetable_build(ttd){
 		cg_label_dom.classList.add("timetable-cgroup-label");
 		
 		let cg_label_text1_en=document.createElement("div");
-		cg_label_text1_en.classList.add("langflex-en");
+		cg_label_text1_en.classList.add("lang-en");
 		cg_label_text1_en.classList.add("timetable-cgroup-label-line1");
 		
 		let cg_label_text1_ko=document.createElement("div");
-		cg_label_text1_ko.classList.add("langflex-ko");
+		cg_label_text1_ko.classList.add("lang-ko");
 		cg_label_text1_ko.classList.add("timetable-cgroup-label-line1");
 		
 		let cg_label_text2_en=document.createElement("div");
-		cg_label_text2_en.classList.add("langflex-en");
+		cg_label_text2_en.classList.add("lang-en");
 		cg_label_text2_en.classList.add("timetable-cgroup-label-line2");
 		
 		let cg_label_text2_ko=document.createElement("div");
-		cg_label_text2_ko.classList.add("langflex-ko");
+		cg_label_text2_ko.classList.add("lang-ko");
 		cg_label_text2_ko.classList.add("timetable-cgroup-label-line2");
 		
 		

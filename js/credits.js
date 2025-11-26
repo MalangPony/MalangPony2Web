@@ -31,8 +31,8 @@ const template_listing  = document.getElementById("credits-template-listing");
 function generate_entry(entry,list_sns=true){
 	let entry_dom = template_listing.content.cloneNode(true);
 	
-	entry_dom.querySelector(".credits-entry-name > .langspan-ko").innerHTML=entry.name_ko;
-	entry_dom.querySelector(".credits-entry-name > .langspan-en").innerHTML=entry.name_en;
+	entry_dom.querySelector(".credits-entry-name > .lang-ko").innerHTML=entry.name_ko;
+	entry_dom.querySelector(".credits-entry-name > .lang-en").innerHTML=entry.name_en;
 	
 
 	let sns_list = entry_dom.querySelector(".credits-entry-sns-list");
@@ -53,12 +53,12 @@ function generate_entry(entry,list_sns=true){
 		sns_dom.target="_blank";
 		/*
 		let sns_ko=document.createElement("span");
-		sns_ko.classList.add("langspan-ko");
+		sns_ko.classList.add("lang-ko");
 		sns_ko.innerHTML=CreditsData.sns_definitions[sns_id].ko;
 		sns_dom.appendChild(sns_ko);
 		
 		let sns_en=document.createElement("span");
-		sns_en.classList.add("langspan-en");
+		sns_en.classList.add("lang-en");
 		sns_en.innerHTML=CreditsData.sns_definitions[sns_id].en;
 		sns_dom.appendChild(sns_en);
 		*/
@@ -90,8 +90,8 @@ function generate_group(primary_role_id,list_roles=true){
 	
 	let group_dom = template_section.content.cloneNode(true);
 	
-	group_dom.querySelector(".credits-section-name > .langspan-ko").innerHTML=group.ko;
-	group_dom.querySelector(".credits-section-name > .langspan-en").innerHTML=group.en;
+	group_dom.querySelector(".credits-section-name > .lang-ko").innerHTML=group.ko;
+	group_dom.querySelector(".credits-section-name > .lang-en").innerHTML=group.en;
 	
 	let group_content_container = group_dom.querySelector(".credits-section-content");
 	for (const credits_entry of CreditsData.credits_list){

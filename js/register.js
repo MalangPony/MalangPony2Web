@@ -14,27 +14,27 @@ for (const tier_id in TierData.tiers_data){
 	
 	tier_dom_inner.classList.add(tier_data.css_class);
 	
-	tier_dom.querySelector(".register-tier-name.langdiv-ko").innerHTML=tier_data.name_ko;
-	tier_dom.querySelector(".register-tier-name.langdiv-en").innerHTML=tier_data.name_en;
+	tier_dom.querySelector(".register-tier-name.lang-ko").innerHTML=tier_data.name_ko;
+	tier_dom.querySelector(".register-tier-name.lang-en").innerHTML=tier_data.name_en;
 	
-	tier_dom.querySelector(".register-tier-description.langdiv-ko").innerHTML=tier_data.desc_ko;
-	tier_dom.querySelector(".register-tier-description.langdiv-en").innerHTML=tier_data.desc_en;
+	tier_dom.querySelector(".register-tier-description.lang-ko").innerHTML=tier_data.desc_ko;
+	tier_dom.querySelector(".register-tier-description.lang-en").innerHTML=tier_data.desc_en;
 	
-	tier_dom.querySelector(".register-tier-price.langdiv-ko").innerHTML=
+	tier_dom.querySelector(".register-tier-price.lang-ko").innerHTML=
 		tier_data.price+",000원";
-	tier_dom.querySelector(".register-tier-price.langdiv-en").innerHTML=
+	tier_dom.querySelector(".register-tier-price.lang-en").innerHTML=
 		tier_data.price+",000 KRW";
 		
 	tier_dom.querySelector(".register-tier-icon").src=tier_data.icon;
 	
 	if (Number.isFinite(tier_data.limit)){
-		tier_dom.querySelector(".register-tier-limit.langdiv-ko").innerHTML=
+		tier_dom.querySelector(".register-tier-limit.lang-ko").innerHTML=
 			tier_data.limit+"명 한정";
-		tier_dom.querySelector(".register-tier-limit.langdiv-en").innerHTML=
+		tier_dom.querySelector(".register-tier-limit.lang-en").innerHTML=
 			"limited to "+tier_data.limit+" persons";
 	}else{
-		tier_dom.querySelector(".register-tier-limit.langdiv-ko").style.disply="none";
-		tier_dom.querySelector(".register-tier-limit.langdiv-en").style.disply="none";
+		tier_dom.querySelector(".register-tier-limit.lang-ko").style.disply="none";
+		tier_dom.querySelector(".register-tier-limit.lang-en").style.disply="none";
 	}
 	
 	let tier_margin_top = tier_data.margin_top;
@@ -87,9 +87,9 @@ for (const tier_id in TierData.tiers_data){
 		for( const perk_id of inherited_tdata.perks_list ){
 			let perk_dom = tier_perk_template.content.cloneNode(true);
 			
-			perk_dom.querySelector(".perk-name .langspan-ko").innerHTML=
+			perk_dom.querySelector(".perk-name .lang-ko").innerHTML=
 				TierData.perks_data[perk_id].name_ko;
-			perk_dom.querySelector(".perk-name .langspan-en").innerHTML=
+			perk_dom.querySelector(".perk-name .lang-en").innerHTML=
 				TierData.perks_data[perk_id].name_en;
 			
 			let desc_ko=TierData.perks_data[perk_id].desc_ko;
@@ -104,9 +104,9 @@ for (const tier_id in TierData.tiers_data){
 				desc_en="Replaced by <strong>"+TierData.perks_data[overwritten_by].name_en+"</strong> below."
 			}
 			
-			perk_dom.querySelector(".perk-detail .langspan-ko").innerHTML=
+			perk_dom.querySelector(".perk-detail .lang-ko").innerHTML=
 				desc_ko;
-			perk_dom.querySelector(".perk-detail .langspan-en").innerHTML=
+			perk_dom.querySelector(".perk-detail .lang-en").innerHTML=
 				desc_en;
 			
 			

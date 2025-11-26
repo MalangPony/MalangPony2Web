@@ -49,10 +49,10 @@ img{
  * may be added to the <body> element. */
 
 /* Light & Dark Modes */
-.dark-mode .ldimg-light{
+.dark-mode .ld-light{
 	display:none;
 }
-.light-mode .ldimg-dark{
+.light-mode .ld-dark{
 	display:none;
 }
 

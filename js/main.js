@@ -676,8 +676,8 @@ let pageid_to_name_ko={};
 let sbls=document.querySelectorAll(".sb-link");
 for (const sbl of sbls){
   let pageid=sbl.getAttribute("data-pageid");
-  let kspan=sbl.querySelector(".langspan-ko");
-  let espan=sbl.querySelector(".langspan-en");
+  let kspan=sbl.querySelector(".lang-ko");
+  let espan=sbl.querySelector(".lang-en");
   if (pageid){
     if (kspan) pageid_to_name_ko[pageid]=kspan.innerHTML;
     if (espan) pageid_to_name_en[pageid]=espan.innerHTML;
@@ -703,34 +703,6 @@ let current_lang="ko";
 let all_langs=["ko","en"];
 function apply_lang(code){
   current_lang=code;
-  
-  // Hide/show all .lang-{en,kr} spans.
-  for (const lang of all_langs){
-    let all_elements=document.querySelectorAll(".langspan-"+lang);
-    for (const e of all_elements){
-      if (lang===current_lang) e.style.display="inline";
-      else e.style.display="none";
-    }
-  }
-  
-  // Hide/show all .lang-{en,kr} divs.
-  for (const lang of all_langs){
-    let all_elements=document.querySelectorAll(".langdiv-"+lang);
-    for (const e of all_elements){
-      if (lang===current_lang) e.style.display="block";
-      else e.style.display="none";
-    }
-  }
-  
-  // Hide/show all .lang-{en,kr} divs (Flex).
-  for (const lang of all_langs){
-    let all_elements=document.querySelectorAll(".langflex-"+lang);
-    for (const e of all_elements){
-      if (lang===current_lang) e.style.display="flex";
-      else e.style.display="none";
-    }
-  }
-  
   // Add .langmode-* class to body.
   // This is used in some CSS rules.
   for (const lang of all_langs){
@@ -999,10 +971,10 @@ for(const ipal of ipals){
     page_transition(pageid,true,true);
   });
   let kspan=document.createElement("span");
-  kspan.classList.add("langspan-ko");
+  kspan.classList.add("lang-ko");
   kspan.innerHTML=nameK;
   let espan=document.createElement("span");
-  espan.classList.add("langspan-en");
+  espan.classList.add("lang-en");
   espan.innerHTML=nameE;
   ipal.appendChild(kspan);
   ipal.appendChild(espan);
