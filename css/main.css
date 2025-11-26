@@ -158,8 +158,8 @@
   top:0;
   left:0;
   right:16px;
-  height:200px;
   z-index:1;
+  pointer-events:none;
 }
 .on-intro-page #nonintro-header-content{
   display:none;
@@ -167,11 +167,10 @@
 #logo-header{
   max-height:130px;
   max-width:80%;
-  margin-bottom:32px;
 }
 
 #main-content-actual{
-  padding-top:96px;
+  padding-top:120px; /* Space for the nonintro-header*/
   position:relative;
   display:flex;
   flex-direction:column;
@@ -196,6 +195,7 @@
   transition-property: filter;
   transition-duration:0.5s;
   position:relative;
+  z-index:10;
   padding-left:32px;
   padding-right:32px;
   --pages-actual-width:calc(var(--mcd-inner-width) - 64px);
@@ -399,6 +399,9 @@
       to right,
       var(--color-text-auto) 10% 60%,
       hsl(from var(--color-text-auto) h s l / 0%) 100%)
+  }
+  #nonintro-header-content{
+    justify-content:center;
   }
 }
 
