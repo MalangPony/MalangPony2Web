@@ -238,7 +238,7 @@ function sidebar_intro_animate(){
   
   sidebar_magic_animate();
   sidebar_collapse_and_unlock();
-  sidebar_autoexpand();
+  sidebar_autoexpand(currently_on_page);
   
   let anim_scale=sidebar.animate(
     [{transform:"scale(0.0)"},
@@ -705,6 +705,11 @@ function apply_lang(code){
   Cookies.createCookie("language",code);
 }
 
+lang_btn.onclick= ()=>{
+  if (current_lang=="ko") apply_lang("en");
+  else apply_lang("ko");
+}
+
 
 
 function apply_darkmode(darkmode){
@@ -822,8 +827,10 @@ function page_transition(name,animated=true,push_to_history=false){
   let on_intro=(currently_on_page==="intro");
   let to_intro=(name==="intro");
   
-  // Open the corresponding sidebar category
+  // Select the sidebar entry
   sidebar_buttons_activate(name);
+  // Open the corresponding sidebar category
+  sidebar_autoexpand(name);
   
   if (animated){
     
@@ -1020,27 +1027,7 @@ mq_mobile.onchange= ()=>{
 };
 sb_btn_active_area.onclick=sidebar_intro_animate_mobile;
 
-if (mq_mobile.matches) mobile_enter();
-else mobile_leave();
 
-
-// Get page from URL.
-// If found, transition instantly.
-if (window.location.pathname != ""){
-  let path_location=window.location.pathname.substring(1);
-  
-  if (pageid_list.includes(path_location)) {
-    console.log("From URL, going to page: "+path_location);
-    // Valid page location
-    forceScrollDown();
-    page_transition(path_location,false,false);
-  }else{
-    console.log("From URL, invalid page: "+path_location);
-  }
-}
-
-// Setup first history
-window.history.replaceState({pageID:currently_on_page},"");
 
 
 // Manual performance level set
@@ -1070,7 +1057,7 @@ const sbccs=document.querySelectorAll(".sb-category-container");
 for (const clicked_sbcc of sbccs){
   const clicked_header_icon=clicked_sbcc.querySelector(".sbch-icon");
   const clicked_header=clicked_sbcc.querySelector(".sb-category-header");
-  function expand(){
+  function expand(toggle=false){
     if (!sidebar_category_interactive) return;
     for (const other_sbcc of sbccs){
       const other_header=other_sbcc.querySelector(".sb-category-header");
@@ -1079,7 +1066,8 @@ for (const clicked_sbcc of sbccs){
         // This is the clicked one.
         if (other_sbcc.classList.contains("sbcc-expanded")){
           // It's already expaned. Close it now.
-          other_sbcc.classList.remove("sbcc-expanded");
+          if (toggle)
+            other_sbcc.classList.remove("sbcc-expanded");
         }else{
           // It's closed now. Expand it.
           other_sbcc.classList.add("sbcc-expanded");
@@ -1090,7 +1078,7 @@ for (const clicked_sbcc of sbccs){
       }
     }
   }
-  clicked_header.addEventListener("click",expand);
+  clicked_header.addEventListener("click",()=>{expand(true);});
   let clicked_sbcc_links=clicked_sbcc.querySelectorAll(".sb-link");
   for (const sbl of clicked_sbcc_links){
     let pageid=sbl.getAttribute("data-pageid");
@@ -1133,9 +1121,9 @@ function sidebar_collapse_and_unlock(){
   sidebar_category_interactive=true;
   sidebar.classList.remove("sb-expand-forced");
 }
-function sidebar_autoexpand(){
-  let current_expand_func=sidebar_expand_functions[currently_on_page];
-  if (current_expand_func) current_expand_func();
+function sidebar_autoexpand(name){
+  let expand_func=sidebar_expand_functions[name];
+  if (expand_func) expand_func(false);
 }
 
 
@@ -1183,10 +1171,27 @@ apply_mascot_selection_mode();
 
 // Initial Setup
 
-lang_btn.onclick= ()=>{
-  if (current_lang=="ko") apply_lang("en");
-  else apply_lang("ko");
+// Get mobile mode from media query
+if (mq_mobile.matches) mobile_enter();
+else mobile_leave();
+
+// Get page from URL.
+// If found, transition instantly.
+if (window.location.pathname != ""){
+  let path_location=window.location.pathname.substring(1);
+  
+  if (pageid_list.includes(path_location)) {
+    console.log("From URL, going to page: "+path_location);
+    // Valid page location
+    forceScrollDown();
+    page_transition(path_location,false,false);
+  }else{
+    console.log("From URL, invalid page: "+path_location);
+  }
 }
+
+// Setup first history
+window.history.replaceState({pageID:currently_on_page},"");
 
 // Get lang value from cookie
 let lang_from_cookie=null;
