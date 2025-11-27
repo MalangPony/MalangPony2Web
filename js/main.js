@@ -51,6 +51,7 @@ const sb_btn_outer_animator = document.getElementById("sb-btn-outer-animator");
 const sb_close_btn = document.getElementById("sb-close-button-container");
 
 const scroll_inviter_container = document.getElementById("scroll-inviter-container");
+const scroll_fixer = document.getElementById("scroll-fixer");
 const scroll_inviter = document.getElementById("scroll-inviter");
 
 const debug_print_fps=document.getElementById("debug-print-fps");
@@ -591,6 +592,7 @@ let sky_disabled=false;
 function sky_disable(){
   screen_blanker.style.display="none";
   scroll_inviter_container.style.display="none";
+  scroll_fixer.style.display="none";
   sky_disabled=true;
   forceScrollUp();
   if (in_sky_mode) transition_ground();
@@ -598,6 +600,7 @@ function sky_disable(){
 function sky_enable(){
   screen_blanker.style.display="block";
   scroll_inviter_container.style.display="block";
+  scroll_fixer.style.display="block";
   sky_disabled=false;
   forceScrollDown();
 }
