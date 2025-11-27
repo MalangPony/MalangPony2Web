@@ -90,7 +90,7 @@
 }
 
 
-#directions-container{
+.directions-list{
   width:min(600px,100%);
   margin-top:16px;
   display:flex;
@@ -105,32 +105,37 @@
   text-align:center;
 }
 .directions-listing{
-  height:100px;
+  min-height:100px;
   display:flex;
   flex-direction:column;
   justify-content:flex-start;
   gap:4px;
   border-radius: 16px;
   padding:16px;
-  background-color:var(--color-background-default);
+  background-color:var(--color-background-light);
   color:var(--color-text-dark);
   position:relative;
   line-height:1.4em;
+  overflow:hidden;
 }
 .directions-icon{
   position:absolute;
   opacity:0.8;
-  top:0;
+  bottom:0;
   right:0;
-  max-height:100%;
-  
+  height:100px;
+  width:100px;
+  z-index:1;
 }
 .directions-title{
   font-size:1.5em;
   font-weight:700;
+  position:relative;
+  z-index:3;
 }
 .directions-body{
-  
+  position:relative;
+  z-index:2;
 }
 #directions-yangpyong{
   background-color: var(--color-background-line5);

@@ -64,6 +64,17 @@
   content:"";
 }
 
+.page-preamble{
+  color:var(--color-text-auto);
+  font-size:1.2em;
+  margin-top:12px;
+  margin-bottom:12px;
+  line-height:1.4em;
+}
+.page-preamble.centered{
+  text-align:center;
+}
+
 .page-text-body{
   align-self:stretch;
   font-weight:400;

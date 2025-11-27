@@ -93,13 +93,13 @@
           <span class="lang-en">News</span>
           <span class="lang-ko">소식</span>
         </a>
-        
+        <!--
         <div class="sb-divider"></div>
         
         <a class="sb-entry sb-link sb-link-active sb-link-toplevel sb-category-header" data-pageid="register">
           <span class="lang-en">Registration</span>
           <span class="lang-ko">등록</span>
-        </a>
+        </a>-->
         
         <div class="sb-divider"></div>
         
@@ -164,10 +164,10 @@
         <div class="sb-category-container">
           <div class="sb-entry sb-category-header">
             <span class="lang-en">Applications</span>
-            <span class="lang-ko">모집</span>
+            <span class="lang-ko">참여하기</span>
           </div>
           <div class="sb-category-content">
-            <!--
+            
             <a class="sb-entry sb-link sb-link-active sb-link-sublevel" data-pageid="register">
               <span class="lang-en">Registration</span>
               <span class="lang-ko">등록</span>
@@ -175,16 +175,20 @@
             <a class="sb-entry sb-link sb-link-active sb-link-sublevel" data-pageid="involved">
               <span class="lang-en">Contribute</span>
               <span class="lang-ko">모집</span>
-            </a>-->
+            </a>
+            
             <a class="sb-entry sb-link sb-link-active sb-link-sublevel" data-pageid="panelist">
+              &nbsp;&nbsp;&nbsp;
               <span class="lang-en">Panelist</span>
               <span class="lang-ko">참가자 패널</span>
             </a>
             <a class="sb-entry sb-link sb-link-active sb-link-sublevel" data-pageid="vendor">
+              &nbsp;&nbsp;&nbsp;
               <span class="lang-en">Vendors</span>
               <span class="lang-ko">부스 존</span>
             </a>
             <a class="sb-entry sb-link sb-link-active sb-link-sublevel" data-pageid="artgallery">
+              &nbsp;&nbsp;&nbsp;
               <span class="lang-en">Art Gallery</span>
               <span class="lang-ko">아트 갤러리</span>
             </a>
@@ -537,7 +541,7 @@
             <div id="kakaomap-content"></div>
           </div>
           
-          <div id="directions-container">
+          <div class="directions-list">
             <div class="directions-listing" id="directions-munrae">
               <div class="directions-title">
                 <span class="lang-ko">2호선 문래역</span>
@@ -707,7 +711,7 @@
             <span class="lang-ko">공식 마스코트</span>
           </div>
           
-          <div id="mascot-preamble">
+          <div class="page-preamble centered">
             <span class="lang-ko">말랑포니의 두 마스코트를 소개합니다!</span>
             <span class="lang-en">Here are the mascots of our event!</span>
           </div>
@@ -1028,35 +1032,55 @@
             <span class="lang-ko">모집</span>
           </div>
           
-          <div class="page-text-body">
-            <h1 class="lang-ko">참가자 패널 접수</h1>
-            <h1 class="lang-en">Panelist Applications</h1>
-            <p class="lang-ko">
-              참가자 패널 설명...<br>
-              패널 시간표는 <span class="internal-page-autolink autofill-pagename link-button inline color-internal icon-internal generate-icon" data-pageid="timetable"></span>을 참고해 주세요.
-            </p>
-            <p class="lang-en">
-              Panelist explanation...<br>
-              Refer to <span class="internal-page-autolink autofill-pagename link-button inline color-internal icon-internal generate-icon" data-pageid="timetable"></span> for the panel times.
-            </p>
-            
-            <h1 class="lang-ko">부스 접수</h1>
-            <h1 class="lang-en">Vendor Hall Applications</h1>
-            <p class="lang-ko">
-              부스 설명...
-            </p>
-            <p class="lang-en">
-              Vendor Hall explanation...
-            </p>
-            
-            <h1 class="lang-ko">아트 갤러리 접수</h1>
-            <h1 class="lang-en">Art Gallery Submissions</h1>
-            <p class="lang-ko">
-              아트 갤러리 설명...
-            </p>
-            <p class="lang-en">
-              Art Gallery explanation...
-            </p>
+          <div class="page-preamble centered lang-ko">
+            이번 말랑포니에서는 여러분들이 행사에 더 능동적으로 참여할 기회가 늘어났습니다!<br>
+            상세 사항은 아래 버튼을 클릭하여 신청서 페이지를 참고해 주세요.
+          </div>
+          
+          
+          <div class="directions-list">
+            <div class="directions-listing internal-page-autolink" id="apply-panelist" data-pageid="panelist">
+              <div class="directions-title">
+                <span class="lang-ko">참가자 패널</span>
+                <span class="lang-en">Panelist</span>
+              </div>
+              <div class="directions-body lang-ko">
+                누구든 말랑포니에서 30~90분 길이의 패널을 진행하실 수 있습니다.<br>
+                포니와 관련된 주제라면 무슨 발표, 활동이든 환영입니다!
+              </div>
+              <div class="directions-body lang-en">
+                
+              </div>
+              <img class="directions-icon" src="sprites/DirIcon_Panelist.png">
+            </div>
+            <div class="directions-listing internal-page-autolink" id="apply-vendor" data-pageid="vendor">
+              <div class="directions-title">
+                <span class="lang-ko">부스 존</span>
+                <span class="lang-en">Vendor</span>
+              </div>
+              <div class="directions-body lang-ko">
+                말랑포니 행사 중 부스 공간이 주어져, 굿즈 판매를 하실 수 있습니다.
+                
+              </div>
+              <div class="directions-body lang-en">
+                
+              </div>
+              <img class="directions-icon" src="sprites/DirIcon_Vendor.png">
+            </div>
+            <div class="directions-listing internal-page-autolink" id="apply-artgallery" data-pageid="artgallery">
+              <div class="directions-title">
+                <span class="lang-ko">아트 갤러리</span>
+                <span class="lang-en">Art Gallery</span>
+              </div>
+              <div class="directions-body lang-ko">
+                말랑포니 행사중, 누구나 참여할 수 있는 작은 미술 전시회가 열립니다.<br>
+                아날로그, 디지털, 잘그린 그림, 못그린 그림 모두 제출 가능합니다!
+              </div>
+              <div class="directions-body lang-en">
+                
+              </div>
+              <img class="directions-icon" src="sprites/DirIcon_ArtGallery.png">
+            </div>
           </div>
           
         </div> <!-- #page-involved -->

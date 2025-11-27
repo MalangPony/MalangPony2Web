@@ -18,6 +18,7 @@ export let page_to_background_id={
 	conbook:   "cloudsdale",
 	internal:  "cloudsdale",
 	
+	involved:  "library",
 	panelist:  "library",
 	vendor:    "library",
 	artgallery:"library",

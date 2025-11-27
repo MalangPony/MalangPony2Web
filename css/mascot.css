@@ -13,12 +13,7 @@
   display:block;
 }
 
-#mascot-preamble{
-  color:var(--color-text-auto);
-  font-size:1.5em;
-  margin-top:12px;
-  margin-bottom:12px;
-}
+
 
 .hanmari{
   --character-fg:light-dark(
