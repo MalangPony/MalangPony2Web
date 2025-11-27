@@ -30,6 +30,7 @@
 <link href="css/credits.css" rel="stylesheet" />
 <link href="css/inquiries.css" rel="stylesheet" />
 <link href="css/register.css" rel="stylesheet" />
+<link href="css/faq.css" rel="stylesheet" />
 <link href="css/etc.css" rel="stylesheet" />
 </head>
 
@@ -157,6 +158,10 @@
             <a class="sb-entry sb-link sb-link-active sb-link-sublevel" data-pageid="conbook">
               <span class="lang-en">Conbook</span>
               <span class="lang-ko">콘북</span>
+            </a>
+            <a class="sb-entry sb-link sb-link-active sb-link-sublevel" data-pageid="faq">
+              <span class="lang-en">FAQ</span>
+              <span class="lang-ko">Q&amp;A</span>
             </a>
           </div>
         </div>
@@ -1302,6 +1307,35 @@
             </p>
           </div>
         </div> <!-- #page-artgallery -->
+        
+        <div id="page-faq" class="page-content" style="display:none;">
+          <div class="page-title">
+            <span class="lang-en">FAQ</span>
+            <span class="lang-ko">Q&amp;A</span>
+          </div>
+          
+          <template id="faq-entry-template">
+            <div class="faq-entry">
+              <div class="faq-top">
+                <div class="faq-expander-icon">unfold_more</div>
+                <div class="faq-question-icon">?</div>
+                <div class="faq-question-text lang-ko"></div>
+                <div class="faq-question-text lang-en"></div>
+                <div class="faq-top-spacer"></div>
+                
+              </div>
+              <div class="faq-bottom">
+                <div class="faq-answer-icon">!</div>
+                <div class="faq-answer-text lang-ko"></div>
+                <div class="faq-answer-text lang-en"></div>
+              </div>
+            </div>
+          </template>
+          <div id="faq-container">
+            <!-- To be filled with .faq-entry -->
+          </div>
+          
+        </div> <!-- #page-faq -->
         
         
       </div>

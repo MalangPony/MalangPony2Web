@@ -17,6 +17,7 @@ import * as Credits from "./credits.js";
 import * as Register from "./register.js";
 import * as Castle from "./castle.js";
 import * as StaticBG from "./static_bg.js";
+import * as FAQ from "./faq.js";
 
 // DOM
 const body_dom = document.querySelector("body");

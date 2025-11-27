@@ -17,6 +17,7 @@ export let page_to_background_id={
 	venue:     "cloudsdale",
 	conbook:   "cloudsdale",
 	internal:  "cloudsdale",
+	faq:       "cloudsdale",
 	
 	involved:  "library",
 	panelist:  "library",
