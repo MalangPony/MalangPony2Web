@@ -806,6 +806,14 @@ page_setup_functions["venue"]= function(){
 page_cleanup_functions["venue"]= function(){
 }
 
+page_setup_functions["mascot"]= function(){
+  
+}
+page_cleanup_functions["mascot"]= function(){
+  mascot_selection_mode=0;
+  apply_mascot_selection_mode();
+}
+
 // Transition with animation.
 function page_transition(name,animated=true,push_to_history=false){
   console.log("Page transition to "+name+", animated="+animated+", PTH="+push_to_history);
