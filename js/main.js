@@ -1101,6 +1101,16 @@ for (const clicked_sbcc of sbccs){
 const sblts=document.querySelectorAll(".sb-link-toplevel");
 for (const sblt of sblts){
   const icon=sblt.querySelector(".sbch-icon");
+  
+  function collapse_all(toggle=false){
+    if (!sidebar_category_interactive) return;
+    for (const other_sbcc of sbccs){
+      other_sbcc.classList.remove("sbcc-expanded");
+    }
+  }
+  let pageid=sblt.getAttribute("data-pageid");
+  sidebar_expand_functions[pageid]=collapse_all;
+  
 }
 
 // Expand everything
