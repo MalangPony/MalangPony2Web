@@ -99,47 +99,62 @@
   text-align:center;
 }
 
+
 #directions-yangpyong{
-  background-color: var(--color-background-line5);
+  background-color: light-dark(
+    var(--color-background-line5-light),
+    var(--color-background-line5-dark));
 }
-#directions-yangpyong .directions-title{
-  color: var(--color-text-line5);
+#directions-yangpyong .cl-entry-title{
+  color: var(--color-title-line5);
 }
 #directions-munrae{
-  background-color: var(--color-background-line2);
+  background-color: light-dark(
+    var(--color-background-line2-light),
+    var(--color-background-line2-dark));
 }
-#directions-munrae .directions-title{
-  color: var(--color-text-line2);
+#directions-munrae .cl-entry-title{
+  color: var(--color-title-line2);
 }
 #directions-bus{
-  background-color: var(--color-background-bluebus);
+  background-color: light-dark(
+    var(--color-background-bluebus-light),
+    var(--color-background-bluebus-dark));
 }
-#directions-bus .directions-title{
-  color: var(--color-text-bluebus);
+#directions-bus .cl-entry-title{
+  color: var(--color-title-bluebus);
 }
 #directions-icn{
-  background-color: var(--color-background-airport);
+  background-color: light-dark(
+    var(--color-background-icn-light),
+    var(--color-background-icn-dark));
 }
-#directions-icn .directions-title{
-  color: var(--color-text-airport);
+#directions-icn .cl-entry-title{
+  color: var(--color-title-icn);
 }
 #directions-gmp{
-  background-color: var(--color-background-airport);
+  background-color: light-dark(
+    var(--color-background-gmp-light),
+    var(--color-background-gmp-dark));
 }
-#directions-gmp .directions-title{
-  color: var(--color-text-airport);
+#directions-gmp .cl-entry-title{
+  color: var(--color-title-gmp);
 }
 #directions-railway{
-  background-color: var(--color-background-railway);
+  background-color: light-dark(
+    var(--color-background-railway-light),
+    var(--color-background-railway-dark));
 }
-#directions-railway .directions-title{
-  color: var(--color-text-railway);
+#directions-railway .cl-entry-title{
+  color: var(--color-title-railway);
 }
 #directions-gsbus{
-  background-color: var(--color-background-gsbus);
+  background-color: light-dark(
+    var(--color-background-gsbus-light),
+    var(--color-background-gsbus-dark));
 }
-#directions-gsbus .directions-title{
-  color: var(--color-text-gsbus);
+#directions-gsbus .cl-entry-title{
+  color: var(--color-title-gsbus);
 }
 
 /* Responsive Section */

@@ -38,8 +38,8 @@ a.card-list-entry{
   gap:4px;
   border-radius: 16px;
   padding:16px;
-  background-color:var(--color-background-light);
-  color:var(--color-text-dark);
+  background-color:var(--color-background-auto);
+  color:var(--color-text-auto);
   position:relative;
   line-height:1.4em;
   overflow:hidden;

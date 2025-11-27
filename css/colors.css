@@ -106,31 +106,42 @@
   
   /* Directions */
   /* Seoul Subway Line 5 */
-  --color-background-line5: #d6c4dd;
-  --color-text-line5: #8B50A4;
-  --color-route-line5: var(--color-text-line5);
+  --color-background-line5-light: #d6c4dd;
+  --color-background-line5-dark: #2b083a;
+  --color-title-line5: #8B50A4;
+  --color-route-line5: var(--color-title-line5);
   
   /* Seoul Subway Line 2 */
-  --color-background-line2:#dcf9df;
-  --color-text-line2:#33A23D;
-  --color-route-line2: var(--color-text-line2);
+  --color-background-line2-light:#cdf9d1;
+  --color-background-line2-dark:#042f09;
+  --color-title-line2:#33A23D;
+  --color-route-line2: var(--color-title-line2);
   
   /* Seoul Blue bus */
-  --color-background-bluebus:#ced3ff;
-  --color-text-bluebus:#363db6;
-  --color-route-bluebus: var(--color-text-bluebus);
+  --color-background-bluebus-light:#ced3ff;
+  --color-background-bluebus-dark:#040b4c;
+  --color-title-bluebus:#363db6;
+  --color-route-bluebus: var(--color-title-bluebus);
   
-  --color-background-airport:#c1faff;
-  --color-text-airport:#049fad;
-  --color-route-airport: var(--color-text-airport);
+  --color-background-icn-light:#c0f1ff;
+  --color-background-icn-dark:#043944;
+  --color-title-icn:#0ca5c7;
+  --color-route-icn: var(--color-title-icn);
   
-  --color-background-railway:#c4dcfc;
-  --color-text-railway:#005BAC; /* Official Korail color */
-  --color-route-railway: var(--color-text-railway);
+  --color-background-gmp-light:#c0ffea;
+  --color-background-gmp-dark:#02392d;
+  --color-title-gmp:#06bc95;
+  --color-route-gmp: var(--color-title-gmp);
   
-  --color-background-gsbus:#ffd7dd;
-  --color-text-gsbus:#e13e61;
-  --color-route-gsbus: var(--color-text-gsbus);
+  --color-background-railway-light:#c4dcfc;
+  --color-background-railway-dark:#002544;
+  --color-title-railway:#005BAC; /* Official Korail color */
+  --color-route-railway: var(--color-title-railway);
+  
+  --color-background-gsbus-light:#ffd7dd;
+  --color-background-gsbus-dark:#3f0516;
+  --color-title-gsbus:#e13e61;
+  --color-route-gsbus: var(--color-title-gsbus);
   
   
   
