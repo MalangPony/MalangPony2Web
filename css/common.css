@@ -17,3 +17,54 @@
   border-radius:16px;
   overflow:hidden;
 }
+
+
+/* List of card-like entries. */
+.card-list-container{
+  width:min(600px,100%);
+  margin-top:16px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+a.card-list-entry{
+  text-decoration:none;
+}
+.card-list-entry{
+  min-height:100px;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  gap:4px;
+  border-radius: 16px;
+  padding:16px;
+  background-color:var(--color-background-light);
+  color:var(--color-text-dark);
+  position:relative;
+  line-height:1.4em;
+  overflow:hidden;
+}
+.cl-entry-icon{
+  position:absolute;
+  opacity:0.8;
+  bottom:0;
+  right:0;
+  height:100px;
+  width:100px;
+  z-index:1;
+}
+.cl-entry-title{
+  font-size:1.5em;
+  font-weight:700;
+  position:relative;
+  z-index:3;
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  justify-content:flex-start;
+  gap:4px;
+}
+.cl-entry-body{
+  position:relative;
+  z-index:2;
+}
