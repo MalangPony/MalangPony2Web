@@ -57,14 +57,15 @@ export function relayout(){
 }
 
 // Main ATM Marker
-let markerSizeMultiplier=0.3;
+let markerSizeMultiplier=0.25;
 var markerImage = new kakao.maps.MarkerImage(
-  'sprites-prototype/MPN2-Prototype-Image_MapMarker.png', 
-  new kakao.maps.Size(300*markerSizeMultiplier, 300*markerSizeMultiplier), 
-  {offset: new kakao.maps.Point(100*markerSizeMultiplier, 250*markerSizeMultiplier)});
+  '/sprites/OBJ-004_HiContrast_EDIT_Stroked50px_Rsz400.png', 
+  new kakao.maps.Size(400*markerSizeMultiplier, 400*markerSizeMultiplier), 
+  {offset: new kakao.maps.Point(145*markerSizeMultiplier, 350*markerSizeMultiplier)});
 var marker = new kakao.maps.Marker({
     position: positionATM,
-    image:markerImage
+    image:markerImage,
+    zIndex:5
 });
 marker.setMap(kkm);
 
@@ -75,7 +76,8 @@ var placeLabel = new kakao.maps.CustomOverlay({
     position: positionATM,
     content: overlayContent,
     xAnchor:0.5,
-    yAnchor: 0.0
+    yAnchor: 0.0,
+    zIndex:4
 });
 
 // Route functions
@@ -276,7 +278,8 @@ for (const k in routes){
         position: array_to_latlng(wp.point),
         content: overlay_content,
         xAnchor:0.5,
-        yAnchor: topalign? 0.0 : 1.0
+        yAnchor: topalign? 0.0 : 1.0,
+        zIndex:1
     });
     if (route.shown) overlay.setMap(kkm);
     route.wp_overlays.push(overlay);
@@ -326,7 +329,8 @@ var drawing1 = new kakao.maps.CustomOverlay({
     position: drawing1_data.medium.location,
     content: generate_drawing_html(drawing1_data,"medium"),
     xAnchor:0.0,
-    yAnchor: 1.0
+    yAnchor: 1.0,
+    zIndex:2
 });
 
 // Drawing #2, near Yangpyeong station
@@ -355,7 +359,8 @@ var drawing2 = new kakao.maps.CustomOverlay({
     position: drawing2_data.medium.location,
     content: generate_drawing_html(drawing2_data,"medium"),
     xAnchor:0.0,
-    yAnchor: 1.0
+    yAnchor: 1.0,
+    zIndex:2
 });
 
 
