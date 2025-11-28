@@ -243,19 +243,19 @@ function sidebar_intro_animate(){
   sidebar_autoexpand(currently_on_page);
   
   let anim_scale=sidebar.animate(
-    [{transform:"scale(0.0)"},
-     {transform:"scale(1.0)"}],
+    [{transform:"scale(0.0)",opacity:0},
+     {transform:"scale(1.0)",opacity:1}],
     {duration:400,delay:1100,easing:"ease-out"});
   sidebar_animations.push(anim_scale);
   let anim_unfold=sidebar.animate(
-    [{maxHeight:"64px"},
+    [{maxHeight:"160px"},
      {maxHeight:"calc(100dvh - 64px)"}],
     {duration:1000,delay:1500,easing:"ease-in-out"});
   sidebar_animations.push(anim_unfold);
   
   sidebar.style.transform="scale(0)";
   sidebar.style.display="flex";
-  sidebar.style.maxHeight="64px";
+  sidebar.style.maxHeight="160px";
   
   anim_scale.onfinish=(e)=>{
     sidebar.style.transform="none";

@@ -30,12 +30,28 @@
 #sidebar{
   /*border:3px solid #d3bf84; */
   
+  --sb-slice-right:269;
+  --sb-slice-left: 179;
+  --sb-slice-top:  220;
+  --sb-slicer-bottom: 210;
+  
+  --sb-edge-width-multiplier:0.3px;
+  
   max-height:calc(100dvh - 64px);
   
-  border-image-source: url("../sprites-prototype/MPN2-Prototype-Image-Scroll.png");
-  border-image-width:60px;
-  border-image-outset:0px;
-  border-image-slice: 550 445 445 420 fill;
+  border-image-source: url("/sprites/OBJ-001_RszH500-Outline10px.png");
+  border-image-width: 
+    calc(var(--sb-slice-top) * var(--sb-edge-width-multiplier))
+    calc(var(--sb-slice-right) * var(--sb-edge-width-multiplier))
+    calc(var(--sb-slicer-bottom) * var(--sb-edge-width-multiplier))
+    calc(var(--sb-slice-left) * var(--sb-edge-width-multiplier));
+  border-image-outset: 0px;
+  border-image-slice:
+    var(--sb-slice-top) 
+    var(--sb-slice-right)
+    var(--sb-slicer-bottom)
+    var(--sb-slice-left)
+    fill; /* T R B L */
   
   position:relative;
 }
@@ -50,8 +66,8 @@
 }
 #sb-close-button-container{
   position:absolute;
-  top: 8px;
-  right:32px;
+  top: 16px;
+  right:40px;
   width:80px;
   height:80px;
   z-index:+3;
@@ -74,12 +90,13 @@
    * is because overflow cut-off is only affected by the margin box.
    * by mixing and matching margins and paddings, we can position the element
    * and the cut-off. */
-  margin-top:24px;
-  margin-left:24px;
+  margin-top:12px;
+  margin-left:20px;
   margin-bottom:32px;
   
   padding-top:16px;
-  padding-bottom:16px;
+  padding-bottom:4px;
+  padding-left:6px;
   
   flex-shrink:0;
   width:calc( 100% + 40px );
@@ -111,7 +128,8 @@
   width:12em;
 }
 .sb-divider{
-  
+  flex-shrink:0;
+  flex-grow:0;
   background-image: linear-gradient(
     to right,
     hsl(from var(--color-sidebar-text-normal) h s l / 0%) 0%,
@@ -306,11 +324,12 @@
   /* The below rule has two identical ID selectors in order to raise the specificity.
    * This is to override the class+ID selector that was declared above.*/
   #sidebar#sidebar{
-    width:calc(100vw - 32px);
+    width:calc(100vw - 16px);
     height:calc(100dvh - 32px);
     margin-top:16px;
-    margin-left:16px;
+    margin-left:0px;
     pointer-events:auto;
+    --sb-edge-width-multiplier:0.4px;
   }
   #sidebar-content{
     position:absolute;
