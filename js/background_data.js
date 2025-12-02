@@ -7,11 +7,11 @@ export let page_to_background_id={
 	
 	register:  "cloudsdale",
 	
-	about:     "manehattan",
-	previous:  "manehattan",
-	coc:       "manehattan",
-	mascot:    "manehattan",
-	credits:   "manehattan",
+	about:     "drw002",
+	previous:  "drw002",
+	coc:       "drw002",
+	mascot:    "drw002",
+	credits:   "drw002",
 	
 	timetable: "cloudsdale",
 	venue:     "cloudsdale",
@@ -77,6 +77,20 @@ export let background_definitions={
 		outer_fill_left:"#64a2b7",
 		outer_fill_right:"#64a2b7",
 		base_image:"/sprites-prototype/MPN2-Prototype-Image-D3666326.jpg",
+		left_image:"/sprites-prototype/MPN2-Prototype-Image-D1343951.png",
+		left_align:"bottom",
+		left_height_vh:60,
+		left_margin_px:16,
+		right_image:"/sprites-prototype/MPN2-Prototype-Image-D1108682.png",
+		right_align:"top",
+		right_height_vh:60,
+		right_margin_px:16,
+	},
+	
+	drw002:{
+		outer_fill_left:"#1C102C", // #1C102C
+		outer_fill_right:"#1C102C",
+		base_image:"/sprites-prototype/BGD-002C-DRAFT_Faded-Filtered-RszH500_J95.jpg",
 		left_image:"/sprites-prototype/MPN2-Prototype-Image-D1343951.png",
 		left_align:"bottom",
 		left_height_vh:60,
