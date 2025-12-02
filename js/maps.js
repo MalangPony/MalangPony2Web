@@ -59,9 +59,9 @@ export function relayout(){
 // Main ATM Marker
 let markerSizeMultiplier=0.25;
 var markerImage = new kakao.maps.MarkerImage(
-  '/sprites/OBJ-004_HiContrast_EDIT_Stroked50px_Rsz400.png', 
+  '/sprites/OBJ-004_Outlined_e2_Rsz400.png', 
   new kakao.maps.Size(400*markerSizeMultiplier, 400*markerSizeMultiplier), 
-  {offset: new kakao.maps.Point(145*markerSizeMultiplier, 350*markerSizeMultiplier)});
+  {offset: new kakao.maps.Point(140*markerSizeMultiplier, 370*markerSizeMultiplier)});
 var marker = new kakao.maps.Marker({
     position: positionATM,
     image:markerImage,

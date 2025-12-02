@@ -30,6 +30,7 @@ l2d hide when screen is narrow
 Change all direction listings to use GMI font and support light/dark mode
 Fix Venue/Direction/2 icon
 No-JS support?
+Mascot page click suggester
 
 RIGHT BEFORE PUSH TO PROD
 Change all domains (testing.malangpony) to a PHP expression (<?php echo $webroot;?>)
