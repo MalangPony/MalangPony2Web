@@ -37,6 +37,8 @@
 #mascot-selector{
   display:flex;
   flex-direction:row-reverse;
+  position:relative;
+  --mascot-container-width:calc(var(--pages-actual-width) - 64px);
 }
 .mascot-selector-divider{
   width:1px;
@@ -46,8 +48,13 @@
   /*background-color:var(--color-text-auto);*/
 }
 
+/* .mascot-container 
+     + .isolate : when the bg is transparent
+     + .isolate.minimize : when it is squished to the side
+                           because the other mascot is opened
+     (nothing) : when it is opened, and the refsheet is visible
+ */
 .mascot-container{
-  --mascot-container-width:calc(var(--pages-actual-width) - 64px);
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -149,7 +156,6 @@
   transition-duration:1.0s;
   transform:none;
   pointer-events:none;
-  color:#F00;
   z-index:10;
   font-size:24px;
   color: var(--character-fg);
@@ -198,6 +204,51 @@
   gap:8px;
 }
 
+@keyframes fade-out{
+  0%{
+    opacity:1.0;
+  }
+  100%{
+    opacity:0.0;
+  }
+}
+@keyframes fade-in{
+  0%{
+    opacity:0.0;
+  }
+  100%{
+    opacity:1.0;
+  }
+}
+#mascot-click-suggester{
+  position:absolute;
+  z-index:20;
+  top:calc((var(--mascot-container-width) / 1.556) - 0.4em );
+  font-size:1.0em;
+  left:0;
+  right:0;
+  text-align:center;
+  /*
+  border-radius:4px;
+  padding:8px;
+  color: var(--color-text-auto);
+  background-color:var(--color-background-auto);*/
+  
+  animation-fill-mode: both;
+  animation-iteration-count:1;
+}
+#mascot-click-suggester.hidden{
+  animation-delay:0.0s;
+  animation-duration:0.5s;
+  animation-name:fade-out;
+  animation-play-state:running;
+}
+#mascot-click-suggester:not(.hidden){
+  animation-delay:1.0s;
+  animation-duration:1.0s;
+  animation-name:fade-in;
+  animation-play-state:running;
+}
 
 /* Responsive Section */
 /* Targeting down to 300px. */

@@ -78,6 +78,7 @@ const debug_btn_perf_auto = document.getElementById(
 const mascot_selector=document.getElementById("mascot-selector");
 const mascot_container_hmr=document.getElementById("mascot-container-hmr");
 const mascot_container_lbr=document.getElementById("mascot-container-lbr");
+const mascot_click_suggester=document.getElementById("mascot-click-suggester");
 
 const sky_bg = document.getElementById("sky-bg");
 
@@ -1170,6 +1171,12 @@ function apply_mascot_selection_mode(){
     mascot_container_lbr.classList.add("isolate");
     mascot_container_lbr.classList.add("minimize");
   } 
+  
+  if (mascot_selection_mode==0){
+    mascot_click_suggester.classList.remove("hidden");
+  }else{
+    mascot_click_suggester.classList.add("hidden");
+  }
 }
 mascot_container_hmr.addEventListener("click",()=>{
   if (mascot_selection_mode==0){
