@@ -172,7 +172,7 @@ let routes={
       {point:MapData.point_ICN2,ko:"인천국제공항 2터미널",en:"ICN Terminal 2"},
       {point:MapData.point_GMP,ko:"환승",en:"Transfer"},
     ],
-    color:"var(--color-route-airport)",
+    color:"var(--color-route-icn)",
     focus_button:directions_icn,
     zl_max:null,
     shown_by_default:false
@@ -185,7 +185,7 @@ let routes={
     waypoints:[
       {point:MapData.point_GMP,ko:"김포공항",en:"GMP"},
     ],
-    color:"var(--color-route-airport)",
+    color:"var(--color-route-gmp)",
     focus_button:directions_gmp,
     zl_max:null,
     shown_by_default:false
