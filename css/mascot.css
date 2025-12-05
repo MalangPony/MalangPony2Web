@@ -97,6 +97,7 @@
   display:flex;
   flex-direction:column;
   align-items:center;
+  gap:4px;
 }
 .mascot-title{
   display:flex;
@@ -111,8 +112,17 @@
 .mascot-title .sublang{
   font-size:0.7em;
 }
+.mascot-stats{
+  color: var(--character-fg);
+  font-size:1.0em;
+  font-weight:700;
+}
 .mascot-bio{
   color: var(--character-fg);
+  align-self:stretch;
+  padding-left:32px;
+  padding-right:32px;
+  text-align:center;
 }
 
 .refsheet-image{
@@ -196,8 +206,8 @@
 }
 /* Download line */
 .refsheet-downloads{
-  margin-top:12px;
-  margin-bottom:12px;
+  margin-top:8px;
+  margin-bottom:8px;
   display:flex;
   flex-direction:row;
   justify-content:space-evenly;
