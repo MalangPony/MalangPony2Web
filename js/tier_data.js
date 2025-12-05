@@ -24,7 +24,7 @@ export const tiers_data={
 		inherit_exclude:[],
 		price:75,
 		limit:Infinity,
-		icon:"/sprites-prototype/favorite_64dp_6B2346_FILL0_wght700_GRAD0_opsz48.png"
+		icon:"/sprites-prototype/favorite_64dp_B89230_FILL0_wght700_GRAD0_opsz48.png"
 	},
 	mane:{
 		name_en:"Mane Six",
@@ -37,7 +37,7 @@ export const tiers_data={
 		inherit_exclude:[],
 		price:150,
 		limit:6,
-		icon:"/sprites-prototype/hexagon_64dp_B89230_FILL0_wght700_GRAD0_opsz48.png"
+		icon:"/sprites-prototype/token_64dp_6B2346_FILL0_wght700_GRAD0_opsz48.png"
 	},
 	princess:{
 		name_en:"Royal Princess",
@@ -50,7 +50,7 @@ export const tiers_data={
 		inherit_exclude:[],
 		price:400,
 		limit:3,
-		icon:"/sprites-prototype/chess_queen_64dp_321D71_FILL0_wght700_GRAD0_opsz48.png"
+		icon:"/sprites-prototype/crown_64dp_321D71_FILL0_wght700_GRAD0_opsz48.png"
 	},
 	spirit:{
 		margin_top:64,

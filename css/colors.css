@@ -85,8 +85,8 @@
   
   /* Tiers */
   --color-tier-standard:var(--template-malang-RD);
-  --color-tier-sponsor:var(--template-malang-PP);
-  --color-tier-mane:var(--template-malang-FS);
+  --color-tier-sponsor:var(--template-malang-FS);
+  --color-tier-mane:var(--template-malang-PP);
   --color-tier-princess:var(--template-malang-TS);
   --color-tier-spirit:#D0D0D0;
   --color-tier-onsite:var(--template-malang-AJ);
