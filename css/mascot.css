@@ -204,15 +204,6 @@
 .refsheet-thumb-isolated{
   z-index:2;
 }
-/* Download line */
-.refsheet-downloads{
-  margin-top:8px;
-  margin-bottom:8px;
-  display:flex;
-  flex-direction:row;
-  justify-content:space-evenly;
-  gap:8px;
-}
 
 @keyframes fade-out{
   0%{

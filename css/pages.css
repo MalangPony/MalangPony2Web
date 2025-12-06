@@ -18,7 +18,7 @@
   font-weight:700;
   text-align:center;
   margin-top:8px;
-  margin-bottom:12px;
+  margin-bottom:16px;
   /*margin-left:32px;
   margin-right:32px;*/
   display:flex;
@@ -67,9 +67,8 @@
 .page-preamble{
   color:var(--color-text-auto);
   font-size:1.2em;
-  margin-top:12px;
-  margin-bottom:12px;
-  line-height:1.4em;
+  margin-top:0.3em;
+  margin-bottom:0.3em;
 }
 .page-preamble.centered{
   text-align:center;
@@ -79,7 +78,6 @@
   align-self:stretch;
   font-weight:400;
   text-align:left;
-  margin-top:8px;
   line-height:1.5;
 }
 .page-text-body.centered{
@@ -88,18 +86,21 @@
 .page-text-body h1{
   margin-top:1.5em;
   font-size:2.0em;
+  margin-bottom:-0.3em;
 }
 .page-text-body h2{
   margin-top:1.0em;
   font-size:1.5em;
+  margin-bottom:-0.2em;
 }
 .page-text-body h3{
   margin-top:0.7em;
   font-size:1.2em;
+  margin-bottom:-0.1em;
 }
 .page-text-body p{
   font-size:1.0em;
-  margin-top:0.4em;
+  margin-top:0.2em;
   margin-bottom:0.4em;
 }
 .page-text-body ul,ol{
@@ -109,6 +110,23 @@
 .page-text-body > ul,ol{ /* Topmost. Don't apply padding.*/
   list-style-position: inside;
   padding-inline-start: 0em;
+}
+
+.linkbutton-row{
+  margin-top:16px;
+  margin-bottom:12px;
+  display:flex;
+  flex-direction:row;
+  justify-content:flex-start;
+  align-self:stretch;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.linkbutton-row.centered{
+  justify-content:center;
+}
+.linkbutton-row.large{
+  font-size:1.3em;
 }
 
 /* Responsive Section */

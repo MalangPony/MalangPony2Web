@@ -6,14 +6,7 @@
   color:var(--color-bluesky-text);
 }
 
-#news-sns-row{
-  display:flex;
-  flex-wrap:wrap; 
-  justify-content:center; 
-  margin-top:8px;
-  margin-bottom:8px;
-  gap:4px;
-}
+
 #news-sns-button-twitter{
   background-color:light-dark(
     var(--color-twitter-light-bg),

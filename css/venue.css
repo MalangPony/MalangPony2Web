@@ -1,6 +1,5 @@
 /* Page: Venue (#page-venue) */
 #venue-place-name-top{
-  margin-top:16px;
 }
 #venue-place-name-title{
   margin-top:8px;
@@ -11,16 +10,6 @@
   margin-top:8px;
   font-style:italic;
 }
-#venue-map-site-links{
-  margin-top:16px;
-  margin-bottom:12px;
-  display:flex;
-  flex-direction:row;
-  gap:8px;
-}
-
-
-
 
 #map-outer{
   width:min(600px,100%);
