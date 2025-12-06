@@ -164,6 +164,12 @@
   --color-google-darker:#1a63c2;
   --color-google-base:#4285F4; /* = Official */
   
+  /* Picked from icon */
+  --color-google-docs:#2684fc;
+  --color-google-forms:#7248b9;
+  --color-google-slides:#ffba00;
+  --color-google-sheets:#00ac47;
+  
   /* Yes, they actually use #000 (Official) */
   --color-twitter-base:#000000;
   --color-twitter-white:#F9F9F9;

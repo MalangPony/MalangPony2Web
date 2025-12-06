@@ -13,6 +13,10 @@
  *    .icon-generic-link
  *    .icon-kakao-map
  *    .icon-google-maps
+ *    .icon-google-docs
+ *    .icon-google-sheets
+ *    .icon-google-forms
+ *    .icon-google-slides
  *    .icon-witchform
  */
 /* Important: The icon will only be generated if .generate-icon class is added.*/
@@ -30,6 +34,10 @@
  *    .color-leebyeori
  *    .color-kakao
  *    .color-google
+ *    .color-google-docs
+ *    .color-google-sheets
+ *    .color-google-forms
+ *    .color-google-slides
  *    .color-witchform
  */
 
@@ -84,6 +92,7 @@
   margin-right:0.3em;
   background-size: contain;
   background-position:center;
+  background-repeat:no-repeat;
 }
 
 .link-button.color-twitter{
@@ -233,6 +242,52 @@
   background-image:url("/siteicons/favicon_gmaps.png");
   transform:scale(1.2);
   margin-top:-0.1em;
+}
+
+.link-button.color-google-docs{
+  color:var(--color-google-docs);
+  background-color:light-dark(
+    var(--color-background-light),
+    var(--color-background-dark));
+}
+.link-button.icon-google-docs::before{
+  background-image:url("/siteicons/Wikimedia_GoogleDocs_Logo.png");
+  transform:scale(1.2);
+  margin-top:-0.1em;
+}
+.link-button.icon-google-forms::before{
+  background-image:url("/siteicons/Wikimedia_GoogleForms_Logo.png");
+  transform:scale(1.2);
+  margin-top:-0.1em;
+}
+.link-button.icon-google-slides::before{
+  background-image:url("/siteicons/Wikimedia_GoogleSlides_Logo.png");
+  transform:scale(1.2);
+  margin-top:-0.1em;
+}
+.link-button.icon-google-sheets::before{
+  background-image:url("/siteicons/Wikimedia_GoogleSheets_Logo.png");
+  transform:scale(1.2);
+  margin-top:-0.1em;
+}
+
+.link-button.color-google-forms{
+  color:var(--color-google-forms);
+  background-color:light-dark(
+    var(--color-background-light),
+    var(--color-background-dark));
+}
+.link-button.color-google-slides{
+  color:var(--color-google-slides);
+  background-color:light-dark(
+    var(--color-background-light),
+    var(--color-background-dark));
+}
+.link-button.color-google-sheets{
+  color:var(--color-google-sheets);
+  background-color:light-dark(
+    var(--color-background-light),
+    var(--color-background-dark));
 }
 
 .light-mode .link-button.icon-witchform::before{
