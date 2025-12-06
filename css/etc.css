@@ -52,6 +52,23 @@
   margin-right:0.2em;
 }
 
+.involve-header{
+  align-self:stretch;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:4px;
+  margin-top:8px;
+  margin-bottom:8px;
+}
+.involve-header .link-button{
+  font-size:1.3em;
+}
+.involve-header .involve-deadline{
+  font-size:0.9em;
+  text-align:center;
+}
+
 /* Responsive Section */
 /* Targeting down to 300px. */
 
