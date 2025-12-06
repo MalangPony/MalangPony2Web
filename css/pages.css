@@ -80,6 +80,7 @@
   font-weight:400;
   text-align:left;
   margin-top:8px;
+  line-height:1.5;
 }
 .page-text-body.centered{
   text-align:center;
@@ -101,8 +102,13 @@
   margin-top:0.4em;
   margin-bottom:0.4em;
 }
-.page-text-body ul{
+.page-text-body ul,ol{
   list-style-position: inside;
+  padding-inline-start: 1.5em;
+}
+.page-text-body > ul,ol{ /* Topmost. Don't apply padding.*/
+  list-style-position: inside;
+  padding-inline-start: 0em;
 }
 
 /* Responsive Section */
