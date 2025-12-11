@@ -105,11 +105,12 @@ export let background_definitions={
 	drw002b:{
 		outer_fill_left:"#1C102C",
 		outer_fill_right:"#1C102C",
+		/*
 		center_image:"/backgrounds/BGD-002C_Faded-Filtered-RszH500_J95.jpg",
 		base_image:"/backgrounds/BGD-002C_Faded-Filtered-RszH500_J95.jpg",
-		/*
-		base_image:"/backgrounds/BGD-002C_RszH1024-J90.jpg",
-		left_image:"/backgrounds/BGD-002A_Rsz1024-Crop-HFlip.png",*/
+		*/
+		base_image:"/backgrounds/BGD-002C_Faded-Filtered-RszH500_J95.jpg",
+		left_image:"/backgrounds/BGD-002A_Rsz1024-Crop-HFlip.png",
 		left_align:"bottom",
 		left_height_vh:60,
 		left_margin_px:48,
