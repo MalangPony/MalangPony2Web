@@ -94,6 +94,24 @@ for (const bgid in BackgroundData.background_definitions){
 		bg_base.style.zIndex=2;
 		bg_scene.appendChild(bg_base);
 	}
+	/*
+	let bg_center = null;
+	if (bgdef.center_image){
+		bg_center = document.createElement("div");
+		bg_center.classList.add("staticbg-center-image");
+		bg_center.style.backgroundImage="url("+bgdef.center_image+")";
+		bg_center.style.backgroundSize="auto 100%";
+		bg_center.style.backgroundPosition="calc() 100%";
+		bg_center.style.backgroundRepeat="no-repeat";
+		bg_center.style.position="absolute";
+		bg_center.style.top=0;
+		bg_center.style.right="var(--mcd-margin-right)";
+		bg_center.style.left="var(--mcd-margin-left)";
+		bg_center.style.height="100%";
+		bg_center.style.zIndex=3;
+		bg_scene.appendChild(bg_center);
+	}*/
+	
 	let bg_left = null;
 	if (bgdef.left_image){
 		bg_left = document.createElement("div");
@@ -109,7 +127,7 @@ for (const bgid in BackgroundData.background_definitions){
 		bg_left.style.left=0;
 		bg_left.style.width="calc(var(--mcd-margin-left) - "+bgdef.left_margin_px+"px)";
 		bg_left.style.height=bgdef.left_height_vh+"svh";
-		bg_left.style.zIndex=3;
+		bg_left.style.zIndex=4;
 		bg_scene.appendChild(bg_left);
 	}
 	
@@ -128,7 +146,7 @@ for (const bgid in BackgroundData.background_definitions){
 		bg_right.style.right=0;
 		bg_right.style.width="calc(var(--mcd-margin-right) - "+bgdef.right_margin_px+"px)";
 		bg_right.style.height=bgdef.right_height_vh+"svh";
-		bg_right.style.zIndex=3;
+		bg_right.style.zIndex=4;
 		bg_scene.appendChild(bg_right);
 	}
 	
