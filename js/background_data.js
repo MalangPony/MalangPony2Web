@@ -5,24 +5,25 @@ export let page_to_background_id={
 	
 	news:      "library",
 	
-	register:  "cloudsdale",
 	
-	about:     "drw002",
-	previous:  "drw002",
-	coc:       "drw002",
-	mascot:    "drw002",
-	credits:   "drw002",
 	
-	timetable: "cloudsdale",
-	venue:     "cloudsdale",
-	conbook:   "cloudsdale",
-	internal:  "cloudsdale",
-	faq:       "cloudsdale",
+	about:     "drw002b",
+	previous:  "drw002b",
+	coc:       "drw002b",
+	mascot:    "drw002b",
+	credits:   "drw002b",
+	
+	timetable: "drw002c",
+	venue:     "drw002c",
+	conbook:   "drw002c",
+	internal:  "drw002c",
+	faq:       "drw002c",
 	
 	involved:  "library",
 	panelist:  "library",
 	vendor:    "library",
 	artgallery:"library",
+	register:  "library",
 	
 	
 	inquiries: "nothing",
@@ -87,18 +88,38 @@ export let background_definitions={
 		right_margin_px:16,
 	},
 	
-	drw002:{
-		outer_fill_left:"#1C102C", // #1C102C
+	drw002a:{
+		outer_fill_left:"#1C102C",
 		outer_fill_right:"#1C102C",
-		base_image:"/sprites-prototype/BGD-002C-DRAFT_Faded-Filtered-RszH500_J95.jpg",
-		left_image:"/sprites-prototype/MPN2-Prototype-Image-D1343951.png",
+		base_image:"/backgrounds/BGD-002C_Faded-Filtered-RszH500_J95.jpg",
+		left_image:"/backgrounds/BGD-002A_Rsz1024-Crop-HFlip.png",
 		left_align:"bottom",
 		left_height_vh:60,
 		left_margin_px:16,
-		right_image:"/sprites-prototype/MPN2-Prototype-Image-D1108682.png",
+		right_image:"/backgrounds/BGD-002Bb_Rsz1024-Crop.png",
 		right_align:"top",
 		right_height_vh:60,
 		right_margin_px:16,
+	},
+	
+	drw002b:{
+		outer_fill_left:"#1C102C",
+		outer_fill_right:"#1C102C",
+		base_image:"/backgrounds/BGD-002C_Faded-Filtered-RszH500_J95.jpg",
+		left_image:"/backgrounds/BGD-002A_Rsz1024-Crop-HFlip.png",
+		left_align:"bottom",
+		left_height_vh:60,
+		left_margin_px:16,
+	},
+	
+	drw002c:{
+		outer_fill_left:"#1C102C",
+		outer_fill_right:"#1C102C",
+		base_image:"/backgrounds/BGD-002C_Faded-Filtered-RszH500_J95.jpg",
+		left_image:"/backgrounds/BGD-002Bb_Rsz1024-Crop-HFlip.png",
+		left_align:"bottom",
+		left_height_vh:60,
+		left_margin_px:16,
 	},
 	
 }
