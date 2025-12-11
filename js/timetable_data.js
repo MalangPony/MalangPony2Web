@@ -118,7 +118,7 @@ export let blocks=[
 	},
 	{ 
 	"display":true,
-	"name_kr":"나이트 쇼 리허설",
+	"name_kr":"DJ 리허설",
 	"name_en":"Night Show Prep",
 	"start_time":"18:30",
 	"end_time":"19:30",
@@ -131,7 +131,7 @@ export let blocks=[
 	},
 	{ 
 	"display":true,
-	"name_kr":"나이트 쇼",
+	"name_kr":"포니 DJ 파티",
 	"name_en":"Night Show",
 	"start_time":"19:30",
 	"end_time":"20:30",
