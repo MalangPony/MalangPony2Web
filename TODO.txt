@@ -32,6 +32,7 @@ Fix Venue/Direction/2 icon
 No-JS support?
 Better sidebar categories?
 Somehow make BG-L character and sidebar not overlap?
+Explanation, like perks block, in the directions block
 
 RIGHT BEFORE PUSH TO PROD
 Change all domains (testing.malangpony) to a PHP expression (<?php echo $webroot;?>)
