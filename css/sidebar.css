@@ -56,7 +56,8 @@
   position:relative;
 }
 .langmode-en #sidebar{
-  width:16em;
+  width:14em;
+  margin-left:-1.0em;
 }
 .langmode-ko #sidebar{
   width:12em;

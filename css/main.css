@@ -10,7 +10,7 @@
   /* These margins are applied at first. */
   /* If there is space left over, we try to equalize the margins first */
   /* And if space is still left over, it is distributed to both sides equally. */
-  --mcd-left:192px;
+  --mcd-left:128px;
   --mcd-right:64px;
   
   --mcd-difference: calc(var(--mcd-left) - var(--mcd-right));
@@ -196,8 +196,8 @@
   transition-duration:0.5s;
   position:relative;
   z-index:10;
-  padding-left:32px;
-  padding-right:32px;
+  padding-left:48px;
+  padding-right:48px;
   --pages-actual-width:calc(var(--mcd-inner-width) - 64px);
 }
 #pages-container.activated{

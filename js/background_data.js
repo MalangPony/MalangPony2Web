@@ -3,9 +3,7 @@
 export let page_to_background_id={
 	intro:     "", 
 	
-	news:      "library",
-	
-	
+	news:      "manehattan",
 	
 	about:     "drw002b",
 	previous:  "drw002b",
@@ -19,11 +17,13 @@ export let page_to_background_id={
 	internal:  "drw002c",
 	faq:       "drw002c",
 	
-	involved:  "library",
+	involved:  "nothing",
+	
+	register:  "cloudsdale",
 	panelist:  "library",
 	vendor:    "library",
 	artgallery:"library",
-	register:  "library",
+	
 	
 	
 	inquiries: "nothing",
@@ -109,7 +109,7 @@ export let background_definitions={
 		left_image:"/backgrounds/BGD-002A_Rsz1024-Crop-HFlip.png",
 		left_align:"bottom",
 		left_height_vh:60,
-		left_margin_px:16,
+		left_margin_px:48,
 	},
 	
 	drw002c:{
@@ -119,7 +119,7 @@ export let background_definitions={
 		left_image:"/backgrounds/BGD-002Bb_Rsz1024-Crop-HFlip.png",
 		left_align:"bottom",
 		left_height_vh:60,
-		left_margin_px:16,
+		left_margin_px:48,
 	},
 	
 }
