@@ -3,59 +3,110 @@ import { Vector2, Vector3 } from "./vectors.js";
 import * as Config from "./config.js";
 
 const wsd = document.getElementById("whole-screen-div");
+
+// #castle-container is a .fullsize, so it exactly fills the screen.
 let castle_container = document.getElementById("castle-container");
 
 const castle_layers={
-	river:{
-		filename:"D3700225E1-L1D-R50p.png",
+	far:{
+		filename:"P01-FarBackdrop.png",
 		layer_order:1,
-		parallax_multiplier:1.2,
+		parallax_multiplier:0.5,
 	},
-	trees:{
-		filename:"D3700225E1-L2D-R50p.png",
+	waterfall:{
+		filename:"P02-Waterfall.png",
 		layer_order:2,
-		parallax_multiplier:0.8
+		parallax_multiplier:0.9,
 	},
-	castle_back:{
-		filename:"D3700225E1-L3D-R50p.png",
+	ground_base:{
+		filename:"P03-GroundBase.png",
 		layer_order:3,
-		parallax_multiplier:0.9
+		parallax_multiplier:1.0,
 	},
-	ground:{
-		filename:"D3700225E1-L4D-R50p.png",
-		layer_order:4,
-		parallax_multiplier:1.1
+	door_backdrop:{
+		filename:"P11-DoorBackdrop.png",
+		layer_order:11,
+		parallax_multiplier:1.0,
+	},
+	door_right:{
+		filename:"P12-DoorR.png",
+		layer_order:12,
+		parallax_multiplier:1.0,
+	},
+	door_left:{
+		filename:"P13-DoorL.png",
+		layer_order:13,
+		parallax_multiplier:1.0,
+	},
+	door_bars:{
+		filename:"P14-Bars.png",
+		layer_order:14,
+		parallax_multiplier:1.0,
+	},
+	castle:{
+		filename:"P20-Castle.png",
+		layer_order:20,
+		parallax_multiplier:1.0,
+	},
+	/*
+	castle_back:{
+		filename:"P21-CastleBack.png",
+		layer_order:21,
+		parallax_multiplier:0.9,
+	},
+	castle_mid:{
+		filename:"P22-CastleMid.png",
+		layer_order:22,
+		parallax_multiplier:0.95,
 	},
 	castle_front:{
-		filename:"D3700225E1-L5D-R50p.png",
-		layer_order:5,
-		parallax_multiplier:1.0
+		filename:"P23-CastleFront.png",
+		layer_order:23,
+		parallax_multiplier:1.0,
+	},*/
+	foreground:{
+		filename:"P30-Foreground.png",
+		layer_order:30,
+		parallax_multiplier:1.0,
 	},
-	door_closed:{
-		filename:"D3700225E1-L6D-R50p.png",
-		layer_order:6,
-		parallax_multiplier:1.0
+	/*
+	ground_front:{
+		filename:"P31-GroundFront.png",
+		layer_order:31,
+		parallax_multiplier:1.3,
 	},
-	door_glow:{
-		filename:"D3700225E1-L6O-R50p.png",
-		layer_order:7,
-		parallax_multiplier:1.0
+	bridge_chains:{
+		filename:"P32-BridgeChains.png",
+		layer_order:32,
+		parallax_multiplier:1.0,
 	},
 	bridge:{
-		filename:"D3700225E1-L7D-R50p.png",
-		layer_order:8,
-		parallax_multiplier:1.1
-	},
+		filename:"P33-Bridge.png",
+		layer_order:33,
+		parallax_multiplier:1.2,
+	},*/
+	door_glow:{
+		filename:"P91-DoorGlow.png",
+		layer_order:91,
+		parallax_multiplier:1.0,
+	}
 };
 
-let image_dimensions=new Vector2(1870,2608);
-let zoom_center=new Vector2(950,2250);
+let original_image_dimensions=new Vector2(5375,6248);
+let original_zoom_center=new Vector2(2700,4800);
+
+// Units: % of the width of original image
+let door_left_slide = 3.5;
+let door_right_slide = 3.5;
+
+// Units: % of the height of original image
+let door_bars_slide = 6.5;
 
 let layers_parent = document.createElement("div");
 layers_parent.style.position="absolute";
 layers_parent.style.bottom=0;
 layers_parent.style.height="auto";
-layers_parent.style.aspectRatio=image_dimensions.x/image_dimensions.y;
+layers_parent.style.aspectRatio=original_image_dimensions.x/original_image_dimensions.y;
 castle_container.appendChild(layers_parent);
 
 let whiteout=document.createElement("div");
@@ -74,22 +125,25 @@ let layer_doms={};
 for (const layer_name in castle_layers){
 	let layer=castle_layers[layer_name];
 	let img=document.createElement("img");
-	img.src="sprites-prototype/castle/"+layer.filename;
+	img.src="/backgrounds/castle/"+layer.filename;
 	img.style.position="absolute";
 	img.style.zIndex=layer.layer_order;
-	img.style.top=0;
+	//img.style.top=0;
 	img.style.bottom=0;
 	img.style.left=0;
-	img.style.right=0;
 	img.style.width="100%";
 	img.style.height="100%";
-	
 	
 	layer_doms[layer_name]=img;
 	layers_parent.appendChild(img);
 }
 
 layer_doms.door_glow.style.opacity=0.0;
+layer_doms.door_bars.style.bottom=(-door_bars_slide)+"%";
+layer_doms.door_left.style.left=0;
+layer_doms.door_right.style.left=0;
+//layer_doms.door_left.style.left=(-door_left_slide)+"%";
+//layer_doms.door_right.style.left=door_right_slide+"%";
 
 let scroll_offset = Config.OPTION_INTRO_CASTLE_SCROLL_AMOUNT;
 
@@ -105,7 +159,11 @@ function recalculate_size(){
 	let containerH=castle_container.clientHeight;
 	
 	let targetW=containerW;
-	if (containerW>1500) targetW=1500;
+	if (containerW>Config.OPTION_CASTLEBG_MAX_WIDTH_PIXELS) 
+		targetW=Config.OPTION_CASTLEBG_MAX_WIDTH_PIXELS;
+	if (targetW<Config.OPTION_CASTLEBG_MIN_WIDTH_PIXELS)
+		targetW=Config.OPTION_CASTLEBG_MIN_WIDTH_PIXELS;
+	
 	
 	let layer_parent_width=targetW;
 	let layer_parent_left=(containerW-targetW)/2;
@@ -128,15 +186,24 @@ export function report_scroll_progress(current,maximum){
 	else if (ratio<fade_end) layers_parent.style.opacity=(ratio-fade_start)/(fade_end-fade_start)
 	else layers_parent.style.opacity=1.0;
 	
+	//let yHeight=maximum-current;
+	let yHeightMax=(layers_parent.clientHeight-castle_container.clientHeight)/(1-fade_start);
+	if (yHeightMax<0) yHeightMax=0;
+	let yHeight=(1-ratio)*yHeightMax;
+	
 	for (const layer_name in castle_layers){
 		let img=layer_doms[layer_name];
 		let layer_def=castle_layers[layer_name];
-		//img.style.bottom=(current-maximum)*layer_def.parallax_multiplier+"px";
-		let layer_parent_bottom=current-maximum;
-		layers_parent.style.bottom=layer_parent_bottom+"px";
+		let parallax_factor=(layer_def.parallax_multiplier-1);
+		// There's some inset CSS animations in the layers with 
+		// parallax multiplier of 1.0 (notably the castle doors)
+		// so we don't touch the inset if parallax_multiplier==1
+		if (Math.abs(parallax_factor)>0.001)
+			img.style.bottom=(-yHeight)*parallax_factor+"px";
 	}
-
+	layers_parent.style.bottom=(-yHeight)+"px";
 }
+
 report_scroll_progress(0,100); // Just to hide the castle
 
 function calculate_out_parameters(){
@@ -144,7 +211,10 @@ function calculate_out_parameters(){
 	let containerH=castle_container.clientHeight;
 	
 	let targetW=containerW;
-	if (containerW>1500) targetW=1500;
+	if (containerW>Config.OPTION_CASTLEBG_MAX_WIDTH_PIXELS) 
+		targetW=Config.OPTION_CASTLEBG_MAX_WIDTH_PIXELS;
+	if (targetW<Config.OPTION_CASTLEBG_MIN_WIDTH_PIXELS)
+		targetW=Config.OPTION_CASTLEBG_MIN_WIDTH_PIXELS;
 
 	return {
 		left:(containerW-targetW)/2,
@@ -155,24 +225,59 @@ function calculate_out_parameters(){
 function calculate_zoom_parameters(){
 	let containerW=castle_container.clientWidth;
 	let containerH=castle_container.clientHeight;
-	let zoom_factor=5;
 	
+	let targetW=containerW;
+	if (containerW>Config.OPTION_CASTLEBG_MAX_WIDTH_PIXELS) 
+		targetW=Config.OPTION_CASTLEBG_MAX_WIDTH_PIXELS;
+	if (targetW<Config.OPTION_CASTLEBG_MIN_WIDTH_PIXELS)
+		targetW=Config.OPTION_CASTLEBG_MIN_WIDTH_PIXELS;
+	
+	let zoom_factor=10;
+	
+	let image_scaling_factor=targetW/original_image_dimensions.x;
 	// From here, all coordinates are bottom-left based and in pixel units.
 	let center_from_bottomleft = new Vector2(
-		zoom_center.x,
-		image_dimensions.y-zoom_center.y
-	);
+		original_zoom_center.x,
+		original_image_dimensions.y-original_zoom_center.y
+	).multiply(image_scaling_factor);
 	let center_target = new Vector2(containerW/2,containerH/2);
 	let center_to_origin = center_from_bottomleft.multiply(-1);
 	let zoomed_c2o = center_to_origin.multiply(zoom_factor);
 	let zoomed_origin = center_target.add(zoomed_c2o);
 	let zoomed_left=zoomed_origin.x;
 	let zoomed_bottom=zoomed_origin.y;
-	let zoomed_width = image_dimensions.x*zoom_factor;
+	let zoomed_width = targetW*zoom_factor;
 	return {
 		left:zoomed_left,
 		bottom:zoomed_bottom,
 		width:zoomed_width
+	};
+}
+
+let better_ease_out="cubic-bezier(0, 0.7, 0.3, 1)";
+let better_ease_in="cubic-bezier(0.7, 0, 1, 0.3)";
+let better_ease_inout="cubic-bezier(0.7, 0, 0.3, 1.0)";
+
+function animate_transform_to(toP,delay,duration,ease,callback){
+	let anim_zoom=layers_parent.animate([
+			{ 
+				left: layers_parent.style.left,
+				bottom: layers_parent.style.bottom,
+				width: layers_parent.style.width
+			},{ 
+				left: toP.left+"px",
+				bottom: toP.bottom+"px",
+				width: toP.width+"px"
+			}],{
+		duration: duration,
+		delay:delay,
+		easing:ease
+	});
+	anim_zoom.onfinish= () => {
+		layers_parent.style.left=toP.left+"px";
+		layers_parent.style.bottom=toP.bottom+"px";
+		layers_parent.style.width=toP.width+"px";
+		callback();
 	};
 }
 
@@ -204,13 +309,42 @@ export function enter_instant(){
 	layers_parent.style.display="none";
 }
 export function enter_animation(delay,finished_callback){
-	let door_glow=layer_doms.door_glow;
+	let containerW=castle_container.clientWidth;
 	
+	let anim_bars=layer_doms.door_bars.animate([
+			{bottom:(-door_bars_slide)+"%"},{bottom:0}],{
+		duration: 500,
+		delay:delay+0,
+		easing:better_ease_inout
+	});
+	anim_bars.onfinish=()=>{
+		layer_doms.door_bars.style.bottom=0;
+	};
+	
+	let anim_left=layer_doms.door_left.animate([
+			{left:0},{left:(-door_left_slide)+"%"}],{
+		duration: 500,
+		delay:delay+300,
+		easing:better_ease_in
+	});
+	anim_left.onfinish=()=>{
+		layer_doms.door_left.style.left=(-door_left_slide)+"%";
+	};
+	
+	let anim_right=layer_doms.door_right.animate([
+			{left:0},{left:door_right_slide+"%"}],{
+		duration: 500,
+		delay:delay+300,
+		easing:better_ease_in
+	});
+	anim_right.onfinish=()=>{
+		layer_doms.door_right.style.left=door_right_slide+"%";
+	};
 	
 	let anim_glow=layer_doms.door_glow.animate([
 			{opacity:0},{opacity:1}],{
 		duration: 500,
-		delay:delay+0,
+		delay:delay+500,
 		easing:"linear"
 	});
 	anim_glow.onfinish=()=>{
@@ -230,9 +364,11 @@ export function enter_animation(delay,finished_callback){
 		layers_parent.style.display="none";
 	};
 	
-	let zp1=calculate_out_parameters();
+	//let zp1=calculate_out_parameters();
+	//let zp2=calculate_zoom_parameters();
+	//animate_transform(zp1,zp2,delay+500,1000,better_ease_in,finished_callback);
 	let zp2=calculate_zoom_parameters();
-	animate_transform(zp1,zp2,delay+500,1000,"cubic-bezier(0.7, 0, 1, 0.3)",finished_callback);
+	animate_transform_to(zp2,delay+500,1000,better_ease_in,finished_callback);
 	
 	return 1500;
 }
@@ -262,9 +398,42 @@ export function exit_animation(delay,finished_callback){
 		layer_doms.door_glow.style.opacity=0;
 	};
 	
+	layer_doms.door_bars.style.bottom=0;
+	let anim_bars=layer_doms.door_bars.animate([
+			{bottom:0},{bottom:(-door_bars_slide)+"%"}],{
+		duration: 500,
+		delay:delay+700,
+		easing:better_ease_inout
+	});
+	anim_bars.onfinish=()=>{
+		layer_doms.door_bars.style.bottom=(-door_bars_slide)+"%";
+	};
+	
+	layer_doms.door_left.style.left=(-door_left_slide)+"%";
+	let anim_left=layer_doms.door_left.animate([
+			{left:(-door_left_slide)+"%"},{left:0}],{
+		duration: 500,
+		delay:delay+500,
+		easing:better_ease_out
+	});
+	anim_left.onfinish=()=>{
+		layer_doms.door_left.style.left=0;
+	};
+	
+	layer_doms.door_right.style.left=door_right_slide+"%";
+	let anim_right=layer_doms.door_right.animate([
+			{left:door_right_slide+"%"},{left:0}],{
+		duration: 500,
+		delay:delay+500,
+		easing:better_ease_out
+	});
+	anim_right.onfinish=()=>{
+		layer_doms.door_right.style.left=0;
+	};
+	
 	
 	let zp2=calculate_out_parameters();
 	let zp1=calculate_zoom_parameters();
-	animate_transform(zp1,zp2,delay,1000,"cubic-bezier(0, 0.7, 0.3, 1)",finished_callback);
-	return 1000;
+	animate_transform(zp1,zp2,delay,1000,better_ease_out,finished_callback);
+	return 1200;
 }

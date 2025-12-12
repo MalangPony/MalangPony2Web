@@ -861,11 +861,13 @@ function page_transition(name,animated=true,push_to_history=false){
     let anim_hide_old=main_content_backdrop.animate(
       [{ opacity: "1.0" },{ opacity: "0.0" }],
       {duration: 500,delay:animation_start_time});
+    anim_hide_old.addEventListener("finish",()=>{
+      main_content_backdrop.style.opacity=0.0;
+    });
     animation_start_time+=500;
     
     // This is the instant where the transition actually happens.
-    anim_hide_old.onfinish= () => {
-      
+    function swap_page(){
       if (cleanup_func) cleanup_func();
       
       last.style.display="none";
@@ -883,20 +885,27 @@ function page_transition(name,animated=true,push_to_history=false){
       else
         main_content_backdrop.classList.remove("on-intro-page");
       
-      
       if (setup_func) setup_func();
     }
     
+    
+   
+    
     // Castle animation
     if ( on_intro && (!to_intro) ){ // Enter Castle
-      let duration=Castle.enter_animation(animation_start_time,()=>{});
+      // In this case, the swap_page() should be called AFTER the castle animation.
+      let duration=Castle.enter_animation(animation_start_time,
+        ()=>{swap_page();});
       animation_start_time+=duration;
       StaticBG.activate_page_bg(name,animation_start_time,500);
     }else if ( (!on_intro) && to_intro ){ // Exit Castle
+      anim_hide_old.addEventListener("finish",()=>{swap_page();});
       StaticBG.activate_page_bg(name,0,1000);
       let duration=Castle.exit_animation(animation_start_time,()=>{});
       animation_start_time+=duration;
+      
     }else{ // move inside castle
+      anim_hide_old.addEventListener("finish",()=>{swap_page();});
       StaticBG.activate_page_bg(name,0,1000);
     }
     
