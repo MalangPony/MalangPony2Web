@@ -5,7 +5,7 @@ export let page_to_background_id={
 	
 	news:      "manehattan",
 	
-	about:     "drw002b",
+	about:     "drw002a",
 	previous:  "drw002b",
 	coc:       "drw002b",
 	mascot:    "drw002b",
@@ -94,11 +94,11 @@ export let background_definitions={
 		base_image:"/backgrounds/BGD-002C_Faded-Filtered-RszH500_J95.jpg",
 		left_image:"/backgrounds/BGD-002A_Rsz1024-Crop-HFlip.png",
 		left_align:"bottom",
-		left_height_vh:60,
+		left_height_vh:50,
 		left_margin_px:16,
 		right_image:"/backgrounds/BGD-002Bb_Rsz1024-Crop.png",
 		right_align:"top",
-		right_height_vh:60,
+		right_height_vh:50,
 		right_margin_px:16,
 	},
 	
