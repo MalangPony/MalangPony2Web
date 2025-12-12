@@ -6,7 +6,109 @@ const wsd = document.getElementById("whole-screen-div");
 
 // #castle-container is a .fullsize, so it exactly fills the screen.
 let castle_container = document.getElementById("castle-container");
+/*
+// Version: FullSplit
+const castle_layers={
+	p01:{
+		filename:"P01.png",
+		layer_order:18,
+		parallax_multiplier:1.19,
+	},
+	p02:{
+		filename:"P02.png",
+		layer_order:17,
+		parallax_multiplier:1.13,
+	},
+	p03:{
+		filename:"P03.png",
+		layer_order:16,
+		parallax_multiplier:1.13,
+	},
+	p04:{
+		filename:"P04.png",
+		layer_order:15,
+		parallax_multiplier:1.15,
+	},
+	p05:{
+		filename:"P05.png",
+		layer_order:14,
+		parallax_multiplier:1.0,
+	},
+	p06:{
+		filename:"P06.png",
+		layer_order:13,
+		parallax_multiplier:1.10,
+	},
+	p07:{
+		filename:"P07.png",
+		layer_order:12,
+		parallax_multiplier:1.06,
+	},
+	p08:{
+		filename:"P08.png",
+		layer_order:11,
+		parallax_multiplier:1.03,
+	},
+	p09:{
+		filename:"P09.png",
+		layer_order:10,
+		parallax_multiplier:0.90,
+	},
+	p010:{
+		filename:"P10.png",
+		layer_order:9,
+		parallax_multiplier:1.0,
+	},
+	p11:{
+		filename:"P11.png",
+		layer_order:8,
+		parallax_multiplier:0.97,
+	},
+	door_bars:{
+		filename:"P12.png",
+		layer_order:7,
+		parallax_multiplier:1.0,
+	},
+	door_left:{
+		filename:"P13.png",
+		layer_order:6,
+		parallax_multiplier:1.0,
+	},
+	door_right:{
+		filename:"P14.png",
+		layer_order:5,
+		parallax_multiplier:1.0,
+	},
+	p15:{
+		filename:"P15.png",
+		layer_order:4,
+		parallax_multiplier:1.0,
+	},
+	p16:{
+		filename:"P16.png",
+		layer_order:3,
+		parallax_multiplier:0.95,
+	},
+	p17:{
+		filename:"P17.png",
+		layer_order:2,
+		parallax_multiplier:0.90,
+	},
+	p18:{
+		filename:"P18.png",
+		layer_order:1,
+		parallax_multiplier:0.50,
+	},
+	door_glow:{
+		filename:"P91.png",
+		layer_order:91,
+		parallax_multiplier:0.95,
+	},
+};
+*/
 
+/*
+// Version: SemiSplit
 const castle_layers={
 	far:{
 		filename:"P01-FarBackdrop.png",
@@ -21,7 +123,76 @@ const castle_layers={
 	ground_base:{
 		filename:"P03-GroundBase.png",
 		layer_order:3,
+		parallax_multiplier:0.95,
+	},
+	door_backdrop:{
+		filename:"P11-DoorBackdrop.png",
+		layer_order:11,
 		parallax_multiplier:1.0,
+	},
+	door_right:{
+		filename:"P12-DoorR.png",
+		layer_order:12,
+		parallax_multiplier:1.0,
+	},
+	door_left:{
+		filename:"P13-DoorL.png",
+		layer_order:13,
+		parallax_multiplier:1.0,
+	},
+	door_bars:{
+		filename:"P14-Bars.png",
+		layer_order:14,
+		parallax_multiplier:1.0,
+	},	
+	castle_back:{
+		filename:"P21-CastleBack.png",
+		layer_order:21,
+		parallax_multiplier:0.9,
+	},
+	castle_mid:{
+		filename:"P22-CastleMid.png",
+		layer_order:22,
+		parallax_multiplier:0.95,
+	},
+	castle_front:{
+		filename:"P23-CastleFront.png",
+		layer_order:23,
+		parallax_multiplier:1.0,
+	},
+	ground_front:{
+		filename:"P31-GroundFront.png",
+		layer_order:31,
+		parallax_multiplier:1.2,
+	},
+	bridge_chains:{
+		filename:"P32-Bridge.png",
+		layer_order:32,
+		parallax_multiplier:1.1,
+	},
+	door_glow:{
+		filename:"P91-DoorGlow.png",
+		layer_order:91,
+		parallax_multiplier:1.0,
+	}
+};*/
+
+// Version: MinimalSplit
+const castle_layers={
+	far:{
+		filename:"P01-FarBackdrop.png",
+		layer_order:1,
+		parallax_multiplier:0.5,
+	},
+	waterfall:{
+		filename:"P02-Waterfall.png",
+		layer_order:2,
+		parallax_multiplier:0.9,
+	},
+	ground_base:{
+		filename:"P03-GroundBase.png",
+		layer_order:3,
+		parallax_multiplier:0.95,
 	},
 	door_backdrop:{
 		filename:"P11-DoorBackdrop.png",
@@ -48,43 +219,11 @@ const castle_layers={
 		layer_order:20,
 		parallax_multiplier:1.0,
 	},
-	/*
-	castle_back:{
-		filename:"P21-CastleBack.png",
-		layer_order:21,
-		parallax_multiplier:0.9,
-	},
-	castle_mid:{
-		filename:"P22-CastleMid.png",
-		layer_order:22,
-		parallax_multiplier:0.95,
-	},
-	castle_front:{
-		filename:"P23-CastleFront.png",
-		layer_order:23,
-		parallax_multiplier:1.0,
-	},*/
 	foreground:{
 		filename:"P30-Foreground.png",
 		layer_order:30,
 		parallax_multiplier:1.0,
 	},
-	/*
-	ground_front:{
-		filename:"P31-GroundFront.png",
-		layer_order:31,
-		parallax_multiplier:1.3,
-	},
-	bridge_chains:{
-		filename:"P32-BridgeChains.png",
-		layer_order:32,
-		parallax_multiplier:1.0,
-	},
-	bridge:{
-		filename:"P33-Bridge.png",
-		layer_order:33,
-		parallax_multiplier:1.2,
-	},*/
 	door_glow:{
 		filename:"P91-DoorGlow.png",
 		layer_order:91,
