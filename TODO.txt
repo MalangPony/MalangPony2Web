@@ -34,6 +34,11 @@ Better sidebar categories?
 Somehow make BG-L character and sidebar not overlap?
 Explanation, like perks block, in the directions block
 Optimize castle textures by cropping
+When timetable block is clicked, present a venue map
+Make sure mascot drawings don't get cut off when direction is clocked
+Add 3D map (ThreeJS) ???
+Add related sites list to MPN Credit Page (Footer?) CSBC JPC ProdGal BBB
+Merge mane hall side and center
 
 RIGHT BEFORE PUSH TO PROD
 Change all domains (testing.malangpony) to a PHP expression (<?php echo $webroot;?>)

@@ -3,26 +3,26 @@
 export let page_to_background_id={
 	intro:     "", 
 	
-	news:      "manehattan",
+	news:      "bgd001",
 	
-	about:     "drw002a",
-	previous:  "drw002b",
-	coc:       "drw002b",
-	mascot:    "drw002b",
-	credits:   "drw002b",
+	about:     "bgd002",
+	previous:  "bgd002",
+	coc:       "bgd002",
+	mascot:    "bgd002",
+	credits:   "bgd002",
 	
-	timetable: "drw002c",
-	venue:     "drw002c",
-	conbook:   "drw002c",
-	internal:  "drw002c",
-	faq:       "drw002c",
+	timetable: "bgd003",
+	venue:     "bgd003",
+	conbook:   "bgd003",
+	internal:  "bgd003",
+	faq:       "bgd003",
 	
 	involved:  "nothing",
 	
-	register:  "cloudsdale",
-	panelist:  "library",
-	vendor:    "library",
-	artgallery:"library",
+	register:  "bgd004",
+	panelist:  "bgd004",
+	vendor:    "bgd004",
+	artgallery:"bgd004",
 	
 	
 	
@@ -88,7 +88,17 @@ export let background_definitions={
 		right_margin_px:16,
 	},
 	
-	drw002a:{
+	bgd001:{
+		outer_fill_left:"#391548",
+		outer_fill_right:"#391548",
+		base_image:"/backgrounds/BGD-001C_Faded-GB20-RszH512_J90.jpg",
+		left_image:"/backgrounds/BGD-001L_RszW1024-Crop.png",
+		left_align:"bottom",
+		left_height_vh:50,
+		left_margin_px:16,
+	},
+	
+	bgd002:{
 		outer_fill_left:"#1C102C",
 		outer_fill_right:"#1C102C",
 		base_image:"/backgrounds/BGD-002C_Faded-Filtered-RszH500_J95.jpg",
@@ -102,28 +112,24 @@ export let background_definitions={
 		right_margin_px:16,
 	},
 	
-	drw002b:{
-		outer_fill_left:"#1C102C",
-		outer_fill_right:"#1C102C",
-		/*
-		center_image:"/backgrounds/BGD-002C_Faded-Filtered-RszH500_J95.jpg",
-		base_image:"/backgrounds/BGD-002C_Faded-Filtered-RszH500_J95.jpg",
-		*/
-		base_image:"/backgrounds/BGD-002C_Faded-Filtered-RszH500_J95.jpg",
-		left_image:"/backgrounds/BGD-002A_Rsz1024-Crop-HFlip.png",
-		left_align:"bottom",
-		left_height_vh:60,
-		left_margin_px:48,
+	bgd003:{
+		outer_fill_left:"#ab9976",
+		outer_fill_right:"#ab9976",
+		base_image:"/backgrounds/BGD-003C_Faded-GB20-RszH512_J90.jpg",
 	},
 	
-	drw002c:{
-		outer_fill_left:"#1C102C",
-		outer_fill_right:"#1C102C",
-		base_image:"/backgrounds/BGD-002C_Faded-Filtered-RszH500_J95.jpg",
-		left_image:"/backgrounds/BGD-002Bb_Rsz1024-Crop-HFlip.png",
+	bgd004:{
+		outer_fill_left:"#2e1763",
+		outer_fill_right:"#2e1763",
+		base_image:"/backgrounds/BGD-004C_Faded3-GB20-RszH512_J90.jpg",
+		left_image:"/backgrounds/BGD-004H_Rsz1024-Crop-HFlip.png",
 		left_align:"bottom",
-		left_height_vh:60,
-		left_margin_px:48,
+		left_height_vh:50,
+		left_margin_px:16,
+		right_image:"/backgrounds/BGD-004L_Rsz1024-Crop-HFlip.png",
+		right_align:"top",
+		right_height_vh:50,
+		right_margin_px:16,
 	},
 	
 }
