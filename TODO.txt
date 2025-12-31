@@ -6,9 +6,6 @@ Do something about feature oscillation
 A low-power device warning when feature level is low?
 Directional light fx (create normal map...?)
 Hanmari ignores clicks in sky mode. Maybe fix this?
-BG free-roam mode
-...or BG view mode
-Put some BG objects (far objects) in the sky
 Timetable: Improve mobile UI - maybe auto-expand with scroll progress?
 Timetable: Colors... maybe textures?
 Timetable: vert text for korean?
@@ -19,13 +16,7 @@ timetable details time too small
 stars - bigger and less density ... or smaller
 explain in text how perks work
 Page transition speed in Config -> Speed up 1.0 -> 0.6?
-Page behind gets scrolled when mobile sidebar is open
-Use contact-us button design everywehree
-in get involved, use inquiry box
-In credits page, align staff and sponsor header with divider
-Add fragment link in involved top
 HMR L2D petting detection
-PAGE MAY BE BROKEN ENTIERLY IN IPAD - NEED CHECK ... or not? idk
 l2d hide when screen is narrow
 Change all direction listings to use GMI font and support light/dark mode
 Fix Venue/Direction/2 icon
