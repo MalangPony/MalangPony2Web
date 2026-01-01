@@ -48,14 +48,16 @@ for (const tier_id in TierData.tiers_data){
 	let perk_overwrite_map={}; // k gets overwritten by v
 	let tier_ptr=tier_id;
 	while (tier_ptr){
-		if (TierData.tiers_data[tier_ptr].perks_list.length>0){
-			tier_inheritance_chain.unshift(tier_ptr);
-			for( const perk_id of TierData.tiers_data[tier_ptr].perks_list ){
-				if (TierData.perks_data[perk_id].overwrites){
-					perk_overwrite_map[TierData.perks_data[perk_id].overwrites]=perk_id;
-				}
+		tier_inheritance_chain.unshift(tier_ptr);
+		for( const perk_id of TierData.tiers_data[tier_ptr].perks_list ){
+			if (TierData.perks_data[perk_id].overwrites === undefined) continue;
+			
+			for (const ow of TierData.perks_data[perk_id].overwrites){
+				if (perk_overwrite_map[ow] !== undefined) continue;
+				perk_overwrite_map[ow]=perk_id;
 			}
 		}
+		
 		// Walk up the inheritance chain
 		tier_ptr=TierData.tiers_data[tier_ptr].inherits;
 	}

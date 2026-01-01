@@ -24,6 +24,9 @@
 .register-tier-entry.tier-spirit{
 	--tier-color-base:var(--color-tier-spirit);
 }
+.register-tier-entry.tier-spirit-dx{
+	--tier-color-base:var(--color-tier-spirit-dx);
+}
 .register-tier-entry.tier-onsite{
 	--tier-color-base:var(--color-tier-onsite);
 }
@@ -168,6 +171,9 @@
 }
 #register-tiers-list .tier-spirit{
 	--perk-color-base:var(--color-tier-spirit);
+}
+#register-tiers-list .tier-spirit-dx{
+	--perk-color-base:var(--color-tier-spirit-dx);
 }
 #register-tiers-list .tier-onsite{
 	--perk-color-base:var(--color-tier-onsite);
