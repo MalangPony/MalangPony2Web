@@ -92,10 +92,14 @@ export let background_definitions={
 		outer_fill_left:"#391548",
 		outer_fill_right:"#391548",
 		base_image:"/backgrounds/BGD-001C_Faded-GB20-RszH512_J90.jpg",
-		left_image:"/backgrounds/BGD-001L_RszW1024-Crop.png",
+		left_image:"/backgrounds/BGD-001L_RszH1024-Crop.png",
 		left_align:"bottom",
 		left_height_vh:50,
 		left_margin_px:16,
+		right_image:"/backgrounds/BGD-001M_RszH1000-Crop.png",
+		right_align:"top",
+		right_height_vh:50,
+		right_margin_px:16,
 	},
 	
 	bgd002:{
@@ -116,6 +120,14 @@ export let background_definitions={
 		outer_fill_left:"#ab9976",
 		outer_fill_right:"#ab9976",
 		base_image:"/backgrounds/BGD-003C_Faded-GB20-RszH512_J90.jpg",
+		left_image:"/backgrounds/BGD-003H_Rsz1024-Crop-HFlip.png",
+		left_align:"bottom",
+		left_height_vh:50,
+		left_margin_px:16,
+		right_image:"/backgrounds/BGD-003L_Rsz1024-Crop.png",
+		right_align:"top",
+		right_height_vh:50,
+		right_margin_px:16,
 	},
 	
 	bgd004:{

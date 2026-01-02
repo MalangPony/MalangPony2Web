@@ -31,6 +31,9 @@ Add 3D map (ThreeJS) ???
 Merge mane hall side and center
 Timetable click inviter
 HMR L2D sometimes occludes text (This is very bad)
+Q&A page broken in <title>
+Loading indicator for L2D
+Flicker on initial BG load
 
 RIGHT BEFORE PUSH TO PROD
 Change all domains (testing.malangpony) to a PHP expression (<?php echo $webroot;?>)
