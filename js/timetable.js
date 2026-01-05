@@ -194,8 +194,6 @@ function timetable_build(ttd){
 		block_dom.appendChild(text_dom);
 		block_dom.appendChild(desc_dom);
 		
-		
-		
 		// Close Button
 		closebtn_dom.classList.add("hidden");
 		

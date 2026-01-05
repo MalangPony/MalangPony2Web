@@ -118,8 +118,8 @@ export let blocks=[
 	},
 	{ 
 	"display":true,
-	"name_kr":"생애 최고로 말랑한 밤",
-	"name_en":"The Malangest Night Ever",
+	"name_kr":"말랑 말무리 라운지",
+	"name_en":"Malang Wrap-Up Lounge",
 	"start_time":"20:45",
 	"end_time":"23:00",
 	"color_preset":"panel-sub",
