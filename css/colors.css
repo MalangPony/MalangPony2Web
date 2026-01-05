@@ -84,13 +84,14 @@
   --color-button-text: var(--color-text-auto);
   
   /* Tiers */
+  
   --color-tier-standard:var(--template-malang-RD);
   --color-tier-sponsor:var(--template-malang-FS);
   --color-tier-mane:var(--template-malang-PP);
   --color-tier-princess:var(--template-malang-TS);
-  --color-tier-spirit:#D0D0D0;
-  --color-tier-spirit-dx:#F0D0D0;
-  --color-tier-onsite:var(--template-malang-AJ);
+  --color-tier-spirit:var(--template-malang-AJ);
+  --color-tier-spirit-dx:#FF8D8D;
+  --color-tier-onsite:#C8F0C8;
   
   --color-perks-text:#202020;
   

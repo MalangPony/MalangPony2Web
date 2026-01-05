@@ -102,7 +102,7 @@ export const tiers_data={
 		inherit_exclude:[],
 		price:20,
 		limit:Infinity,
-		icon:"/sprites-prototype/motion_blur_64dp_434343_FILL0_wght700_GRAD0_opsz48.png"
+		icon:"/sprites-prototype/motion_blur_64dp_434343_FILL0_wght700_GRAD0_opsz48_FILL-A96424.png"
 	},
 	spirit_dx:{
 		name_en:"Deluxe Spirit",
@@ -131,7 +131,7 @@ export const tiers_data={
 		inherit_exclude:[],
 		price:200,
 		limit:Infinity,
-		icon:"/sprites-prototype/motion_blur_64dp_434343_FILL0_wght700_GRAD0_opsz48.png"
+		icon:"/sprites-prototype/motion_blur_64dp_434343_FILL0_wght700_GRAD0_opsz48_FILL-911F1F.png"
 	},
 	onsite:{
 		margin_top:32,
@@ -145,7 +145,7 @@ export const tiers_data={
 		inherit_exclude:[],
 		price:40,
 		limit:14,
-		icon:"/sprites-prototype/add_2_64dp_A96424_FILL0_wght700_GRAD0_opsz48.png"
+		icon:"/sprites-prototype/add_2_64dp_A96424_FILL0_wght700_GRAD0_opsz48_FILL-1e741e.png"
 	},
 };
 
