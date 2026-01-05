@@ -30,6 +30,11 @@ function generate_entry(data){
 			entry_root.classList.remove("faq-expanded");
 			expander_icon.innerHTML="unfold_more";
 		}else{
+			if (data.dynamic_text_generator !== undefined){
+				let output=data.dynamic_text_generator();
+				atext_ko.innerHTML=output.ko;
+				atext_en.innerHTML=output.en;
+			}
 			entry_root.classList.add("faq-expanded");
 			expander_icon.innerHTML="chevron_line_up";
 		}

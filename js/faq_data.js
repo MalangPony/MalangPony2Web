@@ -98,6 +98,52 @@ export let questions=[
 		qtext_en:"Who is best pony?",
 		atext_ko:"트와일라잇 스파클!<br>트와일라잇 스파클!<br>트와일라잇 스파클!",
 		atext_en:"Twilight sparkle!<br>Twilight sparkle!<br>Twilight sparkle!",
+		dynamic_text_generator:function(){
+			// I am quite fond of Twilight Sparkle
+			let names=[
+				[25,"Twilight Sparkle","트와일라잇 스파클"],
+				[ 5,"Rarity","래리티"],
+				[ 5,"Rainbow Dash","레인보우 대시"],
+				[ 5,"Fluttershy","플러터샤이"],
+				[ 5,"Pinkie Pie","핑키 파이"],
+				[ 5,"Applejack","애플잭"],
+				[ 3,"Princess Luna","루나 공주"],
+				[ 3,"Princess Celestia","셀레스티아 공주"],
+				[ 3,"Princess Cadance","케이던스 공주"],
+				[ 3,"Sunset Shimmer","선셋 쉬머"],
+				[ 3,"Trixie","트릭시"],
+				[ 3,"Spike","스파이크"],
+				[ 3,"Starlight Glimmer","스타라이트 글리머"],
+				[ 2,"Applebloom","애플블룸"],
+				[ 2,"Scootaloo","스쿠틀루"],
+				[ 2,"Sweetie Belle","스위티 벨"],
+				[ 1,"Derpy Hooves","더피 후브즈"],
+				[ 1,"Queen Chrysalis","크리살리스 여왕"],
+				[ 1,"Discord","디스코드"],
+				[ 1,"Lyra Heartstrings","라이라 하트스트링즈"],
+				[ 1,"Bon Bon","봉봉"],
+				[ 1,"DJ DON-3","DJ-PON3"],
+				[ 1,"Octavia Meoldy","옥타비아 멜로디"],
+				[ 1,"Big Macintosh","빅 매킨토시"],
+				[ 1,"Shining Armor","샤이닝 아머"],
+				[ 2,"Sunny Starscout","써니 스타스카우트"],
+				[ 2,"Izzy Moonbow","이지 문보우"],
+				[ 2,"Pipp Petals","핍 페탈즈"],
+				[ 2,"Zipp Storm","집 스톰"],
+				[ 2,"Hitch","히치"],
+				[ 2,"Misty Brightdawn","미스티 브라이트돈"],
+			];
+			let weights_sum=0;
+			for (const n of names){
+				weights_sum+=n[0];
+			}
+			let rand=Math.random()*weights_sum;
+			for (const n of names){
+				rand-=n[0];
+				if (rand<0) return {"en":n[1]+"!!","ko":n[2]+"!!"};
+			}
+			
+		},
 		categories:[]
 	},
 ];
