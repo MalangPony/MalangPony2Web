@@ -22,10 +22,10 @@
   color:var(--color-text-dark);
 }
 body.langmode-ko #ticket{
-  background-image : url("/sprites/OBJ-003_DeformedKR_ResizeW500.png");
+  background-image : url("/sprites/OBJ-003_DeformedKR_PaperEdit-260106_RszW500.png");
 }
 body.langmode-en #ticket{
-  background-image : url("/sprites/OBJ-003_DeformedEN_ResizeW500.png");
+  background-image : url("/sprites/OBJ-003_DeformedEN_PaperEdit-260106_RszW500.png");
 }
 #ticket.css-filters{
   filter:drop-shadow(8px 8px 10px #00000080);
