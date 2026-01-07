@@ -715,6 +715,12 @@ lang_btn.onclick= ()=>{
   else apply_lang("ko");
 }
 
+for (const dom of document.querySelectorAll(".lang-button-set-ko")){
+  dom.addEventListener("click",()=>{apply_lang("ko");})
+}
+for (const dom of document.querySelectorAll(".lang-button-set-en")){
+  dom.addEventListener("click",()=>{apply_lang("en");})
+}
 
 
 function apply_darkmode(darkmode){
