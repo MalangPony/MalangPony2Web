@@ -1120,16 +1120,14 @@
             <span class="lang-ko">등록</span>
           </div>
           
-          <div class="linkbutton-row centered large"> 
-            <a id="register-witchform-link" 
-              class="link-button icon-witchform generate-icon color-witchform" 
-              style="font-size:24px;"
-              onclick="alert('soon...');">
-              <span class="lang-en">Register Now!</span>
-              <span class="lang-ko">지금 등록하기</span>
-            </a>
+          <div class="page-preamble centered lang-ko" style="font-size:1.0em;">
+            내국인과 외국인용 참가 링크가 다릅니다.<br>외국인용 참가 링크를 보시려면 우측 상단에서 언어를 영어로 바꾸어 주세요.
+          </div>
+          <div class="page-preamble centered lang-en" style="font-size:1.0em;">
+            The registration link is different for those living in Korea, and those living overseas.<br>Use the button on the top-right of the page to change the language to Korean if you want to see the registration link for Koreans.
           </div>
           
+
           <template id="register-tier-entry-template">
             <div class="register-tier-entry">
             
@@ -1148,11 +1146,38 @@
                       <div class="register-tier-name lang-ko"></div>
                       <div class="register-tier-name lang-en"></div>
                     </div>
-                    <div class="register-tier-limit lang-ko"></div>
-                    <div class="register-tier-limit lang-en"></div>
+                    <div class="register-tier-topcenter">
+                      <div class="register-tier-price lang-ko"></div>
+                      <div class="register-tier-price lang-en"></div>
+                      <div class="register-tier-limit lang-ko"></div>
+                      <div class="register-tier-limit lang-en"></div>
+                    </div>
+                    
                     <div class="register-tier-top-spacer"></div>
-                    <div class="register-tier-price lang-ko"></div>
-                    <div class="register-tier-price lang-en"></div>
+                    
+                    <div class="register-tier-button">
+                      <a class="link-button icon-google-forms generate-icon color-google-forms reg-button-inperson lang-en" 
+                        style=""
+                        onclick="alert('soon...');">
+                        Register!
+                      </a>
+                      <a class="link-button icon-witchform generate-icon color-witchform reg-button-inperson lang-ko" 
+                        style=""
+                        onclick="alert('soon...');">
+                        등록하기
+                      </a>
+                      <a class="link-button icon-google-forms generate-icon color-google-forms reg-button-spirit lang-en" 
+                        style=""
+                        onclick="alert('soon...');">
+                        Register! (Spirit)
+                      </a>
+                      <a class="link-button icon-witchform generate-icon color-witchform reg-button-spirit lang-ko" 
+                        style=""
+                        onclick="alert('soon...');">
+                        등록하기 (영혼)
+                      </a>
+                    </div>
+                    
                   </div>
                   <div class="register-tier-description lang-ko"></div>
                   <div class="register-tier-description lang-en"></div>

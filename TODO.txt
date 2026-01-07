@@ -36,7 +36,6 @@ Loading indicator for L2D
 Flicker on initial BG load
 Clicking on another page while in page transition will mess up the pages
 MPN2 Logo
-Witchform link in tier box
 HMR anim++ : pet pet / derp / sleep when idle for too long / 
 
 RIGHT BEFORE PUSH TO PROD

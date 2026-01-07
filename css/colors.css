@@ -168,7 +168,7 @@
   
   /* Picked from icon */
   --color-google-docs:#2684fc;
-  --color-google-forms:#7248b9;
+  --color-google-forms:light-dark(#7248b9,#a080e2); /* From icon: #7248b9 but it's too dark*/
   --color-google-slides:#ffba00;
   --color-google-sheets:#00ac47;
   

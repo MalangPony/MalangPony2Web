@@ -35,7 +35,7 @@
 	border-radius:8px;
 	overflow:hidden;
 	background-color: hsl(from var(--color-background-auto) h s l / 30%);
-	cursor:pointer;
+	
 	position:relative;
 	/* Z-Index of +1 to establish a stacking context*/
 	z-index:1;
@@ -86,6 +86,9 @@
 	flex-direction:row;
 	align-items:center;
 }
+#register-tiers-list.narrow .register-tier-top{
+	flex-direction:column;
+}
 .register-topleft{
 	background-color:#0F0;
 	display:flex;
@@ -98,6 +101,12 @@
 	position:relative;
 	background-color: hsl(from var(--tier-color-base) h s l / 100%);
 	overflow:hidden;
+	align-self:flex-start;
+	flex-shrink:1;
+}
+#register-tiers-list.narrow .register-topleft{
+	border-bottom-right-radius:0;
+	align-self:stretch;
 }
 .register-tier-icon{
 	width:48px;
@@ -118,12 +127,29 @@
 .register-tier-description{
 	color:var(--color-text-auto);
 	margin-left:16px;
+	margin-right:16px;
+}
+.register-tier-topcenter{
+	display:flex;
+	flex-direction:column;
+	align-items:flex-start;
+	justify-content:center;
+	margin-left:12px;
+	margin-top:4px;
+	gap:2px;
+	align-self:stretch;
+	flex-shrink:0;
+}
+#register-tiers-list.narrow .register-tier-topcenter{
+	flex-direction:row;
+	margin-left:4px;
+	margin-top:12px;
+	margin-right:4px;
+	gap:8px;
 }
 .register-tier-limit{
-	color:var(--color-text-auto);
-	margin-left:12px;
-	
-	font-size:1.0em;
+	color:var(--color-text-auto);	
+	font-size:0.8em;
 }
 .register-tier-top-spacer{
 	flex-grow:1;
@@ -132,7 +158,17 @@
 	font-size:1.0em;
 	font-weight:700;
 	color:var(--color-text-auto);
-	margin-right:16px;
+}
+
+.register-tier-button{
+	margin:8px;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	flex-shrink:0;
+}
+#register-tiers-list.narrow .register-tier-button{
+	margin-top:4px;
 }
 .register-tier-perks-list{
 	display:flex;
@@ -141,7 +177,10 @@
 	flex-wrap:wrap;
 	gap:4px;
 	padding:12px;
+	cursor:pointer;
 }
+
+
 /*
 .register-tier-perks-row{
 	display:flex;
@@ -190,8 +229,13 @@
 	flex-direction:row;
 	align-items:center;
 }
+#register-tiers-list.narrow .register-tier-perk{
+	flex-direction:column;
+	align-items:flex-start;
+	gap:2px;
+}
 .perk-name{
-	
+	flex-shrink:0;
 }
 .register-tier-entry.tier-detail-mode .perk-name{
 	font-weight:700;
@@ -201,6 +245,9 @@
 	display:none;
 	font-size:0.9em;
 	opacity:0.8;
+	flex-shrink:1;
+	flex-grow:1;
+	line-height:1.4;
 }
 .register-tier-entry.tier-detail-mode .perk-detail{
 	display:block;

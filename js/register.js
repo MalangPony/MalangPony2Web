@@ -12,6 +12,7 @@ for (const tier_id in TierData.tiers_data){
 	let tier_dom = tier_entry_template.content.cloneNode(true);
 	let tier_dom_inner=tier_dom.querySelector(".register-tier-entry");
 	
+	
 	tier_dom_inner.classList.add(tier_data.css_class);
 	
 	tier_dom.querySelector(".register-tier-name.lang-ko").innerHTML=tier_data.name_ko;
@@ -31,11 +32,23 @@ for (const tier_id in TierData.tiers_data){
 		tier_dom.querySelector(".register-tier-limit.lang-ko").innerHTML=
 			tier_data.limit+"명 한정";
 		tier_dom.querySelector(".register-tier-limit.lang-en").innerHTML=
-			"limited to "+tier_data.limit+" persons";
+			"Limited to "+tier_data.limit+" persons";
 	}else{
 		tier_dom.querySelector(".register-tier-limit.lang-ko").style.disply="none";
 		tier_dom.querySelector(".register-tier-limit.lang-en").style.disply="none";
 	}
+	
+	// Setup registration link
+	let reg_button_div = tier_dom.querySelector(".register-tier-button");
+	for (const dom of reg_button_div.children){
+		if (dom.classList.contains("reg-button-"+tier_data.reg_button_class)){
+			
+		}else{
+			dom.style.display="none";
+		}
+		
+	}
+	
 	
 	let tier_margin_top = tier_data.margin_top;
 	if (tier_margin_top) 
@@ -126,9 +139,16 @@ for (const tier_id in TierData.tiers_data){
 	}
 	
 	
-	tier_dom_inner.addEventListener("click",()=>{
+	perks_list_dom.addEventListener("click",()=>{
 		tier_dom_inner.classList.toggle("tier-detail-mode");
 	});
 	
 	tier_list.appendChild(tier_dom);
 }
+
+let rsl=new ResizeObserver(()=>{
+	if (tier_list.clientWidth<500) tier_list.classList.add("narrow");
+	else tier_list.classList.remove("narrow");
+	
+});
+rsl.observe(tier_list);

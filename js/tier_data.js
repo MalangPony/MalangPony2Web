@@ -15,7 +15,8 @@ export const tiers_data={
 		inherit_exclude:[],
 		price:30,
 		limit:Infinity,
-		icon:"/sprites-prototype/circle_64dp_2854C5_FILL0_wght700_GRAD0_opsz48.png"
+		icon:"/sprites-prototype/circle_64dp_2854C5_FILL0_wght700_GRAD0_opsz48.png",
+		reg_button_class:"inperson"
 	},
 	sponsor:{
 		name_en:"Sponsor",
@@ -38,7 +39,8 @@ export const tiers_data={
 		inherit_exclude:[],
 		price:75,
 		limit:Infinity,
-		icon:"/sprites-prototype/favorite_64dp_B89230_FILL0_wght700_GRAD0_opsz48.png"
+		icon:"/sprites-prototype/favorite_64dp_B89230_FILL0_wght700_GRAD0_opsz48.png",
+		reg_button_class:"inperson"
 	},
 	mane:{
 		name_en:"Mane Six",
@@ -60,7 +62,8 @@ export const tiers_data={
 		inherit_exclude:[],
 		price:150,
 		limit:6,
-		icon:"/sprites-prototype/token_64dp_6B2346_FILL0_wght700_GRAD0_opsz48.png"
+		icon:"/sprites-prototype/token_64dp_6B2346_FILL0_wght700_GRAD0_opsz48.png",
+		reg_button_class:"inperson"
 	},
 	princess:{
 		name_en:"Royal Princess",
@@ -85,7 +88,8 @@ export const tiers_data={
 		inherit_exclude:[],
 		price:400,
 		limit:3,
-		icon:"/sprites-prototype/crown_64dp_321D71_FILL0_wght700_GRAD0_opsz48.png"
+		icon:"/sprites-prototype/crown_64dp_321D71_FILL0_wght700_GRAD0_opsz48.png",
+		reg_button_class:"inperson"
 	},
 	spirit:{
 		margin_top:32,
@@ -102,7 +106,8 @@ export const tiers_data={
 		inherit_exclude:[],
 		price:20,
 		limit:Infinity,
-		icon:"/sprites-prototype/motion_blur_64dp_434343_FILL0_wght700_GRAD0_opsz48_FILL-A96424.png"
+		icon:"/sprites-prototype/motion_blur_64dp_434343_FILL0_wght700_GRAD0_opsz48_FILL-A96424.png",
+		reg_button_class:"spirit"
 	},
 	spirit_dx:{
 		name_en:"Deluxe Spirit",
@@ -131,7 +136,8 @@ export const tiers_data={
 		inherit_exclude:[],
 		price:200,
 		limit:Infinity,
-		icon:"/sprites-prototype/motion_blur_64dp_434343_FILL0_wght700_GRAD0_opsz48_FILL-911F1F.png"
+		icon:"/sprites-prototype/motion_blur_64dp_434343_FILL0_wght700_GRAD0_opsz48_FILL-911F1F.png",
+		reg_button_class:"spirit"
 	},
 	onsite:{
 		margin_top:32,
@@ -145,7 +151,8 @@ export const tiers_data={
 		inherit_exclude:[],
 		price:40,
 		limit:14,
-		icon:"/sprites-prototype/add_2_64dp_A96424_FILL0_wght700_GRAD0_opsz48_FILL-1e741e.png"
+		icon:"/sprites-prototype/add_2_64dp_A96424_FILL0_wght700_GRAD0_opsz48_FILL-1e741e.png",
+		reg_button_class:""
 	},
 };
 
