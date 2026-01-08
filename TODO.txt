@@ -37,6 +37,8 @@ Flicker on initial BG load
 Clicking on another page while in page transition will mess up the pages
 MPN2 Logo
 HMR anim++ : pet pet / derp / sleep when idle for too long / 
+L2D loading indicator
+L2D hide/show button
 
 RIGHT BEFORE PUSH TO PROD
 Change all domains (testing.malangpony) to a PHP expression (<?php echo $webroot;?>)
