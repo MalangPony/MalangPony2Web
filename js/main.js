@@ -678,16 +678,26 @@ for (const sbl of sbls){
 }
 
 function autoset_title(){
-  let title="";
+  let title_pre="";
+  let title_post=""
   if (current_lang=="ko") {
-    title=title+"말랑포니!";
+    title_pre="말랑포니!";
     if (pageid_to_name_ko[currently_on_page]) 
-      title=title+" - "+pageid_to_name_ko[currently_on_page];
+     title_post=pageid_to_name_ko[currently_on_page];
   }else if (current_lang=="en"){
-    title=title+"MalangPony";
+    title_pre="MalangPony";
     if (pageid_to_name_en[currently_on_page]) 
-      title=title+" - "+pageid_to_name_en[currently_on_page];
+      title_post=pageid_to_name_en[currently_on_page];
   }
+  
+  let title="";
+  title=title+title_pre;
+  if (title_post)
+    title=title+" - "+title_post;
+  
+  // un-escape ampersand
+  title=title.replaceAll("&amp;","&");
+  
   document.title=title;
 }
 
