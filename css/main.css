@@ -27,6 +27,9 @@
   --mcd-inner-width: calc(var(--mcd-width) * 0.96);
   
   
+  --pages-padding-lr: 48px;
+  --pages-actual-width:calc(var(--mcd-inner-width) - 96px);
+  
   /* MalangPony logo positioning */
   /* It's a bit complicated due to it being sticky at the bottom */
 
@@ -196,9 +199,8 @@
   transition-duration:0.5s;
   position:relative;
   z-index:10;
-  padding-left:48px;
-  padding-right:48px;
-  --pages-actual-width:calc(var(--mcd-inner-width) - 64px);
+  padding-left:var(--pages-padding-lr);
+  padding-right:var(--pages-padding-lr);
 }
 #pages-container.activated{
   filter:none;
@@ -367,16 +369,13 @@
     --mcd-margin-left:0px;
     --mcd-margin-right:0px;
     --intrologo-center-height-from-top:25svh;
+    --pages-padding-lr: 24px;
+    --pages-actual-width:calc(var(--mcd-inner-width) - 48px);
   }
   #main-content-backdrop{
     width:100%;
     margin-left:0;
 	margin-right:0;
-  }
-  #pages-container{
-    padding-left:24px;
-    padding-right:24px;
-    --pages-actual-width:calc(var(--mcd-inner-width) - 48px);
   }
   #scroll-inviter-container{
     top:50lvh;
