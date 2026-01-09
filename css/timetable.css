@@ -50,6 +50,7 @@
   border-color:hsl( from var(--color-text-dark) h s l / 70%);
   border-width:2px;
   border-style:solid;
+  color:var(--color-text-dark);
 }
 
 .timetable-popup-close-button{
