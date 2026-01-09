@@ -50,10 +50,6 @@ function px2em(p){
 	return (p/16)+"em";
 }
 
-// This will keep increasing on each mouse over.
-// Hopefully nopony will mouse-over the timetable 2 billion times...
-let mouseover_zindex=+100;
-
 let cgroup_centers=[];
 
 function timetable_build(ttd){
@@ -137,15 +133,21 @@ function timetable_build(ttd){
 	 * 50 Column Groups outline
 	 * 51 Column groups text
 	 * 
-	 * 80 Block outline
-	 * 90 Blocks, initial
-	 * 100+ Mouse-Overed Blocks
+	 * 70 Blocks
+	 * 80 Popup
 	 */
 	
 	// Block close functions for currently open blocks
 	let exit_functions=[];
 	// All times where a block starts or ends
 	let time_ticks=new Set();
+	
+	
+	// DOM Elements
+	let all_blocks=[]; //K:
+	let all_ticks={}; // K:Minutes V:DOM
+	let all_cgroups={}; // K:Name V:DOM
+	
 	for (const block of blocks){
 		
 		if (!block.display) continue;
@@ -173,36 +175,43 @@ function timetable_build(ttd){
 		let cg_right=cgroup_right[colgroup];
 		//console.log(`BLK CL${block.column} CGL${colgroup} CL${cg_left} CR${cg_right}`);
 		
-		// Child DOM elements
+		// DOM Elements: Block
 		let block_dom=document.createElement("div");
 		block_dom.classList.add("timetable-block-body");
-		
-		let outline_dom=document.createElement("div");
-		outline_dom.classList.add("timetable-block-outline");
 		
 		let text_dom=document.createElement("div");
 		text_dom.classList.add("timetable-block-text");
 		
-		let desc_dom=document.createElement("div");
-		desc_dom.classList.add("timetable-block-description-container");
+		domroot.appendChild(block_dom);
+		block_dom.appendChild(text_dom);
+		
+		// DOM Elements: Popup
+		let popup_rail = document.createElement("div");
+		popup_rail.classList.add("timetable-popup-rail");
+		domroot.appendChild(popup_rail);
+		
+		let popup_dom=document.createElement("div");
+		popup_dom.classList.add("timetable-popup-body");
+		popup_rail.appendChild(popup_dom);
 		
 		let closebtn_dom=document.createElement("div");
-		closebtn_dom.classList.add("timetable-block-close-button");
-		
-		domroot.appendChild(block_dom);
-		domroot.appendChild(outline_dom);
-		block_dom.appendChild(text_dom);
-		block_dom.appendChild(desc_dom);
-		
-		// Close Button
+		closebtn_dom.classList.add("timetable-popup-close-button");
 		closebtn_dom.classList.add("hidden");
 		
 		let close_svg=Utils.generate_svg_cross("#000000");
-		close_svg.classList.add("timetable-block-close-svg");
+		close_svg.classList.add("timetable-popup-close-svg");
 		closebtn_dom.appendChild(close_svg);
-		if (Config.OPTION_TIMETABLE_REQUIRE_CLICK){
-			block_dom.appendChild(closebtn_dom);
-		}
+		popup_dom.appendChild(closebtn_dom);
+		
+		
+		
+		let popup_content_dom=document.createElement("div");
+		popup_content_dom.classList.add("timetable-popup-content-container");
+		popup_dom.appendChild(popup_content_dom);
+		
+		let popup_title_dom = document.createElement("div");
+		popup_title_dom.classList.add("timetable-popup-title");
+		popup_content_dom.appendChild(popup_title_dom);
 		
 		// Description
 		let info_time_dom_ko=document.createElement("div");
@@ -220,20 +229,20 @@ function timetable_build(ttd){
 			info_time_dom_ko.innerHTML=block.start_time+" ~ "+block.end_time;
 			info_time_dom_en.innerHTML=block.start_time+" ~ "+block.end_time;
 		}
-		desc_dom.appendChild(info_time_dom_ko);
-		desc_dom.appendChild(info_time_dom_en);
+		popup_content_dom.appendChild(info_time_dom_ko);
+		popup_content_dom.appendChild(info_time_dom_en);
 		
 		let info_text_dom_ko=document.createElement("div");
 		info_text_dom_ko.classList.add("timetable-desc-text");
 		info_text_dom_ko.classList.add("lang-ko");
 		info_text_dom_ko.innerHTML=block.description_kr;
-		desc_dom.appendChild(info_text_dom_ko);
+		popup_content_dom.appendChild(info_text_dom_ko);
 		
 		let info_text_dom_en=document.createElement("div");
 		info_text_dom_en.classList.add("timetable-desc-text");
 		info_text_dom_en.classList.add("lang-en");
 		info_text_dom_en.innerHTML=block.description_en;
-		desc_dom.appendChild(info_text_dom_en);
+		popup_content_dom.appendChild(info_text_dom_en);
 		
 		
 		
@@ -269,18 +278,28 @@ function timetable_build(ttd){
 			w-=tt_block_gap;
 		}
 		
-		block_dom.style.zIndex=+90;
+		block_dom.style.position="absolute";
+		block_dom.style.zIndex=+70;
 		block_dom.style.top=px2em(y);
 		block_dom.style.left=px2em(x);
 		block_dom.style.height=px2em(h);
 		block_dom.style.width=px2em(w);
 		
-		outline_dom.style.zIndex=+80;
-		outline_dom.style.top=px2em(y);
-		outline_dom.style.left=px2em(x);
-		outline_dom.style.height=px2em(h);
-		outline_dom.style.width=px2em(w);
-		outline_dom.style.opacity=0;
+		
+		popup_rail.style.position="absolute";
+		popup_rail.style.zIndex=+80;
+		
+		popup_rail.style.display="none";
+		
+		popup_dom.style.position="sticky";
+		popup_dom.style.zIndex=+81;
+		popup_dom.style.top=px2em(40);
+		popup_dom.style.bottom=px2em(40);
+		popup_dom.style.minHeight=px2em(100);
+		popup_dom.style.width=px2em(240);
+		popup_dom.style.display="none";
+		popup_dom.style.backgroundColor=bg_color;
+		popup_dom.style.borderRadius = px2em(6);
 		
 		max_y=Math.max(max_y,y+h);
 		
@@ -288,153 +307,117 @@ function timetable_build(ttd){
 		let rel_start_time_gapped=(y-tt_cg_top_extension)/tt_px_per_minute;
 		let rel_end_time_gapped=(y+h-tt_cg_top_extension)/tt_px_per_minute;
 		
-		// Expand animation
-		let expX=x;
-		let expY=y;
-		let expW=w;
-		let expH=h;
-		if (expand_direction==="L"){
-			expX-=(tt_block_expanded_width-w);
-			expW=tt_block_expanded_width;
-		}else if (expand_direction==="R"){
-			expW=tt_block_expanded_width;
-		}
-		if (expH<tt_block_expanded_height) expH=tt_block_expanded_height;
-		if (expH>tt_block_expanded_height){
-			let shrinkage=h-tt_block_expanded_height;
-			expH=tt_block_expanded_height;
-			expY+=shrinkage/2;
-		}
-		
 		let expanded=false;
+		let transition_in_progress=false;
 		function exit(){
-			expanded=false;
-			block_dom.style.top=px2em(y);
-			block_dom.style.left=px2em(x);
-			block_dom.style.height=px2em(h);
-			block_dom.style.width=px2em(w);
-			block_dom.classList.remove("timetable-block-mouseover");
-			outline_dom.style.opacity=0.0;
-			block_dom.style.filter="none";
-			if (Config.OPTION_TIMETABLE_REQUIRE_CLICK){
-				closebtn_dom.classList.add("hidden");
-				block_dom.style.cursor="pointer";
+			if (transition_in_progress) {
+				console.log("Reject exit transition, TIP=true");
+				return;
 			}
-				
+			if (!expanded) return;
+			
+			expanded=false;
+			
+			transition_in_progress=true;
+			popup_dom.animate(
+				[{ opacity: "1.0" },{ opacity: "0.0" }],
+				{duration: 200,delay:0}).onfinish= () => {
+				popup_dom.style.display="none";
+				popup_rail.style.display="none";
+				transition_in_progress=false;
+			};
+			
+
+			closebtn_dom.classList.add("hidden");
+			block_dom.style.cursor="pointer";
+			for (const b of all_blocks){
+				b.classList.remove("defocus");
+			}
+			
+			for (const tt in all_ticks){
+				if (tt%60!=0) all_ticks[tt].classList.add("hidden");
+				else all_ticks[tt].classList.remove("hidden");
+			}
+			
+			for (const cgn in all_cgroups){
+				all_cgroups[cgn].classList.remove("defocus");
+			}
 		}
 		function enter(){
+			if (transition_in_progress) {
+				console.log("Reject enter transition, TIP=true");
+				return;
+			}
+			if (expanded) return;
+			
 			expanded=true;
-			block_dom.style.top=px2em(expY);
-			block_dom.style.height=px2em(expH);
+			
 			if (mobile_mode){
-				let center=(cg_right+cg_left)/2;
-				//block_dom.style.left=px2em(cg_left);
-				//block_dom.style.width=px2em(cg_right-cg_left);
-				block_dom.style.left=px2em(center-(tt_block_expanded_width/2));
-				block_dom.style.width=px2em(tt_block_expanded_width);
-			}else{
-				block_dom.style.left=px2em(expX);
-				block_dom.style.width=px2em(expW);
-			}
-			//console.log(`BlockEnter Y${expY} H${expH} L${cg_left} R${cg_right} X${expX} W${expW}`);
-			block_dom.classList.add("timetable-block-mouseover");
-			mouseover_zindex++;
-			block_dom.style.zIndex=mouseover_zindex;
-			outline_dom.style.opacity=1.0;
-			block_dom.style.filter="drop-shadow(0 0 8px #00000080)";
-			if (Config.OPTION_TIMETABLE_REQUIRE_CLICK){
-				closebtn_dom.classList.remove("hidden");
-				block_dom.style.cursor="unset";
-			}
+				let popup_yoffset=Math.min(h,200);
+				popup_rail.style.top=px2em(y+popup_yoffset);
+				popup_rail.style.left=px2em(x-(240-w)/2);
+				popup_rail.style.width=px2em(240);
 				
-		}
-		
-		// Testing if mouse inside block OR outline.
-		let mouse_inside_block=false;
-		let mouse_inside_outline=false;
-		
-		// We need to turn off the mouse detection for the block
-		// if the block is being animated(transitioned).
-		// Otherwise, the block can oscillate.
-		let transition_in_progress=false;
-		if (!Config.OPTION_TIMETABLE_REQUIRE_CLICK){
-			block_dom.addEventListener("transitionend",(e)=>{
-				// filter runs for a shorter time so we need to ignore that
-				if (e.propertyName=="filter") return;
-				transition_in_progress=false;
-				update();
-			});
-		}
-		
-		// The below function is a bit convoluted,
-		// but trust me, this is all necessary.
-		function update(){
-			let now_inside;
-			
-			if (transition_in_progress) now_inside= mouse_inside_outline;
-			else now_inside=(mouse_inside_block || mouse_inside_outline);
-			
-			if (now_inside){
-				if (!expanded) {
-					transition_in_progress=true;
-					enter();
-				}
 			}else{
-				if (expanded){
-					transition_in_progress=true;
-					exit();
+				popup_rail.style.top=px2em(y);
+				if (expand_direction=="L"){
+					popup_rail.style.left=px2em(x-240);
+				}else{
+					popup_rail.style.left=px2em(x+w);
 				}
+				popup_rail.style.height=px2em(h);
+				popup_rail.style.width=px2em(240);
 			}
+		
+			popup_dom.style.display="block";
+			popup_rail.style.display="block";
+			transition_in_progress=true;
+			popup_dom.animate(
+				[{ opacity: "0.0" },{ opacity: "1.0" }],
+				{duration: 200,delay:0}).onfinish= () => {
+				popup_dom.style.opacity="1.0";
+				transition_in_progress=false;
+			};
+
+			closebtn_dom.classList.remove("hidden");
+			block_dom.style.cursor="unset";
+			
+			for (const b of all_blocks){
+				if (b==block_dom) b.classList.remove("defocus");
+				else b.classList.add("defocus");
+			}
+			
+			for (const tt in all_ticks){
+				if ((tt==start_time) || (tt==end_time))
+					all_ticks[tt].classList.remove("hidden");
+				else all_ticks[tt].classList.add("hidden");
+			}
+			
+			for (const cgn in all_cgroups){
+				if (cgn==colgroup)
+					all_cgroups[cgn].classList.remove("defocus");
+				else
+					all_cgroups[cgn].classList.add("defocus");
+			}
+			
 		}
 		
-		// Doing the update a little later 
-		// will catch the case where the mouse leaves the outline
-		// and enters the block in the same frame.
-		// Without waiting, this will cause the block to be collapsed.
-		let pending_update=null;
-		function queue_update(){
-			window.clearTimeout(pending_update);
-			pending_update=window.setTimeout(update,10);
-		}
 		
-		// Listen for mouse hover OR click. Depends on the Config option.
-		if (!Config.OPTION_TIMETABLE_REQUIRE_CLICK){
-			outline_dom.addEventListener("mouseleave",()=>{
-				mouse_inside_outline=false;
-				queue_update();
-			});
-			outline_dom.addEventListener("mouseenter",()=>{
-				mouse_inside_outline=true;
-				queue_update();
-			});
-			block_dom.addEventListener("mouseleave",()=>{
-				mouse_inside_block=false;
-				queue_update();
-			});
-			block_dom.addEventListener("mouseenter",()=>{
-				mouse_inside_block=true;
-				queue_update();
-			});
-		}else{
-			block_dom.style.cursor="pointer";
-			block_dom.addEventListener("mouseleave",()=>{
-				if (!expanded)
-					block_dom.style.filter="none";
-			});
-			block_dom.addEventListener("mouseenter",()=>{
-				if (!expanded)
-					block_dom.style.filter="drop-shadow(0 0 4px "+bg_color+")";
-			});
-			block_dom.addEventListener("click",()=>{
-				while (exit_functions.length>0) exit_functions.pop()();
-				exit_functions.push(exit);
-				enter();
-			});
-			closebtn_dom.addEventListener("click",(e)=>{
-				e.stopPropagation();
-				exit();
-			});
-		}
+		block_dom.style.cursor="pointer";
+		block_dom.addEventListener("mouseleave",()=>{
+		});
+		block_dom.addEventListener("mouseenter",()=>{
+		});
+		block_dom.addEventListener("click",()=>{
+			while (exit_functions.length>0) exit_functions.pop()();
+			exit_functions.push(exit);
+			enter();
+		});
+		closebtn_dom.addEventListener("click",(e)=>{
+			e.stopPropagation();
+			exit();
+		});
+		
 		
 		
 		// Text DOM
@@ -450,28 +433,24 @@ function timetable_build(ttd){
 		text_en.innerHTML=block.name_en;
 		text_dom.appendChild(text_en);
 		
+		popup_title_dom.appendChild(text_kr.cloneNode(true));
+		popup_title_dom.appendChild(text_en.cloneNode(true));
+		
 		
 		// Block BG
 		let radius=px2em(6);
 		if (!(connecting.T || connecting.L)){
 			block_dom.style.borderTopLeftRadius = radius;
-			outline_dom.style.borderTopLeftRadius = radius;
 		}
 		if (!(connecting.T || connecting.R)){
 			block_dom.style.borderTopRightRadius = radius;
-			outline_dom.style.borderTopRightRadius = radius;
 		}
 		if (!(connecting.B || connecting.L)){
 			block_dom.style.borderBottomLeftRadius = radius;
-			outline_dom.style.borderBottomLeftRadius = radius;
 		}
 		if (!(connecting.B || connecting.R)){
 			block_dom.style.borderBottomRightRadius = radius;
-			outline_dom.style.borderBottomRightRadius = radius;
 		}
-		
-		
-		outline_dom.style.borderColor=bg_color;
 		
 		if ("color_list" in color_preset_raw){
 			//console.log("CPR-CL",color_preset_raw.color_list)
@@ -502,37 +481,29 @@ function timetable_build(ttd){
 			block_dom.style.backgroundColor=bg_color;
 			
 		}
-		//block_dom.style.backgroundColor={}[block.column];
-		//block_dom.style.backgroundImage="none";
-		/*
-		block_dom.style.backgroundColor={
-			"main-stage":"hsl(0deg 90% 80%)",
-			"main-side":"hsl(90deg 90% 80%)",
-			"sub-hall":"hsl(180deg 90% 80%)",
-			"lobby":"hsl(270deg 90% 80%)"
-		}[colgroup];*/
-		//block_dom.style.backgroundColor="hsl("+(base_x/2)+"deg 60% 85%)";
-		//let h_left=base_x/2;
-		//let h_right=(base_width+base_x)/2;
-		//block_dom.style.backgroundImage="linear-gradient(to right, hsl("+h_left+"deg 90% 80%) 0% , hsl("+h_right+"deg 90% 80%) 100%)";
-		
 		
 		if (vertical){
 			block_dom.classList.add("timetable-block-vertical");
 		}
+		
+		all_blocks.push(block_dom);
+	}
+	
+	
+	// time_ticks are where the blocks line up,
+	// But putting lines only there looks kinda weird.
+	// So we just populate it manually at 1-hour intervals.
+	for (let i=9;i<24;i++){
+		time_ticks.add(60*i);
 	}
 	
 	time_ticks=Array.from(time_ticks);
 	time_ticks.sort();
-	// time_ticks are where the blocks line up,
-	// But putting lines only there looks kinda weird.
-	// So we just populate it manually at 1-hour intervals.
-	time_ticks=Array(15).fill().map((e, i) => (i + 9)*60);
 	
 	// Create time ticks
 	for (const tt of time_ticks){
 		let tick_dom=document.createElement("div");
-		tick_dom.classList.add("timetable-tick-line");
+		tick_dom.classList.add("timetable-tick");
 		
 		tick_dom.style.top=px2em(
 			(tt-tt_start_t)*tt_px_per_minute+tt_tick_px/2-30+tt_cg_top_extension);
@@ -563,6 +534,10 @@ function timetable_build(ttd){
 		
 		tick_dom.appendChild(timedisp_dom_L);
 		tick_dom.appendChild(timedisp_dom_R);
+		
+		if (tt%60!=0) tick_dom.classList.add("hidden");
+		
+		all_ticks[tt]=tick_dom;
 	}
 	
 	// Create category group display
@@ -624,6 +599,8 @@ function timetable_build(ttd){
 		}
 		
 		domroot.appendChild(cg_outline_dom);
+		
+		all_cgroups[cg.name]=cg_outline_dom
 	}
 	
 	max_y=Math.max(max_y,max_y+tt_cg_bottom_extension);

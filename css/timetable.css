@@ -22,9 +22,9 @@
   justify-content:center;
   align-items:center;
   
-  transition-property:top,left,width,height,filter;
-  transition-duration:0.5s, 0.5s, 0.5s, 0.5s, 0.2s;
-  transition-timing-function:ease-in-out,ease-in-out,ease-in-out,ease-in-out,linear;
+  transition-property:opacity;
+  transition-duration: 0.2s;
+  transition-timing-function:linear;
   
   overflow:hidden;
   
@@ -37,11 +37,22 @@
   border-style:solid;
 }
 
-.timetable-block-body.timetable-block-mouseover{
-
+.timetable-block-body.defocus{
+  opacity:0.5;
 }
 
-.timetable-block-close-button{
+.timetable-popup-rail{
+  pointer-events:none;
+}
+.timetable-popup-body{
+  pointer-events:auto;
+  position:relative;
+  border-color:hsl( from var(--color-text-dark) h s l / 70%);
+  border-width:2px;
+  border-style:solid;
+}
+
+.timetable-popup-close-button{
   transition-property: opacity;
   transition-duration:0.5s;
   transition-timing-function: ease-in-out;
@@ -57,7 +68,7 @@
   height:2em;
   z-index:1;
 }
-.timetable-block-close-svg{
+.timetable-popup-close-svg{
   position:absolute;
   top:0.15em;
   left:0.15em;
@@ -65,21 +76,9 @@
   bottom:0.15em;
 }
 
-.timetable-block-close-button.hidden{
+.timetable-popup-close-button.hidden{
   opacity:0.0;
   pointer-events:none;
-}
-
-.timetable-block-outline{
-  /* Set dynamically at timetable.js: 
-   * z-index, top, left, height, widht, opacity,
-   *  border-radius, border-color */
-  position:absolute;
-  transition-property:opacity;
-  transition-duration:0.5s;
-  transition-timing-function:ease-in-out;
-  border-style:solid;
-  border-width:0.25em;
 }
 
 .timetable-block-text{
@@ -93,31 +92,26 @@
 .timetable-block-vertical .timetable-block-text{
   width:15em;
 }
-.timetable-block-vertical:not(.timetable-block-mouseover) .timetable-block-text {
+.timetable-block-vertical .timetable-block-text {
   transform:rotate(90deg);
 }
 
-.timetable-block-description-container{
-  opacity:0.0;
-  transition-property:opacity, max-height;
-  transition-duration:0.5s;
-  transition-timing-function:ease-in-out;
-  max-height:0;
+.timetable-popup-content-container{
   overflow:hidden;
-  padding-left:0.4em;
-  padding-right:0.4em;
-}
-
-.timetable-block-body.timetable-block-mouseover .timetable-block-description-container{
-  opacity:1.0;
-  max-height:5em;
-}
-
-.timetable-block-description-container{
+  padding:0.8em;
   display:flex;
   flex-direction:column;
   justify-content:center;
-  align-items:center;
+  align-items:stretch;
+  text-align:center;
+  gap:0.2em;
+}
+.timetable-popup-title{
+  text-align:center;
+  font-size:1.2em;
+  font-weight:700;
+  padding-left:0.4em;
+  padding-right:0.4em;
 }
 .timetable-desc-time{
   margin-top:0.2em;
@@ -130,13 +124,16 @@
   line-height:1.3;
 }
 
-.timetable-tick-line{
+.timetable-tick{
   /* Set dynamically at timetable.js: 
    * top, left, height, width, border-bottom-width */
   z-index:5;
   position:absolute;
   border-bottom-color:hsl(from var(--color-text-auto) h s l / 50%);
   border-bottom-style:solid;
+}
+.timetable-tick.hidden{
+  display:none;
 }
 .timetable-tick-text{
   /* Set dynamically at timetable.js: 
@@ -145,7 +142,7 @@
   bottom:0;
   z-index:6;
   font-size:0.8em;
-  font-weight:900;
+  font-weight:700;
 }
 
 .timetable-cgroup-outline{
@@ -159,6 +156,12 @@
     to bottom, 
     hsl(from var(--color-text-auto) h s l / 50%), 
     hsl(from var(--color-text-auto) h s l / 0%));
+  transition-property:opacity;
+  transition-duration:0.2s;
+  transition-timing-function:linear;
+}
+.timetable-cgroup-outline.defocus{
+  opacity:0.5;
 }
 .timetable-cgroup-label{
   /* Set dynamically at timetable.js: 
