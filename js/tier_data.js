@@ -15,7 +15,7 @@ export const tiers_data={
 		inherit_exclude:[],
 		price:30,
 		limit:Infinity,
-		icon:"/sprites-prototype/circle_64dp_2854C5_FILL0_wght700_GRAD0_opsz48.png",
+		icon:"/sprites/tier_icons/standard_200_color.png",
 		reg_button_class:"inperson"
 	},
 	sponsor:{
@@ -39,7 +39,7 @@ export const tiers_data={
 		inherit_exclude:[],
 		price:75,
 		limit:Infinity,
-		icon:"/sprites-prototype/favorite_64dp_B89230_FILL0_wght700_GRAD0_opsz48.png",
+		icon:"/sprites/tier_icons/sponsor_200_color.png",
 		reg_button_class:"inperson"
 	},
 	mane:{
@@ -62,7 +62,7 @@ export const tiers_data={
 		inherit_exclude:[],
 		price:150,
 		limit:6,
-		icon:"/sprites-prototype/token_64dp_6B2346_FILL0_wght700_GRAD0_opsz48.png",
+		icon:"/sprites/tier_icons/mane_200_color.png",
 		reg_button_class:"inperson"
 	},
 	princess:{
@@ -88,7 +88,7 @@ export const tiers_data={
 		inherit_exclude:[],
 		price:400,
 		limit:3,
-		icon:"/sprites-prototype/crown_64dp_321D71_FILL0_wght700_GRAD0_opsz48.png",
+		icon:"/sprites/tier_icons/royal_200_color.png",
 		reg_button_class:"inperson"
 	},
 	spirit:{
@@ -106,7 +106,7 @@ export const tiers_data={
 		inherit_exclude:[],
 		price:20,
 		limit:Infinity,
-		icon:"/sprites-prototype/motion_blur_64dp_434343_FILL0_wght700_GRAD0_opsz48_FILL-A96424.png",
+		icon:"/sprites/tier_icons/spirit_200_color.png",
 		reg_button_class:"spirit"
 	},
 	spirit_dx:{
@@ -136,7 +136,7 @@ export const tiers_data={
 		inherit_exclude:[],
 		price:200,
 		limit:Infinity,
-		icon:"/sprites-prototype/motion_blur_64dp_434343_FILL0_wght700_GRAD0_opsz48_FILL-911F1F.png",
+		icon:"/sprites/tier_icons/spiritplus_200_color.png",
 		reg_button_class:"spirit"
 	},
 	onsite:{
@@ -151,7 +151,7 @@ export const tiers_data={
 		inherit_exclude:[],
 		price:40,
 		limit:14,
-		icon:"/sprites-prototype/add_2_64dp_A96424_FILL0_wght700_GRAD0_opsz48_FILL-1e741e.png",
+		icon:"/sprites/tier_icons/onsite_200_color.png",
 		reg_button_class:""
 	},
 };

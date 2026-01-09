@@ -109,13 +109,13 @@
 	align-self:stretch;
 }
 .register-tier-icon{
-	width:48px;
-	height:48px;
+	width:44px;
+	height:44px;
 	transform:rotate(-10deg);
 	opacity:1.0;
 	position:absolute;
-	top:-2px;
-	left:-2px;
+	top:2px;
+	left:2px;
 	/* +1 to go above stuff*/
 	z-index:1;
 }
