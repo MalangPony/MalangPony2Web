@@ -833,10 +833,16 @@ page_cleanup_functions["mascot"]= function(){
 }
 
 // Transition with animation.
+let page_transition_in_progress=false;
 function page_transition(name,animated=true,push_to_history=false){
   console.log("Page transition to "+name+", animated="+animated+", PTH="+push_to_history);
   // Hide sidebar, even if the transition is invalid.
   if (mobile_mode) sidebar_hide_mobile();
+  
+  if (page_transition_in_progress) {
+    console.log("Rejecting page transition since another transition is in progress");
+    return;
+  }
   
   // No-op if the transition is useless
   if (name===currently_on_page) return;
@@ -847,6 +853,8 @@ function page_transition(name,animated=true,push_to_history=false){
 
   let target=document.getElementById("page-"+name);
   if (target===null) return;
+  
+  page_transition_in_progress=true;
   
   // Custom functions
   let cleanup_func=page_cleanup_functions[currently_on_page];
@@ -931,6 +939,7 @@ function page_transition(name,animated=true,push_to_history=false){
       {duration: 500,delay:animation_start_time});
     anim_show_new.onfinish= () => {
       main_content_backdrop.style.opacity=1;
+      page_transition_in_progress=false;
     }
   
   }else{
@@ -964,6 +973,7 @@ function page_transition(name,animated=true,push_to_history=false){
     StaticBG.activate_page_bg_instant(name);
     if (name !== "intro") Castle.enter_instant();
     
+    page_transition_in_progress=false;
   }
   
   

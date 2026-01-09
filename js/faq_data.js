@@ -10,9 +10,9 @@ export let questions=[
 	},
 	*/
 	{
-		qtext_ko:"행사에 못가게 되었어요! 혹시 환불을 할 수 있을까요?",
+		qtext_ko:"행사에 못가게 되었어요! 혹시 환불을 받을 수 있을까요?",
 		qtext_en:"I can't make it to the event! Can I get a refund?",
-		atext_ko:"티켓 판매 마감일인 6월 30일 전까지 환불이 가능합니다. 환불이 필요한 경우, 공식 계정을 통해 연락해 주시면 환불을 도와드리겠습니다.",
+		atext_ko:"티켓 판매 마감일인 6월 30일 전까지 환불이 가능합니다. 환불이 필요한 경우, 공식 계정으로 통해 연락해 주시면 환불을 도와드리겠습니다.",
 		atext_en:"The tickets may be refunded until June 30th, Korean Time. Contact us through any of the official channels to get your ticket refunded.",
 		categories:[]
 	},
@@ -24,7 +24,7 @@ export let questions=[
 		categories:[]
 	},
 	{
-		qtext_ko:"굿즈들 가져가도 되나요?",
+		qtext_ko:"굿즈들을 가져와도 되나요?",
 		qtext_en:"Can I show off my merch?",
 		atext_ko:"네, 굿즈를 자유롭게 가져오실 수 있습니다.\"굿즈 전시대\" 코너도 준비되어 있으니, 자신의 굿즈들을 가져와서 자랑해 보세요!",
 		atext_en:"You are free to bring all your pony merch. There's also a dedicated area for showing off your pony merchandise, so brag away!",
@@ -33,14 +33,14 @@ export let questions=[
 	{
 		qtext_ko:"점심이나 저녁시간은 따로 없나요?",
 		qtext_en:"Is there time for having lunch or dinner?",
-		atext_ko:"점심이나 저녁 시간은 따로 마련되어 있지 않지만, 행사 도중 어느때라도 자유롭게 나가셔서 식사를 하고 오셔도 됩니다.",
+		atext_ko:"점심이나 저녁 시간은 따로 마련되어 있지 않지만, 행사 도중 언제든지 자유롭게 나가셔서 식사를 하고 오셔도 됩니다.",
 		atext_en:"There's no official lunch or dinner time in the event timetable, but you may go outside and get food any time during the event and come back.",
 		categories:[]
 	},
 	{
 		qtext_ko:"입장은 언제까지 해야하나요?",
 		qtext_en:"Do I need to arrive on-time for the event?",
-		atext_ko:"행사 시작 시간에 맞춰서 오지 않으셔도 무관합니다. 단, 참가증 수령은 18시까지만 가능합니다.",
+		atext_ko:"행사 시작 시간에 맞춰서 오지 않으셔도 되지만, 참가증 수령은 18시까지만 가능합니다.",
 		atext_en:"You do not need to arrive on time for the opening ceremonies. However, the registration desk closes at 6PM.",
 		categories:[]
 	},
@@ -54,7 +54,7 @@ export let questions=[
 	{
 		qtext_ko:"저녁시간까지 꼭 남아있어야 하나요?",
 		qtext_en:"Do I need to stay until the end of the event?",
-		atext_ko:"행사 중 어느때나 나가셔도 됩니다.",
+		atext_ko:"행사 중 언제든지 나가셔도 됩니다.",
 		atext_en:"You can leave any time during the event.",
 		categories:[]
 	},
@@ -87,7 +87,7 @@ export let questions=[
 		categories:[]
 	},
 	{
-		qtext_ko:"질문을 하고 싶어요! 어디서 할 수 있을까요?",
+		qtext_ko:"문의를 하고 싶어요! 어디서 할 수 있을까요?",
 		qtext_en:"I have other questions! Where can I ask them?",
 		atext_ko:"공식 디스코드, 트위터, 블루스카이, 또는 이메일을 활용해 주세요.",
 		atext_en:"Use our official Discord, Twitter, Bluesky, or email.",

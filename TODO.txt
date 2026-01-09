@@ -39,6 +39,8 @@ HMR anim++ : pet pet / derp / sleep when idle for too long /
 L2D loading indicator
 L2D hide/show button
 Make sidebar not overlap page content
+Update partner logos
+Spam-clicking back button will desync the page URL and page
 
 RIGHT BEFORE PUSH TO PROD
 Change all domains (testing.malangpony) to a PHP expression (<?php echo $webroot;?>)
