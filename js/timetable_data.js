@@ -91,7 +91,7 @@ export let blocks=[
 	"tagline_kr":""
 	},
 	{ 
-	"display":true,
+	"display":false,
 	"name_kr":"말랑 더 비트 리허설",
 	"name_en":"MTB Rehersal",
 	"start_time":"18:45",
@@ -104,7 +104,7 @@ export let blocks=[
 	"tagline_kr":""
 	},
 	{ 
-	"display":true,
+	"display":false,
 	"name_kr":"말랑 더 비트!",
 	"name_en":"Malang the Beat!",
 	"start_time":"19:30",
@@ -113,6 +113,32 @@ export let blocks=[
 	"column":"main-stage",
 	"description_en":"A DJ party with pony fan music and remixes!",
 	"description_kr":"포니 2차 창작 음악과 리믹스가 있는 DJ 파티!",
+	"tagline_en":"",
+	"tagline_kr":""
+	},
+	{ 
+	"display":true,
+	"name_kr":"말랑포니 피드백 타임",
+	"name_en":"MalangPony Feedback Time",
+	"start_time":"18:45",
+	"end_time":"19:15",
+	"color_preset":"night-show",
+	"column":"main-stage",
+	"description_en":"Did you enjoy the event?<br>Tell us what you liked, or didn’t like!",
+	"description_kr":"행사는 잘 즐기셨나요?<br>궁금했던 점, 아쉬웠던 점 모두 알려주세요!",
+	"tagline_en":"",
+	"tagline_kr":""
+	},
+	{ 
+	"display":true,
+	"name_kr":"브로니 말 맞추기",
+	"name_en":"Brony Feud",
+	"start_time":"19:30",
+	"end_time":"20:30",
+	"color_preset":"night-show",
+	"column":"main-stage",
+	"description_en":"We surveyed bronies all over Korea. Can you guess which answer was the most popular?",
+	"description_kr":"브로니들에게 설문조사를 하였습니다.<br>기상천외한 답변들을 여러분들이 모두 다 맞힐 수 있을까요?",
 	"tagline_en":"",
 	"tagline_kr":""
 	},

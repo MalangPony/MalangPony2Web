@@ -78,7 +78,8 @@ export const tiers_data={
 			"reserved_seating",
 			"custom_badge",
 			"large_tapestry",
-			"song_request",
+			"relay_prompt",
+			"feud_question",
 			"signed_poster",
 			"opening_closing_floor",
 			"tin_badge_princess",
@@ -268,10 +269,28 @@ export const perks_data={
 		name_en:"Large Tapestry",name_ko:"대형 태피스트리",
 		desc_en:"A large tapestry with a high-quality print of an artwork.",
 		desc_ko:"고화질 일러스트가 인쇄된 족자봉입니다. (택배 발송 가능)"},
+	/*
 	song_request:{
 		name_en:"Song Request in Malang The Beat!",name_ko:"말랑 더 비트! 선곡권",
 		desc_en:"You'll be able to request a song in our DJ show, Malang The Beat! Fill the floor with a song of your choosing. The DJ will mention the song was requested by a VIP.",
-		desc_ko:"행사의 피날레인 '말랑 더 비트', 귀하가 선택한 음악으로 플로어를 채울 수 있습니다. DJ가 VVIP의 신청곡임을 특별히 언급하며 재생해 드립니다."},
+		desc_ko:"행사의 피날레인 '말랑 더 비트', 귀하가 선택한 음악으로 플로어를 채울 수 있습니다. DJ가 VVIP의 신청곡임을 특별히 언급하며 재생해 드립니다."},*/
+	relay_prompt:{
+		name_en:"Relay Sketches Prompt",name_ko:"릴레이 스케치 주제 선택권",
+		desc_en:"You can choose which scene from the show that will get drawn in the Relay Pony Sketches panel.",
+		desc_ko:"릴레이 포니 스케치 패널에서 다함께 그릴 포니 장면을 선택하실 수 있습니다."},
+	feud_question:{
+		name_en:"Choose Brony Feud Question",name_ko:"브로니 말 맞추기 질문 선택권",
+		desc_en:"You can choose a question that will be in the survey for the Brony Feud panel.",
+		desc_ko:"\"브로니 말 맞추기\" 패널의 설문조사에 들어갈 문제를 하나 지정하실 수 있습니다."},
+	/*
+	:{
+		name_en:"",name_ko:"",
+		desc_en:"",
+		desc_ko:""},
+	:{
+		name_en:"",name_ko:"",
+		desc_en:"",
+		desc_ko:""},*/
 	signed_poster:{
 		name_en:"Poster Signed by Staff",name_ko:"스태프 사인 포스터",
 		desc_en:"A poster signed by all the staff and guests, expressing our gratitude for your support.",
