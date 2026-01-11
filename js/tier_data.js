@@ -175,7 +175,7 @@ export const perks_data={
 	
 	conbook:{
 		name_en:"Conbook",name_ko:"콘북",
-		desc_en:"The official MalangPony 2 conbook, includes the venue information, booth information, and art.",
+		desc_en:"The official MalangPony 2 conbook. Includes the venue information, booth information, and art.",
 		desc_ko:"행사장 안내, 부스 정보, 축전 등이 담긴 말랑포니 2의 공식 책자입니다."},
 	
 	conbook_website_mention:{
