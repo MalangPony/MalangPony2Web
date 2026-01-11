@@ -96,7 +96,7 @@ export const tiers_data={
 		margin_top:32,
 		name_en:"Spirit Badge",
 		name_ko:"영혼참가",
-		desc_en:"For those who can't make it to the event in person, you'll be able to support the event and receive an attendee badge.",
+		desc_en:"For those who can't make it to the event in person. You'll be able to receive the attendee badge and support the event.",
 		desc_ko:"현장 방문이 어려운 분들을 위해 참가증만 배송해 드리는 후원 등급입니다.",
 		css_class:"tier-spirit",
 		perks_list:[
@@ -113,7 +113,7 @@ export const tiers_data={
 	spirit_dx:{
 		name_en:"Deluxe Spirit",
 		name_ko:"디럭스 영혼참가",
-		desc_en:"For those who want to sponsor the event but can't make it in person, this tier includes most of the sponsor goodies.",
+		desc_en:"For those who want to support the event but can't make it in person, this tier includes most of the sponsor goodies.",
 		desc_ko:"현장 방문이 어려운 분들을 위해 거의 모든 공식 굿즈를 배송해 드리는 후원 등급입니다.",
 		css_class:"tier-spirit-dx",
 		inherits:"spirit",
@@ -144,7 +144,7 @@ export const tiers_data={
 		margin_top:32,
 		name_en:"On-Site Badge",
 		name_ko:"현장등록",
-		desc_en:"We will offer a <strong>limited number</strong> of on-site registrations for those who missed the pre-registration. ",
+		desc_en:"We will offer a <strong>limited number</strong> of on-site registrations for those who missed the pre-registration.",
 		desc_ko:"행사 당일 현장에서 티켓을 구매하는 경우입니다. 인원이 한정되어 있으며 선착순으로 마감되니 유의해 주세요.",
 		css_class:"tier-onsite",
 		inherits:null,
@@ -158,7 +158,7 @@ export const tiers_data={
 };
 
 const tin_badge_desc_ko="말랑포니의 후원자임을 증명하는 한정판 핀뱃지입니다.";
-const tin_badge_desc_en="A limited-edition tin badge that shows that you've sponsored this event.";
+const tin_badge_desc_en="A commemorative tin badge that shows that you've supported this event.";
 export const perks_data={
 	standard_badge:{
 		name_en:"MalangPony Badge",name_ko:"말랑포니 참가증",
@@ -176,7 +176,7 @@ export const perks_data={
 	
 	conbook:{
 		name_en:"Conbook",name_ko:"콘북",
-		desc_en:"An official MalangPony 2's conbook, with the venue information, booth information, and art.",
+		desc_en:"The official MalangPony 2 conbook. Includes the venue information, booth information, and art.",
 		desc_ko:"행사장 안내, 부스 정보, 축전 등이 담긴 말랑포니 2의 공식 책자입니다."},
 	
 	conbook_website_mention:{
@@ -192,12 +192,12 @@ export const perks_data={
 		desc_en:"A high-quality cotton T-shirt with an event artwork.",
 		desc_ko:"행사 기념 일러스트가 인쇄 된 고품질 면 티셔츠입니다."},
 	poster:{
-		name_en:"A3 Poster",name_ko:"A3 기념 포스터",
+		name_en:"A3 sized Poster",name_ko:"A3 기념 포스터",
 		desc_en:"A high-quality print of this event's main visual, to remember this event by.",
 		desc_ko:"이번 행사의 메인 비주얼 일러스트를 고화질로 인쇄한 소장용 포스터입니다."},
 	sticker_pack:{
 		name_en:"MalangPony Sticker Pack",name_ko:"말랑포니 스티커 팩",
-		desc_en:"A MalangPony sticker pack, for your luggage or laptop, etc.",
+		desc_en:"A pack of MalangPony stickers, for your luggage or laptop, etc.",
 		desc_ko:"캐리어, 노트북 등에 붙이기 좋은 말랑포니 스티커 세트입니다."},
 	water_bottle:{
 		name_en:"Water Bottle",name_ko:"워터 보틀",
@@ -216,11 +216,11 @@ export const perks_data={
 		desc_en:tin_badge_desc_en,
 		desc_ko:tin_badge_desc_ko},
 	opening_closing_mention:{
-		name_en:"Opening &amp; Closing Cereminies Mention",name_ko:"개·폐회식 감사의 말",
+		name_en:"Opening &amp; Closing Ceremonies Name Mention",name_ko:"개·폐회식 감사의 말",
 		desc_en:"We will call out your name at the start and end of the event and express gratitude for your support.",
 		desc_ko:"행사 시작과 끝에 사회자가 직접 닉네임을 호명하여 감사의 인사를 전합니다."},
 	vendor_priority:{
-		name_en:"Vendor Zone Priority Access",name_ko:"부스존 우선 입장",
+		name_en:"Vendor Zone Early Access",name_ko:"부스존 우선 입장",
 		desc_en:"You'll be able to enter the vendor zone 30 minutes earlier, so you can browse and shop more comfortably.",
 		desc_ko:"일반 참가자보다 부스존에 30분 먼저 입장하여 여유롭게 부스를 둘러보고 굿즈를 구매할 수 있습니다."},
 	acrylic_keyring:{
@@ -233,7 +233,7 @@ export const perks_data={
 		desc_ko:"말랑포니 운영진이 직접 디자인한 한정판 수건입니다."},
 	acrylic_stand:{
 		name_en:"Acrylic Stand",name_ko:"아크릴 코롯토",
-		desc_en:"A 10mm-thick acrylic stand",
+		desc_en:"A 10mm-thick acrylic stand.",
 		desc_ko:"10mm 두께의 아크릴로 제작되어 세워둘 수 있는 입체적인 장식품입니다."},
 	stamp:{
 		name_en:"MalangPony Stamp",name_ko:"말랑포니 기념 도장",
@@ -254,11 +254,11 @@ export const perks_data={
 		desc_ko:"오전 8시부터 행사 준비 시간 중 어디든 미리 입장하실 수 있는 특별한 권한입니다."},
 	priority_access:{
 		name_en:"Super Pass",name_ko:"슈퍼 패스 (최우선 입장)",
-		desc_en:"You may enter event halls and vendor zones earlier than any other attendee, even at set-up time.",
+		desc_en:"You may enter event halls and vendor zones earlier than any other attendee, even during set-up time.",
 		desc_ko:"모든 참가자 중 가장 먼저 행사장 및 부스 구역에 입장할 수 있습니다. (준비 시간부터 체류 가능)",},
 	reserved_seating:{
 		name_en:"Reserved Seating",name_ko:"로얄프린세스 전용석",
-		desc_en:"We will reserve the frontmost seats with the best view for you.",
+		desc_en:"We will reserve the frontmost seats to secure the best view for you.",
 		desc_ko:"행사 시 가장 시야가 좋은 앞열 좌석을 고정석으로 배정해 드립니다."},
 	custom_badge:{
 		name_en:"Custom Badge",name_ko:"커스텀 참가증 제작권",
