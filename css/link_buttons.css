@@ -58,8 +58,11 @@
   text-decoration:none;
   border-radius:0.5em;
   
-  color:var(--color-text-auto);
-  background-color:var(--color-background-auto);
+  --lb-color-text:var(--color-text-auto);
+  --lb-color-bg:var(--color-background-auto);
+  
+  color:var(--lb-color-text);
+  background-color:var(--lb-color-bg);
   
   border-style:solid;
   border-width: 2px;
@@ -67,6 +70,13 @@
   line-height:1.2;
   
   cursor:pointer;
+  
+  transition-property:background-color;
+  transition-duration:0.2s;
+}
+
+.link-button:hover{
+  background-color:color-mix(in srgb, var(--lb-color-bg) 80%, var(--lb-color-text));
 }
 
 .link-button.inline.inline{
@@ -100,10 +110,10 @@
 }
 
 .link-button.color-twitter{
-  background-color:light-dark(
+  --lb-color-bg:light-dark(
     var(--color-twitter-light-bg),
     var(--color-twitter-dark-bg));
-  color:light-dark(
+  --lb-color-text:light-dark(
     var(--color-twitter-light-fg),
     var(--color-twitter-dark-fg));
 }
@@ -118,10 +128,10 @@
 }
 
 .link-button.color-bluesky{
-  background-color:light-dark(
+  --lb-color-bg:light-dark(
     var(--color-bluesky-light-bg),
     var(--color-bluesky-dark-bg));
-  color:light-dark(
+  --lb-color-text:light-dark(
     var(--color-bluesky-light-fg),
     var(--color-bluesky-dark-fg));
 }
@@ -132,10 +142,10 @@
 
 
 .link-button.color-discord{
-  background-color:light-dark(
+  --lb-color-bg:light-dark(
     var(--color-discord-light-blurple),
     var(--color-discord-dark));
-  color:var(--color-discord-blurple);
+  --lb-color-text:var(--color-discord-blurple);
 }
 .link-button.icon-discord::before{
   background-image:url("/siteicons/Discord-Symbol-Blurple_Rsz64px.png");
@@ -143,10 +153,10 @@
 }
 
 .link-button.color-naver{
-  background-color:light-dark(
+  --lb-color-bg:light-dark(
     var(--color-naver-lighter),
     var(--color-background-dark));
-  color:light-dark(
+  --lb-color-text:light-dark(
     var(--color-naver-darker),
     var(--color-naver-base));
 }
@@ -190,34 +200,34 @@
 }
 
 .link-button.color-internal{
-  background-color:var(--color-background-auto);
-  color:light-dark(
+  --lb-color-bg:var(--color-background-auto);
+  --lb-color-text:light-dark(
     var(--template-malang-TWI),
     var(--template-malang-TS));
 }
 
 .link-button.color-malang-little{
-  background-color:#2F4575;
-  color:#FFF;
+  --lb-color-bg:#2F4575;
+  --lb-color-text:#FFF;
 }
 .link-button.color-malang-one{
-  background-color:#5f4385;
-  color:#FFF;
+  --lb-color-bg:#5f4385;
+  --lb-color-text:#FFF;
 }
 
 .link-button.color-hanmari{
-  color:light-dark(
+  --lb-color-text:light-dark(
     var(--character-hanmari-mane-black),
     var(--character-hanmari-body));
-  background:light-dark(
+  --lb-color-bg:light-dark(
     var(--character-hanmari-body),
     var(--character-hanmari-mane-black));
 }
 .link-button.color-leebyeori{
-  color:light-dark(
+  --lb-color-text:light-dark(
     var(--character-leebyeori-mane-brown),
     var(--character-leebyeori-body));
-  background:light-dark(
+  --lb-color-bg:light-dark(
     var(--character-leebyeori-body),
     var(--character-leebyeori-mane-brown));
 }
@@ -229,10 +239,10 @@
 }
 
 .link-button.color-kakao{
-  color:light-dark(
+  --lb-color-text:light-dark(
     var(--color-kakao-darker),
     var(--color-kakao-base));
-  background-color:light-dark(
+  --lb-color-bg:light-dark(
     var(--color-kakao-lighter),
     var(--color-background-dark));
 }
@@ -243,8 +253,8 @@
 }
 
 .link-button.color-google{
-  color:var(--color-google-base);
-  background-color:light-dark(
+  --lb-color-text:var(--color-google-base);
+  --lb-color-bg:light-dark(
     var(--color-google-lighter),
     var(--color-background-dark));
 }
@@ -255,8 +265,8 @@
 }
 
 .link-button.color-google-docs{
-  color:var(--color-google-docs);
-  background-color:light-dark(
+  --lb-color-text:var(--color-google-docs);
+  --lb-color-bg:light-dark(
     var(--color-background-light),
     var(--color-background-dark));
 }
@@ -282,20 +292,20 @@
 }
 
 .link-button.color-google-forms{
-  color:var(--color-google-forms);
-  background-color:light-dark(
+  --lb-color-text:var(--color-google-forms);
+  --lb-color-bg:light-dark(
     var(--color-background-light),
     var(--color-background-dark));
 }
 .link-button.color-google-slides{
-  color:var(--color-google-slides);
-  background-color:light-dark(
+  --lb-color-text:var(--color-google-slides);
+  --lb-color-bg:light-dark(
     var(--color-background-light),
     var(--color-background-dark));
 }
 .link-button.color-google-sheets{
-  color:var(--color-google-sheets);
-  background-color:light-dark(
+  --lb-color-text:var(--color-google-sheets);
+  --lb-color-bg:light-dark(
     var(--color-background-light),
     var(--color-background-dark));
 }
@@ -312,11 +322,11 @@
 }
 
 .link-button.color-witchform{
-  background-color:light-dark(
+  --lb-color-bg:light-dark(
       var(--color-witchform-base),
       var(--color-background-dark)
   );
-  color:light-dark(
+  --lb-color-text:light-dark(
       var(--color-witchform-fg),
       var(--color-witchform-bg)
   );
