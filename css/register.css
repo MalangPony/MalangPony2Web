@@ -179,22 +179,13 @@
 	padding:12px;
 	cursor:pointer;
 }
+.register-tier-perks-list:hover{
+	background-color: light-dark(#00000018,#FFFFFF24);
+}
 
-
-/*
-.register-tier-perks-row{
-	display:flex;
-	flex-direction:row;
-	flex-wrap:wrap;
-	gap:4px;
-}*/
 .register-tier-entry.tier-detail-mode .register-tier-perks-list{
 	flex-direction:column;
 }
-/*
-.register-tier-entry.tier-detail-mode .register-tier-perks-row{
-	flex-direction:column;
-}*/
 
 #register-tiers-list .tier-standard{
 	--perk-color-base:var(--color-tier-standard);

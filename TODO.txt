@@ -44,9 +44,7 @@ Spam-clicking back button will desync the page URL and page
 Autoclose timetable details on page unload
 Timetable lowest block unclosable in mobile
 Close al tiers when exiting reg page
-Glow tier box on mouse over to encourage clicking to expand
 animate tier box click inviter
-linkbutton hover glow
 for Royal tier box, make it fancy
 divider between spirit and normal tiers
 more gap between tier boxes
