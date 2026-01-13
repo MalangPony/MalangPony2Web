@@ -12,7 +12,6 @@ idle on sky mode - a smol hanmari horizontally moves across screen
 in timetable and vendor hall, link to apply page & art gallery
 timetable details time too small
 stars - bigger and less density ... or smaller
-explain in text how perks work
 Page transition speed in Config -> Speed up 1.0 -> 0.6?
 HMR L2D petting detection
 l2d hide when screen is narrow
@@ -39,8 +38,8 @@ Autoclose timetable details on page unload
 Timetable lowest block unclosable in mobile
 animate tier box click inviter
 for Royal tier box, make it fancy
-divider between spirit and normal tiers
-more gap between tier boxes
+Fix timetable text cutoff for KR/EN
+BG image fit:Cover
 
 RIGHT BEFORE PUSH TO PROD
 Change all domains (testing.malangpony) to a PHP expression (<?php echo $webroot;?>)

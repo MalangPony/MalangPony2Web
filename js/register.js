@@ -51,9 +51,19 @@ for (const tier_id in TierData.tiers_data){
 	
 	
 	let tier_margin_top = tier_data.margin_top;
-	if (tier_margin_top) 
-		tier_dom.querySelector(".register-tier-entry").style.marginTop=tier_margin_top+"px";
+	let insert_divider = tier_data.insert_divider;
 	
+	if (insert_divider){
+		let divider=document.createElement("div");
+		divider.classList.add("register-tier-divider");
+		if (tier_margin_top){
+			divider.style.marginTop=(tier_margin_top/2)+"px";
+			divider.style.marginBottom=(tier_margin_top/2)+"px";
+		}
+		tier_list.appendChild(divider);
+	}else if (tier_margin_top){
+		tier_dom.querySelector(".register-tier-entry").style.marginTop=tier_margin_top+"px";
+	}
 	
 	
 	// OOP programmer try not to use inheritance relationship in their code challenge (IMPOSSIBLE)

@@ -4,7 +4,7 @@
 	display:flex;
 	flex-direction:column;
 	align-items:stretch;
-	gap:8px;
+	gap:12px;
 	max-width:600px;
 	width: 100%;
 }
@@ -30,7 +30,18 @@
 .register-tier-entry.tier-onsite{
 	--tier-color-base:var(--color-tier-onsite);
 }
-
+.register-tier-divider{
+	/* This will go outside the container. */
+	width:min(var(--pages-actual-width), 720px);
+	align-self:center;
+	height:2px;
+	background:linear-gradient(to left,
+		hsl(from var(--color-text-auto) h s l / 0%) 0%,
+		hsl(from var(--color-text-auto) h s l / 100%) 10%,
+		hsl(from var(--color-text-auto) h s l / 100%) 90%,
+		hsl(from var(--color-text-auto) h s l / 0%) 100%
+	)
+}
 .register-tier-entry{
 	border-radius:8px;
 	overflow:hidden;

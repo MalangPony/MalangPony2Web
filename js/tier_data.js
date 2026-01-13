@@ -93,7 +93,8 @@ export const tiers_data={
 		reg_button_class:"inperson"
 	},
 	spirit:{
-		margin_top:32,
+		insert_divider:true,
+		margin_top:48,
 		name_en:"Spirit Badge",
 		name_ko:"영혼참가",
 		desc_en:"For those who can't make it to the event in person. You'll be able to receive the attendee badge and support the event.",
@@ -141,7 +142,8 @@ export const tiers_data={
 		reg_button_class:"spirit"
 	},
 	onsite:{
-		margin_top:32,
+		insert_divider:true,
+		margin_top:48,
 		name_en:"On-Site Badge",
 		name_ko:"현장등록",
 		desc_en:"We will offer a <strong>limited number</strong> of on-site registrations for those who missed the pre-registration.",
