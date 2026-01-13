@@ -152,3 +152,10 @@ let rsl=new ResizeObserver(()=>{
 	
 });
 rsl.observe(tier_list);
+
+export function close_all_tierboxes(){
+	let entries=document.querySelectorAll(".register-tier-entry");
+	for (const dom of entries){
+		dom.classList.remove("tier-detail-mode");
+	}
+}

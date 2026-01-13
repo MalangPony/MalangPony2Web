@@ -832,6 +832,13 @@ page_cleanup_functions["mascot"]= function(){
   apply_mascot_selection_mode();
 }
 
+page_setup_functions["register"]= function(){
+  
+}
+page_cleanup_functions["register"]= function(){
+  Register.close_all_tierboxes();
+}
+
 // Transition with animation.
 let page_transition_in_progress=false;
 function page_transition(name,animated=true,push_to_history=false){

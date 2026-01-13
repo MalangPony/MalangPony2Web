@@ -1,13 +1,11 @@
 honor prefers-reduced-motion
 Create alternatives for all disablable features
 Save perf level in cookie (maybe)
-Firework colors randomize
 Do something about feature oscillation
 A low-power device warning when feature level is low?
 Directional light fx (create normal map...?)
 Hanmari ignores clicks in sky mode. Maybe fix this?
 Timetable: Improve mobile UI - maybe auto-expand with scroll progress?
-Timetable: Colors... maybe textures?
 Timetable: vert text for korean?
 Maybe: constallations?
 idle on sky mode - a smol hanmari horizontally moves across screen
@@ -21,19 +19,15 @@ l2d hide when screen is narrow
 Change all direction listings to use GMI font and support light/dark mode
 Fix Venue/Direction/2 icon
 No-JS support?
-Better sidebar categories?
 Somehow make BG-L character and sidebar not overlap?
 Explanation, like perks block, in the directions block
 Optimize castle textures by cropping
 When timetable block is clicked, present a venue map
 Make sure mascot drawings don't get cut off when direction is clocked
 Add 3D map (ThreeJS) ???
-Merge mane hall side and center
 Timetable click inviter
 HMR L2D sometimes occludes text (This is very bad)
-Loading indicator for L2D
 Flicker on initial BG load
-Clicking on another page while in page transition will mess up the pages
 MPN2 Logo
 HMR anim++ : pet pet / derp / sleep when idle for too long / 
 L2D loading indicator
@@ -43,7 +37,6 @@ Update partner logos
 Spam-clicking back button will desync the page URL and page
 Autoclose timetable details on page unload
 Timetable lowest block unclosable in mobile
-Close al tiers when exiting reg page
 animate tier box click inviter
 for Royal tier box, make it fancy
 divider between spirit and normal tiers
