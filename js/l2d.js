@@ -14,6 +14,7 @@ import { AnimatedValue } from "./animator.js";
 // Grab DOM
 const l2d_container = document.getElementById("l2d-container");
 const l2d_canvas = document.getElementById("l2d-canvas");
+const wsd = document.getElementById("whole-screen-div");
 
 // PIXI Setup.
 PIXI.Ticker.shared.autoStart=false;
@@ -494,6 +495,23 @@ function canvas_clicked(relX,relY){
 	}
 	return false;
 }
+function canvas_test(relX,relY){
+	let canvas_coord_X=l2d_canvas.width*relX;
+	let canvas_coord_Y=l2d_canvas.height*relY;
+	
+	if (!is_loaded) return "";
+	if (!Config.OPTION_ENABLE_L2D_HANMARI) return "";
+	if (!PerformanceManager.check_feature_enabled(
+		PerformanceManager.Feature.HANMARI_L2D)) return "";
+	
+	let hit_areas=model.hitTest(canvas_coord_X,canvas_coord_Y);
+	if (hit_areas.length>0){
+		if (currently_on_ground){
+			return hit_areas[0];
+		}
+	}
+	return "";
+}
 
 let last_action;
 let random_action_interval;
@@ -645,6 +663,29 @@ window.addEventListener("click",(e)=>{
 	if ((localX>0) && (localX<w) && (localY>0) && (localY<h)) {
 		let valid_hit=canvas_clicked(relativeX,relativeY);
 		if (valid_hit) e.stopPropagation();
+	}
+});
+
+window.addEventListener("mousemove",(e)=>{
+	if (!Config.OPTION_ENABLE_L2D_HANMARI) return;
+	if (!PerformanceManager.check_feature_enabled(
+		PerformanceManager.Feature.HANMARI_L2D)) return;
+	let bbox=l2d_canvas.getBoundingClientRect();
+	let localX=e.clientX-bbox.left;
+	let localY=e.clientY-bbox.top;
+	let w=bbox.width;
+	let h=bbox.height;
+	let relativeX=localX/w;
+	let relativeY=localY/h;
+	if ((localX>0) && (localX<w) && (localY>0) && (localY<h)) {
+		let hit=canvas_test(relativeX,relativeY);
+		if (hit=="Head"){
+			wsd.style.cursor="grab";
+		}else if (hit=="Body"){
+			wsd.style.cursor="pointer";
+		}else{
+			wsd.style.cursor="unset";
+		}
 	}
 });
 

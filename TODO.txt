@@ -35,7 +35,6 @@ Timetable lowest block unclosable in mobile
 animate tier box click inviter
 for Royal tier box, make it fancy
 Fix timetable text cutoff for KR/EN
-cursor to hand when over L2D
 tier table
 Hover style for all clickable buttons
 Move scroll to top of page
