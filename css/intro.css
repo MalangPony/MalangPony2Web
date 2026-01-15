@@ -1,6 +1,9 @@
 /* Page: Intro (#page-intro) */
 
-
+/* This is to offset the padding-top:120px from #main-content-actual */
+#page-intro{
+  margin-top:-80px;
+}
 
 #ticket{
   background-size: contain;
@@ -14,6 +17,7 @@
   align-items: center;
   padding:32px;
   margin-top:64px;
+  margin-bottom:64px;
   transition-property: transform margin-bottom;
   transition-duration:0.5s;
   transition-timing-function: ease-in-out;
