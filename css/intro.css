@@ -40,6 +40,19 @@ body.langmode-en #ticket{
 }
 
 
+#countdown-display > .lang-ko{
+  font-size:1.4em;
+}
+#countdown-display > .lang-ko > .dday{
+  font-family:monospace;
+  font-weight:bold;
+}
+
+#countdown-display > .lang-en > .countdown-numeral{
+  font-family:monospace;
+  font-weight:bold;
+  font-size:1.4em;
+}
 
 /* Responsive Section */
 /* Targeting down to 300px. */

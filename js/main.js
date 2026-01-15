@@ -87,6 +87,8 @@ const nonintro_header =  document.getElementById("nonintro-header-content");
 //const header_divider = document.getElementById("header-divider");
 const main_content_actual = document.getElementById("main-content-actual");
 
+const countdown_display = document.getElementById("countdown-display");
+
 // Initial values
 let static_hanmari_enabled=false;
 if (Config.OPTION_ENABLE_L2D_HANMARI){
@@ -1239,6 +1241,92 @@ mascot_container_lbr.addEventListener("click",()=>{
   }
 });
 apply_mascot_selection_mode();
+
+
+// Countdown
+function calculateDday(){
+  //let eventTime=new Date("2025-02-15T00:00:00+09:00");
+  let eventTime=new Date("2026-08-01T10:00:00+09:00");
+  let nowTime=new Date();
+  let timeDelta = eventTime.getTime() - nowTime.getTime();
+  if (timeDelta<0) timeDelta=0;
+  
+  let seconds=Math.round(timeDelta/1000);
+  let minutes = Math.floor(seconds/60);
+  seconds = seconds%60;
+  let hours = Math.floor(minutes/60);
+  minutes = minutes%60;
+  let days = Math.floor(hours/24);
+  hours = hours%24;
+  
+  let seconds_numeric=seconds;
+  let minutes_numeric=minutes;
+  let hours_numeric=hours;
+  let days_numeric=days;
+  
+  days=""+days;
+  hours=""+hours;
+  let hours_unpadded=hours;
+  while (hours.length<2) hours="0"+hours;
+  minutes=""+minutes;
+  let minutes_unpadded=minutes;
+  while (minutes.length<2) minutes="0"+minutes;
+  seconds=""+seconds;
+  let seconds_unpadded=seconds;
+  while (seconds.length<2) seconds="0"+seconds;
+  
+  return {
+    days:days,
+    hours:hours_unpadded,
+    hours_padded:hours,
+    minutes:minutes_unpadded,
+    minutes_padded:minutes,
+    seconds:seconds_unpadded,
+    seconds_padded:seconds,
+    days_numeric:days_numeric,
+    hours_numeric:hours_numeric,
+    minutes_numeric:minutes_numeric,
+    seconds_numeric:seconds_numeric
+  };
+}
+function updateDday(){
+  let dday=calculateDday();
+  for (const dom of countdown_display.querySelectorAll(".countdown-days"))
+    dom.innerHTML=dday.days;
+  for (const dom of countdown_display.querySelectorAll(".countdown-hours"))
+    dom.innerHTML=dday.hours;
+  for (const dom of countdown_display.querySelectorAll(".countdown-hours-padded"))
+    dom.innerHTML=dday.hours_padded;
+  for (const dom of countdown_display.querySelectorAll(".countdown-minutes"))
+    dom.innerHTML=dday.minutes;
+  for (const dom of countdown_display.querySelectorAll(".countdown-minutes-padded"))
+    dom.innerHTML=dday.minutes_padded;
+  for (const dom of countdown_display.querySelectorAll(".countdown-seconds"))
+    dom.innerHTML=dday.seconds;
+  for (const dom of countdown_display.querySelectorAll(".countdown-seconds-padded"))
+    dom.innerHTML=dday.seconds_padded;
+  for (const dom of countdown_display.querySelectorAll(".countdown-unit-day-plural"))
+    dom.style.display=dday.days_numeric==1?"none":"unset";
+  for (const dom of countdown_display.querySelectorAll(".countdown-unit-day-singular"))
+    dom.style.display=dday.days_numeric==1?"unset":"none";
+  for (const dom of countdown_display.querySelectorAll(".countdown-unit-hour-plural"))
+    dom.style.display=dday.hours_numeric==1?"none":"unset";
+  for (const dom of countdown_display.querySelectorAll(".countdown-unit-hour-singular"))
+    dom.style.display=dday.hours_numeric==1?"unset":"none";
+  for (const dom of countdown_display.querySelectorAll(".countdown-unit-minute-plural"))
+    dom.style.display=dday.minutes_numeric==1?"none":"unset";
+  for (const dom of countdown_display.querySelectorAll(".countdown-unit-minute-singular"))
+    dom.style.display=dday.minutes_numeric==1?"unset":"none";
+  for (const dom of countdown_display.querySelectorAll(".countdown-unit-second-plural"))
+    dom.style.display=dday.seconds_numeric==1?"none":"unset";
+  for (const dom of countdown_display.querySelectorAll(".countdown-unit-second-singular"))
+    dom.style.display=dday.seconds_numeric==1?"unset":"none";
+  
+}
+window.setInterval(
+  updateDday,1000
+)
+updateDday();
 
 // Initial Setup
 
