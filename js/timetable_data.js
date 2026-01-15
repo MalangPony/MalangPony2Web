@@ -23,7 +23,10 @@ export let blocks=[
 	"description_en":"",
 	"description_kr":"",
 	"tagline_en":"",
-	"tagline_kr":""
+	"tagline_kr":"",
+	"font_size_multiplier_ko":0.9,
+	"font_size_multiplier_en":0.8,
+	"padding_override_px":2
 	},
 	{ 
 	"display":true,
@@ -119,7 +122,7 @@ export let blocks=[
 	{ 
 	"display":true,
 	"name_kr":"말랑포니 피드백 타임",
-	"name_en":"MalangPony Feedback Time",
+	"name_en":"Feedback Time",
 	"start_time":"18:45",
 	"end_time":"19:15",
 	"color_preset":"night-show",
@@ -127,7 +130,9 @@ export let blocks=[
 	"description_en":"Did you enjoy the event?<br>Tell us what you liked, or didn’t like!",
 	"description_kr":"행사는 잘 즐기셨나요?<br>궁금했던 점, 아쉬웠던 점 모두 알려주세요!",
 	"tagline_en":"",
-	"tagline_kr":""
+	"tagline_kr":"",
+	"font_size_multiplier":0.8,
+	"padding_override_px":2
 	},
 	{ 
 	"display":true,
@@ -430,8 +435,9 @@ export let columns=[
 	"name":"lobby-reg",
 	"group":"lobby",
 	"width":70,
-	"text_size":1.0,
-	"text_vertical":false,
+	"text_size_en":1.1,
+	"text_size_ko":1.2,
+	"text_vertical":true,
 	"expand_direction":"L"
 	},
 	{

@@ -6,7 +6,6 @@ A low-power device warning when feature level is low?
 Directional light fx (create normal map...?)
 Hanmari ignores clicks in sky mode. Maybe fix this?
 Timetable: Improve mobile UI - maybe auto-expand with scroll progress?
-Timetable: vert text for korean?
 Maybe: constallations?
 idle on sky mode - a smol hanmari horizontally moves across screen
 in timetable and vendor hall, link to apply page & art gallery
@@ -24,7 +23,6 @@ Optimize castle textures by cropping
 When timetable block is clicked, present a venue map
 Make sure mascot drawings don't get cut off when direction is clocked
 Add 3D map (ThreeJS) ???
-Timetable click inviter
 HMR L2D sometimes occludes text (This is very bad)
 Flicker on initial BG load
 HMR anim++ : pet pet / derp / sleep when idle for too long / 
@@ -37,6 +35,10 @@ Timetable lowest block unclosable in mobile
 animate tier box click inviter
 for Royal tier box, make it fancy
 Fix timetable text cutoff for KR/EN
+cursor to hand when over L2D
+tier table
+Hover style for all clickable buttons
+Move scroll to top of page
 
 RIGHT BEFORE PUSH TO PROD
 Change all domains (testing.malangpony) to a PHP expression (<?php echo $webroot;?>)

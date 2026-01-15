@@ -35,7 +35,9 @@ function parse_time(s){
 
 // Timetable UI constants.
 const tt_start_t=parse_time("8:20");
-const tt_block_gap=2;
+const tt_block_gap_x=2;
+const tt_block_gap_y=-1;
+const tt_block_border_width=2.5;
 const tt_px_per_minute=0.8;
 const tt_tick_px=1.5;
 const tt_cg_top_extension=48;
@@ -43,6 +45,8 @@ const tt_cg_bottom_extension=6;
 const tt_cg_side_extension=4;
 const tt_block_expanded_height=120;
 const tt_block_expanded_width=260;
+const tt_block_padding_lr=8;
+const tt_block_y_offset=-2;
 
 // For scalibilty, all units should be in em.
 // Converts px values to em.
@@ -67,7 +71,8 @@ function timetable_build(ttd){
 	
 	// parse results
 	let column_x_coords={};
-	let column_textsizes={};
+	let column_textsizes_en={};
+	let column_textsizes_ko={};
 	let column_vertical={};
 	let column_widths={};
 	let column_expand_direction={};
@@ -93,7 +98,10 @@ function timetable_build(ttd){
 		else if (col.type=="location"){
 			column_x_coords[col.name]=x;
 			column_widths[col.name]=col.width;
-			column_textsizes[col.name]=col.text_size;
+			column_textsizes_en[col.name]=col.text_size;
+			if (col.text_size_en) column_textsizes_en[col.name]=col.text_size_en;
+			column_textsizes_ko[col.name]=col.text_size;
+			if (col.text_size_ko) column_textsizes_ko[col.name]=col.text_size_ko;
 			column_vertical[col.name]=col.text_vertical;
 			column_expand_direction[col.name]=col.expand_direction;
 			
@@ -165,10 +173,30 @@ function timetable_build(ttd){
 		let vertical=column_vertical[block.column];
 		let base_x=column_x_coords[block.column];
 		let base_width=column_widths[block.column];
-		let text_size=column_textsizes[block.column];
+		let text_size_en=column_textsizes_en[block.column];
+		let text_size_ko=column_textsizes_ko[block.column];
 		let color_preset_raw=color_presets[block.color_preset];
 		let bg_color=color_preset_raw.color;
 		let expand_direction=column_expand_direction[block.column];
+		
+		let font_size_multiplier_en=1.0;
+		let font_size_multiplier_ko=1.0;
+		if (block.font_size_multiplier){
+			font_size_multiplier_en=block.font_size_multiplier;
+			font_size_multiplier_ko=block.font_size_multiplier;
+		}
+		if (block.font_size_multiplier_en){
+			font_size_multiplier_en=block.font_size_multiplier_en;
+		}
+		if (block.font_size_multiplier_ko){
+			font_size_multiplier_ko=block.font_size_multiplier_ko;
+		}
+		
+		
+		let padding_override_px=null;
+		if (block.padding_override_px){
+			padding_override_px=block.padding_override_px;
+		}
 		
 		let colgroup=columns_to_cgroups[block.column];
 		let cg_left=cgroup_left[colgroup];
@@ -264,18 +292,18 @@ function timetable_build(ttd){
 		let h=duration*tt_px_per_minute;
 		
 		if (!connecting.T) {
-			y+=tt_block_gap;
-			h-=tt_block_gap;
+			y+=tt_block_gap_y;
+			h-=tt_block_gap_y;
 		}
 		if (!connecting.B){
-			h-=tt_block_gap;
+			h-=tt_block_gap_y;
 		}
 		if (!connecting.R) {
-			x+=tt_block_gap;
-			w-=tt_block_gap;
+			x+=tt_block_gap_x;
+			w-=tt_block_gap_x;
 		}
 		if (!connecting.L) {
-			w-=tt_block_gap;
+			w-=tt_block_gap_x;
 		}
 		
 		block_dom.style.position="absolute";
@@ -284,6 +312,14 @@ function timetable_build(ttd){
 		block_dom.style.left=px2em(x);
 		block_dom.style.height=px2em(h);
 		block_dom.style.width=px2em(w);
+		block_dom.style.borderWidth=px2em(tt_block_border_width);
+		if (padding_override_px!=null){
+			block_dom.style.paddingLeft=px2em(padding_override_px);
+			block_dom.style.paddingRight=px2em(padding_override_px);
+		}else{
+			block_dom.style.paddingLeft=px2em(tt_block_padding_lr);
+			block_dom.style.paddingRight=px2em(tt_block_padding_lr);
+		}
 		
 		
 		popup_rail.style.position="absolute";
@@ -300,6 +336,7 @@ function timetable_build(ttd){
 		popup_dom.style.display="none";
 		popup_dom.style.backgroundColor=bg_color;
 		popup_dom.style.borderRadius = px2em(6);
+		popup_dom.style.borderWidth=px2em(tt_block_border_width);
 		
 		max_y=Math.max(max_y,y+h);
 		
@@ -421,16 +458,21 @@ function timetable_build(ttd){
 		
 		
 		// Text DOM
-		text_dom.style.fontSize=text_size+"em";
+		if (vertical)
+			text_dom.style.marginRight = px2em(tt_block_y_offset);
+		else
+			text_dom.style.marginTop = px2em(tt_block_y_offset);
 		
 		var text_kr = document.createElement("span");
 		text_kr.classList.add("lang-ko");
 		text_kr.innerHTML=block.name_kr;
+		text_kr.style.fontSize=(text_size_ko*font_size_multiplier_ko)+"em";
 		text_dom.appendChild(text_kr);
 		
 		var text_en = document.createElement("span");
 		text_en.classList.add("lang-en");
 		text_en.innerHTML=block.name_en;
+		text_en.style.fontSize=(text_size_en*font_size_multiplier_en)+"em";
 		text_dom.appendChild(text_en);
 		
 		popup_title_dom.appendChild(text_kr.cloneNode(true));
