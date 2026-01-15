@@ -37,7 +37,6 @@ Timetable lowest block unclosable in mobile
 animate tier box click inviter
 for Royal tier box, make it fancy
 Fix timetable text cutoff for KR/EN
-BG image fit:Cover
 
 RIGHT BEFORE PUSH TO PROD
 Change all domains (testing.malangpony) to a PHP expression (<?php echo $webroot;?>)

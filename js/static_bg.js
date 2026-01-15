@@ -56,34 +56,12 @@ for (const bgid in BackgroundData.background_definitions){
 	bg_scene.style.width="100%";
 	bg_scene.style.height="100%";
 	
-	let bgfill_left = document.createElement("div");
-	bgfill_left.classList.add("staticbg-fill-left");
-	bgfill_left.style.backgroundColor=bgdef.outer_fill_left;
-	bgfill_left.style.position="absolute";
-	bgfill_left.style.top=0;
-	bgfill_left.style.left=0;
-	bgfill_left.style.width="50%";
-	bgfill_left.style.height="100%";
-	bgfill_left.style.zIndex=1;
-	bg_scene.appendChild(bgfill_left);
-	
-	let bgfill_right = document.createElement("div");
-	bgfill_right.classList.add("staticbg-fill-right");
-	bgfill_right.style.backgroundColor=bgdef.outer_fill_right;
-	bgfill_right.style.position="absolute";
-	bgfill_right.style.top=0;
-	bgfill_right.style.right=0;
-	bgfill_right.style.width="50%";
-	bgfill_right.style.height="100%";
-	bgfill_right.style.zIndex=1;
-	bg_scene.appendChild(bgfill_right);
-	
 	let bg_base = null;
 	if (bgdef.base_image){
 		bg_base = document.createElement("div");
 		bg_base.classList.add("staticbg-base-image");
 		bg_base.style.backgroundImage="url("+bgdef.base_image+")";
-		bg_base.style.backgroundSize="auto 100%";
+		bg_base.style.backgroundSize="cover";
 		bg_base.style.backgroundPosition="center";
 		bg_base.style.backgroundRepeat="no-repeat";
 		bg_base.style.position="absolute";
@@ -94,23 +72,6 @@ for (const bgid in BackgroundData.background_definitions){
 		bg_base.style.zIndex=2;
 		bg_scene.appendChild(bg_base);
 	}
-	/*
-	let bg_center = null;
-	if (bgdef.center_image){
-		bg_center = document.createElement("div");
-		bg_center.classList.add("staticbg-center-image");
-		bg_center.style.backgroundImage="url("+bgdef.center_image+")";
-		bg_center.style.backgroundSize="auto 100%";
-		bg_center.style.backgroundPosition="calc() 100%";
-		bg_center.style.backgroundRepeat="no-repeat";
-		bg_center.style.position="absolute";
-		bg_center.style.top=0;
-		bg_center.style.right="var(--mcd-margin-right)";
-		bg_center.style.left="var(--mcd-margin-left)";
-		bg_center.style.height="100%";
-		bg_center.style.zIndex=3;
-		bg_scene.appendChild(bg_center);
-	}*/
 	
 	let bg_left = null;
 	if (bgdef.left_image){
