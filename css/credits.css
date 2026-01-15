@@ -161,7 +161,8 @@
     to right,
     hsl(from var(--color-text-auto) h s l / 0%) 0%,
     var(--color-text-auto) 20% 80%,
-    hsl(from var(--color-text-auto) h s l / 0%) 100%)
+    hsl(from var(--color-text-auto) h s l / 0%) 100%);
+	display:none;
 }
 .credits-partner-entry-name{
 	font-weight:700;

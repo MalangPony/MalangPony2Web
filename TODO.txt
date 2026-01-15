@@ -32,7 +32,6 @@ HMR anim++ : pet pet / derp / sleep when idle for too long /
 L2D loading indicator
 L2D hide/show button
 Make sidebar not overlap page content
-Update partner logos
 Spam-clicking back button will desync the page URL and page
 Autoclose timetable details on page unload
 Timetable lowest block unclosable in mobile
