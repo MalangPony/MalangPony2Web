@@ -36,14 +36,14 @@
   /* Margin from main container */
   --intrologo-side-margins: 32px; 
   /* Roughly match the logo aspect ratio*/
-  --intrologo-aspect-ratio:2.5; 
+  --intrologo-aspect-ratio:2.764; 
   /* Max height of logo. */
   --intrologo-max-height:50svh;
   /* The center position of logo, measured from the top of the screen.*/
   --intrologo-center-height-from-top:35svh;
   
   /* Automatically calculated values */
-  --intrologo-max-width: calc(var(--mcd-inner-width) - ( var(--intrologo-side-margins) *2 ));
+  --intrologo-max-width: calc((var(--mcd-inner-width) - ( var(--intrologo-side-margins) *2 )) * 0.9);
   --intrologo-height:min(
     400px, 
     var(--intrologo-max-height), 
@@ -158,9 +158,9 @@
   align-items:flex-start;
   
   position:absolute;
-  top:0;
+  top:8px;
   left:0;
-  right:16px;
+  right:24px;
   z-index:1;
   pointer-events:none;
 }
@@ -168,7 +168,7 @@
   display:none;
 }
 #logo-header{
-  max-height:130px;
+  max-height:120px;
   max-width:80%;
 }
 

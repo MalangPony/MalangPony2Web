@@ -27,7 +27,6 @@ Add 3D map (ThreeJS) ???
 Timetable click inviter
 HMR L2D sometimes occludes text (This is very bad)
 Flicker on initial BG load
-MPN2 Logo
 HMR anim++ : pet pet / derp / sleep when idle for too long / 
 L2D loading indicator
 L2D hide/show button
