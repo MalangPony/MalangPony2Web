@@ -140,7 +140,8 @@ export let questions=[
 			let rand=Math.random()*weights_sum;
 			for (const n of names){
 				rand-=n[0];
-				if (rand<0) return {"en":n[1]+"!!","ko":n[2]+"!!"};
+				let excitement="!".repeat(2+Math.random()*8);
+				if (rand<0) return {"en":n[1]+excitement,"ko":n[2]+excitement};
 			}
 			
 		},
