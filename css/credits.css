@@ -141,9 +141,11 @@
 	flex-wrap:wrap;
 }
 .credits-partner-entry{
-	display:block;
-	text-decoration:none;
-	color:inherit;
+	display:flex;
+	flex-direction:column;
+	justify-content:flex-end;
+	align-items:center;
+	gap:8px;
 }
 .credits-partner-entry-logo{
 	
@@ -152,8 +154,17 @@
 	max-height:80px;
 	max-width:200px;
 }
+.credits-partner-entry-divider{
+	width:150px;
+	height:2px;
+	background-image: linear-gradient(
+    to right,
+    hsl(from var(--color-text-auto) h s l / 0%) 0%,
+    var(--color-text-auto) 20% 80%,
+    hsl(from var(--color-text-auto) h s l / 0%) 100%)
+}
 .credits-partner-entry-name{
-	display:none;
+	font-weight:700;
 }
 
 

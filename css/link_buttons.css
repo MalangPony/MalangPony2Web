@@ -11,6 +11,7 @@
  *    .icon-download
  *    .icon-camera
  *    .icon-generic-link
+ *    .icon-new-tab
  *    .icon-kakao-map
  *    .icon-google-maps
  *    .icon-google-docs
@@ -190,6 +191,12 @@
   content:"link";
   font-family:'Material Symbols Rounded';
   transform:scale(1.4);
+  margin-top:-0.5em;
+}
+.link-button.icon-new-tab::before{
+  content:"open_in_new";
+  font-family:'Material Symbols Rounded';
+  transform:scale(1.2);
   margin-top:-0.5em;
 }
 .link-button.icon-swap::before{
