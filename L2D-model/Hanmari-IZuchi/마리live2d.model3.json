@@ -66,6 +66,41 @@
 				{
 					"File": "anim/화남.motion3.json"
 				}
+			],
+			"SkyClick": [
+				{
+					"File": "anim/SkyClicked.motion3.json"
+				}
+			],
+			"SleepEnter": [
+				{
+					"File": "anim/EnterSleep.motion3.json"
+				}
+			],
+			"SleepExit": [
+				{
+					"File": "anim/ExitSleep.motion3.json"
+				}
+			],
+			"PettingLoop": [
+				{
+					"File": "anim/PetLoop.motion3.json"
+				}
+			],
+			"SleepingLoop": [
+				{
+					"File": "anim/SleepLoop.motion3.json"
+				}
+			],
+			"PetExit": [
+				{
+					"File": "anim/ExitPet.motion3.json"
+				}
+			],
+			"PetEnter": [
+				{
+					"File": "anim/EnterPet.motion3.json"
+				}
 			]
 		}
 	},

@@ -12,7 +12,6 @@ in timetable and vendor hall, link to apply page & art gallery
 timetable details time too small
 stars - bigger and less density ... or smaller
 Page transition speed in Config -> Speed up 1.0 -> 0.6?
-HMR L2D petting detection
 l2d hide when screen is narrow - or more margin at page bottom?
 Change all direction listings to use GMI font and support light/dark mode
 Fix Venue/Direction/2 icon
@@ -24,7 +23,6 @@ Make sure mascot drawings don't get cut off when direction is clocked
 Add 3D map (ThreeJS) ???
 HMR L2D sometimes occludes text (This is very bad)
 Flicker on initial BG load
-HMR anim++ : pet pet / derp / sleep when idle for too long / 
 L2D loading indicator
 L2D hide/show button
 Make sidebar not overlap page content

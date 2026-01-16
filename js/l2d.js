@@ -283,7 +283,7 @@ model?.once("load", ()=>{
 	if (Config.OPTION_ENABLE_L2D_FILTERS && PerformanceManager.check_feature_enabled(PerformanceManager.Feature.L2D_FILTERS))
 		model.filters=[cf];
 	auto_resize_model();
-	apply_ground_sky(true);
+	apply_state(null,true);
 });
 
 
@@ -462,6 +462,12 @@ export function playMotion(motion_name,priority=0,requeuable_after=-1){
 	}
 	return false;
 }
+function is_idling(){
+	if (!is_loaded) return false;
+	if (!motion_manager.playing) return true;
+	if (motion_manager.state.currentGroup == motion_manager.groups.idle) return true;
+	return false;
+}
 
 
 // Play motion, overriding everything.
@@ -487,10 +493,7 @@ function canvas_clicked(relX,relY){
 	
 	let hit_areas=model.hitTest(canvas_coord_X,canvas_coord_Y);
 	if (hit_areas.length>0){
-		if (currently_on_ground){
-			// TODO maybe add click anim for sky state as well?
-			hanmari_clicked(hit_areas[0]);
-		}
+		hanmari_clicked(hit_areas[0]);
 		return true;
 	}
 	return false;
@@ -506,9 +509,7 @@ function canvas_test(relX,relY){
 	
 	let hit_areas=model.hitTest(canvas_coord_X,canvas_coord_Y);
 	if (hit_areas.length>0){
-		if (currently_on_ground){
-			return hit_areas[0];
-		}
+		return hit_areas[0];
 	}
 	return "";
 }
@@ -606,10 +607,14 @@ function seconds_since_last_significant_mouse_movement(){
 function hanmari_random_action_check(){
 	let t=performance.now();
 	if (t>last_action+random_action_interval){
-		if (!currently_on_ground) return;
+		// Random actions can only be done at the GROUND state.
+		if (current_state!=STATE_GROUND) return;
 		let r=Math.random();
 		
-		if (r<0.33) playMotion("Random",1,100);
+		if ((seconds_since_last_significant_mouse_movement()>15.0) && 
+			(Math.random()<0.5)) // 50% chance
+				apply_state(STATE_SLEEP);
+		else if (r<0.33) playMotion("Random",1,100);
 		else if (r<0.66) playMotion("Surprised",1,100);
 		else playMotion("Tilt",1,100);
 		
@@ -621,15 +626,24 @@ function hanmari_random_action_check(){
 let click_counter=0;
 // Play special animation if clicked more than 5 times.
 function hanmari_clicked(region){
-	if (click_counter>=5){
-		playMotion("Annoyed",10,500);
-		click_counter=0;
-	}else if (region=="Body"){
-		if (playMotion("ClickAlt",5,300)) click_counter++;;
-	}else if (region=="Head"){
-		if (playMotion("Clicked",5,300)) click_counter++;;
+	if (current_state==STATE_SKY){
+		temporarily_stare_at_mouse();
+		playMotion("SkyClick",5,500);
+	}else if(current_state==STATE_SLEEP){
+		apply_state(currently_on_ground?STATE_GROUND:STATE_SKY);
+	}else if(current_state==STATE_PET){
+		// ignore
 	}else{
-		console.log("Invalid click region: "+region);
+		if (click_counter>=5){
+			playMotion("Annoyed",10,500);
+			click_counter=0;
+		}else if (region=="Body"){
+			if (playMotion("ClickAlt",5,300)) click_counter++;;
+		}else if (region=="Head"){
+			if (playMotion("Clicked",5,300)) click_counter++;;
+		}else{
+			console.log("Invalid click region: "+region);
+		}
 	}
 	postpone_random_motion();
 }
@@ -666,6 +680,15 @@ window.addEventListener("click",(e)=>{
 	}
 });
 
+const PET_ACCUM_ADD_MULTIPLIER=0.1; // 
+const PET_ACCUM_DECAY_SPEED=1.0; //per second
+const PET_ACCUM_MAX=2.0;
+const PET_ACCUM_ENTER_THRESH=1.5;
+const PET_ACCUM_EXIT_THRESH=1.0;
+
+let petting_accumulator=0.0;
+
+let last_mouse_position=null;
 window.addEventListener("mousemove",(e)=>{
 	if (!Config.OPTION_ENABLE_L2D_HANMARI) return;
 	if (!PerformanceManager.check_feature_enabled(
@@ -680,12 +703,26 @@ window.addEventListener("mousemove",(e)=>{
 	if ((localX>0) && (localX<w) && (localY>0) && (localY<h)) {
 		let hit=canvas_test(relativeX,relativeY);
 		if (hit=="Head"){
-			wsd.style.cursor="grab";
+			if (current_state==STATE_SLEEP) wsd.style.cursor="help";
+			else if (current_state==STATE_PET) wsd.style.cursor="grab";
+			else wsd.style.cursor="grab";
 		}else if (hit=="Body"){
-			wsd.style.cursor="pointer";
+			if (current_state==STATE_SLEEP) wsd.style.cursor="help";
+			else if (current_state==STATE_PET) wsd.style.cursor="grab";
+			else wsd.style.cursor="pointer";
 		}else{
 			wsd.style.cursor="unset";
 		}
+		
+		
+		let mouse_pos_vec = new Vector2(relativeX,relativeY);
+		if (last_mouse_position==null) last_mouse_position=mouse_pos_vec;
+		else{
+			let delta=mouse_pos_vec.subtract(last_mouse_position).length();
+			petting_accumulator+=delta*PET_ACCUM_ADD_MULTIPLIER;
+		}
+	}else{
+		last_mouse_position=null;
 	}
 });
 
@@ -764,31 +801,71 @@ export function set_staring_strength(f){
 	stare_strength=f;
 }
 
-// We do this in two parts, so this won't break even if 
-// apply_ground_sky() function is called before the model is loaded.
+let stare_strength_offset = new AnimatedValue(0.0);
+stare_strength_offset.delay=1.5;
+stare_strength_offset.duration=1.0;
+stare_strength_offset.ease_in=true;
+stare_strength_offset.ease_out=true;
+stare_strength_offset.exponent=3.0;
+function temporarily_stare_at_mouse(){
+	stare_strength_offset.jump_to(1.0);
+	stare_strength_offset.animate_to(0.0);
+}
+
+
+
+const STATE_SKY=1;
+const STATE_GROUND=2;
+const STATE_PET=11;
+const STATE_SLEEP=12;
+
 let currently_on_ground=false;
 export function transition_ground(){
 	currently_on_ground=true;
-	apply_ground_sky();
+	apply_state(STATE_GROUND);
 }
 export function transition_sky(){
 	currently_on_ground=false;
-	apply_ground_sky();
+	apply_state(STATE_SKY);
 }
-// Play transition between Sky and Ground.
-function apply_ground_sky(instant=false){
+
+let current_state=STATE_SKY;
+function apply_state(new_state=null,instant=false){
+	
+	let last_state=current_state;
+	if (new_state==null) new_state=last_state;
+	current_state=new_state;
+	
+	
 	if (!is_loaded) return;
 	if (!Config.OPTION_ENABLE_L2D_HANMARI) return;
-	if (currently_on_ground){
-		if (!instant) playMotionNow("SkyToGround");
-		else playMotionNow("IdleGround");
-		motion_manager.groups.idle="IdleGround";
+	
+	
+	// This assumes at least one of last_state or new_state is STATE_GROUND.
+	// This is not necessarily correct, but the L2D motion blending
+	// will make things look more or less smooth even when 
+	// this assumption is false.
+	
+	if (!instant){
+		if (last_state==STATE_SKY) playMotionNow("SkyToGround");
+		else if (new_state==STATE_SKY) playMotionNow("GroundToSky");
+		if (last_state==STATE_PET) playMotionNow("PetExit");
+		else if (new_state==STATE_PET) playMotionNow("PetEnter");
+		if (last_state==STATE_SLEEP) playMotionNow("SleepExit");
+		else if (new_state==STATE_SLEEP) playMotionNow("SleepEnter");
 	}
-	else{
-		if (!instant) playMotionNow("GroundToSky");
-		else playMotionNow("IdleSky");
-		motion_manager.groups.idle="IdleSky";
-	}
+	
+	let new_idle="";
+	
+	if (new_state==STATE_SKY) new_idle="IdleSky";
+	else if (new_state==STATE_GROUND) new_idle="IdleGround";
+	else if (new_state==STATE_PET) new_idle="PettingLoop";
+	else if (new_state==STATE_SLEEP) new_idle="SleepingLoop";
+	
+	motion_manager.groups.idle=new_idle;
+	if (instant) playMotionNow(new_idle);
+	
+	
 	postpone_random_motion();
 }
 
@@ -809,7 +886,7 @@ export function set_sky_eye_position(x,y){
 	eye_position_sky=[x,y];
 }
 
-// Actual animation fick.
+// Actual animation tick.
 export function animationTick(dt){
 	if (!Config.OPTION_ENABLE_L2D_HANMARI) return;
 	if (!PerformanceManager.check_feature_enabled(
@@ -825,12 +902,29 @@ export function animationTick(dt){
 		auto_resize_model();
 	}
 	
+	stare_strength_offset.tick(dt)
+	let stare_strength_temp=stare_strength+stare_strength_offset.calculate_value();
+	if (stare_strength_temp>1) stare_strength_temp=1.0;
 	// Apply eye movement
 	if (is_mouse_tracking_timed_out()) eye_position_mouse=[0,0];
+	if (current_state==STATE_SLEEP) eye_position_mouse=[0,0];
 	look_at(
-		eye_position_mouse[0]*stare_strength+eye_position_sky[0]*(1-stare_strength),
-		eye_position_mouse[1]*stare_strength+eye_position_sky[1]*(1-stare_strength)
+		eye_position_mouse[0]*stare_strength_temp+eye_position_sky[0]*(1-stare_strength_temp),
+		eye_position_mouse[1]*stare_strength_temp+eye_position_sky[1]*(1-stare_strength_temp)
 	)
+	
+	petting_accumulator-=PET_ACCUM_DECAY_SPEED*dt;
+	if (petting_accumulator>PET_ACCUM_MAX) petting_accumulator=PET_ACCUM_MAX;
+	if (petting_accumulator<0) petting_accumulator=0;
+	
+	if ((current_state==STATE_GROUND) && 
+		(petting_accumulator > PET_ACCUM_ENTER_THRESH))
+		apply_state(STATE_PET);
+	else if ((current_state==STATE_PET) && 
+		(petting_accumulator < PET_ACCUM_EXIT_THRESH))
+		apply_state(currently_on_ground?STATE_GROUND:STATE_SKY);
+	
+	if (petting_accumulator>PET_ACCUM_ENTER_THRESH) postpone_random_motion();
 	
 	hanmari_random_action_check();
 	
