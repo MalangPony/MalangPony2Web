@@ -169,7 +169,7 @@ export const perks_data={
 	daiso_badge:{
 		name_en:"Paper Badge",name_ko:"일반 아크릴 명찰",
 		desc_en:"A pre-registeration plastic badge will not be provided, and a paper on-site badge will be given instead.",
-		desc_ko:"현장에서는 사전등록(PVC 재질) 참가증이 아닌 종이를 끼우는 방식의 아크릴 명찰이 제공됩니다."},
+		desc_ko:"현장에서는 사전등록(PVC 재질) 참가증이 아닌 종이를 끼우는 아크릴 명찰이 제공됩니다."},
 	
 	standard_lanyard:{
 		name_en:"Lanyard",name_ko:"랜야드",
