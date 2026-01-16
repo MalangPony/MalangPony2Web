@@ -41,8 +41,7 @@ const screen_blanker=document.getElementById("screen-blanker");
 const pages_container=document.getElementById("pages-container");
 
 const sidebar = document.getElementById("sidebar");
-const sia = document.getElementById("sidebar-intro-anim");
-const siai =document.getElementById("sidebar-intro-anim-image");
+const siap = document.getElementById("sidebar-intro-anim-positioner");
 const lmsa = document.getElementById("letter-magic-spritesheet-animation");
 
 const lang_btn = document.getElementById("langswitch-btn");
@@ -148,8 +147,8 @@ function transition_sky(){
   lang_btn.classList.remove("activated");
   theme_btn.classList.remove("activated");
   
-  if (mobile_mode) sidebar_button_hide_mobile();
-  else sidebar_hide();
+  if (mobile_mode) sidebar_mobile_button_exit();
+  else sidebar_desktop_hide();
   
   L2D.transition_sky();
 }
@@ -176,14 +175,14 @@ function transition_ground(){
   theme_btn.classList.add("activated");
   
 
-  if (mobile_mode) sidebar_button_animate_mobile();
-  else sidebar_intro_animate();
+  if (mobile_mode) sidebar_mobile_button_enter();
+  else sidebar_desktop_open();
 
   L2D.transition_ground();
 }
 
 
-// Spike Magic animation
+
 
 // As overlapping animations can cause glitches,
 // we keep track of ongoing animations so we can cancel everything
@@ -198,7 +197,9 @@ function force_finish_all_sidebar_animations(){
   }
   sidebar_animations.length=0;
 }
-function sidebar_magic_animate(){
+
+// Spike Magic animation
+function sidebar_magic_play(){
   force_finish_all_sidebar_animations();
   // Run the animation code after 0 delay.
   // This is to give enough time for all the animations 
@@ -207,7 +208,7 @@ function sidebar_magic_animate(){
   // will run before the force-finished animation's onfinish code
   // which messes up the animation.
   window.setTimeout(()=>{
-  sia.style.display="block";
+  siap.style.display="flex";
   
   const animation_frame_count=16;
   const actual_size_x=lmsa.clientWidth;
@@ -222,18 +223,21 @@ function sidebar_magic_animate(){
     [{opacity:"0.0"},{opacity:"1.0"}],
     {duration:500,delay:0,easing:"linear"});
   sidebar_animations.push(anim_fadein);
+  
   let anim_rise=lmsa.animate(
-    [{transform:"translate(0,+100px)"},{transform:"none"}],
+    [{marginTop:"200px"},{marginTop:"0"}],
     {duration:1000,delay:0,easing:"cubic-bezier(.18,.58,.6,.99)"});
   sidebar_animations.push(anim_rise);
   anim_slide.onfinish=(e)=>{
-    sia.style.display="none";
+    siap.style.display="none";
   };
   },0);
+  
+  return 1100;
 }
 
 // After magic_animate, open up the scroll
-function sidebar_intro_animate(){
+function sidebar_desktop_open(){
   force_finish_all_sidebar_animations();
   window.setTimeout(()=>{
   sidebar.classList.remove("sb-mobile-mode");
@@ -241,19 +245,19 @@ function sidebar_intro_animate(){
   
   sb_close_btn.style.display="none";
   
-  sidebar_magic_animate();
+  let magic_duration=sidebar_magic_play();
   sidebar_collapse_and_unlock();
   sidebar_autoexpand(currently_on_page);
   
   let anim_scale=sidebar.animate(
     [{transform:"scale(0.0)",opacity:0},
      {transform:"scale(1.0)",opacity:1}],
-    {duration:400,delay:1100,easing:"ease-out"});
+    {duration:400,delay:magic_duration,easing:"ease-out"});
   sidebar_animations.push(anim_scale);
   let anim_unfold=sidebar.animate(
     [{maxHeight:"160px"},
-     {maxHeight:"calc(100dvh - 64px)"}],
-    {duration:1000,delay:1500,easing:"ease-in-out"});
+     {maxHeight:"100dvh"}],
+    {duration:500,delay:magic_duration+400,easing:"cubic-bezier(0.7, 0.0, 1.0, 0.3)"});
   sidebar_animations.push(anim_unfold);
   
   sidebar.style.transform="scale(0)";
@@ -265,21 +269,21 @@ function sidebar_intro_animate(){
   };
   
   anim_unfold.onfinish=(e)=>{
-    sidebar.style.maxHeight="calc(100dvh - 64px)";
+    sidebar.style.maxHeight="100dvh";
   }
   },0);
 }
 
 // Pop in the mobile sidebar button
-function sidebar_button_animate_mobile(){
+function sidebar_mobile_button_enter(){
   force_finish_all_sidebar_animations();
   window.setTimeout(()=>{
-  sidebar_magic_animate();
+  let magic_duration=sidebar_magic_play();
   
   let anim_popin=sb_btn_outer_animator.animate(
     [{transform:"scale(0.0)"},
      {transform:"scale(1.0)"}],
-    {duration:400,delay:1100,easing:"ease-out"});
+    {duration:400,delay:magic_duration,easing:"ease-out"});
   sidebar_animations.push(anim_popin);
   
   sb_btn_outer_animator.style.display="block";
@@ -292,12 +296,12 @@ function sidebar_button_animate_mobile(){
 }
 
 // Hide the sidebar button
-function sidebar_button_hide_mobile(){
+function sidebar_mobile_button_exit(){
   force_finish_all_sidebar_animations();
   window.setTimeout(()=>{
   let anim_slideout=sb_btn_outer_animator.animate(
-    [{marginLeft:"0px"},
-     {marginLeft:"-160px"}],
+    [{marginLeft:"0px",opacity:"1"},
+     {marginLeft:"-160px",opacity:"0"}],
     {duration:500,delay:0,easing:"ease-in"});
   sidebar_animations.push(anim_slideout);
   
@@ -310,7 +314,7 @@ function sidebar_button_hide_mobile(){
 
 let sidebar_opened_in_mobile=false;
 // Open up the scroll in fullscreen (mobile mode)
-function sidebar_intro_animate_mobile(){
+function sidebar_mobile_open(){
   force_finish_all_sidebar_animations();
   window.setTimeout(()=>{
   sidebar.classList.add("sb-mobile-mode");
@@ -374,7 +378,7 @@ function sidebar_intro_animate_mobile(){
 }
 
 // Desktop mode, hide scroll
-function sidebar_hide(){
+function sidebar_desktop_hide(){
   force_finish_all_sidebar_animations();
   window.setTimeout(()=>{
   sidebar.classList.remove("sb-mobile-mode");
@@ -403,7 +407,7 @@ function sidebar_hide(){
 }
 
 // Mobile mode, hide fullscreen scroll
-function sidebar_hide_mobile(){
+function sidebar_mobile_close(){
   force_finish_all_sidebar_animations();
   window.setTimeout(()=>{
   sidebar.classList.add("sb-mobile-mode");
@@ -441,7 +445,7 @@ function sidebar_hide_mobile(){
   };  
   },0);
 }
-function sidebar_hide_instant(){
+function sidebar_desktop_hide_instant(){
   force_finish_all_sidebar_animations();
   window.setTimeout(()=>{
   sidebar.style.display="none";
@@ -452,7 +456,7 @@ function sidebar_hide_instant(){
 
 // Sidebar close button
 sb_close_btn.addEventListener("click",()=>{
-  if (mobile_mode) sidebar_hide_mobile();
+  if (mobile_mode) sidebar_mobile_close();
 });
 
 // Called every time a firework explodes
@@ -846,7 +850,7 @@ let page_transition_in_progress=false;
 function page_transition(name,animated=true,push_to_history=false){
   console.log("Page transition to "+name+", animated="+animated+", PTH="+push_to_history);
   // Hide sidebar, even if the transition is invalid.
-  if (mobile_mode) sidebar_hide_mobile();
+  if (mobile_mode) sidebar_mobile_close();
   
   if (page_transition_in_progress) {
     console.log("Rejecting page transition since another transition is in progress");
@@ -1061,17 +1065,19 @@ let mq_mobile=window.matchMedia("(width <= 640px)");
 let mobile_mode=mq_mobile.matches;
 function mobile_enter(){
   body_dom.classList.add("mobile-mode");
+  body_dom.classList.remove("desktop-mode");
   if (!in_sky_mode) {
-    sidebar_hide_instant();
-    sidebar_button_animate_mobile();
+    sidebar_desktop_hide_instant();
+    sidebar_mobile_button_enter();
   }
   Timetable.enter_mobile();
 }
 function mobile_leave(){
   body_dom.classList.remove("mobile-mode");
+  body_dom.classList.add("desktop-mode");
   if (!in_sky_mode) {
-    sidebar_intro_animate();
-    sidebar_button_hide_mobile();
+    sidebar_desktop_open();
+    sidebar_mobile_button_exit();
   }
   Timetable.exit_mobile();
 }
@@ -1082,7 +1088,7 @@ mq_mobile.onchange= ()=>{
   if (match) mobile_enter();
   else mobile_leave();
 };
-sb_btn_active_area.onclick=sidebar_intro_animate_mobile;
+sb_btn_active_area.onclick=sidebar_mobile_open;
 
 
 

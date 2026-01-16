@@ -68,7 +68,7 @@ img{
 .mobile-mode .mm-pc{
 	display:none;
 }
-body:not(.mobile-mode) .mm-mobile{
+.desktop-mode .mm-mobile{
 	display:none;
 }
 

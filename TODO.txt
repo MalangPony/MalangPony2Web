@@ -17,7 +17,6 @@ l2d hide when screen is narrow - or more margin at page bottom?
 Change all direction listings to use GMI font and support light/dark mode
 Fix Venue/Direction/2 icon
 No-JS support?
-Somehow make BG-L character and sidebar not overlap?
 Explanation, like perks block, in the directions block
 Optimize castle textures by cropping
 When timetable block is clicked, present a venue map
@@ -37,7 +36,6 @@ for Royal tier box, make it fancy
 Fix timetable text cutoff for KR/EN
 tier table
 Hover style for all clickable buttons
-Move scroll to top of page
 
 RIGHT BEFORE PUSH TO PROD
 Change all domains (testing.malangpony) to a PHP expression (<?php echo $webroot;?>)

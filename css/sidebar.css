@@ -7,22 +7,58 @@
   bottom:0;
   right:0;
   display:flex;
-  flex-direction:row;
+  flex-direction:column;
   justify-content:flex-start;
-  align-items:center;
+  align-items:flex-start;
   width:100%;
   height:100%;
+}
+.desktop-mode .sidebar-positioner{
   left:max(8px,var(--mcd-space-distributed));
 }
-
-#sidebar-intro-anim{
-  width:320px; 
-  height:320px; 
-  margin-left:-80px; 
+.mobile-mode .sidebar-positioner{
+  left:0;
+}
+body.langmode-en{
+  --sidebar-width:224px;
+  --sidebar-margin-left:-16px;
+}
+body.langmode-ko{
+  --sidebar-width:192px;
+  --sidebar-margin-left:0px;
+}
+.desktop-mode .sidebar-topspacer{
+  flex-shrink:100;
+  flex-basis:10svh;
+  align-self:stretch;
+}
+.mobile-mode .sidebar-topspacer{
+  display:none;
+}
+#sidebar-intro-anim-positioner{
+  
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.mobile-mode #sidebar-intro-anim-positioner{
+  /* This was calculated with below values.
+   * recalculate if any of the values change.
+   * sidebar button image W 130px H 80px
+   * sidebar button padding 16px */
+  width: 162px;
+  height: 112px;
+}
+.desktop-mode #sidebar-intro-anim-positioner{
+  width:var(--sidebar-width);
+  margin-left:var(--sidebar-margin-left);
+  height:160px; /* This is the initial size of the scroll. */
 }
 #letter-magic-spritesheet-animation{
-  width:100%;
-  height:100%;
+  /* background-position,opacity,transform will be animated & set by JS (main.js) */
+  width:320px; 
+  height:320px; 
+  flex-shrink:0;
   background-image:url("../sprites-prototype/MPN2-Prototype-Image-LetterMagicSpSht.png");
 }
 
@@ -37,7 +73,7 @@
   
   --sb-edge-width-multiplier:0.3px;
   
-  max-height:calc(100dvh - 64px);
+  /* max-height and transform will be animated & set by JS (main.js) */
   
   border-image-source: url("/sprites/OBJ-001_RszH500-Outline10px.png");
   border-image-width: 
@@ -54,14 +90,11 @@
     fill; /* T R B L */
   
   position:relative;
+  
+  width:var(--sidebar-width);
+  margin-left:var(--sidebar-margin-left);
 }
-.langmode-en #sidebar{
-  width:14em;
-  margin-left:-1.0em;
-}
-.langmode-ko #sidebar{
-  width:12em;
-}
+
 #sidebar.css-filters{
   filter:drop-shadow(8px 8px 10px #00000080);
 }
@@ -100,7 +133,6 @@
   padding-left:6px;
   
   flex-shrink:0;
-  width:calc( 100% + 40px );
   
   display:flex;
   flex-direction:column;
@@ -122,12 +154,6 @@
   flex-shrink:0;
 }
 
-.langmode-ko .sb-divider{
-  width:8em;
-}
-.langmode-en .sb-divider{
-  width:12em;
-}
 .sb-divider{
   flex-shrink:0;
   flex-grow:0;
@@ -137,6 +163,7 @@
     var(--color-sidebar-text-normal) 10% 60%,
     hsl(from var(--color-sidebar-text-normal) h s l / 0%) 100%);
   height:2px;
+  width:calc(var(--sidebar-width) - 60px);
 }
 .sb-category-container{
   display:flex;
@@ -303,24 +330,73 @@
   color:var(--color-sidebar-text-selected);
 }
 
+/* Mobile sidebar button */
+/* DOM Tree:
+ * #sb-button-positioner : Positions children to top left corner
+ *   #sb-btn-outer-animator : Handles fade-in and slide-out animations only
+ *     #sb-btn-active-area : Where the click handler is attached.
+ *       #sb-btn-image-container : Defines image dimensions
+ *         #sb-btn-image : Actual image
+ *
+ */
+#sb-button-positioner{
+  display:flex;
+  flex-direction:row;
+  justify-content:flex-start;
+  align-items:flex-start;
+}
+#sb-btn-outer-animator{
+  /* display,transform,margin-left will be set in main.js */
+}
+@keyframes attention-grab{
+   0%  { transform: scale(1.0) rotate(  0deg); }
+   5%  { transform: scale(1.1) rotate(  0deg); }
+   8%  { transform: scale(1.1) rotate(  3deg); }
+  11%  { transform: scale(1.1) rotate( -3deg); }
+  14%  { transform: scale(1.1) rotate(  3deg); }
+  17%  { transform: scale(1.1) rotate( -3deg); }
+  20%  { transform: scale(1.1) rotate(  3deg); }
+  23%  { transform: scale(1.1) rotate(  0deg); }
+  28%  { transform: scale(1.0) rotate(  0deg); }
+}
+#sb-btn-active-area{
+  cursor:pointer;
+  position:relative;
+  pointer-events:auto;
+  transition-property:transform;
+  transition-duration:0.5s;
+  padding:16px;
+}
+#sb-btn-active-area:hover{
+  transform:scale(1.1);
+}
+/* Contains the image. Does the attention-grab animation.*/
+#sb-btn-image-container{
+  filter:drop-shadow(4px 4px 8px #00000080);
+  animation-name: attention-grab;
+  animation-duration:5.0s;
+  animation-iteration-count:infinite;
+  animation-direction: normal;
+}
+#sb-btn-active-area.inhibit-animation > #sb-btn-image-container{
+  animation-name:none;
+} 
+#sb-btn-image{
+  object-fit: contain;
+  width:130px;
+  aspect-ratio:1.630; /* Should match the source image. */
+  display:block;
+}
+
 
 /* Responsive Section */
 /* Targeting down to 300px. */
 
 /* Mobile mode */
 @media (width<640px) {
-  .sidebar-positioner{
-    justify-content:flex-start;
-    align-items:flex-start;
-  }
-  #sidebar-animation-container{
-    align-items:flex-start;
-  }
-  #sidebar-intro-anim{
+  #letter-magic-spritesheet-animation{
     width:240px; 
     height:240px; 
-    margin-left:-60px; 
-    margin-top:-60px;
   }
   /* The below rule has two identical ID selectors in order to raise the specificity.
    * This is to override the class+ID selector that was declared above.*/
