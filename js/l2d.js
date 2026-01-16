@@ -680,11 +680,11 @@ window.addEventListener("click",(e)=>{
 	}
 });
 
-const PET_ACCUM_ADD_MULTIPLIER=0.1; // 
-const PET_ACCUM_DECAY_SPEED=1.0; //per second
+const PET_ACCUM_ADD_MULTIPLIER=0.8; // 
+const PET_ACCUM_DECAY_SPEED=0.5; //per second
 const PET_ACCUM_MAX=2.0;
 const PET_ACCUM_ENTER_THRESH=1.5;
-const PET_ACCUM_EXIT_THRESH=1.0;
+const PET_ACCUM_EXIT_THRESH=1.3;
 
 let petting_accumulator=0.0;
 
@@ -720,6 +720,7 @@ window.addEventListener("mousemove",(e)=>{
 		else{
 			let delta=mouse_pos_vec.subtract(last_mouse_position).length();
 			petting_accumulator+=delta*PET_ACCUM_ADD_MULTIPLIER;
+			last_mouse_position=mouse_pos_vec;
 		}
 	}else{
 		last_mouse_position=null;
@@ -886,6 +887,7 @@ export function set_sky_eye_position(x,y){
 	eye_position_sky=[x,y];
 }
 
+const debug_print_pet=document.getElementById("debug-print-pet");
 // Actual animation tick.
 export function animationTick(dt){
 	if (!Config.OPTION_ENABLE_L2D_HANMARI) return;
@@ -916,7 +918,7 @@ export function animationTick(dt){
 	petting_accumulator-=PET_ACCUM_DECAY_SPEED*dt;
 	if (petting_accumulator>PET_ACCUM_MAX) petting_accumulator=PET_ACCUM_MAX;
 	if (petting_accumulator<0) petting_accumulator=0;
-	
+	debug_print_pet.innerHTML="PetAcc: "+petting_accumulator.toFixed(3);
 	if ((current_state==STATE_GROUND) && 
 		(petting_accumulator > PET_ACCUM_ENTER_THRESH))
 		apply_state(STATE_PET);
