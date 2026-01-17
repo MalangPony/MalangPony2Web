@@ -848,6 +848,7 @@ const STATE_SKY=1;
 const STATE_GROUND=2;
 const STATE_PET=11;
 const STATE_SLEEP=12;
+const STATE_VOID=90;
 
 let currently_on_ground=false;
 export function transition_ground(){
@@ -879,10 +880,12 @@ function apply_state(new_state=null,instant=false){
 	if (!instant){
 		if (last_state==STATE_SKY) playMotionNow("SkyToGround");
 		else if (new_state==STATE_SKY) playMotionNow("GroundToSky");
-		if (last_state==STATE_PET) playMotionNow("PetExit");
+		else if (last_state==STATE_PET) playMotionNow("PetExit");
 		else if (new_state==STATE_PET) playMotionNow("PetEnter");
-		if (last_state==STATE_SLEEP) playMotionNow("SleepExit");
+		else if (last_state==STATE_SLEEP) playMotionNow("SleepExit");
 		else if (new_state==STATE_SLEEP) playMotionNow("SleepEnter");
+		else if (last_state==STATE_VOID) playMotionNow("VoidExit");
+		else if (new_state==STATE_VOID) playMotionNow("VoidEnter");
 	}
 	
 	let new_idle="";
@@ -891,6 +894,7 @@ function apply_state(new_state=null,instant=false){
 	else if (new_state==STATE_GROUND) new_idle="IdleGround";
 	else if (new_state==STATE_PET) new_idle="PettingLoop";
 	else if (new_state==STATE_SLEEP) new_idle="SleepingLoop";
+	else if (new_state==STATE_VOID) new_idle="ZeroPoseLoop";
 	
 	motion_manager.groups.idle=new_idle;
 	if (instant) playMotionNow(new_idle);
@@ -962,14 +966,16 @@ let canvas_hidden=false;
 // Hanmari hide/show
 function hide_hanmari(){
 	hanmari_size_diminisher_AV.stop();
-	hanmari_size_diminisher_AV.duration=1.0;
+	hanmari_size_diminisher_AV.duration=0.8;
 	hanmari_size_diminisher_AV.set_ease(3,true,false);
 	hanmari_size_diminisher_AV.animate_to(0.0);
+	
+	if (current_state !== STATE_SLEEP) apply_state(STATE_VOID);
 	
 	l2d_canvas.style.opacity=1.0;
 	let anim3=l2d_canvas.animate(
 		[{ opacity: "1.0" },{ opacity: "0.0" }],
-		{duration: 500,delay:500});
+		{duration: 300,delay:500});
 	anim3.onfinish= () => {
 		l2d_canvas.style.display="none";
 		canvas_hidden=true;
@@ -985,18 +991,20 @@ function show_hanmari(){
 	canvas_hidden=false;
 	
 	hanmari_size_diminisher_AV.stop();
-	hanmari_size_diminisher_AV.duration=1.0;
+	hanmari_size_diminisher_AV.duration=0.8;
 	hanmari_size_diminisher_AV.set_ease(3,false,true);
 	hanmari_size_diminisher_AV.animate_to(1.0);
+	
+	current_state=STATE_VOID;
+	apply_state(currently_on_ground?STATE_GROUND:STATE_SKY);
 	
 	l2d_canvas.style.opacity=0.0;
 	let anim3=l2d_canvas.animate(
 		[{ opacity: "0.0" },{ opacity: "1.0" }],
-		{duration: 500,delay:0});
+		{duration: 300,delay:0});
 	anim3.onfinish= () => {
 		l2d_canvas.style.opacity=1.0;
 	}
-	wake_hanmari_if_possible();
 	reset_eye_position();
 }
 function show_hanmari_instant(){
@@ -1004,7 +1012,7 @@ function show_hanmari_instant(){
 	l2d_canvas.style.opacity=1.0;
 	hanmari_size_diminisher_AV.jump_to(1.0);
 	canvas_hidden=false;
-	wake_hanmari_if_possible();
+	apply_state(currently_on_ground?STATE_GROUND:STATE_SKY);
 	reset_eye_position();
 }
 

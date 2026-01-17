@@ -20,7 +20,6 @@ Timetable lowest block unclosable in mobile
 for Royal tier box, make it fancy
 Hover style for all clickable buttons
 require click for petting
-Hanmari anim when disappear
 
 RIGHT BEFORE PUSH TO PROD
 Change all domains (testing.malangpony) to a PHP expression (<?php echo $webroot;?>)

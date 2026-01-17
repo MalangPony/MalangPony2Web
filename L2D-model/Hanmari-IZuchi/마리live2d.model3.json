@@ -94,12 +94,29 @@
 			],
 			"PetExit": [
 				{
-					"File": "anim/ExitPet.motion3.json"
+					"File": "anim/ExitPet.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
 				}
 			],
 			"PetEnter": [
 				{
 					"File": "anim/EnterPet.motion3.json"
+				}
+			],
+			"ZeroPoseLoop": [
+				{
+					"File": "anim/VoidLoop.motion3.json"
+				}
+			],
+			"VoidExit": [
+				{
+					"File": "anim/ExitVoid.motion3.json"
+				}
+			],
+			"VoidEnter": [
+				{
+					"File": "anim/EnterVoid.motion3.json"
 				}
 			]
 		}
