@@ -26,11 +26,6 @@ const wsd = document.getElementById("whole-screen-div");
 
 const main_content_backdrop=document.getElementById("main-content-backdrop");
 
-const hmr_container= document.getElementById("hmr-image-container");
-const hmr_image_base = document.getElementById("hmr-base");
-const hmr_image_flash01 = document.getElementById("hmr-flash01");
-const hmr_image_ground = document.getElementById("hmr-ground");
-
 const logo_image_base = document.getElementById("logo-base");
 const logo_image_flash01 = document.getElementById("logo-flash01");
 const logo_image_orig = document.getElementById("logo-orig");
@@ -88,30 +83,6 @@ const main_content_actual = document.getElementById("main-content-actual");
 
 const countdown_display = document.getElementById("countdown-display");
 
-// Initial values
-let static_hanmari_enabled=false;
-if (Config.OPTION_ENABLE_L2D_HANMARI){
-  hmr_container.style.display="none";
-}else{
-  hmr_container.style.display="block";
-  static_hanmari_enabled=true;
-}
-
-// PerfManager callback: L2D
-PerformanceManager.register_feature_disable_callback(
-	PerformanceManager.Feature.HANMARI_L2D, ()=>{
-		hmr_container.style.display="block";
-        static_hanmari_enabled=true;
-	}
-);
-PerformanceManager.register_feature_enable_callback(
-	PerformanceManager.Feature.HANMARI_L2D, ()=>{
-      if (Config.OPTION_ENABLE_L2D_HANMARI){
-        hmr_container.style.display="none";
-        static_hanmari_enabled=false;
-      }
-	}
-);
 
 // PerfManager callback: CSS Filters
 PerformanceManager.register_feature_disable_callback(
@@ -134,13 +105,6 @@ function transition_sky(){
   let animation_in=[{ opacity: "0.0" },{ opacity: "1.0" } ];
   let animation_opt={duration: 500,fill:"forwards"};
   logo_image_orig.animate(animation_out,animation_opt);
-  if (static_hanmari_enabled){
-    hmr_image_ground.animate(animation_out,animation_opt);
-    hmr_image_base.animate(animation_in,animation_opt);
-  }else{
-    hmr_image_ground.style.opacity="0.0";
-    hmr_image_base.style.opacity="1.0";
-  }
   
   main_content_backdrop.classList.remove("activated");
   pages_container.classList.remove("activated");
@@ -159,15 +123,6 @@ function transition_ground(){
   let animation_in=[{ opacity: "0.0" },{ opacity: "1.0" } ];
   let animation_opt={duration: 500,fill:"forwards"};
   logo_image_orig.animate(animation_in,animation_opt);
-  if (static_hanmari_enabled){
-    hmr_image_ground.animate(animation_in,animation_opt);
-    hmr_image_base.animate(animation_out,animation_opt);
-    hmr_image_flash01.animate(animation_out,animation_opt);
-  }else{
-    hmr_image_ground.style.opacity="1.0";
-    hmr_image_base.style.opacity="0.0";
-    hmr_image_flash01.style.opacity="0.0";
-  }
   
   main_content_backdrop.classList.add("activated");
   pages_container.classList.add("activated");
@@ -528,9 +483,6 @@ function animationCallback(time) {
   if (firework_light_factor>1) firework_light_factor=1;
   firework_light_factor=Math.pow(firework_light_factor,1.0);
   L2D.set_lighten_strength(firework_light_factor);
-  if (static_hanmari_enabled){
-    hmr_image_flash01.style.opacity=firework_light_factor;
-  }
   logo_image_flash01.style.opacity=firework_light_factor;
   
   if (in_sky_mode)
