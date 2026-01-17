@@ -352,7 +352,6 @@
 .tier-table .cell-inner-div{
 	width:100%;
 	height:100%;
-	overflow:hidden;
 	display:flex;
 	flex-direction:column;
 	justify-content:center;
@@ -417,10 +416,14 @@
 .tier-table-perk-name{
 	text-align:left;
 	width:var(--tier-table-perk-name-width);
-	height:var(--tier-table-data-rows-height);
+	height:fit-content;
 	font-weight:700;
 }
-.tier-table-perk-name-inner{}
+.tier-table-perk-name-inner{
+	padding-left:0.1em;
+	padding-top:0.3em;
+	padding-bottom:0.2em;
+}
 .tier-table-boolean-cell{
 	width:var(--tier-table-data-columns-width);
 	height:var(--tier-table-data-rows-height);
@@ -458,13 +461,16 @@
 .tier-table-explain-row{
 	border-bottom: 0.1em solid hsl(from var(--color-text-light) h s l / 50%);
 }
-.tier-table .cell-inner-div.tier-table-explain-cell-inner{
+.tier-table-explain-cell{
+	height:fit-content;
 	width:var(--tier-table-perk-name-width);
+}
+.tier-table .cell-inner-div.tier-table-explain-cell-inner{
+	padding-left:0.6em;
+	padding-bottom:0.2em;
 	align-self:flex-start;
 	text-align:left;
 	line-height:1.4;
-}
-.tier-table .cell-inner-div.tier-table-explain-cell-inner span{
 	font-size:0.8em;
 	color: hsl( from currentColor h s l / 80%);
 }

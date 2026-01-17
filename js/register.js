@@ -391,12 +391,16 @@ for (const perk_id in TierData.perks_data){
 		let cell = document.createElement("td");
 		cell.classList.add("tier-table-boolean-cell");
 		cell.classList.add(TierData.tiers_data[tier_id].css_class);
-		// O(n) operation inside a double for loop... ehh whatever
+		if (has_explanation){
+			cell.setAttribute("rowspan",2);
+		}
+		
 		
 		let cell_inner = document.createElement("div");
 		cell_inner.classList.add("tier-table-boolean-cell-inner");
 		cell_inner.classList.add("unfocus-able");
 		cell_inner.classList.add("cell-inner-div");
+		// O(n) operation inside a double for loop... ehh whatever
 		let perk_included=tier_to_all_perks[tier_id].includes(perk_id)
 		if (perk_included){
 			cell_inner.innerHTML="check";
@@ -446,7 +450,7 @@ for (const perk_id in TierData.perks_data){
 		
 		let desc_cell = document.createElement("td");
 		desc_cell.classList.add("tier-table-explain-cell");
-		desc_cell.setAttribute("colspan",1+len_tiers);
+		//desc_cell.setAttribute("colspan",1+len_tiers);
 		cell_dom_list_by_perk[perk_id].push(desc_cell);
 		all_cell_doms.push(desc_cell);
 		desc_containers_by_perk[perk_id]=desc_cell;
