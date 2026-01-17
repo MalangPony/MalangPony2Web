@@ -327,7 +327,11 @@
 	align-self:center;
 	width:max-content;
 	height:max-content;
+	
+	/* Reverts value from .embed-frame -- otherwise sticky won't work */
+	overflow:unset; 
 }
+
 .tier-table{
 	--tier-table-data-columns-width:2.4em;
 	--tier-table-data-rows-height:1.6em;
