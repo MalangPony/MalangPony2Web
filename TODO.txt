@@ -13,7 +13,6 @@ When timetable block is clicked, present a venue map
 Make sure mascot drawings don't get cut off when direction is clocked
 Add 3D map (ThreeJS) ???
 HMR L2D sometimes occludes text (This is very bad)
-Flicker on initial BG load
 Make sidebar not overlap page content
 Spam-clicking back button will desync the page URL and page
 Autoclose timetable details on page unload
@@ -21,6 +20,7 @@ Timetable lowest block unclosable in mobile
 for Royal tier box, make it fancy
 Hover style for all clickable buttons
 require click for petting
+Hanmari anim when disappear
 
 RIGHT BEFORE PUSH TO PROD
 Change all domains (testing.malangpony) to a PHP expression (<?php echo $webroot;?>)

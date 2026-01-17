@@ -176,6 +176,18 @@ for (const bgid in BackgroundData.background_definitions){
 	image_doms[bgid]=bg_scene;
 }
 
+// Preload base images
+// This only works some of the time, but better than nothing, I guess
+let preloaded_image_objects=[];
+for (const bgid in BackgroundData.background_definitions){
+	let bgdef=BackgroundData.background_definitions[bgid];
+	if (bgdef.base_image){
+		let img = new Image();
+		img.src=bgdef.base_image;
+		preloaded_image_objects.push(img);
+	}
+}
+
 export function activate_page_bg(pageid,delay,duration){
 	activate_img(BackgroundData.page_to_background_id[pageid],delay,duration);
 }
