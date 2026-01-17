@@ -131,7 +131,7 @@ export class AnimatedValue{
 			ratio=AnimatedValue.polynomialEase(ratio,this.exponent);
 		}else if (this.ease_in){
 			ratio=AnimatedValue.polynomialEaseIn(ratio,this.exponent);
-		}else if (this.ease_in){
+		}else if (this.ease_out){
 			ratio=AnimatedValue.polynomialEaseOut(ratio,this.exponent);
 		}else{
 			//do nothin
