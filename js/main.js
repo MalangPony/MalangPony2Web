@@ -26,6 +26,8 @@ const wsd = document.getElementById("whole-screen-div");
 
 const main_content_backdrop=document.getElementById("main-content-backdrop");
 
+const l2d_buttons_container = document.getElementById("l2d-buttons-container");
+
 const logo_image_base = document.getElementById("logo-base");
 const logo_image_flash01 = document.getElementById("logo-flash01");
 const logo_image_orig = document.getElementById("logo-orig");
@@ -806,6 +808,11 @@ function page_transition(name,animated=true,push_to_history=false){
   
   // Hanmari Wake
   L2D.wake_hanmari_if_possible();
+  
+  if (to_intro)
+    l2d_buttons_container.classList.remove("on-nonintro-page");
+  else
+    l2d_buttons_container.classList.add("on-nonintro-page");
   
   if (animated){
     
