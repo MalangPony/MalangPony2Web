@@ -12,12 +12,12 @@ export let questions=[
 	{
 		qtext_ko:"행사에 못가게 되었어요! 혹시 환불을 받을 수 있을까요?",
 		qtext_en:"I can't make it to the event! Can I get a refund?",
-		atext_ko:"티켓 판매 마감일인 6월 30일 전까지 환불이 가능합니다. 환불이 필요한 경우, 공식 계정으로 통해 연락해 주시면 환불을 도와드리겠습니다.",
+		atext_ko:"티켓 판매 마감일인 6월 30일 전까지 환불이 가능합니다. 환불이 필요한 경우, 공식 계정으로 연락해 주시면 환불을 도와드리겠습니다.",
 		atext_en:"The tickets may be refunded until June 30th, Korean Time (KST; GMT+9). Contact us through any of the official channels to get your ticket refunded.",
 		categories:[]
 	},
 	{
-		qtext_ko:"양도 가능한가요?",
+		qtext_ko:"참가증 양도가 가능한가요?",
 		qtext_en:"Can the tickets be transferred?",
 		atext_ko:"티켓 판매 마감일인 6월 30일 전까지 위치폼의 양도 기능을 사용하여 티켓을 자유롭게 양도하실 수 있습니다.",
 		atext_en:"You may use the WitchForm's transfer function to transfer tickets before June 30th. However, if you have purchased the ticket through Ko-Fi, you will need to contact us.",
@@ -26,33 +26,33 @@ export let questions=[
 	{
 		qtext_ko:"굿즈들을 가져와도 되나요?",
 		qtext_en:"Can I show off my merch?",
-		atext_ko:"네, 굿즈를 자유롭게 가져오실 수 있습니다.\"굿즈 전시대\" 코너도 준비되어 있으니, 자신의 굿즈들을 가져와서 자랑해 보세요!",
+		atext_ko:"네, 굿즈를 자유롭게 가져오실 수 있습니다.\"굿즈 전시대\"도 준비되어 있으니, 자신의 굿즈들을 가져와서 자랑해 보세요!",
 		atext_en:"You are free to bring all your pony merch. There's also a dedicated area for showing off your pony merchandise, so brag away!",
 		categories:[]
 	},
 	{
-		qtext_ko:"점심이나 저녁시간은 따로 없나요?",
+		qtext_ko:"점심이나 저녁시간이 있나요?",
 		qtext_en:"Is there time for having lunch or dinner?",
-		atext_ko:"점심이나 저녁 시간은 따로 마련되어 있지 않지만, 행사 도중 언제든지 자유롭게 나가셔서 식사를 하고 오셔도 됩니다.",
+		atext_ko:"점심이나 저녁시간은 따로 마련되어 있지 않지만, 행사 도중 언제든지 자유롭게 나가셔서 식사를 하고 오셔도 됩니다.",
 		atext_en:"There's no official lunch or dinner time in the event timetable, but you may go outside and get food anytime during the event and return.",
 		categories:[]
 	},
 	{
-		qtext_ko:"입장은 언제까지 해야하나요?",
+		qtext_ko:"입장은 언제까지 해야 하나요?",
 		qtext_en:"Do I need to be on-time for the event?",
 		atext_ko:"행사 시작 시간에 맞춰서 오지 않으셔도 되지만, 참가증 수령은 18시까지만 가능합니다.",
 		atext_en:"You do not need to be on time for the opening ceremonies. However, the registration desk closes at 6PM.",
 		categories:[]
 	},
 	{
-		qtext_ko:"패널 도중에 나가도 되나요?",
+		qtext_ko:"패널 도중에 들어가거나 나가도 되나요?",
 		qtext_en:"Can I leave during a panel?",
 		atext_ko:"패널 도중 자유롭게 입장, 퇴장하셔도 됩니다.",
 		atext_en:"You are free to leave and enter anytime during any panel.",
 		categories:[]
 	},
 	{
-		qtext_ko:"저녁시간까지 꼭 남아있어야 하나요?",
+		qtext_ko:"행사가 끝날 때까지 꼭 남아있어야 하나요?",
 		qtext_en:"Do I need to stay until the end of the event?",
 		atext_ko:"행사 중 언제든지 나가셔도 됩니다.",
 		atext_en:"You can leave anytime during the event.",
@@ -75,7 +75,7 @@ export let questions=[
 	{
 		qtext_ko:"코스프레나 퍼슈팅이 가능한가요?",
 		qtext_en:"Is cosplay and fursuiting allowed?",
-		atext_ko:"코스프레나 퍼슈팅을 하는 것은 자유지만, 행사장에 탈의실이나 지원 시설은 없으니 참고하시기 바랍니다.",
+		atext_ko:"코스프레나 퍼슈팅을 하는 것은 가능하지만, 행사장에 탈의실이나 지원 시설은 없으니 참고하시기 바랍니다.",
 		atext_en:"You are free to cosplay and fursuit in the venue, but be aware that there are no changing rooms or other supporting facilities in the venue.",
 		categories:[]
 	},
