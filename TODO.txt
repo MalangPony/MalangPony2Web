@@ -23,7 +23,6 @@ Make sure mascot drawings don't get cut off when direction is clocked
 Add 3D map (ThreeJS) ???
 HMR L2D sometimes occludes text (This is very bad)
 Flicker on initial BG load
-L2D loading indicator
 L2D hide/show button
 Make sidebar not overlap page content
 Spam-clicking back button will desync the page URL and page

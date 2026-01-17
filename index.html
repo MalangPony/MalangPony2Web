@@ -38,11 +38,14 @@
   
   <div id="master-hanmari-container" class="fullsize" style="z-index:20;pointer-events:none;">
     
-    <div id="l2d-load-overlay">
-    </div>
-    
     <div id="l2d-container" >
-      <canvas id="l2d-canvas" style="width:100%;height:100%;"></canvas>
+      <div id="l2d-load-overlay">
+        <div id="l2d-load-overlay-text">Loading...</div>
+        <img class="l2d-load-overlay-image ld-light" src="sprites/HMR_Silhouette_Black.png">
+        <img class="l2d-load-overlay-image ld-dark" src="sprites/HMR_Silhouette_White.png">
+      </div>
+      
+      <canvas id="l2d-canvas"></canvas>
     </div>
     
   </div>

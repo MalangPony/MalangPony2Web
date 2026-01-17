@@ -15,6 +15,7 @@ import { AnimatedValue } from "./animator.js";
 const l2d_container = document.getElementById("l2d-container");
 const l2d_canvas = document.getElementById("l2d-canvas");
 const wsd = document.getElementById("whole-screen-div");
+const l2d_load_overlay = document.getElementById("l2d-load-overlay");
 
 // PIXI Setup.
 PIXI.Ticker.shared.autoStart=false;
@@ -284,6 +285,7 @@ model?.once("load", ()=>{
 		model.filters=[cf];
 	auto_resize_model();
 	apply_state(null,true);
+	l2d_load_overlay.style.display="none";
 });
 
 
@@ -335,9 +337,11 @@ hanmari_size_multiplier_AV.set_ease(3,true,true);
 
 export function set_hanmari_size(fac){
 	hanmari_size_multiplier_AV.animate_to(fac);
+	l2d_load_overlay.style.setProperty("--l2d-scale",fac);
 }
 export function set_hanmari_size_instant(fac){
 	hanmari_size_multiplier_AV.jump_to(fac);
+	l2d_load_overlay.style.setProperty("--l2d-scale",fac);
 }
 
 // Automatically try to fit the model in the canvas.
@@ -350,7 +354,8 @@ function auto_resize_model(){
 	let pivot_point=new Vector2(1700,1700);
 	let pivot_target=new Vector2(w,h);
 	let current_pivot=pivot_point.multiply(scale);
-	let offset=pivot_target.multiply(resolution_multiplier).subtract(current_pivot)
+	let offset=pivot_target.multiply(resolution_multiplier).subtract(current_pivot);
+	
 	model.scale.set(scale);
 	model.position.x=offset.x;
 	model.position.y=offset.y;
