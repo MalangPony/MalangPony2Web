@@ -15,7 +15,8 @@ export const tiers_data={
 		inherit_exclude:[],
 		price:30,
 		limit:Infinity,
-		icon:"/sprites/tier_icons/standard_200_color.png",
+		icon_dark:"/sprites/tier_icons/standard_200_dark.png",
+		icon_orig:"/sprites/tier_icons/standard_200_orig.png",
 		reg_button_class:"inperson"
 	},
 	sponsor:{
@@ -39,7 +40,8 @@ export const tiers_data={
 		inherit_exclude:[],
 		price:75,
 		limit:Infinity,
-		icon:"/sprites/tier_icons/sponsor_200_color.png",
+		icon_dark:"/sprites/tier_icons/sponsor_200_dark.png",
+		icon_orig:"/sprites/tier_icons/sponsor_200_orig.png",
 		reg_button_class:"inperson"
 	},
 	mane:{
@@ -62,7 +64,8 @@ export const tiers_data={
 		inherit_exclude:[],
 		price:150,
 		limit:6,
-		icon:"/sprites/tier_icons/mane_200_color.png",
+		icon_dark:"/sprites/tier_icons/mane_200_dark.png",
+		icon_orig:"/sprites/tier_icons/mane_200_orig.png",
 		reg_button_class:"inperson"
 	},
 	princess:{
@@ -89,7 +92,8 @@ export const tiers_data={
 		inherit_exclude:[],
 		price:400,
 		limit:3,
-		icon:"/sprites/tier_icons/royal_200_color.png",
+		icon_dark:"/sprites/tier_icons/royal_200_dark.png",
+		icon_orig:"/sprites/tier_icons/royal_200_orig.png",
 		reg_button_class:"inperson"
 	},
 	spirit:{
@@ -108,7 +112,8 @@ export const tiers_data={
 		inherit_exclude:[],
 		price:20,
 		limit:Infinity,
-		icon:"/sprites/tier_icons/spirit_200_color.png",
+		icon_dark:"/sprites/tier_icons/spirit_200_dark.png",
+		icon_orig:"/sprites/tier_icons/spirit_200_orig.png",
 		reg_button_class:"spirit"
 	},
 	spirit_dx:{
@@ -138,7 +143,8 @@ export const tiers_data={
 		inherit_exclude:[],
 		price:200,
 		limit:Infinity,
-		icon:"/sprites/tier_icons/spiritplus_200_color.png",
+		icon_dark:"/sprites/tier_icons/spiritplus_200_dark.png",
+		icon_orig:"/sprites/tier_icons/spiritplus_200_orig.png",
 		reg_button_class:"spirit"
 	},
 	onsite:{
@@ -154,7 +160,8 @@ export const tiers_data={
 		inherit_exclude:[],
 		price:40,
 		limit:14,
-		icon:"/sprites/tier_icons/onsite_200_color.png",
+		icon_dark:"/sprites/tier_icons/onsite_200_dark.png",
+		icon_orig:"/sprites/tier_icons/onsite_200_orig.png",
 		reg_button_class:""
 	},
 };

@@ -20,6 +20,8 @@
  *    .icon-google-slides
  *    .icon-witchform
  *    .icon-swap
+ *    .icon-table
+ *    .icon-list
  */
 /* Important: The icon will only be generated if .generate-icon class is added.*/
 /* May have the .manual-icon class, and the first child will be positioned as the icon. */
@@ -201,6 +203,18 @@
 }
 .link-button.icon-swap::before{
   content:"swap_horiz";
+  font-family:'Material Symbols Rounded';
+  transform:scale(1.4);
+  margin-top:-0.5em;
+}
+.link-button.icon-table::before{
+  content:"table";
+  font-family:'Material Symbols Rounded';
+  transform:scale(1.4);
+  margin-top:-0.5em;
+}
+.link-button.icon-list::before{
+  content:"data_table";
   font-family:'Material Symbols Rounded';
   transform:scale(1.4);
   margin-top:-0.5em;

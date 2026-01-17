@@ -9,25 +9,25 @@
 	width: 100%;
 }
 
-.register-tier-entry.tier-standard{
+.tier-standard{
 	--tier-color-base:var(--color-tier-standard);
 }
-.register-tier-entry.tier-sponsor{
+.tier-sponsor{
 	--tier-color-base:var(--color-tier-sponsor);
 }
-.register-tier-entry.tier-mane{
+.tier-mane{
 	--tier-color-base:var(--color-tier-mane);
 }
-.register-tier-entry.tier-princess{
+.tier-princess{
 	--tier-color-base:var(--color-tier-princess);
 }
-.register-tier-entry.tier-spirit{
+.tier-spirit{
 	--tier-color-base:var(--color-tier-spirit);
 }
-.register-tier-entry.tier-spirit-dx{
+.tier-spirit-dx{
 	--tier-color-base:var(--color-tier-spirit-dx);
 }
-.register-tier-entry.tier-onsite{
+.tier-onsite{
 	--tier-color-base:var(--color-tier-onsite);
 }
 .register-tier-divider{
@@ -265,7 +265,7 @@
 }
 
 .register-tier-perk.perk-inherited{
-	background-color:light-dark(#D0D0D0,#B0B0B0);
+	background-color:light-dark(#FFFFFF,#B0B0B0);
 	/*background-color:var(--color-background-light);*/
 	/*background-color:#E0E0E0;*/
 }
@@ -316,3 +316,154 @@
 	text-align:center;
 	width:1.5em;
 }
+
+#register-tiers-table{
+	padding:2.0em;
+	background-color: hsl(from var(--color-background-dark) h s l / 100%);
+}
+.tier-table{
+	--tier-table-data-columns-width:2.4em;
+	--tier-table-data-rows-height:1.6em;
+	--tier-table-header-rows-height:7.0em;
+	--tier-table-perk-name-width:15.0em;
+	
+	border-collapse:collapse;
+	
+	color:var(--color-text-light);
+}
+
+.tier-table .unfocus-able{
+	transition-property:opacity;
+	transition-duration:0.2s;
+}
+.tier-table .unfocused .unfocus-able{
+	opacity:0.3;
+}
+
+/* Common style for cell inner DIVs. */
+/* This makes styling a bit easier. */
+.tier-table .cell-inner-div{
+	width:100%;
+	height:100%;
+	overflow:hidden;
+	display:flex;
+	flex-direction:column;
+	justify-content:center;
+	align-items:stretch;
+}
+.tier-table-header-row{
+	position:sticky;
+	top:0;
+	background-color: hsl(from var(--color-background-dark) h s l / 100%);
+	/* without z-index it gets a bit buggy with opacity and stuff*/
+	z-index:10;
+}
+.tier-table-corner-cell{}
+.tier-table-header-cell{
+	width:var(--tier-table-data-columns-width);
+	height:var(--tier-table-header-rows-height);
+}
+.tier-table .cell-inner-div.tier-table-header-cell-inner{
+	position:relative;
+	overflow:visible;
+}
+.tier-table-header-cell-bottom-bar{
+	position:absolute;
+	bottom:0;
+	left:0.1em;
+	right:0.1em;
+	height:0.2em;
+	background-color: hsl(from var(--tier-color-base) h s l / 100%);
+}
+.tier-table-header-cell-rotator{
+	position:absolute;
+	bottom:0;
+	width:max-content;
+	height:max-content;
+	right:calc(var(--tier-table-data-columns-width) * 0.6);
+	
+	transform-origin:bottom right;
+	transform: rotate(40deg);
+	
+	display:flex;
+	flex-direction:row;
+	justify-content:flex-end;
+	align-items:flex-end;
+	gap:0.2em;
+	
+	z-index:11;
+	
+	border-bottom: 0.15em solid hsl(from var(--tier-color-base) h s l / 70%);
+	
+}
+.tier-table-header-icon{
+	width:1.3em;
+	height:1.3em;
+}
+.tier-table-header-name{
+	color: var(--tier-color-base);
+}
+.tier-table-data-row:not(.tier-table-data-row-with-explanation){
+	position:relative;
+	border-bottom: 0.1em solid hsl(from var(--color-text-light) h s l / 50%);
+}
+.tier-table-perk-name{
+	text-align:left;
+	width:var(--tier-table-perk-name-width);
+	height:var(--tier-table-data-rows-height);
+	font-weight:700;
+}
+.tier-table-perk-name-inner{}
+.tier-table-boolean-cell{
+	width:var(--tier-table-data-columns-width);
+	height:var(--tier-table-data-rows-height);
+}
+.tier-table-boolean-cell-inner{
+	text-align:center;
+	font-family:'Material Symbols Rounded';
+	font-size:1.5em;
+	user-select:none;
+}
+.tier-table-boolean-cell-inner.cell-true{
+	color: var(--tier-color-base);
+}
+.tier-table-boolean-cell-inner.cell-false{
+	color: #888;
+}
+.tier-table-desc-container{
+	position:absolute;
+	left:0;
+	right:0;
+	top:100%; /* align top to container's bottom */
+	background-color: hsl(from var(--color-background-dark) h s l / 100%);
+	z-index:1;
+	pointer-events:none;
+	transition-property:max-height, opacity;
+	transition-duration:0.2s;
+	max-height:0em;
+	opacity:0;
+	overflow:hidden;
+}
+.tier-table-desc-container.expanded{
+	max-height:5.0em;
+	opacity:1.0;
+}
+.tier-table-explain-row{
+	border-bottom: 0.1em solid hsl(from var(--color-text-light) h s l / 50%);
+}
+.tier-table .cell-inner-div.tier-table-explain-cell-inner{
+	font-size:0.8em;
+	text-align:left;
+}
+/*
+.tier-table-explain-cell-inner{
+	transition-property:max-height;
+	transition-duration:0.5s;
+	overflow:hidden;
+}
+.tier-table .tier-table-explain-row:not(.expanded) .tier-table-explain-cell-inner{
+	max-height:0;
+}
+.tier-table .tier-table-explain-row.expanded .tier-table-explain-cell-inner{
+	max-height: calc(var(--tier-table-data-rows-height) * 3.6);
+}*/
