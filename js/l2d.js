@@ -17,8 +17,9 @@ const l2d_container = document.getElementById("l2d-container");
 const l2d_canvas = document.getElementById("l2d-canvas");
 const wsd = document.getElementById("whole-screen-div");
 const l2d_load_overlay = document.getElementById("l2d-load-overlay");
-const button_show = document.getElementById("l2d-button-show");
 const button_hide = document.getElementById("l2d-button-hide");
+const button_hide_symbol_off = document.getElementById("l2d-button-hide-off");
+const button_hide_symbol_on = document.getElementById("l2d-button-hide-on");
 
 // PIXI Setup.
 PIXI.Ticker.shared.autoStart=false;
@@ -1016,13 +1017,22 @@ function show_hanmari_instant(){
 	reset_eye_position();
 }
 
-button_show.addEventListener("click",()=>{
-	show_hanmari();
-	button_show.classList.add("hidden");
-	button_hide.classList.remove("hidden");
-});
 button_hide.addEventListener("click",()=>{
-	hide_hanmari();
-	button_show.classList.remove("hidden");
 	button_hide.classList.add("hidden");
+	if (canvas_hidden){
+		show_hanmari();
+	}else{
+		hide_hanmari();
+	}
+	window.setTimeout(()=>{
+		if (canvas_hidden) {
+			button_hide_symbol_on.style.display="inline";
+			button_hide_symbol_off.style.display="none";
+		}else{
+			button_hide_symbol_on.style.display="none";
+			button_hide_symbol_off.style.display="inline";
+		}
+		button_hide.classList.remove("hidden");
+	},1000);
+	
 });

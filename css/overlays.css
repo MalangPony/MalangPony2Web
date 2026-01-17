@@ -168,10 +168,10 @@
   transition-property:opacity;
   transition-duration:0.3s;
 }
-.l2d-button:not(.hidden):hover{
+.l2d-button:hover{
   opacity:1.0;
 }
-.l2d-button.hidden{
+.l2d-button.hidden.hidden{ /* Raise specificity above :hover (not really needed) */
   opacity:0.0;
   pointer-events:none;
 }
