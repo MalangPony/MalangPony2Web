@@ -714,37 +714,7 @@ theme_btn.onclick= ()=>{
 
 
 
-// Hanmari hide/show
-function hide_hanmari(){
-  master_hanmari_container.style.opacity=1.0;
-  let anim3=master_hanmari_container.animate(
-    [{ opacity: "1.0" },{ opacity: "0.0" }],
-    {duration: 500,delay:0});
-  anim3.onfinish= () => {
-    master_hanmari_container.style.display="none";
-    L2D.pause_render();
-  }
-}
-function hide_hanmari_instant(){
-  master_hanmari_container.style.display="none";
-  L2D.pause_render();
-}
-function show_hanmari(){
-  master_hanmari_container.style.display="block";
-  master_hanmari_container.style.opacity=0.0;
-  L2D.unpause_render();
-  let anim3=master_hanmari_container.animate(
-    [{ opacity: "0.0" },{ opacity: "1.0" }],
-    {duration: 500,delay:0});
-  anim3.onfinish= () => {
-    master_hanmari_container.style.opacity=1.0;
-  }
-}
-function show_hanmari_instant(){
-  master_hanmari_container.style.display="block";
-  master_hanmari_container.style.opacity=1.0;
-  L2D.unpause_render();
-}
+
 
 
 
@@ -834,11 +804,14 @@ function page_transition(name,animated=true,push_to_history=false){
   // Open the corresponding sidebar category
   sidebar_autoexpand(name);
   
+  // Hanmari Wake
+  L2D.wake_hanmari_if_possible();
+  
   if (animated){
     
     // L2D Hanmari size/visibility
     if ((!to_intro) && Config.OPTION_HIDE_HANMARI_ON_NONINTRO_PAGES) 
-      hide_hanmari();
+      L2D.hide_hanmari();
     if (!to_intro)
       L2D.set_hanmari_size(Config.OPTION_NONINTRO_PAGE_HANMARI_SHRINK_FACTOR);
     else
@@ -867,7 +840,7 @@ function page_transition(name,animated=true,push_to_history=false){
       else sky_disable();
       
       if (to_intro && Config.OPTION_HIDE_HANMARI_ON_NONINTRO_PAGES) 
-        show_hanmari();
+        L2D.show_hanmari();
       
       if (to_intro)
         main_content_backdrop.classList.add("on-intro-page");
@@ -921,7 +894,7 @@ function page_transition(name,animated=true,push_to_history=false){
     if (currently_on_page==="intro") {
       // Note: Currently this branch is never taken.
       sky_enable();
-      show_hanmari_instant();
+      L2D.show_hanmari_instant();
       L2D.set_hanmari_size_instant(1.0);
       l2d_ground_transition_progress=0;
       main_content_backdrop.classList.add("on-intro-page");
@@ -929,7 +902,7 @@ function page_transition(name,animated=true,push_to_history=false){
     }else {
       sky_disable();
       if (Config.OPTION_HIDE_HANMARI_ON_NONINTRO_PAGES)
-        hide_hanmari_instant();
+        L2D.hide_hanmari_instant();
       l2d_ground_transition_progress=1;
       L2D.set_hanmari_size_instant(Config.OPTION_NONINTRO_PAGE_HANMARI_SHRINK_FACTOR);
       main_content_backdrop.classList.remove("on-intro-page");

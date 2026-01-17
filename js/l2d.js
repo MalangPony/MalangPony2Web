@@ -12,10 +12,13 @@ import { Vector2, Vector3 } from "./vectors.js";
 import { AnimatedValue } from "./animator.js";
 
 // Grab DOM
+const master_hanmari_container = document.getElementById("master-hanmari-container");
 const l2d_container = document.getElementById("l2d-container");
 const l2d_canvas = document.getElementById("l2d-canvas");
 const wsd = document.getElementById("whole-screen-div");
 const l2d_load_overlay = document.getElementById("l2d-load-overlay");
+const button_show = document.getElementById("l2d-button-show");
+const button_hide = document.getElementById("l2d-button-hide");
 
 // PIXI Setup.
 PIXI.Ticker.shared.autoStart=false;
@@ -561,6 +564,11 @@ let mousePositionLast=Vector2.ZERO;
 let mouseEventLastTime=performance.now();
 let last_significant_mouse_movement=performance.now();
 window.addEventListener("mousemove",(e)=>{
+	if (!Config.OPTION_ENABLE_L2D_HANMARI) return;
+	if (!PerformanceManager.check_feature_enabled(
+		PerformanceManager.Feature.HANMARI_L2D)) return;
+	if (canvas_hidden) return;
+	
 	// Calculate time delta
 	let t=performance.now();
 	let dt=(t-mouseEventLastTime)/1000;
@@ -628,6 +636,12 @@ function hanmari_random_action_check(){
 	}
 }
 
+export function wake_hanmari_if_possible(){
+	if(current_state==STATE_SLEEP)
+		apply_state(currently_on_ground?STATE_GROUND:STATE_SKY);
+	postpone_random_motion();
+}
+
 let click_counter=0;
 // Play special animation if clicked more than 5 times.
 function hanmari_clicked(region){
@@ -672,6 +686,7 @@ window.addEventListener("click",(e)=>{
 	if (!Config.OPTION_ENABLE_L2D_HANMARI) return;
 	if (!PerformanceManager.check_feature_enabled(
 		PerformanceManager.Feature.HANMARI_L2D)) return;
+	if (canvas_hidden) return;
 	let bbox=l2d_canvas.getBoundingClientRect();
 	let localX=e.clientX-bbox.left;
 	let localY=e.clientY-bbox.top;
@@ -695,9 +710,11 @@ let petting_accumulator=0.0;
 
 let last_mouse_position=null;
 window.addEventListener("mousemove",(e)=>{
+	wsd.style.cursor="unset";
 	if (!Config.OPTION_ENABLE_L2D_HANMARI) return;
 	if (!PerformanceManager.check_feature_enabled(
 		PerformanceManager.Feature.HANMARI_L2D)) return;
+	if (canvas_hidden) return;
 	let bbox=l2d_canvas.getBoundingClientRect();
 	let localX=e.clientX-bbox.left;
 	let localY=e.clientY-bbox.top;
@@ -747,6 +764,9 @@ let eye_position_mouse=[0,0];
 // Staring at the sky
 let eye_position_sky=[-0.5,0.5];
 
+function reset_eye_position(){
+	eye_position_mouse=[0,0];
+}
 // If more than 3 seconds since a significant move, don't do mouse tracking.
 function is_mouse_tracking_timed_out(){
 	return seconds_since_last_significant_mouse_movement()>3.0;
@@ -791,7 +811,7 @@ if (Config.OPTION_ENABLE_L2D_HANMARI){
 	// .body is needed for Firefox apperently
 	document.body.addEventListener("mouseleave",(e)=>{
 		//Reset eye if mouse left the window
-		eye_position_mouse=[0,0];
+		reset_eye_position();
 	});
 }
 
@@ -876,16 +896,7 @@ function apply_state(new_state=null,instant=false){
 }
 
 
-// Pause rendering without any cleanup.
-// Intended to be used when hanmari is hidden by the parent.
-// (main.js > hide_hanmari() and the like)
-let render_paused=false;
-export function pause_render(){
-	render_paused=true;
-}
-export function unpause_render(){
-	render_paused=false;
-}
+
 
 // X,Y is in -1 to +1
 export function set_sky_eye_position(x,y){
@@ -898,7 +909,7 @@ export function animationTick(dt){
 	if (!Config.OPTION_ENABLE_L2D_HANMARI) return;
 	if (!PerformanceManager.check_feature_enabled(
 		PerformanceManager.Feature.HANMARI_L2D)) return;
-	if (render_paused) return;
+	if (canvas_hidden) return;
 	
 	// Animate & apply size
 	hanmari_size_multiplier_AV.tick(dt);
@@ -937,3 +948,53 @@ export function animationTick(dt){
 	
 	pixi_manual_update();
 }
+
+
+let canvas_hidden=false;
+
+// Hanmari hide/show
+function hide_hanmari(){
+  l2d_canvas.style.opacity=1.0;
+  let anim3=l2d_canvas.animate(
+    [{ opacity: "1.0" },{ opacity: "0.0" }],
+    {duration: 500,delay:0});
+  anim3.onfinish= () => {
+    l2d_canvas.style.display="none";
+    canvas_hidden=true;
+  }
+}
+function hide_hanmari_instant(){
+  l2d_canvas.style.display="none";
+  canvas_hidden=true;
+}
+function show_hanmari(){
+  l2d_canvas.style.display="block";
+  l2d_canvas.style.opacity=0.0;
+  canvas_hidden=false;
+  let anim3=l2d_canvas.animate(
+    [{ opacity: "0.0" },{ opacity: "1.0" }],
+    {duration: 500,delay:0});
+  anim3.onfinish= () => {
+    l2d_canvas.style.opacity=1.0;
+  }
+  wake_hanmari_if_possible();
+  reset_eye_position();
+}
+function show_hanmari_instant(){
+  l2d_canvas.style.display="block";
+  l2d_canvas.style.opacity=1.0;
+  canvas_hidden=false;
+  wake_hanmari_if_possible();
+  reset_eye_position();
+}
+
+button_show.addEventListener("click",()=>{
+	show_hanmari();
+	button_show.classList.add("hidden");
+	button_hide.classList.remove("hidden");
+});
+button_hide.addEventListener("click",()=>{
+	hide_hanmari();
+	button_show.classList.remove("hidden");
+	button_hide.classList.add("hidden");
+});
