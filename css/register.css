@@ -319,10 +319,10 @@
 
 #register-tiers-table{
 	font-size:calc(var(--pages-actual-width) * 0.027);
-	padding-left:2.0em;
-	padding-right:2.0em;
-	padding-bottom:2.0em;
-	padding-top:1.0em;
+	padding-left:1.5em;
+	padding-right:1.5em;
+	padding-bottom:1.5em;
+	padding-top:0.0em;
 	background-color: hsl(from var(--color-background-dark) h s l / 100%);
 	align-self:center;
 	width:max-content;
@@ -438,7 +438,7 @@
 	color: var(--tier-color-base);
 }
 .tier-table-boolean-cell-inner.cell-false{
-	color: #888;
+	color: #FFFFFF20;
 }
 .tier-table-desc-container{
 	position:absolute;
