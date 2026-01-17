@@ -338,6 +338,10 @@ let hanmari_size_multiplier_AV = new AnimatedValue(hanmari_size_multiplier);
 hanmari_size_multiplier_AV.duration=1.0;
 hanmari_size_multiplier_AV.set_ease(3,true,true);
 
+let hanmari_size_diminisher_AV = new AnimatedValue(1.0);
+
+
+
 export function set_hanmari_size(fac){
 	hanmari_size_multiplier_AV.animate_to(fac);
 	l2d_load_overlay.style.setProperty("--l2d-scale",fac);
@@ -913,7 +917,10 @@ export function animationTick(dt){
 	
 	// Animate & apply size
 	hanmari_size_multiplier_AV.tick(dt);
-	let newsize=hanmari_size_multiplier_AV.calculate_value();
+	hanmari_size_diminisher_AV.tick(dt);
+	let newsize=1.0;
+	newsize *= hanmari_size_multiplier_AV.calculate_value(); 
+	newsize *= hanmari_size_diminisher_AV.calculate_value();
 	let oldsize=hanmari_size_multiplier;
 	hanmari_size_multiplier=newsize;
 	if (Math.abs(newsize-oldsize)>0.00000001){
@@ -954,38 +961,51 @@ let canvas_hidden=false;
 
 // Hanmari hide/show
 function hide_hanmari(){
-  l2d_canvas.style.opacity=1.0;
-  let anim3=l2d_canvas.animate(
-    [{ opacity: "1.0" },{ opacity: "0.0" }],
-    {duration: 500,delay:0});
-  anim3.onfinish= () => {
-    l2d_canvas.style.display="none";
-    canvas_hidden=true;
-  }
+	hanmari_size_diminisher_AV.stop();
+	hanmari_size_diminisher_AV.duration=1.0;
+	hanmari_size_diminisher_AV.set_ease(3,true,false);
+	hanmari_size_diminisher_AV.animate_to(0.0);
+	
+	l2d_canvas.style.opacity=1.0;
+	let anim3=l2d_canvas.animate(
+		[{ opacity: "1.0" },{ opacity: "0.0" }],
+		{duration: 500,delay:500});
+	anim3.onfinish= () => {
+		l2d_canvas.style.display="none";
+		canvas_hidden=true;
+	}
 }
 function hide_hanmari_instant(){
-  l2d_canvas.style.display="none";
-  canvas_hidden=true;
+	l2d_canvas.style.display="none";
+	hanmari_size_diminisher_AV.jump_to(0.0);
+	canvas_hidden=true;
 }
 function show_hanmari(){
-  l2d_canvas.style.display="block";
-  l2d_canvas.style.opacity=0.0;
-  canvas_hidden=false;
-  let anim3=l2d_canvas.animate(
-    [{ opacity: "0.0" },{ opacity: "1.0" }],
-    {duration: 500,delay:0});
-  anim3.onfinish= () => {
-    l2d_canvas.style.opacity=1.0;
-  }
-  wake_hanmari_if_possible();
-  reset_eye_position();
+	l2d_canvas.style.display="block";
+	canvas_hidden=false;
+	
+	hanmari_size_diminisher_AV.stop();
+	hanmari_size_diminisher_AV.duration=1.0;
+	hanmari_size_diminisher_AV.set_ease(3,false,true);
+	hanmari_size_diminisher_AV.animate_to(1.0);
+	
+	l2d_canvas.style.opacity=0.0;
+	let anim3=l2d_canvas.animate(
+		[{ opacity: "0.0" },{ opacity: "1.0" }],
+		{duration: 500,delay:0});
+	anim3.onfinish= () => {
+		l2d_canvas.style.opacity=1.0;
+	}
+	wake_hanmari_if_possible();
+	reset_eye_position();
 }
 function show_hanmari_instant(){
-  l2d_canvas.style.display="block";
-  l2d_canvas.style.opacity=1.0;
-  canvas_hidden=false;
-  wake_hanmari_if_possible();
-  reset_eye_position();
+	l2d_canvas.style.display="block";
+	l2d_canvas.style.opacity=1.0;
+	hanmari_size_diminisher_AV.jump_to(1.0);
+	canvas_hidden=false;
+	wake_hanmari_if_possible();
+	reset_eye_position();
 }
 
 button_show.addEventListener("click",()=>{
