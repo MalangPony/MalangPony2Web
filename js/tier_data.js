@@ -3,7 +3,7 @@ export const tiers_data={
 	standard:{
 		name_en:"Standard",
 		name_ko:"스탠다드",
-		desc_en:"Basic tier.",
+		desc_en:"Only the essentials.",
 		desc_ko:"일반 참가 등급입니다.",
 		css_class:"tier-standard",
 		inherits:null,
@@ -146,8 +146,8 @@ export const tiers_data={
 		margin_top:48,
 		name_en:"On-Site Badge",
 		name_ko:"현장등록",
-		desc_en:"On-site registration during the event. We recommend you pre-register as on-site reigsteration may not be available due to safety reasons.",
-		desc_ko:"행사 당일 현장에서 등록할 수 있는 등급입니다.<br>인원이 한정되어 있으며, <strong>행사 안전 관리를 위해 현장등록을 진행하지 않을 수도 있으니</strong>사전등록을 권장합니다.",
+		desc_en:"On-site registration during the event.<br>We recommend you pre-register as <strong>on-site registration may be limited or unavailable</strong> as venue capacity is reached.",
+		desc_ko:"행사 당일 현장에서 등록할 수 있는 등급입니다.<br>인원이 한정되어 있으며, <strong>행사 안전 관리를 위해 현장등록을 진행하지 않을 수도 있으니</strong> 사전등록을 권장합니다.",
 		css_class:"tier-onsite",
 		inherits:null,
 		perks_list:["daiso_badge","conbook"],
@@ -168,12 +168,12 @@ export const perks_data={
 		desc_ko:"PVC 재질의 목걸이형 명찰입니다."},
 	daiso_badge:{
 		name_en:"Acrylic Badge",name_ko:"일반 아크릴 명찰",
-		desc_en:"At the venue, Acrylic badge with a paper insert will be provided instead of pre-registration plastic badge.",
-		desc_ko:"현장에서는 사전등록(PVC 재질) 참가증이 아닌 종이를 끼우는 아크릴 명찰이 제공됩니다."},
+		desc_en:"For on-site registrations, an acrylic badge with a paper insert will be provided instead of a pre-registration plastic badge.",
+		desc_ko:"현장등록자에게는 사전등록(PVC 재질) 참가증이 아닌 종이를 끼우는 아크릴 명찰이 제공됩니다."},
 	
 	standard_lanyard:{
 		name_en:"Lanyard",name_ko:"랜야드",
-		desc_en:"A lanyard with MalangPony pattern and logo.",
+		desc_en:"A lanyard with a MalangPony logo pattern.",
 		desc_ko:"말랑포니 로고가 패턴 인쇄된 목걸이 줄입니다."},
 	
 	conbook:{
@@ -183,18 +183,18 @@ export const perks_data={
 	
 	conbook_website_mention:{
 		name_en:"Conbook &amp; Website Mention",name_ko:"콘북 &amp; 웹페이지 기재",
-		desc_en:"A 'Special Thanks' on the conbook and website.",
+		desc_en:"Your name will be listed on the 'Special Thanks' section of the conbook and the website credits.",
 		desc_ko:"콘북 Special Thanks와 공식 웹사이트 크레딧에 닉네임을 기재해 드립니다."},
 	light_stick:{
 		name_en:"Pen Light",name_ko:"말랑포니 로고 펜라이트",
-		desc_en:"An LED light stick that lights up the venue.",
+		desc_en:"An LED light stick that will light up the venue.",
 		desc_ko:"어두운 행사장을 비추는 LED 응원봉입니다."},
 	shirt:{
 		name_en:"Official T-Shirt",name_ko:"말랑포니 일러스트 티셔츠",
 		desc_en:"A T-shirt with an event artwork.",
-		desc_ko:"행사 기념 일러스트가 인쇄 된 티셔츠입니다."},
+		desc_ko:"행사 기념 일러스트가 인쇄된 티셔츠입니다."},
 	poster:{
-		name_en:"A3 sized Poster",name_ko:"A3 포스터",
+		name_en:"A3-size Poster",name_ko:"A3 포스터",
 		desc_en:"A print of this event's main visual.",
 		desc_ko:"이번 행사의 메인 일러스트 포스터입니다."},
 	sticker_pack:{
@@ -202,12 +202,12 @@ export const perks_data={
 		desc_en:"A pack of MalangPony stickers, for your luggage or laptop, etc.",
 		desc_ko:"캐리어, 노트북 등에 붙이기 좋은 말랑포니 스티커 세트입니다."},
 	water_bottle:{
-		name_en:"Malangpony Bottle",name_ko:"말랑포니 보틀",
-		desc_en:"A plastic water bottle with the event artwork.",
+		name_en:"MalangPony Bottle",name_ko:"말랑포니 보틀",
+		desc_en:"A plastic water bottle with an event artwork.",
 		desc_ko:"행사 기념 디자인이 새겨진 플라스틱 물병입니다."},
 	hand_fan:{
-		name_en:"Hand Fan",name_ko:"마스코트 부채",
-		desc_en:"A hand fan with our mascot character, that will come in handy in hot summer days.",
+		name_en:"Mascot Hand Fan",name_ko:"마스코트 부채",
+		desc_en:"A hand fan with our mascot character, that will come in handy in hot summer days.", // pun not intended
 		desc_ko:"귀여운 마스코트가 들어간 부채입니다."},
 	notepad:{
 		name_en:"Notepad",name_ko:"말랑포니 메모지",
@@ -220,18 +220,18 @@ export const perks_data={
 	opening_closing_mention:{
 		name_en:"Opening &amp; Closing Ceremonies Name Mention",name_ko:"개·폐회식 감사의 말",
 		desc_en:"We will call out your name at the start and end of the event and express gratitude for your support.",
-		desc_ko:"행사 시작과 끝에 사회자가 직접 닉네임을 호명하며 감사의 인사를 전합니다."},
+		desc_ko:"행사의 시작과 끝에 사회자가 직접 닉네임을 호명하며 감사의 인사를 전합니다."},
 	vendor_priority:{
 		name_en:"Vendor Zone Early Access",name_ko:"부스존 우선 입장",
-		desc_en:"You'll be able to enter the vendor zone 30 minutes earlier, so you can browse and shop more comfortably.",
+		desc_en:"You'll be able to enter the Vendor Zone 30 minutes earlier, so you can browse and shop more comfortably.",
 		desc_ko:"부스존에 스탠다드 등급 참가자보다 30분 먼저 입장하여 여유롭게 부스를 둘러보고 굿즈를 구매할 수 있습니다."},
 	acrylic_keyring:{
-		name_en:"Mascot acrylic Charm",name_ko:"마스코트 아크릴 키링",
+		name_en:"Mascot Acrylic Charm",name_ko:"마스코트 아크릴 키링",
 		desc_en:"A cute acrylic charm of our mascot that you can hang on your bags, etc.",
 		desc_ko:"가방 등에 달고 다닐 수 있는 귀여운 마스코트 키링입니다."},
 	towel:{
-		name_en:"Commemorative towel",name_ko:"기념 타올",
-		desc_en:"A celebratory limited-edition towel.",
+		name_en:"Commemorative Towel",name_ko:"기념 타올",
+		desc_en:"A limited-edition towel to celebrate this event.",
 		desc_ko:"말랑포니 2 개최 기념 한정판 수건입니다."},
 	acrylic_stand:{
 		name_en:"Acrylic Stand",name_ko:"아크릴 코롯토",
@@ -243,7 +243,7 @@ export const perks_data={
 		desc_ko:"말랑포니 디자인이 새겨진 한정판 도장입니다."},
 	embroidered_tag:{
 		name_en:"Embroidered Tag",name_ko:"말랑포니 자수 태그",
-		desc_en:"A fabric tag embroidered with cutie marks of MalangPony mascots.",
+		desc_en:"A fabric tag embroidered with the cutie marks of MalangPony mascots.",
 		desc_ko:"말랑포니 마스코트들의 큐티마크를 자수로 만든 키링입니다."},
 	tin_badge_mane:{
 		name_en:"Mane Six Tin Badge",name_ko:"메인식스 전용 핀뱃지",
@@ -252,7 +252,7 @@ export const perks_data={
 		overwrites:["tin_badge_sponsor"]},
 	backstage:{
 		name_en:"Backstage Pass",name_ko:"백스테이지 패스",
-		desc_en:"You can enter early and explore the venue during setup time. (8AM)",
+		desc_en:"You can enter as early as 8AM and explore the venue during setup time.",
 		desc_ko:"준비 시간(오전 8시 부터) 동안 행사장 전체를 둘러볼 수 있습니다."},
 	priority_access:{
 		name_en:"Super Pass",name_ko:"최우선 입장",
@@ -270,7 +270,7 @@ export const perks_data={
 	large_tapestry:{
 		name_en:"Large Tapestry",name_ko:"대형 태피스트리",
 		desc_en:"A large tapestry with a high-quality print of an artwork.",
-		desc_ko:"고화질 일러스트가 인쇄된 족자봉입니다. (택배 발송 가능)"},
+		desc_ko:"고화질 일러스트가 인쇄된 족자봉입니다."},
 	/*
 	song_request:{
 		name_en:"Song Request in Malang The Beat!",name_ko:"말랑 더 비트! 선곡권",
@@ -308,11 +308,11 @@ export const perks_data={
 		overwrites:["tin_badge_mane","tin_badge_sponsor"]},
 	shipping:{
 		name_en:"Shipping Service",name_ko:"배송 서비스",
-		desc_en:"we will ship all the heavy merchandise you have purchased or received during the event, free of charge. (Optional)",
+		desc_en:"We will ship all the heavy merchandise you have purchased or received during the event, free of charge. (Optional)",
 		desc_ko:"원하실 경우, 현장에서 수령한 무거운 굿즈들을 택배로 발송해 드립니다."},
 	discord_hotline:{
 		name_en:"Discord Hotline",name_ko:"디스코드 핫라인",
-		desc_en:"You'll be invited to a dedicated Discord channel that you can directly chat with the event staff. Any suggestions you tell us through this channel will be given utmost priotity.",
+		desc_en:"You'll be invited to a dedicated Discord channel in which you can directly chat with the event staff. Any suggestions you tell us through this channel will be given utmost priotity.",
 		desc_ko:"운영진과 직접 소통할 수 있는 전용 디스코드 채널에 초대되며, 건의사항을 말씀해 주신다면 최우선으로 검토합니다."},
 	tin_badge_spirit_dx:{
 		name_en:"Deluxe Spirit Tin Badge",name_ko:"디럭스 영혼참가 전용 핀뱃지",
