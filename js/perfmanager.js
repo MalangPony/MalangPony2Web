@@ -78,7 +78,7 @@ function guess_feature_level(current_fps){
 let frame_times=[];
 let feature_last_adjusted=NaN;
 const FEATURE_ADJUST_INTERVAL=500; //milliseconds
-let auto_adjust_feature_level=true;
+let auto_adjust_feature_level=false;
 export function disable_auto_adjust(){
 	auto_adjust_feature_level=false;
 }
