@@ -28,7 +28,6 @@ export const tiers_data={
 		inherits:"standard",
 		perks_list:[
 			"conbook_website_mention",
-			"light_stick",
 			"shirt",
 			"poster",
 			"sticker_pack",
@@ -125,7 +124,6 @@ export const tiers_data={
 		inherits:"spirit",
 		perks_list:[
 			"conbook_website_mention",
-			"light_stick",
 			"shirt",
 			"poster",
 			"sticker_pack",
@@ -192,10 +190,6 @@ export const perks_data={
 		name_en:"Conbook &amp; Website Mention",name_ko:"콘북 &amp; 웹페이지 기재",
 		desc_en:"Your name will be listed on the 'Special Thanks' section of the conbook and the website credits.",
 		desc_ko:"콘북 Special Thanks와 공식 웹사이트 크레딧에 닉네임을 기재해 드립니다."},
-	light_stick:{
-		name_en:"Pen Light",name_ko:"말랑포니 로고 펜라이트",
-		desc_en:"An LED light stick that will light up the venue.",
-		desc_ko:"어두운 행사장을 비추는 LED 응원봉입니다."},
 	shirt:{
 		name_en:"Official T-Shirt",name_ko:"말랑포니 일러스트 티셔츠",
 		desc_en:"A T-shirt with an event artwork.",
@@ -278,11 +272,6 @@ export const perks_data={
 		name_en:"Large Tapestry",name_ko:"대형 태피스트리",
 		desc_en:"A large tapestry with a high-quality print of an artwork.",
 		desc_ko:"고화질 일러스트가 인쇄된 족자봉입니다."},
-	/*
-	song_request:{
-		name_en:"Song Request in Malang The Beat!",name_ko:"말랑 더 비트! 선곡권",
-		desc_en:"You'll be able to request a song in our DJ show, Malang The Beat! The DJ will mention the song was requested by a VIP.",
-		desc_ko:"행사의 피날레인 '말랑 더 비트'에서 원하는 포니 음악을 틀어보세요. DJ가 신청곡임을 특별히 언급하며 재생해 드립니다."},*/
 	relay_prompt:{
 		name_en:"Relay Sketches Prompt",name_ko:"릴레이 스케치 주제 선택권",
 		desc_en:"You can choose which scene from the show that will get drawn in the Relay Pony Sketches panel.",
@@ -291,15 +280,6 @@ export const perks_data={
 		name_en:"Choose Brony Feud Question",name_ko:"브로니 말 맞추기 질문 선택권",
 		desc_en:"You can choose a question that will be in the survey for the Brony Feud panel.",
 		desc_ko:"브로니 말 맞추기 패널의 설문조사에 들어갈 질문을 하나 지정하실 수 있습니다."},
-	/*
-	:{
-		name_en:"",name_ko:"",
-		desc_en:"",
-		desc_ko:""},
-	:{
-		name_en:"",name_ko:"",
-		desc_en:"",
-		desc_ko:""},*/
 	signed_poster:{
 		name_en:"Poster Signed by Staff",name_ko:"스태프 사인 포스터",
 		desc_en:"A poster signed by all the staff and guests, expressing our gratitude for your support.",
