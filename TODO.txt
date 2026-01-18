@@ -3,7 +3,7 @@ When timetable block is clicked, present a venue map
 Add 3D map (ThreeJS) ???
 
 > Important bugfix
-Fix Venue/Direction/2 icon
+
 
 > Important usability
 HMR L2D sometimes occludes text (This is very bad)
