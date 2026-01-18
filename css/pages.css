@@ -105,12 +105,8 @@
   margin-bottom:0.4em;
 }
 .page-text-body ul,ol{
-  list-style-position: inside;
-  padding-inline-start: 1.5em;
-}
-.page-text-body > ul,ol{ /* Topmost. Don't apply padding.*/
-  list-style-position: inside;
-  padding-inline-start: 0em;
+  list-style-position: outside;
+  padding-inline-start: 1.3em;
 }
 
 .linkbutton-row{
