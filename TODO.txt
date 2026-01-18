@@ -17,7 +17,6 @@ honor prefers-reduced-motion
 
 > Easy
 Autoclose timetable details on page unload
-Page transition speed in Config -> Speed up 1.0 -> 0.6?
 
 > Normal usability
 require click for petting

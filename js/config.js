@@ -29,3 +29,14 @@ export const OPTION_CASTLEBG_MAX_WIDTH_PIXELS=10000;
 export const OPTION_CASTLEBG_MIN_WIDTH_PIXELS=1000;
 
 export const DEBUG_OVERLAY_ACTIVE=false;
+
+
+const page_transition_duration=800;
+export const PAGE_TRANSITION_SPEED_FADEOUT=page_transition_duration/2;
+export const PAGE_TRANSITION_SPEED_FADEIN=page_transition_duration/2;
+// Castle Enter fade start after castle animation is done
+export const STATIC_BG_TRANSITION_SPEED_CASTLE_ENTER=500;
+// Castle exit fade starts right away
+export const STATIC_BG_TRANSITION_SPEED_CASTLE_EXIT=1000;
+// Inside crossfade starts right away.
+export const STATIC_BG_TRANSITION_SPEED_INSIDE=page_transition_duration;

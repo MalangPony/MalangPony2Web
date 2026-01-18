@@ -834,11 +834,12 @@ function page_transition(name,animated=true,push_to_history=false){
     // Hide current page
     let anim_hide_old=main_content_backdrop.animate(
       [{ opacity: "1.0" },{ opacity: "0.0" }],
-      {duration: 500,delay:animation_start_time});
+      {duration: Config.PAGE_TRANSITION_SPEED_FADEIN,
+       delay:animation_start_time});
     anim_hide_old.addEventListener("finish",()=>{
       main_content_backdrop.style.opacity=0.0;
     });
-    animation_start_time+=500;
+    animation_start_time+=Config.PAGE_TRANSITION_SPEED_FADEIN;
     
     // This is the instant where the transition actually happens.
     function swap_page(){
@@ -871,22 +872,30 @@ function page_transition(name,animated=true,push_to_history=false){
       let duration=Castle.enter_animation(animation_start_time,
         ()=>{swap_page();});
       animation_start_time+=duration;
-      StaticBG.activate_page_bg(name,animation_start_time,500);
+      
+      //after castle animation complete
+      StaticBG.activate_page_bg(name,animation_start_time,
+        Config.STATIC_BG_TRANSITION_SPEED_CASTLE_ENTER);
     }else if ( (!on_intro) && to_intro ){ // Exit Castle
       anim_hide_old.addEventListener("finish",()=>{swap_page();});
-      StaticBG.activate_page_bg(name,0,1000);
+      // Fade to transparent right away
+      StaticBG.activate_page_bg(name,0,
+        Config.STATIC_BG_TRANSITION_SPEED_CASTLE_EXIT); 
       let duration=Castle.exit_animation(animation_start_time,()=>{});
       animation_start_time+=duration;
       
     }else{ // move inside castle
       anim_hide_old.addEventListener("finish",()=>{swap_page();});
-      StaticBG.activate_page_bg(name,0,1000);
+      // crossfade right away
+      StaticBG.activate_page_bg(name,0,
+        Config.STATIC_BG_TRANSITION_SPEED_INSIDE); 
     }
     
     // Show next page
     let anim_show_new=main_content_backdrop.animate(
       [{ opacity: "0.0" },{ opacity: "1.0" }],
-      {duration: 500,delay:animation_start_time});
+      {duration: Config.PAGE_TRANSITION_SPEED_FADEIN,
+       delay:animation_start_time});
     anim_show_new.onfinish= () => {
       main_content_backdrop.style.opacity=1;
       page_transition_in_progress=false;
