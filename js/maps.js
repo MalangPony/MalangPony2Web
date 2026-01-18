@@ -364,6 +364,62 @@ var drawing2 = new kakao.maps.CustomOverlay({
 });
 
 
+// Markers of previous locations
+function generate_previous_marker_content(desc_en,desc_ko,date,src,compact){
+  let previous_marker_content="";
+  if (compact)
+    previous_marker_content+='<div class="previous-marker-container compact">';
+  else
+    previous_marker_content+='<div class="previous-marker-container">';
+  
+  previous_marker_content+=  '<img src="'+src+'" class="previous-marker-image">';
+  previous_marker_content+=  '<div class="previous-marker-texts">';
+  previous_marker_content+=    '<div class="previous-marker-description">';
+  previous_marker_content+=      '<span class="lang-en">'+desc_en+'</span>';
+  previous_marker_content+=      '<span class="lang-ko">'+desc_ko+'</span>';
+  previous_marker_content+=    '</div>';
+  previous_marker_content+=    '<div class="previous-marker-date">'+date+'</div>';
+  previous_marker_content+=  '</div>';
+  previous_marker_content+=  '<div class="previous-marker-arrow">arrow_drop_down</div>';
+  previous_marker_content+='</div>';
+  return previous_marker_content;
+}
+
+let marker_mpn1_content_compact=generate_previous_marker_content(
+      "MalangPony 1","말랑포니 1","2025-02-15",
+      "sprites/MPN_Twtr_Header_var1_VECTORIZE_rev6_SS-NoBGCrop_300_RszW300+Expand+Shadow1.png",
+      true);
+let marker_mpn1_content_expanded=generate_previous_marker_content(
+      "MalangPony 1","말랑포니 1","2025-02-15",
+      "sprites/MPN_Twtr_Header_var1_VECTORIZE_rev6_SS-NoBGCrop_300_RszW300+Expand+Shadow1.png",
+      false);
+let marker_mpn1 = new kakao.maps.CustomOverlay({
+    map: kkm,
+    position: array_to_latlng(MapData.point_GreenLounge),
+    content: marker_mpn1_content_expanded,
+    xAnchor:0.5,
+    yAnchor: 1.0,
+    zIndex:4
+});
+
+let marker_mpnL_content_compact=generate_previous_marker_content(
+      "MalangLittlePony","말랑리틀포니","2025-08-23",
+      "sprites/MPN_LogoV2L_PNG-400dpi-NoBG_RszW300+Expand+Shadow1.png",
+      true);
+let marker_mpnL_content_expanded=generate_previous_marker_content(
+      "MalangLittlePony","말랑리틀포니","2025-08-23",
+      "sprites/MPN_LogoV2L_PNG-400dpi-NoBG_RszW300+Expand+Shadow1.png",
+      false);
+let marker_mpnL = new kakao.maps.CustomOverlay({
+    map: kkm,
+    position: array_to_latlng(MapData.point_EpisodeDaejeon),
+    content: marker_mpnL_content_expanded,
+    xAnchor:0.5,
+    yAnchor: 1.0,
+    zIndex:4
+});
+
+
 // Event listeners
 // Display jump button if venue is too off to the side
 kakao.maps.event.addListener(kkm, 'bounds_changed', ()=>{
@@ -416,6 +472,14 @@ function zoom_change(){
     drawing2.setContent(generate_drawing_html(drawing2_data,"huge"));
     drawing1.setPosition(drawing1_data.huge.location);
     drawing2.setPosition(drawing2_data.huge.location);
+  }
+  
+  if (zl>5.5){
+    marker_mpn1.setContent(marker_mpn1_content_compact);
+    marker_mpnL.setContent(marker_mpnL_content_compact);
+  }else{
+    marker_mpn1.setContent(marker_mpn1_content_expanded);
+    marker_mpnL.setContent(marker_mpnL_content_expanded);
   }
 
   placeLabel.setVisible( (zl>4.5) && (zl<6.5) ); //Onlt ZL=5,6

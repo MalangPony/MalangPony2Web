@@ -238,3 +238,7 @@ export var route_ICN2GMP=[
 	[37.5622515, 126.8013713],
 ];
 
+export var point_GreenLounge=[37.5573163, 127.0829521];
+
+export var point_EpisodeDaejeon=[36.3291282, 127.4287383];
+
