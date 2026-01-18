@@ -16,7 +16,7 @@ Explanation, like perks block, in the directions block
 honor prefers-reduced-motion
 
 > Easy
-Autoclose timetable details on page unload
+
 
 > Normal usability
 require click for petting

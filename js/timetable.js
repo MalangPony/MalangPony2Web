@@ -150,6 +150,10 @@ let exit_functions=[];
 // All times where a block starts or ends
 let time_ticks=new Set();
 
+export function close_all_timetable_blocks(){
+	while (exit_functions.length>0) exit_functions.pop()();
+}
+
 
 // DOM Elements
 let all_blocks=[]; //K:
@@ -671,6 +675,7 @@ export function enter_timetable_page(){
 export function exit_timetable_page(){
 	in_timetable_page=false;
 	update_styles();
+	close_all_timetable_blocks();
 }
 function update_styles(){
 	let active = in_timetable_page && mobile_mode;
