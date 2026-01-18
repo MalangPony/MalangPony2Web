@@ -12,8 +12,18 @@
 }
 
 #map-outer{
-  width:min(600px,100%);
-  height:400px;
+  /* Width */
+  --map-outer-width: min(var(--pages-actual-width), 800px);
+  /* Height: target aspect 4:3, 
+   *         but try to be at least 400px 
+   *         and never bigger than 60svh */
+  --map-outer-height: min(
+                        max(
+                          calc(var(--map-outer-width) * 0.75),
+                          400px),
+                        60svh);
+  width:var(--map-outer-width);
+  height:var(--map-outer-height);
   position:relative;
 }
 #kakaomap-content{
