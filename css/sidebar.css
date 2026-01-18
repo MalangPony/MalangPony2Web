@@ -20,11 +20,11 @@
   left:0;
 }
 body.langmode-en{
-  --sidebar-width:224px;
-  --sidebar-margin-left:-16px;
+  --sidebar-width:214px;
+  --sidebar-margin-left:-8px;
 }
 body.langmode-ko{
-  --sidebar-width:192px;
+  --sidebar-width:190px;
   --sidebar-margin-left:0px;
 }
 .desktop-mode .sidebar-topspacer{

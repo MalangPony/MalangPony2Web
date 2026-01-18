@@ -10,7 +10,7 @@
   /* These margins are applied at first. */
   /* If there is space left over, we try to equalize the margins first */
   /* And if space is still left over, it is distributed to both sides equally. */
-  --mcd-left:128px;
+  --mcd-left:170px;
   --mcd-right:64px;
   
   --mcd-difference: calc(var(--mcd-left) - var(--mcd-right));
@@ -23,8 +23,7 @@
   --mcd-margin-left: calc(var(--mcd-left) + var(--mcd-space-distributed));
   --mcd-margin-right: calc(var(--mcd-right) + var(--mcd-space-equalize) + var(--mcd-space-distributed));
   
-  /* Below assumes 2% gradient on each side.*/
-  --mcd-inner-width: calc(var(--mcd-width) * 0.96);
+  --mcd-inner-width: calc(var(--mcd-width) * 1.00);
   
   
   --pages-padding-lr: 48px;
@@ -54,7 +53,7 @@
 
 /* contains blanker and afterscroll */
 #main-content-backdrop{
-  
+  --mcd-glow-width:32px;
   width:var(--mcd-width);
   margin-left:var(--mcd-margin-left);
   margin-right:var(--mcd-margin-right);
@@ -93,12 +92,12 @@
 }
 @property --mcb-opacity {
   syntax:"<number>";
-  inherits:false;
+  inherits:true;
   initial-value:0;
 }
 @property --mcb-color {
   syntax:"<color>";
-  inherits:false;
+  inherits:true;
   initial-value:#000;
 }
 #main-content-backdrop{
@@ -111,26 +110,36 @@
 #main-content-backdrop{
   background-image: linear-gradient(
     to right,
-    hsl(from var(--mcb-color) h s l / 0%                                                  )   0%,
-    hsl(from var(--mcb-color) h s l / calc(var(--mcb-opacity) * var(--mcb-glow-opacity)  ))   2%,
-    hsl(from var(--mcb-color) h s l / calc(var(--mcb-opacity) * var(--mcb-edge-opacity)  ))   2%,
-    hsl(from var(--mcb-color) h s l / calc(var(--mcb-opacity) * var(--mcb-center-opacity)))  20%,
-    hsl(from var(--mcb-color) h s l / calc(var(--mcb-opacity) * var(--mcb-center-opacity)))  80%,
-    hsl(from var(--mcb-color) h s l / calc(var(--mcb-opacity) * var(--mcb-edge-opacity)  ))  98%,
-    hsl(from var(--mcb-color) h s l / calc(var(--mcb-opacity) * var(--mcb-glow-opacity)  ))  98%,
-    hsl(from var(--mcb-color) h s l / 0%                                                  ) 100%);
-  padding-left:2%;
-  padding-right:2%;
-}
-.mobile-mode #main-content-backdrop{
-  background-image: linear-gradient(
-    to right,
     hsl(from var(--mcb-color) h s l / calc(var(--mcb-opacity) * var(--mcb-edge-opacity)  ))   0%,
     hsl(from var(--mcb-color) h s l / calc(var(--mcb-opacity) * var(--mcb-center-opacity)))  20%,
     hsl(from var(--mcb-color) h s l / calc(var(--mcb-opacity) * var(--mcb-center-opacity)))  80%,
     hsl(from var(--mcb-color) h s l / calc(var(--mcb-opacity) * var(--mcb-edge-opacity)  )) 100%);
   padding-left:0;
   padding-right:0;
+}
+.mcd-shadow{
+  position:absolute;
+  top:0;
+  bottom:0;
+}
+#mcd-shadow-left{
+  right:100%;
+  left:calc(var(--mcd-glow-width) * -1);
+  background-image: linear-gradient(
+    to right,
+    hsl(from var(--mcb-color) h s l / 0%                                                  )   0%,
+    hsl(from var(--mcb-color) h s l / calc(var(--mcb-opacity) * var(--mcb-glow-opacity)  )) 100%);
+}
+#mcd-shadow-right{
+  right:calc(var(--mcd-glow-width) * -1);
+  left:100%;
+  background-image: linear-gradient(
+    to left,
+    hsl(from var(--mcb-color) h s l / 0%                                                  )   0%,
+    hsl(from var(--mcb-color) h s l / calc(var(--mcb-opacity) * var(--mcb-glow-opacity)  )) 100%);
+}
+.mobile-mode .mcd-shadow{
+  display:none;
 }
 
 
