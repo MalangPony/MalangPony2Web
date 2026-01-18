@@ -58,6 +58,7 @@ const debug_print_acms=document.getElementById("debug-print-acms");
 const debug_print_featurelevel=document.getElementById("debug-print-fl");
 const debug_print_features=document.getElementById("debug-print-features");
 const debug_print_faa=document.getElementById("debug-print-faa");
+const debug_print_container=document.getElementById("debug-print-area");
 
 
 const hanmari_image_container = document.getElementById("hmr-image-container");
@@ -85,6 +86,10 @@ const main_content_actual = document.getElementById("main-content-actual");
 
 const countdown_display = document.getElementById("countdown-display");
 
+
+// Debug print area
+if (!Config.DEBUG_OVERLAY_ACTIVE) debug_print_container.style.display="none";
+else debug_print_container.style.display="flex";
 
 // PerfManager callback: CSS Filters
 PerformanceManager.register_feature_disable_callback(
