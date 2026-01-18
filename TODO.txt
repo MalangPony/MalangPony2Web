@@ -1,29 +1,39 @@
-honor prefers-reduced-motion
-A low-power device warning when feature level is low?
-Timetable: Improve mobile UI - maybe auto-expand with scroll progress?
-Maybe: constallations?
-idle on sky mode - a smol hanmari horizontally moves across screen
-stars - bigger and less density ... or smaller
-Page transition speed in Config -> Speed up 1.0 -> 0.6?
-l2d hide when screen is narrow - or more margin at page bottom?
-Fix Venue/Direction/2 icon
-Explanation, like perks block, in the directions block
-Optimize castle textures by cropping
+> Essential functionality
 When timetable block is clicked, present a venue map
-Make sure mascot drawings don't get cut off when direction is clocked
 Add 3D map (ThreeJS) ???
+
+> Important bugfix
+Fix Venue/Direction/2 icon
+
+> Important usability
 HMR L2D sometimes occludes text (This is very bad)
 Spam-clicking back button will desync the page URL and page
-Autoclose timetable details on page unload
 Timetable lowest block unclosable in mobile
-for Royal tier box, make it fancy
+l2d hide when screen is narrow - or more margin at page bottom?
 Hover style for all clickable buttons
-require click for petting
-L2D SFX
+Optimize castle textures by cropping
+Explanation, like perks block, in the directions block
+honor prefers-reduced-motion
 
-RIGHT BEFORE PUSH TO PROD
+> Easy
+Autoclose timetable details on page unload
+Page transition speed in Config -> Speed up 1.0 -> 0.6?
+
+> Normal usability
+require click for petting
+A low-power device warning when feature level is low?
+for Royal tier box, make it fancy
+
+> Extra easter eggs
+L2D SFX
+idle on sky mode - a smol hanmari horizontally moves across screen
+Sky constallations
+
+
+
+> RIGHT BEFORE PUSH TO PROD
 Change all domains (testing.malangpony) to a PHP expression (<?php echo $webroot;?>)
 ...or change all testing.malangpony domain to malangpony (automated search-replace?)
 
-AFTER PUSH TO PROD
+> AFTER PUSH TO PROD
 Check OpenGraph working
