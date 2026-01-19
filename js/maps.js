@@ -5,8 +5,12 @@
 
 import * as MapData from "./map_data.js";
 
+// Grab DOM
+
+//page
 let page_venue=document.getElementById("page-venue");
 
+// directions boxes
 let directions_munrae = document.getElementById("directions-munrae");
 let directions_yangpyong = document.getElementById("directions-yangpyong");
 let directions_bus = document.getElementById("directions-bus");
@@ -14,6 +18,16 @@ let directions_icn = document.getElementById("directions-icn");
 let directions_gmp = document.getElementById("directions-gmp");
 let directions_railway = document.getElementById("directions-railway");
 let directions_gsbus = document.getElementById("directions-gsbus");
+
+// Main container
+let container = document.getElementById('kakaomap-content'); 
+
+// Focus bounds
+let box_with_padding = document.getElementById('map-box-with-padding'); 
+
+// Jump to ATM button
+let mbj=document.getElementById("map-btn-jump");
+
 
 function array_to_latlng(a){
   return new kakao.maps.LatLng(a[0], a[1]); 
@@ -37,12 +51,6 @@ function concatenate_route(...a){
 
 //AllThatMind location
 var positionATM  = array_to_latlng(MapData.point_ATM);
-
-// Main container
-var container = document.getElementById('kakaomap-content'); 
-
-// Jump to ATM button
-let mbj=document.getElementById("map-btn-jump");
 
 
 // The all-important map object
@@ -256,7 +264,7 @@ for (const k in routes){
       {strokeOpacity:0.5,strokeWeight:6,strokeStyle:"solid"},
       {strokeOpacity:0.7,strokeWeight:4,strokeStyle:"dashed"});
     kkm.setBounds(route.bounds,50);
-    container.scrollIntoView({behavior:"smooth",block:"nearest"});
+    box_with_padding.scrollIntoView({behavior:"smooth",block:"nearest"});
   });
   route.wp_overlays=[];
   
