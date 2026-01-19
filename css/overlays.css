@@ -42,25 +42,12 @@
 }
 
 /* Hanmari in the bottom right corner. L2D or image. */
-/*
- Since hanmari takes up ~75% of the canvas size most of the time,
- L2D Base Size is ~0.75 times the canvas size.
- (On the Intro page, it's more closer to ~90% but still)
- 
- LBS should be min(30vw,40lvh)
- But LBS should be at least --mcd-margin-right
- And LBS should be not exceed 60lvh
- */
+
 
 #l2d-container{
-  --l2d-base-size: min(
-      max(
-        min(30vw,40lvh), 
-        var(--mcd-margin-right)),
-      min(60lvh));
-  width:calc(var(--l2d-base-size) / 0.75);
-  height:auto;
-  aspect-ratio:1.0;
+  
+  width:var(--l2d-canvas-size);
+  height:var(--l2d-canvas-size);
   position:absolute;
   right:0;
   bottom:0;
@@ -220,10 +207,6 @@
 
 /* Mobile mode */
 @media (width<640px) {
-  #l2d-container{
-    width:min(70vw,40lvh);
-    height:min(70vw,40lvh);
-  }
   #l2d-buttons-container{
     padding-right:12px;
     gap:32px;

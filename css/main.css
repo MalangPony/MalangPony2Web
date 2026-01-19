@@ -49,6 +49,31 @@
     calc(var(--intrologo-max-width) / var(--intrologo-aspect-ratio)));
   /* Set the bottom margin so it sticks until reaching a certain scroll progress. */
   --intrologo-bottom-margin:calc(100svh - ( var(--intrologo-height) /2 ) - var(--intrologo-center-height-from-top));
+  
+  
+  /* L2D size calculations
+   *
+   * Since hanmari takes up ~75% of the canvas size most of the time,
+   * L2D Base Size is ~0.75 times the canvas size.
+   * (On the Intro page, it's more closer to ~90% but still)
+   * 
+   * LBS should be min(30vw,40lvh)
+   * But LBS should be at least --mcd-margin-right
+   * And LBS should be not exceed 60lvh
+   */
+  --l2d-base-size: min(
+      max(
+        min(30vw,40lvh), 
+        var(--mcd-margin-right)),
+      min(60lvh));
+  --l2d-canvas-size: calc(var(--l2d-base-size) / 0.75);
+}
+/* Mobile mode */
+@media (width<640px) {
+  :root{
+    /* L2D size for mobile. */
+    --l2d-base-size: min(60vw,33lvh);
+  }
 }
 
 /* contains blanker and afterscroll */
@@ -306,12 +331,17 @@
 }
 #footer-content{
   display:flex;
-  justify-content:center;
+  justify-content:flex-start;
   align-items:center;
   flex-direction:column;
-  margin-bottom:16px;
+  padding-bottom:16px;
   gap:8px;
   line-height:1.5;
+  
+  /* This is so that the user can scroll all the way down to the page */
+  /* and make hanmari sit in the footer space */
+  /* so no actual page contents are covered */
+  min-height:var(--l2d-base-size);
 }
 #footer-text-contact{
   font-weight:700;
