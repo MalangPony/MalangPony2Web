@@ -22,6 +22,9 @@
  *    .icon-swap
  *    .icon-table
  *    .icon-list
+ *    .icon-undo
+ *    .icon-map-pin-heart
+ *    .icon-map-pin-home
  */
 /* Important: The icon will only be generated if .generate-icon class is added.*/
 /* May have the .manual-icon class, and the first child will be positioned as the icon. */
@@ -180,7 +183,13 @@
   background-position:center;
   background-repeat:no-repeat;
 }
-
+.link-button.large-padded.generate-icon::before{
+  font-size:1.2em;
+}
+.link-button.padded.generate-icon::before{
+  font-size:1.2em;
+  --lb-icon-offset-multiplier:0.6;
+}
 .link-button.color-twitter{
   --lb-color-bg:light-dark(
     var(--color-twitter-light-bg),
@@ -284,6 +293,24 @@
 }
 .link-button.icon-list::before{
   content:"data_table";
+  font-family:'Material Symbols Rounded';
+  transform:scale(1.4);
+  margin-top:calc(-0.5em * var(--lb-icon-offset-multiplier));
+}
+.link-button.icon-undo::before{
+  content:"undo";
+  font-family:'Material Symbols Rounded';
+  transform:scale(1.4);
+  margin-top:calc(-0.5em * var(--lb-icon-offset-multiplier));
+}
+.link-button.icon-map-pin-heart::before{
+  content:"map_pin_heart";
+  font-family:'Material Symbols Rounded';
+  transform:scale(1.4);
+  margin-top:calc(-0.5em * var(--lb-icon-offset-multiplier));
+}
+.link-button.icon-map-pin-home::before{
+  content:"home_pin";
   font-family:'Material Symbols Rounded';
   transform:scale(1.4);
   margin-top:calc(-0.5em * var(--lb-icon-offset-multiplier));

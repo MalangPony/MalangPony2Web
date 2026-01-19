@@ -129,25 +129,23 @@
   position:absolute;
   top:16px;
   left:16px;
-  height:64px;
-  background-color:var(--template-malang-TWI);
-  color:var(--color-text-light);
   z-index:10;
-  display:flex;
-  flex-direction:row;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  padding:8px;
   box-shadow:4px 4px 16px #00000080;
-  border-radius:8px;
-}
-#map-btn-jump > img {
-  height:48px;
-  width:48px;
+  
+  --lb-color-bg:var(--color-text-dark);
+  --lb-color-text:var(--color-text-light);
+  
+  transition-property: top, opacity;
+  transition-duration: 0.5s;
+  
+  opacity:1.0;
 }
 
-
+#map-btn-jump.hidden{
+  top:-64px;
+  opacity:0.0;
+  pointer-events:none;
+}
 
 #directions-intercity-divider{
   margin-top:40px;

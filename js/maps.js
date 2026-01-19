@@ -437,8 +437,8 @@ kakao.maps.event.addListener(kkm, 'bounds_changed', ()=>{
   let centeredX=(ratioX<0.95) && (ratioX>0.05);
   let centeredY=(ratioY<0.95) && (ratioY>0.05);
   
-  if (centeredX && centeredY) mbj.style.display="none";
-  else mbj.style.display="flex";
+  if (centeredX && centeredY) mbj.classList.add("hidden");
+  else mbj.classList.remove("hidden");
 });
 
 // Zoom-dependent Visibility
@@ -526,6 +526,4 @@ export function lang_changed(){
 lang_changed();
 
 // Jump button
-mbj.style.display="none";
 mbj.addEventListener("click",recenter);
-mbj.style.cursor="pointer";
