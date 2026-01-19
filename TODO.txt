@@ -4,6 +4,8 @@ Add 3D map (ThreeJS) ???
 
 > Important bugfix
 
+> Text
+Remove all occurances of "Ticket"
 
 > Important usability
 HMR L2D sometimes occludes text (This is very bad)
@@ -15,8 +17,9 @@ Optimize castle textures by cropping
 Explanation, like perks block, in the directions block
 honor prefers-reduced-motion
 
-> Easy
 
+> Easy
+Align text in mascot desc to center
 
 > Normal usability
 require click for petting
