@@ -87,10 +87,14 @@
   align-items:center;
   gap:0.2em;
   
-  padding-top: 0.4em;
-  padding-bottom: calc( 0.4em - 2px );
-  padding-left: 0.8em;
-  padding-right: 0.8em;
+  --lb-padding-y:0.4em;
+  --lb-padding-x:0.8em;
+  --lb-padding-extra:0px;
+  --lb-border-width:2px;
+  padding-top: calc(var(--lb-padding-y) + var(--lb-padding-extra));
+  padding-bottom: calc(var(--lb-padding-y) + var(--lb-padding-extra) - 2px);
+  padding-left: calc(var(--lb-padding-x) + var(--lb-padding-extra));
+  padding-right: calc(var(--lb-padding-x) + var(--lb-padding-extra));
   
   text-decoration:none;
   border-radius:0.5em;
@@ -104,7 +108,7 @@
   
   border-color:var(--lb-color-outline);
   border-style:solid;
-  border-width: 2px;
+  border-width: var(--lb-border-width);
   font-weight:700;
   line-height:1.2;
   
@@ -115,8 +119,15 @@
   
   --lb-icon-offset-multiplier: 1.0;
 }
+
+/* We are using border-box sizing, so removing the border will shrink the button. */
+/* We add back the border width to keep the button size consistent. */
 .link-button.borderless{
   border-style:none;
+  padding-top: calc(var(--lb-padding-y) + var(--lb-padding-extra) + var(--lb-border-width));
+  padding-bottom: calc(var(--lb-padding-y) + var(--lb-padding-extra) - 2px + var(--lb-border-width));
+  padding-left: calc(var(--lb-padding-x) + var(--lb-padding-extra) + var(--lb-border-width));
+  padding-right: calc(var(--lb-padding-x) + var(--lb-padding-extra) + var(--lb-border-width));
 }
 .link-button:hover{
   background-color:color-mix(in srgb, var(--lb-color-bg) 80%, var(--lb-color-text));
@@ -145,21 +156,15 @@
 }
 
 .link-button.padded{
-  padding-top: 0.8em;
-  padding-bottom: calc( 0.8em - 2px );
-  padding-left: 1.2em;
-  padding-right: 1.2em;
+  --lb-padding-extra:0.3em;
 }
 .link-button.large{
   font-size:1.3em;
   --lb-icon-offset-multiplier:0.6;
 }
 .link-button.large-padded{
-  padding-top: 0.6em;
-  padding-bottom: calc( 0.6em - 2px );
-  padding-left: 1.0em;
-  padding-right: 1.0em;
   font-size:1.3em;
+  --lb-padding-extra:0.3em;
   --lb-icon-offset-multiplier:0.6;
 }
 
