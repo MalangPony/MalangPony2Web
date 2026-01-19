@@ -135,8 +135,9 @@
   --lb-color-bg:var(--color-text-dark);
   --lb-color-text:var(--color-text-light);
   
-  transition-property: top, opacity;
-  transition-duration: 0.5s;
+  /* bg-color and color is changed from .link-button code*/
+  transition-property: top,  opacity, background-color, color;
+  transition-duration: 0.5s, 0.5s,    0.2s,             0.2s;
   
   opacity:1.0;
 }
