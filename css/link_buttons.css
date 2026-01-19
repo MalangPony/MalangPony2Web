@@ -95,16 +95,35 @@
   padding-top: 0em;
   
    /* In HSL space, 
-   *   If L<50, L-=15
-   *   If L>50, L+=15 
+   *   If    L<20, L+=20
+   *   If 20<L<50, L-=15
+   *   If 50<L<80, L+=15 
+   *   If 80<L   , L-=20
    *   Then clamp L within 0 and 100
-   * Uses some cursed math to mimic conditional statements. */
+   * 
+   * Uses some cursed math to mimic conditional statements. 
+   * 
+   * This will break if the L value sits right in the conditional boundary, 
+   *   and Bluesky's primary color just so happens to be at L=50.0% 
+   *   so we use cutoffs offset by 0.5 */
   --lb-color-text-inverted: hsl(
     from var(--lb-color-text) 
     h s 
     min(max(calc(
-      calc(min(max(calc((l - 50) * 1000000),0),1) * (l + 15)) +
-      calc(min(max(calc((50 - l) * 1000000),0),1) * (l - 15))
+      calc(
+          min(max(calc((20.5 - l) * 1000000),0),1) 
+        * (l + 30)) +
+      calc(
+          min(max(calc((l - 20.5) * 1000000),0),1) 
+        * min(max(calc((50.5 - l) * 1000000),0),1) 
+        * (l - 15)) +
+      calc(
+          min(max(calc((l - 50.5) * 1000000),0),1) 
+        * min(max(calc((80.5 - l) * 1000000),0),1) 
+        * (l + 15)) +
+      calc(
+          min(max(calc((l - 80.5) * 1000000),0),1) 
+        * (l - 15))
     ),0),100)
     / alpha);
 }
