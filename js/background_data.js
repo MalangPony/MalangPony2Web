@@ -12,7 +12,7 @@ export let page_to_background_id={
 	credits:   "bgd002",
 	
 	timetable: "bgd003",
-	venue:     "bgd003",
+	directions:"bgd003",
 	conbook:   "bgd003",
 	internal:  "bgd003",
 	faq:       "bgd003",

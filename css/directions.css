@@ -1,12 +1,12 @@
-/* Page: Venue (#page-venue) */
-#venue-place-name-top{
+/* Page: directions (#page-directions) */
+#directions-place-name-top{
 }
-#venue-place-name-title{
+#directions-place-name-title{
   margin-top:8px;
   font-size:32px;
   font-weight:700;
 }
-#venue-place-address{
+#directions-place-address{
   margin-top:8px;
   font-style:italic;
 }

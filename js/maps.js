@@ -7,9 +7,6 @@ import * as MapData from "./map_data.js";
 
 // Grab DOM
 
-//page
-let page_venue=document.getElementById("page-venue");
-
 // directions boxes
 let directions_munrae = document.getElementById("directions-munrae");
 let directions_yangpyong = document.getElementById("directions-yangpyong");

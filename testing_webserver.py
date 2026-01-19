@@ -8,7 +8,7 @@ rewrite_map={
 	"/coc":"/",
 	"/mascot":"/",
 	"/timetable":"/",
-	"/venue":"/",
+	"/directions":"/",
 	"/conbook":"/",
 	"/register":"/",
 	"/involved":"/",

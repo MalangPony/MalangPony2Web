@@ -6,7 +6,7 @@ RewriteRule ^previous$ index.html
 RewriteRule ^coc$ index.html
 RewriteRule ^mascot$ index.html
 RewriteRule ^timetable$ index.html
-RewriteRule ^venue$ index.html
+RewriteRule ^directions$ index.html
 RewriteRule ^conbook$ index.html
 RewriteRule ^register$ index.html
 RewriteRule ^involved$ index.html
