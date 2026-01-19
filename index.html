@@ -619,7 +619,7 @@
             </a>
           </div>
           
-          <div id="map-outer" class="embed-frame">
+          <div id="map-outer" class="embed-frame" style="margin-top:16px;margin-bottom:24px;">
             <div id="map-btn-jump" class="link-button generate-icon icon-map-pin-heart borderless large-padded hidden drop-shadow">
               <div class="lang-ko">말랑포니로 돌아가기</div>
               <div class="lang-en">Go back to MalangPony</div>
@@ -628,7 +628,29 @@
             <div id="map-box-with-padding"></div>
           </div>
           
+          <!--
+          <div class="page-text-body centered" style="margin-top:32px;margin-bottom:16px;">
+            <span class="lang-ko">
+              경로를 
+              <span class="mm-mobile">탭하면</span>
+              <span class="mm-pc">클릭하면</span>
+              지도에 표시됩니다.
+            </span>
+            <span class="lang-en">
+              <span class="mm-mobile">Tap</span>
+              <span class="mm-pc">Click</span>
+              on a route to display on the map.
+            </span>
+          </div>
+          -->
+          
           <div class="card-list-container" id="directions-list">
+            <!--
+            <div class="directions-intercity-divider">
+              <span class="lang-ko">시내교통 이용시</span>
+              <span class="lang-en">Directions inside the city</span>
+            </div>
+            -->
             <div class="card-list-entry clickable" id="directions-munrae">
               <div class="cl-entry-title">
                 <span class="lang-ko">2호선 문래역</span>
@@ -674,7 +696,8 @@
               </div>
               <img class="cl-entry-icon" src="sprites/direction_icons/DirIcon_MetroBus.png">
             </div>
-            <div id="directions-intercity-divider">
+            
+            <div class="directions-intercity-divider">
               <span class="lang-ko">시외교통 이용시</span>
               <span class="lang-en">Directions from outside the city</span>
             </div>
