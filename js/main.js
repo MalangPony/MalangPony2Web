@@ -703,13 +703,11 @@ function apply_darkmode(darkmode){
     body_dom.style.colorScheme="dark";
     body_dom.classList.add("dark-mode");
     body_dom.classList.remove("light-mode");
-    theme_btn.innerHTML="Light Mode";
     Cookies.createCookie("theme","D");
   }else {
     body_dom.style.colorScheme="light";
     body_dom.classList.remove("dark-mode");
     body_dom.classList.add("light-mode");
-    theme_btn.innerHTML="Dark Mode";
     Cookies.createCookie("theme","L");
   }
 }

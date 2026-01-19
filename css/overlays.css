@@ -207,26 +207,9 @@
   margin-top:16px;
   margin-right:16px;
 }
-/* the buttons */
-#switch-positioner > div{
-  font-weight:700;
-  font-size:1.0em;
-  padding:8px;
-  border-radius:8px;
-  cursor:pointer;
-  opacity:0;
-  transition: all 1s;
-  background-color:var(--color-button-bg);
-  color:var(--color-button-text);
-  box-shadow:4px 4px 8px #00000080;
-}
-#switch-positioner > div.activated{
-  opacity:1.0;
-}
-#themeswitch-btn{
-  /* Follows the opposite theme. */
-  background-color:light-dark(var(--color-background-dark),var(--color-background-light));
-  color:light-dark(var(--color-text-light),var(--color-text-dark));
+#switch-positioner .link-button{
+  --lb-color-bg:light-dark(var(--color-text-light),var(--color-text-dark));
+  --lb-color-text:light-dark(var(--color-text-dark),var(--color-text-light));
 }
 
 

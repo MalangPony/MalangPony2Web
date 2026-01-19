@@ -28,6 +28,7 @@
  *    .icon-undo
  *    .icon-map-pin-heart
  *    .icon-map-pin-home
+ *    .icon-lang
  * 
  * Alternatively, if .manual-icon class is added,
  *   the first child will be positioned as the icon. 
@@ -55,7 +56,7 @@
  * Alternatively, the colors can be set using CSS variables below:
  *   --lb-color-text
  *   --lb-color-bg
- *   --lb-color-outline
+ *   --lb-color-outline (defaults to text color)
  */
 
 /* [Sizes]
@@ -92,7 +93,7 @@
   --lb-padding-extra:0px;
   --lb-border-width:2px;
   padding-top: calc(var(--lb-padding-y) + var(--lb-padding-extra));
-  padding-bottom: calc(var(--lb-padding-y) + var(--lb-padding-extra) - 2px);
+  padding-bottom: calc(var(--lb-padding-y) + var(--lb-padding-extra));
   padding-left: calc(var(--lb-padding-x) + var(--lb-padding-extra));
   padding-right: calc(var(--lb-padding-x) + var(--lb-padding-extra));
   
@@ -366,6 +367,12 @@
   font-family:'Material Symbols Rounded';
   transform:scale(1.4);
   margin-top:calc(-0.5em * var(--lb-icon-offset-multiplier));
+}
+.link-button.icon-lang::before{
+  content:"language";
+  font-family:'Material Symbols Rounded';
+  transform:scale(1.4);
+  margin-top:calc(-0.4em * var(--lb-icon-offset-multiplier));
 }
 
 .link-button.color-internal{
