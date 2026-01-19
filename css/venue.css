@@ -152,62 +152,48 @@
   text-align:center;
 }
 
-
+#directions-list .card-list-entry{}
 #directions-yangpyong{
-  background-color: light-dark(
+  --cle-color-bg: light-dark(
     var(--color-background-line5-light),
     var(--color-background-line5-dark));
-}
-#directions-yangpyong .cl-entry-title{
-  color: var(--color-title-line5);
+  --cle-color-title: var(--color-title-line5);
 }
 #directions-munrae{
-  background-color: light-dark(
+  --cle-color-bg: light-dark(
     var(--color-background-line2-light),
     var(--color-background-line2-dark));
-}
-#directions-munrae .cl-entry-title{
-  color: var(--color-title-line2);
+  --cle-color-title: var(--color-title-line2);
 }
 #directions-bus{
-  background-color: light-dark(
+  --cle-color-bg: light-dark(
     var(--color-background-bluebus-light),
     var(--color-background-bluebus-dark));
-}
-#directions-bus .cl-entry-title{
-  color: var(--color-title-bluebus);
+  --cle-color-title: var(--color-title-bluebus);
 }
 #directions-icn{
-  background-color: light-dark(
+  --cle-color-bg: light-dark(
     var(--color-background-icn-light),
     var(--color-background-icn-dark));
-}
-#directions-icn .cl-entry-title{
-  color: var(--color-title-icn);
+  --cle-color-title: var(--color-title-icn);
 }
 #directions-gmp{
-  background-color: light-dark(
+  --cle-color-bg: light-dark(
     var(--color-background-gmp-light),
     var(--color-background-gmp-dark));
-}
-#directions-gmp .cl-entry-title{
-  color: var(--color-title-gmp);
+  --cle-color-title: var(--color-title-gmp);
 }
 #directions-railway{
-  background-color: light-dark(
+  --cle-color-bg: light-dark(
     var(--color-background-railway-light),
     var(--color-background-railway-dark));
-}
-#directions-railway .cl-entry-title{
-  color: var(--color-title-railway);
+  --cle-color-title: var(--color-title-railway);
 }
 #directions-gsbus{
-  background-color: light-dark(
+  --cle-color-bg: light-dark(
     var(--color-background-gsbus-light),
     var(--color-background-gsbus-dark));
-}
-#directions-gsbus .cl-entry-title{
-  color: var(--color-title-gsbus);
+  --cle-color-title: var(--color-title-gsbus);
 }
 
 /* Responsive Section */

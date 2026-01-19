@@ -258,7 +258,6 @@ for (const k in routes){
     kkm.setBounds(route.bounds,50);
     container.scrollIntoView({behavior:"smooth",block:"nearest"});
   });
-  route.focus_button.style.cursor="pointer";
   route.wp_overlays=[];
   
   for (const wp of route.waypoints){

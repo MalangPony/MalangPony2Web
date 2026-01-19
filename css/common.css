@@ -19,7 +19,21 @@
 }
 
 
-/* List of card-like entries. */
+/* 
+ * List of card-like entries. 
+ * .card-list-entry may be a <div> or an <a>
+ * If it additionally has a .clickable class, 
+ *   it will react to hover and set the pointer accordingly. 
+ * The text and background color can be customized with 
+ *    --cle-color-text and --cle-color-bg 
+ * 
+ * Hierarchy:
+ * .card-list-container
+ *   .card-list-entry +
+ *     .cl-entry-title
+ *     .cl-entry-body
+ *     .cl-entry-icon
+ */
 .card-list-container{
   width:min(600px,100%);
   margin-top:16px;
@@ -31,6 +45,9 @@ a.card-list-entry{
   text-decoration:none;
 }
 .card-list-entry{
+  --cle-color-bg: var(--color-background-auto);
+  --cle-color-text: var(--color-text-auto);
+  --cle-color-title: var(--cle-color-text);
   min-height:100px;
   display:flex;
   flex-direction:column;
@@ -38,11 +55,22 @@ a.card-list-entry{
   gap:4px;
   border-radius: 16px;
   padding:16px;
-  background-color:var(--color-background-auto);
-  color:var(--color-text-auto);
+  background-color:var(--cle-color-bg);
+  color:var(--cle-color-text);
   position:relative;
   line-height:1.4em;
   overflow:hidden;
+}
+.card-list-entry.clickable{
+  cursor:pointer;
+  transition-property:background-color;
+  transition-duration:0.2s;
+}
+.card-list-entry.clickable:hover{
+  background-color:color-mix(
+    in srgb, 
+    var(--cle-color-bg) 85%, 
+    var(--cle-color-text));
 }
 .cl-entry-icon{
   position:absolute;
@@ -62,6 +90,7 @@ a.card-list-entry{
   align-items:center;
   justify-content:flex-start;
   gap:4px;
+  color:var(--cle-color-title);
 }
 .cl-entry-body{
   position:relative;
