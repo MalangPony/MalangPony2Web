@@ -12,15 +12,15 @@ export let questions=[
 	{
 		qtext_ko:"행사에 못가게 되었어요! 혹시 환불을 받을 수 있을까요?",
 		qtext_en:"I can't make it to the event! Can I get a refund?",
-		atext_ko:"티켓 판매 마감일인 6월 30일 전까지 환불이 가능합니다. 환불이 필요한 경우, 공식 계정으로 연락해 주시면 환불을 도와드리겠습니다.",
-		atext_en:"The tickets may be refunded until June 30th, Korean Time (KST; GMT+9). Contact us through any of the official channels to get your ticket refunded.",
+		atext_ko:"참가 등록 마감일인 6월 30일 전까지 환불이 가능합니다. 환불이 필요한 경우, 공식 계정으로 연락해 주시면 환불을 도와드리겠습니다.",
+		atext_en:"The badges may be refunded until June 30th, Korean Time (KST; GMT+9). Contact us through any of the official channels to get your badge refunded.",
 		categories:[]
 	},
 	{
 		qtext_ko:"참가증 양도가 가능한가요?",
-		qtext_en:"Can the tickets be transferred?",
-		atext_ko:"티켓 판매 마감일인 6월 30일 전까지 위치폼의 양도 기능을 사용하여 티켓을 자유롭게 양도하실 수 있습니다.",
-		atext_en:"You may use the WitchForm's transfer function to transfer tickets before June 30th. However, if you have purchased the ticket through Ko-Fi, you will need to contact us.",
+		qtext_en:"Can the badges be transferred?",
+		atext_ko:"참가 등록 마감일인 6월 30일 전까지 위치폼의 양도 기능을 사용하여 참가증을 자유롭게 양도하실 수 있습니다.",
+		atext_en:"You may use the WitchForm's transfer function to transfer badges before June 30th. However, if you have purchased the badge through Google Forms/PayPal, you will need to contact us.",
 		categories:[]
 	},
 	{
@@ -150,5 +150,5 @@ export let questions=[
 ];
 
 export let categories={
-	ticket:{en:"Ticket",ko:"참가증"},
+	ticket:{en:"Badge",ko:"참가증"},
 };

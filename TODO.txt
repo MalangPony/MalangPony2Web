@@ -5,7 +5,6 @@ Add 3D map (ThreeJS) ???
 > Important bugfix
 
 > Text
-Remove all occurances of "Ticket"
 
 > Important usability
 HMR L2D sometimes occludes text (This is very bad)
