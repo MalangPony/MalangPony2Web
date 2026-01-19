@@ -323,42 +323,9 @@
   align-items:center;
   gap:8px;
 }
-#footer-sns-buttons > a{
-  border-radius:4px;
-  width:42px;
-  height:42px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  cursor:pointer;
-}
-#footer-sns-buttons > a > img{
-  display:block; /* inline-block can cause weird spacing issues */
-}
-
-.dark-mode #footer-sns-buttons > a{
-  background-color:var(--template-malang-TWI);
-}
-.light-mode #footer-sns-buttons > a{
-  background-color:var(--template-malang-text);
-}
-
-/* Every logo has a different visual size, so it is manually matched here.*/
-#footer-sns-button-twitter > img{
-  width:60%;
-  height:60%;
-}
-#footer-sns-button-bluesky > img{
-  width:70%;
-  height:70%;
-}
-#footer-sns-button-discord > img{
-  width:70%;
-  height:70%;
-}
-#footer-sns-button-email > .material-symbols-rounded{
-  font-size:32px;
-  color:#FFFFFF;
+#footer-sns-buttons .link-button{
+  --lb-color-text:#FFF;
+  --lb-color-bg: light-dark(var(--template-malang-text),var(--template-malang-TWI));
 }
 
 #footer-disclaimer{

@@ -38,9 +38,12 @@
 
 
 #prev-site-links{
-  font-size:0.8em; 
-  text-align:center; 
-  margin-top:24px;
+  display:flex;
+  flex-direction:row;
+  justify-content:center;
+  align-items:flex-end;
+  flex-wrap:wrap;
+  row-gap:8px;
 }
 #prev-site-links > a{
   color:var(--color-text-auto);
