@@ -90,6 +90,10 @@
   .mascot-container.isolate:hover .refsheet-thumb-isolated{
     filter:drop-shadow(0 0 6px var(--character-minimize-bg));
   }
+  .mascot-container.isolate:hover .mascot-label{
+    box-shadow:0 0 12px var(--character-fg);
+    background-color: color-mix(in srgb, var(--character-fg) 20%, var(--character-bg));
+  }
 }
 
 
@@ -164,8 +168,8 @@
 }
 .mascot-label{
   opacity:0;
-  transition-property: opacity, transform;
-  transition-duration:1.0s;
+  transition-property: opacity, transform, box-shadow, background-color;
+  transition-duration: 1.0s,    1.0s,      0.3s,       0.2s;
   transform:none;
   pointer-events:none;
   z-index:10;
