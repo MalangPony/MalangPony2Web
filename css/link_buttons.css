@@ -74,7 +74,7 @@
   
   cursor:pointer;
   
-  transition-property:background-color;
+  transition-property:background-color,color;
   transition-duration:0.2s;
 }
 
@@ -93,6 +93,24 @@
   padding-right: 0.3em;
   padding-bottom: 0em;
   padding-top: 0em;
+  
+   /* In HSL space, 
+   *   If L<50, L-=15
+   *   If L>50, L+=15 
+   *   Then clamp L within 0 and 100
+   * Uses some cursed math to mimic conditional statements. */
+  --lb-color-text-inverted: hsl(
+    from var(--lb-color-text) 
+    h s 
+    min(max(calc(
+      calc(min(max(calc((l - 50) * 1000000),0),1) * (l + 15)) +
+      calc(min(max(calc((50 - l) * 1000000),0),1) * (l - 15))
+    ),0),100)
+    / alpha);
+}
+
+.link-button.inline.inline:hover{
+  color:var(--lb-color-text-inverted);
 }
 
 .link-button.manual-icon:first-child{
