@@ -10,14 +10,12 @@ Add 3D map (ThreeJS) ???
 HMR L2D sometimes occludes text (This is very bad)
 Spam-clicking back button will desync the page URL and page
 Timetable lowest block unclosable in mobile
-l2d hide when screen is narrow - or more margin at page bottom?
 Optimize castle textures by cropping
 Explanation, like perks block, in the directions block
 honor prefers-reduced-motion
 
 
 > Easy
-Align text in mascot desc to center
 
 > Normal usability
 require click for petting
