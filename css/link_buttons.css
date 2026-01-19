@@ -9,6 +9,9 @@
  *    .icon-twitter 
  *    .icon-bluesky 
  *    .icon-discord 
+ *    .icon-twitter-white
+ *    .icon-bluesky-white
+ *    .icon-discord-white
  *    .icon-naver-blog
  *    .icon-internal
  *    .icon-download
@@ -29,9 +32,14 @@
  *    .icon-map-pin-heart
  *    .icon-map-pin-home
  *    .icon-lang
+ *    .icon-mail
  * 
  * Alternatively, if .manual-icon class is added,
  *   the first child will be positioned as the icon. 
+ * 
+ * The size of the icons can be changed using
+ *   --lb-icon-size-multiplier
+ * CSS variable.
  */
 
 /* [Colors]
@@ -61,9 +69,11 @@
 
 /* [Sizes]
  * Add one of the below classes to choose the size.
+ *    .square
  *    .padded
  *    .large
  *    .large-padded
+ *    .large-square
  */
 
 /* [Shadow]
@@ -78,6 +88,8 @@
 /* [Other Options]
  * .inline       to make this an inline link.
  * .borderless   to disable borders 
+ * .textless     for textless buttons
+ * .lcons-big    Make icons larger
  */
 
 
@@ -119,6 +131,14 @@
   transition-duration:0.2s;
   
   --lb-icon-offset-multiplier: 1.0;
+  --lb-icon-size-multiplier:1.0;
+}
+.link-button.icons-big{
+  --lb-icon-size-multiplier:1.2;
+}
+.link-button.textless.textless{
+  justify-content:center;
+  padding:0;
 }
 
 /* We are using border-box sizing, so removing the border will shrink the button. */
@@ -156,12 +176,24 @@
   --lb-ds-distance: 4px;
 }
 
+.link-button.square{
+  --lb-icon-offset-multiplier:0.6;
+  width:2.2em;
+  height:2.2em;
+}
 .link-button.padded{
   --lb-padding-extra:0.3em;
+  --lb-icon-offset-multiplier:0.6;
 }
 .link-button.large{
   font-size:1.3em;
   --lb-icon-offset-multiplier:0.6;
+}
+.link-button.large-square{
+  font-size:1.3em;
+  --lb-icon-offset-multiplier:0.6;
+  width:2.2em;
+  height:2.2em;
 }
 .link-button.large-padded{
   font-size:1.3em;
@@ -223,26 +255,28 @@
 .link-button.manual-icon:first-child{
   max-height:1.0em;
   max-width:1.0em;
+  transform: scale(var(--lb-icon-size-multiplier));
 }
 
 .link-button.generate-icon::before{
+  /* For raster icons, use below variable to adjust its size. */
+  /* For font icons, use transforms.*/
+  --lb-image-icon-size-multiplier:1.0;
   content:"";
   display:block;
-  height:1.0em;
-  width:1.0em;
+  height:calc(1.0em * var(--lb-image-icon-size-multiplier));
+  width:calc(1.0em * var(--lb-image-icon-size-multiplier));
   font-size:1.0em;
   margin-right:0.3em;
   background-size: contain;
   background-position:center;
   background-repeat:no-repeat;
+  flex-shrink:0;
 }
-.link-button.large-padded.generate-icon::before{
-  font-size:1.2em;
+.link-button.textless.generate-icon::before{
+  margin-right:0px;
 }
-.link-button.padded.generate-icon::before{
-  font-size:1.2em;
-  --lb-icon-offset-multiplier:0.6;
-}
+
 .link-button.color-twitter{
   --lb-color-bg:light-dark(
     var(--color-twitter-light-bg),
@@ -254,13 +288,16 @@
 
 .light-mode .link-button.icon-twitter::before{
   background-image:url("/siteicons/X_logo-black_Rsz64px.png");
-  transform:scale(1.0);
+  --lb-image-icon-size-multiplier:calc(1.0 * var(--lb-icon-size-multiplier));
 }
 .dark-mode .link-button.icon-twitter::before{
   background-image:url("/siteicons/X_logo-white_Rsz64px.png");
-  transform:scale(1.0);
+  --lb-image-icon-size-multiplier:calc(1.0 * var(--lb-icon-size-multiplier));
 }
-
+.link-button.icon-twitter-white::before{
+  background-image:url("/siteicons/X_logo-white_Rsz64px.png");
+  --lb-image-icon-size-multiplier:calc(1.0 * var(--lb-icon-size-multiplier));
+}
 .link-button.color-bluesky{
   --lb-color-bg:light-dark(
     var(--color-bluesky-light-bg),
@@ -271,9 +308,12 @@
 }
 .link-button.icon-bluesky::before{
   background-image:url("/siteicons/Bluesky_Logo_Wikipedia_1024px_Rsz64px.png");
-  transform:scale(1.2);
+  --lb-image-icon-size-multiplier:calc(1.2 * var(--lb-icon-size-multiplier));
 }
-
+.link-button.icon-bluesky-white::before{
+  background-image:url("/siteicons/Bluesky_Logo_Wikipedia_1024px_White-Rsz64px.png");
+  --lb-image-icon-size-multiplier:calc(1.2 * var(--lb-icon-size-multiplier));
+}
 
 .link-button.color-discord{
   --lb-color-bg:light-dark(
@@ -283,9 +323,12 @@
 }
 .link-button.icon-discord::before{
   background-image:url("/siteicons/Discord-Symbol-Blurple_Rsz64px.png");
-  transform:scale(1.2);
+  --lb-image-icon-size-multiplier:calc(1.2 * var(--lb-icon-size-multiplier));
 }
-
+.link-button.icon-discord-white::before{
+  background-image:url("/siteicons/Discord-Symbol-Purewhite_Rsz64px.png");
+  --lb-image-icon-size-multiplier:calc(1.2 * var(--lb-icon-size-multiplier));
+}
 .link-button.color-naver{
   --lb-color-bg:light-dark(
     var(--color-naver-lighter),
@@ -296,83 +339,89 @@
 }
 .link-button.icon-naver-blog::before{
   background-image:url("/siteicons/favicon_nblog.png");
-  transform:scale(1.0);
+  --lb-image-icon-size-multiplier:calc(1.0 * var(--lb-icon-size-multiplier));
 }
 
 .link-button.icon-internal::before{
   content:"open_in_browser";
   font-family:'Material Symbols Rounded';
-  transform:scale(1.4);
+  transform:scale(calc(1.4 * var(--lb-icon-size-multiplier)));
   margin-top:calc(-0.5em * var(--lb-icon-offset-multiplier));
 }
 
 .link-button.icon-download::before{
   content:"download";
   font-family:'Material Symbols Rounded';
-  transform:scale(1.4);
+  transform:scale(calc(1.4 * var(--lb-icon-size-multiplier)));
   margin-top:calc(-0.5em * var(--lb-icon-offset-multiplier));
 }
 
 .link-button.icon-camera::before{
   content:"photo_camera";
   font-family:'Material Symbols Rounded';
-  transform:scale(1.4);
+  transform:scale(calc(1.4 * var(--lb-icon-size-multiplier)));
   margin-top:calc(-0.5em * var(--lb-icon-offset-multiplier));
 }
 
 .link-button.icon-generic-link::before{
   content:"link";
   font-family:'Material Symbols Rounded';
-  transform:scale(1.4);
+  transform:scale(calc(1.4 * var(--lb-icon-size-multiplier)));
   margin-top:calc(-0.5em * var(--lb-icon-offset-multiplier));
 }
 .link-button.icon-new-tab::before{
   content:"open_in_new";
   font-family:'Material Symbols Rounded';
-  transform:scale(1.2);
+  transform:scale(calc(1.2 * var(--lb-icon-size-multiplier)));
   margin-top:calc(-0.5em * var(--lb-icon-offset-multiplier));
 }
 .link-button.icon-swap::before{
   content:"swap_horiz";
   font-family:'Material Symbols Rounded';
-  transform:scale(1.4);
+  transform:scale(calc(1.4 * var(--lb-icon-size-multiplier)));
   margin-top:calc(-0.5em * var(--lb-icon-offset-multiplier));
 }
 .link-button.icon-table::before{
   content:"table";
   font-family:'Material Symbols Rounded';
-  transform:scale(1.4);
+  transform:scale(calc(1.4 * var(--lb-icon-size-multiplier)));
   margin-top:calc(-0.5em * var(--lb-icon-offset-multiplier));
 }
 .link-button.icon-list::before{
   content:"data_table";
   font-family:'Material Symbols Rounded';
-  transform:scale(1.4);
+  transform:scale(calc(1.4 * var(--lb-icon-size-multiplier)));
   margin-top:calc(-0.5em * var(--lb-icon-offset-multiplier));
 }
 .link-button.icon-undo::before{
   content:"undo";
   font-family:'Material Symbols Rounded';
-  transform:scale(1.4);
+  transform:scale(calc(1.4 * var(--lb-icon-size-multiplier)));
   margin-top:calc(-0.5em * var(--lb-icon-offset-multiplier));
 }
 .link-button.icon-map-pin-heart::before{
   content:"map_pin_heart";
   font-family:'Material Symbols Rounded';
-  transform:scale(1.4);
+  transform:scale(calc(1.4 * var(--lb-icon-size-multiplier)));
   margin-top:calc(-0.5em * var(--lb-icon-offset-multiplier));
 }
 .link-button.icon-map-pin-home::before{
   content:"home_pin";
   font-family:'Material Symbols Rounded';
-  transform:scale(1.4);
+  transform:scale(calc(1.4 * var(--lb-icon-size-multiplier)));
   margin-top:calc(-0.5em * var(--lb-icon-offset-multiplier));
 }
 .link-button.icon-lang::before{
   content:"language";
   font-family:'Material Symbols Rounded';
-  transform:scale(1.4);
+  transform:scale(calc(1.4 * var(--lb-icon-size-multiplier)));
   margin-top:calc(-0.4em * var(--lb-icon-offset-multiplier));
+}
+.link-button.icon-mail::before{
+  content:"mail";
+  font-family:'Material Symbols Rounded';
+  transform:scale(calc(1.4 * var(--lb-icon-size-multiplier)));
+  margin-top:calc(-0.5em * var(--lb-icon-offset-multiplier));
 }
 
 .link-button.color-internal{
@@ -410,7 +459,7 @@
 
 .link-button.icon-naver-map::before{
   background-image:url("/siteicons/favicon_nmap.png");
-  transform:scale(1.4);
+  --lb-image-icon-size-multiplier:calc(1.4 * var(--lb-icon-size-multiplier));
   margin-top:calc(-0.1em * var(--lb-icon-offset-multiplier));
 }
 
@@ -424,7 +473,7 @@
 }
 .link-button.icon-kakao-map::before{
   background-image:url("/siteicons/favicon_kkm_32px.png");
-  transform:scale(1.2);
+  --lb-image-icon-size-multiplier:calc(1.2 * var(--lb-icon-size-multiplier));
   margin-top:calc(-0.1em * var(--lb-icon-offset-multiplier));
 }
 
@@ -436,7 +485,7 @@
 }
 .link-button.icon-google-maps::before{
   background-image:url("/siteicons/favicon_gmaps.png");
-  transform:scale(1.2);
+  --lb-image-icon-size-multiplier:calc(1.2 * var(--lb-icon-size-multiplier));
   margin-top:calc(-0.1em * var(--lb-icon-offset-multiplier));
 }
 
@@ -448,22 +497,22 @@
 }
 .link-button.icon-google-docs::before{
   background-image:url("/siteicons/Wikimedia_GoogleDocs_Logo.png");
-  transform:scale(1.2);
+  --lb-image-icon-size-multiplier:calc(1.2 * var(--lb-icon-size-multiplier));
   margin-top:calc(-0.1em * var(--lb-icon-offset-multiplier));
 }
 .link-button.icon-google-forms::before{
   background-image:url("/siteicons/Wikimedia_GoogleForms_Logo.png");
-  transform:scale(1.2);
+  --lb-image-icon-size-multiplier:calc(1.2 * var(--lb-icon-size-multiplier));
   margin-top:calc(-0.1em * var(--lb-icon-offset-multiplier));
 }
 .link-button.icon-google-slides::before{
   background-image:url("/siteicons/Wikimedia_GoogleSlides_Logo.png");
-  transform:scale(1.2);
+  --lb-image-icon-size-multiplier:calc(1.2 * var(--lb-icon-size-multiplier));
   margin-top:calc(-0.1em * var(--lb-icon-offset-multiplier));
 }
 .link-button.icon-google-sheets::before{
   background-image:url("/siteicons/Wikimedia_GoogleSheets_Logo.png");
-  transform:scale(1.2);
+  --lb-image-icon-size-multiplier:calc(1.2 * var(--lb-icon-size-multiplier));
   margin-top:calc(-0.1em * var(--lb-icon-offset-multiplier));
 }
 
@@ -488,12 +537,12 @@
 
 .light-mode .link-button.icon-witchform::before{
   background-image:url("/siteicons/WF_CropAlpha_Black.png");
-  transform:scale(1.5);
+  --lb-image-icon-size-multiplier:calc(1.5 * var(--lb-icon-size-multiplier));
   margin-top:calc(-0.2em * var(--lb-icon-offset-multiplier));
 }
 .dark-mode .link-button.icon-witchform::before{
   background-image:url("/siteicons/WF_CropAlpha_White.png");
-  transform:scale(1.5);
+  --lb-image-icon-size-multiplier:calc(1.5 * var(--lb-icon-size-multiplier));
   margin-top:calc(-0.2em * var(--lb-icon-offset-multiplier));
 }
 
