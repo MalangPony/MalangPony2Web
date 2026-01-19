@@ -47,6 +47,12 @@
 
 /* If .inline class is added, will convert this to an inline link.*/
 
+/* May have one of below classes:
+ *    .padded
+ *    .large
+ *    .large-padded
+ */
+
 .link-button{
   display:flex;
   flex-direction:row;
@@ -63,10 +69,12 @@
   
   --lb-color-text:var(--color-text-auto);
   --lb-color-bg:var(--color-background-auto);
+  --lb-color-outline:var(--lb-color-text);
   
   color:var(--lb-color-text);
   background-color:var(--lb-color-bg);
   
+  border-color:var(--lb-color-outline);
   border-style:solid;
   border-width: 2px;
   font-weight:700;
@@ -76,12 +84,36 @@
   
   transition-property:background-color,color;
   transition-duration:0.2s;
+  
+  --lb-icon-offset-multiplier: 1.0;
 }
-
+.link-button.borderless{
+  border-style:none;
+}
 .link-button:hover{
   background-color:color-mix(in srgb, var(--lb-color-bg) 80%, var(--lb-color-text));
 }
 
+.link-button.padded{
+  padding-top: 0.8em;
+  padding-bottom: calc( 0.8em - 2px );
+  padding-left: 1.2em;
+  padding-right: 1.2em;
+}
+.link-button.large{
+  font-size:1.3em;
+  --lb-icon-offset-multiplier:0.6;
+}
+.link-button.large-padded{
+  padding-top: 0.6em;
+  padding-bottom: calc( 0.6em - 2px );
+  padding-left: 1.0em;
+  padding-right: 1.0em;
+  font-size:1.3em;
+  --lb-icon-offset-multiplier:0.6;
+}
+
+/* Need two .inline to have higher specificity than .large */
 .link-button.inline.inline{
   display:inline-flex;
   background:none;
@@ -209,52 +241,52 @@
   content:"open_in_browser";
   font-family:'Material Symbols Rounded';
   transform:scale(1.4);
-  margin-top:-0.5em;
+  margin-top:calc(-0.5em * var(--lb-icon-offset-multiplier));
 }
 
 .link-button.icon-download::before{
   content:"download";
   font-family:'Material Symbols Rounded';
   transform:scale(1.4);
-  margin-top:-0.5em;
+  margin-top:calc(-0.5em * var(--lb-icon-offset-multiplier));
 }
 
 .link-button.icon-camera::before{
   content:"photo_camera";
   font-family:'Material Symbols Rounded';
   transform:scale(1.4);
-  margin-top:-0.5em;
+  margin-top:calc(-0.5em * var(--lb-icon-offset-multiplier));
 }
 
 .link-button.icon-generic-link::before{
   content:"link";
   font-family:'Material Symbols Rounded';
   transform:scale(1.4);
-  margin-top:-0.5em;
+  margin-top:calc(-0.5em * var(--lb-icon-offset-multiplier));
 }
 .link-button.icon-new-tab::before{
   content:"open_in_new";
   font-family:'Material Symbols Rounded';
   transform:scale(1.2);
-  margin-top:-0.5em;
+  margin-top:calc(-0.5em * var(--lb-icon-offset-multiplier));
 }
 .link-button.icon-swap::before{
   content:"swap_horiz";
   font-family:'Material Symbols Rounded';
   transform:scale(1.4);
-  margin-top:-0.5em;
+  margin-top:calc(-0.5em * var(--lb-icon-offset-multiplier));
 }
 .link-button.icon-table::before{
   content:"table";
   font-family:'Material Symbols Rounded';
   transform:scale(1.4);
-  margin-top:-0.5em;
+  margin-top:calc(-0.5em * var(--lb-icon-offset-multiplier));
 }
 .link-button.icon-list::before{
   content:"data_table";
   font-family:'Material Symbols Rounded';
   transform:scale(1.4);
-  margin-top:-0.5em;
+  margin-top:calc(-0.5em * var(--lb-icon-offset-multiplier));
 }
 
 .link-button.color-internal{
@@ -293,7 +325,7 @@
 .link-button.icon-naver-map::before{
   background-image:url("/siteicons/favicon_nmap.png");
   transform:scale(1.4);
-  margin-top:-0.2em;
+  margin-top:calc(-0.1em * var(--lb-icon-offset-multiplier));
 }
 
 .link-button.color-kakao{
@@ -307,7 +339,7 @@
 .link-button.icon-kakao-map::before{
   background-image:url("/siteicons/favicon_kkm_32px.png");
   transform:scale(1.2);
-  margin-top:-0.1em;
+  margin-top:calc(-0.1em * var(--lb-icon-offset-multiplier));
 }
 
 .link-button.color-google{
@@ -319,7 +351,7 @@
 .link-button.icon-google-maps::before{
   background-image:url("/siteicons/favicon_gmaps.png");
   transform:scale(1.2);
-  margin-top:-0.1em;
+  margin-top:calc(-0.1em * var(--lb-icon-offset-multiplier));
 }
 
 .link-button.color-google-docs{
@@ -331,22 +363,22 @@
 .link-button.icon-google-docs::before{
   background-image:url("/siteicons/Wikimedia_GoogleDocs_Logo.png");
   transform:scale(1.2);
-  margin-top:-0.1em;
+  margin-top:calc(-0.1em * var(--lb-icon-offset-multiplier));
 }
 .link-button.icon-google-forms::before{
   background-image:url("/siteicons/Wikimedia_GoogleForms_Logo.png");
   transform:scale(1.2);
-  margin-top:-0.1em;
+  margin-top:calc(-0.1em * var(--lb-icon-offset-multiplier));
 }
 .link-button.icon-google-slides::before{
   background-image:url("/siteicons/Wikimedia_GoogleSlides_Logo.png");
   transform:scale(1.2);
-  margin-top:-0.1em;
+  margin-top:calc(-0.1em * var(--lb-icon-offset-multiplier));
 }
 .link-button.icon-google-sheets::before{
   background-image:url("/siteicons/Wikimedia_GoogleSheets_Logo.png");
   transform:scale(1.2);
-  margin-top:-0.1em;
+  margin-top:calc(-0.1em * var(--lb-icon-offset-multiplier));
 }
 
 .link-button.color-google-forms{
@@ -371,12 +403,12 @@
 .light-mode .link-button.icon-witchform::before{
   background-image:url("/siteicons/WF_CropAlpha_Black.png");
   transform:scale(1.5);
-  margin-top:-0.2em;
+  margin-top:calc(-0.2em * var(--lb-icon-offset-multiplier));
 }
 .dark-mode .link-button.icon-witchform::before{
   background-image:url("/siteicons/WF_CropAlpha_White.png");
   transform:scale(1.5);
-  margin-top:-0.2em;
+  margin-top:calc(-0.2em * var(--lb-icon-offset-multiplier));
 }
 
 .link-button.color-witchform{
