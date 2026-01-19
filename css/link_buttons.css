@@ -1,8 +1,11 @@
 
 
-/* A button. Should be a <a> element. */
+/* A customizable, versatile button. Should be an <a> element. */
 
-/* May have one of below classes: 
+/* [Icons]
+ * If .generate-icon class is added, an icon will be added automatically.
+ * 
+ * You must add one of the classes below to select which icon to use.
  *    .icon-twitter 
  *    .icon-bluesky 
  *    .icon-discord 
@@ -25,11 +28,13 @@
  *    .icon-undo
  *    .icon-map-pin-heart
  *    .icon-map-pin-home
+ * 
+ * Alternatively, if .manual-icon class is added,
+ *   the first child will be positioned as the icon. 
  */
-/* Important: The icon will only be generated if .generate-icon class is added.*/
-/* May have the .manual-icon class, and the first child will be positioned as the icon. */
 
-/* May have one of below classes: 
+/* [Colors]
+ * Add one of the below classes to select the color theme.
  *    .color-twitter 
  *    .color-bluesky 
  *    .color-discord 
@@ -46,15 +51,35 @@
  *    .color-google-forms
  *    .color-google-slides
  *    .color-witchform
+ * 
+ * Alternatively, the colors can be set using CSS variables below:
+ *   --lb-color-text
+ *   --lb-color-bg
+ *   --lb-color-outline
  */
 
-/* If .inline class is added, will convert this to an inline link.*/
-
-/* May have one of below classes:
+/* [Sizes]
+ * Add one of the below classes to choose the size.
  *    .padded
  *    .large
  *    .large-padded
  */
+
+/* [Shadow]
+ * Add .drop-shadow class to add automatic shadows.
+ * 
+ * The shadow can be customized using CSS variables below:
+ *   --lb-ds-opacity: 50%;
+ *   --lb-ds-blur: 8px;
+ *   --lb-ds-distance: 2px;
+ */
+
+/* [Other Options]
+ * .inline       to make this an inline link.
+ * .borderless   to disable borders 
+ */
+
+
 
 .link-button{
   display:flex;
@@ -95,6 +120,28 @@
 }
 .link-button:hover{
   background-color:color-mix(in srgb, var(--lb-color-bg) 80%, var(--lb-color-text));
+}
+
+.link-button.drop-shadow{
+  --lb-ds-opacity: 50%;
+  --lb-ds-blur: 8px;
+  --lb-ds-distance: 2px;
+  box-shadow: 
+    var(--lb-ds-distance) var(--lb-ds-distance) 
+    var(--lb-ds-blur) 
+    rgb(0 0 0 / var(--lb-ds-opacity));
+}
+.link-button.drop-shadow.padded{
+  --lb-ds-blur: 12px;
+  --lb-ds-distance: 3px;
+}
+.link-button.drop-shadow.large{
+  --lb-ds-blur: 12px;
+  --lb-ds-distance: 3px;
+}
+.link-button.drop-shadow.large-padded{
+  --lb-ds-blur: 16px;
+  --lb-ds-distance: 4px;
 }
 
 .link-button.padded{
