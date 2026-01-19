@@ -393,22 +393,15 @@
   }
   #footer-content{
     align-items:flex-start;
-    margin-left:32px;
   }
   #footer-disclaimer{
     text-align:left;
   }
   .main-content-divider{
-    margin-top:32px;
-    margin-bottom:16px;
-    margin-left:32px;
     margin-right:32px;
-    align-self:stretch;
-    height:2px;
-    opacity:0.5;
     background-image: linear-gradient(
       to right,
-      var(--color-text-auto) 10% 60%,
+      var(--color-text-auto) 0% 60%,
       hsl(from var(--color-text-auto) h s l / 0%) 100%)
   }
   #nonintro-header-content{
@@ -440,11 +433,17 @@
    #footer-content{
     margin-left:32px;
   }
+  .main-content-divider{
+    margin-left:32px;
+  }
 }
 @media (width>=360px) and (width<480px) {
   /* 480 ~ 360 : Small Mobiles */
   #footer-content{
-    margin-left:16px;
+    margin-left:20px;
+  }
+  .main-content-divider{
+    margin-left:20px;
   }
   #nonintro-header-content{
     align-items:flex-end;
@@ -456,9 +455,11 @@
 @media (width<360px) {
   /* 360 ~ 300 : Ridiculously Small Mobiles */
   #footer-content{
-    margin-left:8px;
+    margin-left:12px;
   }
-  
+  .main-content-divider{
+    margin-left:12px;
+  }
   #logo-header{
     display:none;
   }
