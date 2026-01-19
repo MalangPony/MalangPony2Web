@@ -755,6 +755,7 @@ page_cleanup_functions["timetable"]= function(){
 page_setup_functions["directions"]= function(){
   Maps.relayout();
   Maps.recenter();
+  Maps.inhibit_mbj(1000);
 }
 page_cleanup_functions["directions"]= function(){
 }

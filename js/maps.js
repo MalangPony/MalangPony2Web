@@ -424,9 +424,23 @@ let marker_mpnL = new kakao.maps.CustomOverlay({
 });
 
 
-// Event listeners
+// Sort of a hack.
+// Inhibits map jump button (MBJ) from appearing for a given time period.
+// Until that time is expired, all calls to check_mbj_visibility()
+//   will be a no-op, regardless of map state.
+// This is needed because the map gets animated on page load,
+//   and this makes the MBJ flash for a second which is ugly.
+let mbj_inhibit_until=-Infinity;
+export function inhibit_mbj(milliseconds){
+  mbj_inhibit_until=performance.now()+milliseconds;
+  mbj.classList.add("hidden");
+  // Check again after timeout
+  window.setTimeout(check_mbj_visibility,milliseconds+100);
+}
+
 // Display jump button if venue is too off to the side
-kakao.maps.event.addListener(kkm, 'bounds_changed', ()=>{
+function check_mbj_visibility(){
+  if (performance.now() < mbj_inhibit_until) return;
   let llb=kkm.getBounds();
   let s=llb.getSouthWest().getLat();
   let w=llb.getSouthWest().getLng();
@@ -439,7 +453,10 @@ kakao.maps.event.addListener(kkm, 'bounds_changed', ()=>{
   
   if (centeredX && centeredY) mbj.classList.add("hidden");
   else mbj.classList.remove("hidden");
-});
+}
+
+// Event listeners
+kakao.maps.event.addListener(kkm, 'bounds_changed', check_mbj_visibility);
 
 // Zoom-dependent Visibility
 function zoom_change(){
