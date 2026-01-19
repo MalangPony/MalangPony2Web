@@ -23,6 +23,15 @@
 	position:relative;
 	background-color:var(--color-background-auto);
 	color:var(--color-text-auto);
+	
+	transition-property:background-color;
+	transition-duration:0.2s;
+}
+.faq-top:hover{
+	background-color: color-mix(
+		in srgb,
+		var(--color-background-auto) 85%,
+		var(--color-text-auto));
 }
 .faq-question-icon{
 	opacity:0.5;

@@ -11,7 +11,6 @@ HMR L2D sometimes occludes text (This is very bad)
 Spam-clicking back button will desync the page URL and page
 Timetable lowest block unclosable in mobile
 l2d hide when screen is narrow - or more margin at page bottom?
-Hover style for all clickable buttons
 Optimize castle textures by cropping
 Explanation, like perks block, in the directions block
 honor prefers-reduced-motion
