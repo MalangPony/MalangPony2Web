@@ -1,6 +1,7 @@
 > Essential functionality
 When timetable block is clicked, present a venue map
 Add 3D map (ThreeJS) ???
+Reg table description filter
 
 > Important bugfix
 

@@ -18,6 +18,7 @@ import * as Register from "./register.js";
 import * as Castle from "./castle.js";
 import * as StaticBG from "./static_bg.js";
 import * as FAQ from "./faq.js";
+import * as InsideMap from "./insidemap.js";
 
 // DOM
 const body_dom = document.querySelector("body");
@@ -513,6 +514,7 @@ function animationCallback(time) {
   Fireworks.animationTick(dt);
   L2D.animationTick(dt);
   Dyntex.animationTick(dt);
+  InsideMap.animationTick(dt);
   
   // Eye tracking.
   Fireworks.update_attention(dt);
