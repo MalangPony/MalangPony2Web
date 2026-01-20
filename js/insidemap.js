@@ -480,7 +480,16 @@ function color_with_alpha(color,alpha){
 }
 
 
-function update_canvas(){
+const sine_period_seconds=2.0;
+let sine_phase=0;
+function update_canvas(dt){
+  
+  sine_phase+=dt*(2*Math.PI/sine_period_seconds);
+  sine_phase = sine_phase % (2*Math.PI);
+  let sine_value=Math.sin(sine_phase);
+  for (const k in bounds){
+    selection_progress[k].tick(dt);
+  }
   
   sc2d.clearRect(0,0,current_size,current_size);
   
@@ -512,9 +521,11 @@ function update_canvas(){
     sc2d.fill(p);
   }
   
-  sc2d.resetTransform();
+  
   for (const k of selection_sorted_keys){
     let c=centers[k];
+    let x=c[0];
+    let y=c[1];
     let sp=selection_progress[k].calculate_value();
     const color_title_fill=category_data[zone_data[k].category].color_title_fill;
     const color_title_stroke=category_data[zone_data[k].category].color_title_stroke;
@@ -522,12 +533,24 @@ function update_canvas(){
     
     // Title
     let dy=linear_map(0,1,sp,delta_y_inactive_title,delta_y_active_title);
-    sc2d.translate(c[0],c[1]+dy);
+    dy+=3*sine_value*sp;
+    
     let scale=linear_map(0,1,sp,scale_inactive_title,1.0);
-    sc2d.scale(scale,scale);
+    
     sc2d.font=font_title;
     sc2d.textAlign="center";
     sc2d.textBaseline="middle";
+    
+    // Shadow
+    let r_mult=(1+sp*sine_value*0.08)*scale;
+    sc2d.beginPath();
+    sc2d.ellipse(x,y+10,30*r_mult,10*r_mult,0,0,2*Math.PI);
+    sc2d.fillStyle=color_with_alpha("#000000",sp*25);
+    sc2d.fill();
+    
+    sc2d.resetTransform();
+    sc2d.translate(x,y+dy);
+    sc2d.scale(scale,scale);
     
     // Title Stroke
     sc2d.lineWidth = stroke_title;
@@ -538,14 +561,14 @@ function update_canvas(){
     sc2d.fillStyle=color_title_fill;
     sc2d.fillText(text,0,0);
     sc2d.resetTransform();
+    
+    
   }
 }
 
 
 // This should be called every frame, from main JS.
 export function animationTick(dt){
-  for (const k in bounds){
-    selection_progress[k].tick(dt);
-  }
-  update_canvas();
+  
+  update_canvas(dt);
 }
