@@ -113,105 +113,98 @@ const bounds={
   ],
 };
 
-let active_area=null;
-function generate_map(image_size){
-  let dom_map=document.createElement("map");
-  dom_map.setAttribute("name","insidemap-map");
-  dom_map.setAttribute("id","insidemap-map");
+
+let paths={};
+function recalculate_paths(){
+  paths={};
   for (const k in bounds){
+    let p2d=new Path2D();
     let coords=bounds[k];
-    let dom_area = document.createElement("area");
-    dom_area.setAttribute("shape","poly");
-    
-    let s='';
-    for (const c of coords){
-      let x=c[0]/bounds_pixel_basis*image_size;
-      let y=c[1]/bounds_pixel_basis*image_size;
-      s=s+x.toFixed(2)+","+y.toFixed(2)+","
+    for (let i=0;i<coords.length;i++){
+      let x=coords[i][0]/bounds_pixel_basis*current_size;
+      let y=coords[i][1]/bounds_pixel_basis*current_size;
+      if (i==0) p2d.moveTo(x,y);
+      else p2d.lineTo(x,y);
     }
-    s=s.substring(0,s.length-1);
-    
-    dom_area.setAttribute("coords",s);
-    dom_area.setAttribute("href","javascript:void(0);");
-    
-    dom_area.addEventListener("click",(e)=>{
-      console.log(k);
-      e.preventDefault();
-    });
-    dom_area.addEventListener("mouseenter",(e)=>{
-      active_area=k;
-    });
-    dom_area.addEventListener("mouseleave",(e)=>{
-      active_area=null;
-    });
-    dom_map.appendChild(dom_area);
+    p2d.closePath();
+    paths[k]=p2d;
   }
-  return dom_map;
 }
 
-let current_size=0;
-function handle_resize(){
-  current_size=container.clientWidth
-  let existing_map = document.getElementById("insidemap-map")
-  if (existing_map) existing_map.remove();
-  container.appendChild(generate_map(current_size));
-  image.setAttribute("usemap","#insidemap-map");
-  canvas.width=current_size;
-  canvas.height=current_size;
-  active_area=null;
-}
-
-let rso = new ResizeObserver(handle_resize);
-rso.observe(container);
-
-const sc2d = canvas.getContext("2d");
-
-function update_canvas(){
-  bounds_pixel_basis*current_size;
-  
-  sc2d.clearRect(0,0,current_size,current_size);
-  
-  
-  
-  
- 
-  
-
+let centers={};
+function recalculate_centers(){
+  centers={};
   for (const k in bounds){
-    sc2d.beginPath();
     let coords=bounds[k];
     let avgX=0;
     let avgY=0;
     for (let i=0;i<coords.length;i++){
-      
       let x=coords[i][0]/bounds_pixel_basis*current_size;
       let y=coords[i][1]/bounds_pixel_basis*current_size;
-      if (i==0) sc2d.moveTo(x,y);
-      else sc2d.lineTo(x,y);
-      
       avgX+=x/coords.length;
       avgY+=y/coords.length;
     }
-    sc2d.closePath();
+    centers[k]=[avgX,avgY];
+  }
+}
+
+let current_size=0;
+function handle_resize(){
+  current_size=container.clientWidth;
+  canvas.width=current_size;
+  canvas.height=current_size;
+  recalculate_paths();
+  recalculate_centers();
+}
+
+let rso = new ResizeObserver(handle_resize);
+rso.observe(container);
+handle_resize();
+
+const sc2d = canvas.getContext("2d");
+
+let mouse_bounds_check={};
+container.addEventListener("mousemove",(e)=>{
+  let bbox=container.getBoundingClientRect();
+  let localX=e.clientX-bbox.left;
+  let localY=e.clientY-bbox.top;
+  let any_hit=false;
+  for (const k in bounds){
+    let hit = sc2d.isPointInPath(paths[k],localX,localY);
+    mouse_bounds_check[k] = hit;
+    if (hit) any_hit=true;
+  }
+  if (any_hit) container.style.cursor="pointer";
+  else container.style.cursor="unset";
+});
+
+function update_canvas(){
+  
+  sc2d.clearRect(0,0,current_size,current_size);
+  
+  for (const k in bounds){
+    let p=paths[k];
+    let c=centers[k];
+    let active=mouse_bounds_check[k];
     
     sc2d.lineWidth = 2;
-    if (k==active_area) sc2d.strokeStyle = "#FF0000FF";
+    if (active) sc2d.strokeStyle = "#FF0000FF";
     else sc2d.strokeStyle = "#FF000060";
-    sc2d.stroke();
+    sc2d.stroke(p);
     
     sc2d.fillStyle="#FF000080"
-    if (k==active_area) sc2d.fill();
+    if (active) sc2d.fill(p);
     
-    if (k==active_area) sc2d.font="bold 16px NPS";
+    if (active) sc2d.font="bold 16px NPS";
     else sc2d.font="normal 12px NPS";
     sc2d.textAlign="center";
     
     sc2d.lineWidth = 5;
     sc2d.strokeStyle = "#000000";
-    sc2d.strokeText(k,avgX,avgY);
+    sc2d.strokeText(k,c[0],c[1]);
     
     sc2d.fillStyle="#FFFFFF"
-    sc2d.fillText(k,avgX,avgY);
+    sc2d.fillText(k,c[0],c[1]);
   }
 }
 
