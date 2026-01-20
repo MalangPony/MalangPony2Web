@@ -220,12 +220,12 @@ export let blocks=[
 	"end_time":"17:00",
 	"color_preset":"vendor-main",
 	"column":"main-side-vendor",
-	"description_en":'(Sponsors can enter at 11:00)<br>Check out all the pony merch at the Vendor Zone!<br>Apply to be a vendor: <span class="internal-page-autolink autofill-pagename link-button inline color-internal icon-internal generate-icon" data-pageid="vendor"></span>',
-	"description_kr":'(스폰서 이상 등급은 11:00부터 입장 가능)<br>부스에서 포니 굿즈를 구매하세요!<br>부스 모집중: <span class="internal-page-autolink autofill-pagename link-button inline color-internal icon-internal generate-icon" data-pageid="vendor"></span>',
+	"description_en":'(Sponsors can enter at 10:30)<br>Check out all the pony merch at the Vendor Zone!<br>Apply to be a vendor: <span class="internal-page-autolink autofill-pagename link-button inline color-internal icon-internal generate-icon" data-pageid="vendor"></span>',
+	"description_kr":'(스폰서 이상 등급은 10:30 입장 가능)<br>부스에서 포니 굿즈를 구매하세요!<br>부스 모집중: <span class="internal-page-autolink autofill-pagename link-button inline color-internal icon-internal generate-icon" data-pageid="vendor"></span>',
 	"tagline_en":"",
 	"tagline_kr":"",
-	"time_string_override_en":"(11:00~ for sponsors)<br>11:30 ~ 17:00",
-	"time_string_override_kr":"(스폰서들은 11:00~)<br>11:30 ~ 17:00"
+	"time_string_override_en":"(10:30~ for sponsors)<br>11:00 ~ 17:00",
+	"time_string_override_kr":"(스폰서들은 10:30~)<br>11:00 ~ 17:00"
 	},
 	{ 
 	"display":true,

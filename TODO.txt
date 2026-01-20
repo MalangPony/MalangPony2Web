@@ -9,7 +9,7 @@ Add 3D map (ThreeJS) ???
 > Important usability
 HMR L2D sometimes occludes text (This is very bad)
 Spam-clicking back button will desync the page URL and page
-Timetable lowest block unclosable in mobile
+Timetable some blocks unclosable in mobile
 Optimize castle textures by cropping
 honor prefers-reduced-motion
 
@@ -20,6 +20,7 @@ honor prefers-reduced-motion
 require click for petting
 A low-power device warning when feature level is low?
 for Royal tier box, make it fancy
+L2D mobile gyroscope
 
 > Extra easter eggs
 L2D SFX
