@@ -260,7 +260,7 @@ let category_data={
     color_title_fill_inactive:"#AAA",
     
     color_title_stroke_active:"#000",
-    color_title_stroke_inactive:"#333",
+    color_title_stroke_inactive:"#555",
     
     alpha_border_active:80,
     alpha_border_inactive:50,
@@ -390,6 +390,13 @@ for (const k in bounds){
   selection_sorted_keys.push(k);
 }
 
+// AV of the 'focus' - will ramp up to 1.0 when ANYTHING is selected.
+let focusAV = new AnimatedValue(0.0);
+focusAV.duration=1.0;
+focusAV.exponent=3.0;
+focusAV.ease_out=true;
+focusAV.ease_in=false;
+
 let mouse_bounds_check={};
 container.addEventListener("mousemove",(e)=>{
   let bbox=container.getBoundingClientRect();
@@ -435,11 +442,16 @@ container.addEventListener("mousemove",(e)=>{
   
   // Check if anything was hit
   let any_hit=false;
+  let any_hit_prev=false;
   for (const k in bounds){
     if (mouse_bounds_check[k]) any_hit=true;
+    if (mbc_last[k]) any_hit_prev=true;
   }
   if (any_hit) container.style.cursor="pointer";
   else container.style.cursor="unset";
+  
+  if ((!any_hit_prev) && any_hit) focusAV.animate_to(1.0);
+  if (any_hit_prev && (!any_hit)) focusAV.animate_to(0.0);
 });
 container.addEventListener("mouseleave",(e)=>{
   for (const k in bounds){
@@ -476,16 +488,21 @@ function update_canvas(dt){
   for (const k in bounds){
     selection_progress[k].tick(dt);
   }
+  focusAV.tick(dt);
   
   sc2d.clearRect(0,0,current_size,current_size);
   
   sc2d.miterLimit=2;
   sc2d.lineJoin="round";
   
-
+  
+  let focus=focusAV.calculate_value();
+  //console.log(sp_max);
   for (const k in bounds){
     let p=paths[k];
     let sp=selection_progress[k].calculate_value();
+    let focus_factor=1-Math.max(focus-sp,0);
+    let fam = 0.6+0.4*focus_factor; // Focus Alpha Multiplier
     
     let cd=category_data[zone_data[k].category];
     const color_border= cd.color_border;
@@ -498,12 +515,12 @@ function update_canvas(dt){
     // bounds stroke
     sc2d.lineWidth = 2;
     sc2d.strokeStyle = color_with_alpha(color_border,
-       linear_map(0,1,sp,alpha_inactive_border,alpha_active_border));
+       linear_map(0,1,sp,alpha_inactive_border,alpha_active_border)*fam);
     sc2d.stroke(p);
     
     // bounds fill
     sc2d.fillStyle=color_with_alpha(color_fill,
-       linear_map(0,1,sp,alpha_inactive_fill,alpha_active_fill));
+       linear_map(0,1,sp,alpha_inactive_fill,alpha_active_fill)*fam);
     sc2d.fill(p);
   }
   
@@ -513,6 +530,7 @@ function update_canvas(dt){
     let x=c[0];
     let y=c[1];
     let sp=selection_progress[k].calculate_value();
+    let focus_factor=1-Math.max(focus-sp,0);
     
     const ata=category_data[zone_data[k].category].alpha_title_active;
     const ati=category_data[zone_data[k].category].alpha_title_inactive;
@@ -520,10 +538,10 @@ function update_canvas(dt){
     
     const ctfa=category_data[zone_data[k].category].color_title_fill_active;
     const ctfi=category_data[zone_data[k].category].color_title_fill_inactive;
-    const ctf=color_with_alpha(colormix(ctfi,ctfa,sp),alpha_title);
+    const ctf=color_with_alpha(colormix(ctfi,ctfa,focus_factor),alpha_title);
     const ctsa=category_data[zone_data[k].category].color_title_stroke_active;
     const ctsi=category_data[zone_data[k].category].color_title_stroke_inactive;
-    const cts=color_with_alpha(colormix(ctsi,ctsa,sp),alpha_title);
+    const cts=color_with_alpha(colormix(ctsi,ctsa,focus_factor),alpha_title);
     
     let text=zone_data[k]["name_"+current_lang];
     let desc=zone_data[k]["desc_"+current_lang];

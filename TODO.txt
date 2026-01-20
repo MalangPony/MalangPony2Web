@@ -1,6 +1,4 @@
 > Essential functionality
-When timetable block is clicked, present a venue map
-Add 3D map (ThreeJS) ???
 Reg table description filter
 
 
@@ -22,6 +20,7 @@ Perk desc line-height
 link 3d map to timetable
 3d map isometric mode + one other view
 3d map mobile support
+3d map scaling
 
 > Easy
 page-news top buttons non-functional
