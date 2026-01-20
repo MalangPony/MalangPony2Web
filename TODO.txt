@@ -3,9 +3,12 @@ When timetable block is clicked, present a venue map
 Add 3D map (ThreeJS) ???
 Reg table description filter
 
+
 > Important bugfix
 
+
 > Text
+
 
 > Important usability
 HMR L2D sometimes occludes text (This is very bad)
@@ -13,26 +16,42 @@ Spam-clicking back button will desync the page URL and page
 Timetable some blocks unclosable in mobile
 Optimize castle textures by cropping
 honor prefers-reduced-motion
-
+title monospace to actual font
+Reg table light mode
+Perk desc line-height
+link 3d map to timetable
+3d map isometric mode + one other view
+3d map mobile support
 
 > Easy
+page-news top buttons non-functional
+Add NTD twitter
+
 
 > Normal usability
 require click for petting
 A low-power device warning when feature level is low?
 for Royal tier box, make it fancy
 L2D mobile gyroscope
+Hanmari sleep less frequent
+Hanmari random action less frequent
+Shuffle inside credit groups
+timetable no desc blocks expanded smoller
+station numbers for directions EN (<sup>)
+map - clear route button
+
 
 > Extra easter eggs
 L2D SFX
 idle on sky mode - a smol hanmari horizontally moves across screen
 Sky constallations
-
+3d map add pony
 
 
 > RIGHT BEFORE PUSH TO PROD
 Change all domains (testing.malangpony) to a PHP expression (<?php echo $webroot;?>)
 ...or change all testing.malangpony domain to malangpony (automated search-replace?)
+
 
 > AFTER PUSH TO PROD
 Check OpenGraph working

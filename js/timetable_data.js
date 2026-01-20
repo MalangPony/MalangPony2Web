@@ -155,8 +155,8 @@ export let blocks=[
 	"end_time":"23:00",
 	"color_preset":"panel-sub",
 	"column":"main-stage",
-	"description_en":"Relax and wind down as the event comes to a close",
-	"description_kr":"여운을 즐기며 행사를 마무리하세요",
+	"description_en":"Relax and wind down as the event comes to a close.",
+	"description_kr":"여운을 즐기며 행사를 마무리하세요.",
 	"tagline_en":"",
 	"tagline_kr":""
 	},
@@ -207,8 +207,8 @@ export let blocks=[
 	"end_time":"19:00",
 	"color_preset":"long-running",
 	"column":"main-side-shrine",
-	"description_en":"A place to show off your pony merch",
-	"description_kr":"누구나 포니 굿즈를 가져와서 전시할 수 있는 공간입니다",
+	"description_en":"A place to show off your pony merch.",
+	"description_kr":"누구나 포니 굿즈를 가져와서 전시할 수 있는 공간입니다.",
 	"tagline_en":"",
 	"tagline_kr":""
 	},
@@ -249,7 +249,7 @@ export let blocks=[
 	"color_preset":"panel-sub",
 	"column":"sub-hall",
 	"description_en":"Want to draw ponies but don't know how? Join Marenlicious' crash course on pony art!",
-	"description_kr":"그림을 못 그려도 괜찮아요! 아티스트 마렌리셔스님과 함께 포니 그리는 법을 배워봅시다.",
+	"description_kr":"그림을 못 그려도 괜찮아요! 아티스트 Marenlicious님과 함께 포니 그리는 법을 배워봅시다.",
 	"tagline_en":"",
 	"tagline_kr":""
 	},
@@ -313,8 +313,8 @@ export let blocks=[
 	"end_time":"18:00",
 	"color_preset":"event-critical",
 	"column":"lobby-reg",
-	"description_en":"Redeem your badge and goodies from registration desk",
-	"description_kr":"등록 데스크에서 참가증과 특전을 수령하세요",
+	"description_en":"Redeem your badge and goodies from registration desk.",
+	"description_kr":"등록 데스크에서 참가증과 특전을 수령하세요.",
 	"tagline_en":"",
 	"tagline_kr":""
 	},
