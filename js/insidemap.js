@@ -139,72 +139,72 @@ const zone_data={
   sub:{
     name_ko:"서브 홀",
     name_en:"Sub Hall",
-    desc_ko:"",
-    desc_en:"",
+    desc_ko:"소규모 패널과 활동이\n이루어지는 공간입니다.",
+    desc_en:"A place for smaller\npanels and activities.",
     category:"sub",
     priority:2
   },
   storage:{
     name_ko:"창고",
     name_en:"Storage",
-    desc_ko:"",
-    desc_en:"",
+    desc_ko:"출입금지",
+    desc_en:"Off limits.",
     category:"offlimit",
     priority:2
   },
   gallery:{
     name_ko:"아트 갤러리",
     name_en:"Art Gallery",
-    desc_ko:"",
-    desc_en:"",
+    desc_ko:"참가자들이 직접 제작한\n팬아트를 전시하는 공간입니다.",
+    desc_en:"An art gallery of fanart\nsubmitted by other bronies.",
     category:"persistent",
     priority:2
   },
   regDesk:{
     name_ko:"등록 데스크",
     name_en:"Registration",
-    desc_ko:"",
-    desc_en:"",
+    desc_ko:"등록 데스크에서\n참가증과 특전을 수령하세요.",
+    desc_en:"Redeem your badge and goodies\nfrom the registration desk.",
     category:"reg",
     priority:2
   },
   signboard:{
     name_ko:"사인보드",
-    name_en:"",
-    desc_ko:"",
-    desc_en:"",
+    name_en:"Doodle Board",
+    desc_ko:"낙서와 방명록을 위한\n거대한 캔버스!",
+    desc_en:"A HUGE canvas for\nall your doodles and signatures.",
     category:"persistent",
     priority:2
   },
   stage:{
     name_ko:"메인 무대",
     name_en:"Main Stage",
-    desc_ko:"",
-    desc_en:"",
+    desc_ko:"말랑포니의 중심!",
+    desc_en:"The center stage!",
     category:"main",
     priority:2
   },
   control:{
     name_ko:"본부석",
-    name_en:"Staff Area",
-    desc_ko:"",
-    desc_en:"",
+    name_en:"HQ",
+    desc_ko:"스태프 전용 공간입니다.",
+    desc_en:"Staff-only area.",
     category:"offlimit",
     priority:2
   },
   vendor:{
     name_ko:"부스 존",
     name_en:"Vendor Zone",
-    desc_ko:"",
-    desc_en:"",
+    desc_ko:"부스에서 포니 굿즈를 구매하세요!",
+    desc_en:"Check out all the pony merch\nat the Vendor Zone!",
     category:"vendor",
     priority:2
   },
   snack:{
     name_ko:"스낵 바",
     name_en:"Snack Bar",
-    desc_ko:"",
-    desc_en:"",
+    desc_ko:"출출하신 분들을 위해\n먹을것, 마실것이 준비되어 있습니다.",
+    desc_en:"Some food and drinks\nfor the hungry and thirsty.",
     category:"persistent",
     priority:2
   },
@@ -219,24 +219,24 @@ const zone_data={
   rest:{
     name_ko:"휴식 공간",
     name_en:"Resting Lounge",
-    desc_ko:"",
-    desc_en:"",
+    desc_ko:"휴식 및 담소가 가능한 공간입니다.",
+    desc_en:"A place to rest and chat.",
     category:"persistent",
     priority:2
   },
   drawing:{
     name_ko:"자유 그림 코너",
     name_en:"Doodle Table",
-    desc_ko:"",
-    desc_en:"",
+    desc_ko:"테이블에 둘러앉아\n자유롭게 포니를 그려봐요!",
+    desc_en:"A free drawing table for everypony!",
     category:"persistent",
     priority:2
   },
   shrine:{
     name_ko:"굿즈 전시대",
     name_en:"Merch Shrine",
-    desc_ko:"",
-    desc_en:"",
+    desc_ko:"누구나 포니 굿즈를 가져와서\n전시할 수 있는 공간입니다.",
+    desc_en:"A place to show off\nyour pony merch.",
     category:"persistent",
     priority:2
   },
@@ -250,94 +250,71 @@ const zone_data={
   },
 };
 
-const ctf_default="#FFF";
-const cts_default="#000";
-const abi_default=50;
-const aba_default=80;
-const afi_default=20;
-const afa_default=50;
+
 let category_data={
-  area:{ //--template-malang-TWI
-    color_border:"#765C99",
+  base:{
+    color_border:"#FFF",
+    color_fill:"#FFF",
+    
+    color_title_fill_active:"#FFF",
+    color_title_fill_inactive:"#AAA",
+    
+    color_title_stroke_active:"#000",
+    color_title_stroke_inactive:"#333",
+    
+    alpha_border_active:80,
+    alpha_border_inactive:50,
+    
+    alpha_fill_active:50,
+    alpha_fill_inactive:20,
+    
+    alpha_title_active:100,
+    alpha_title_inactive:100,
+  },
+  
+  area:{ //--template-malang-TWI --template-malang-TS
+    color_border:"#AD8CD9",
     color_fill:"#765C99",
-    color_title_fill:ctf_default,
-    color_title_stroke:cts_default,
-    alpha_border_inactive:abi_default,
-    alpha_border_active:aba_default,
-    alpha_fill_inactive:0,
-    alpha_fill_active:20
+    alpha_title_inactive:0,
   },
   main:{ //--color-timetable-panel-main
     color_border:"#afe0ff",
     color_fill:"#afe0ff",
-    color_title_fill:ctf_default,
-    color_title_stroke:cts_default,
-    alpha_border_inactive:abi_default,
-    alpha_border_active:aba_default,
-    alpha_fill_inactive:afi_default,
-    alpha_fill_active:afa_default
   },
   sub:{ //--color-timetable-panel-open
     color_border:"#ffd1a9",
     color_fill:"#ffd1a9",
-    color_title_fill:ctf_default,
-    color_title_stroke:cts_default,
-    alpha_border_inactive:abi_default,
-    alpha_border_active:aba_default,
-    alpha_fill_inactive:afi_default,
-    alpha_fill_active:afa_default
   },
   persistent:{ //--color-timetable-long-running
     color_border:"#AFFAD7",
     color_fill:"#AFFAD7",
-    color_title_fill:ctf_default,
-    color_title_stroke:cts_default,
-    alpha_border_inactive:abi_default,
-    alpha_border_active:aba_default,
-    alpha_fill_inactive:afi_default,
-    alpha_fill_active:afa_default
   },
   reg:{ //--color-timetable-event-critical
     color_border:"#F8FAB5",
     color_fill:"#F8FAB5",
-    color_title_fill:ctf_default,
-    color_title_stroke:cts_default,
-    alpha_border_inactive:abi_default,
-    alpha_border_active:aba_default,
-    alpha_fill_inactive:afi_default,
-    alpha_fill_active:afa_default
   },
   vendor:{ //--color-timetable-vendor-main
     color_border:"#FFCCFF",
     color_fill:"#FFCCFF",
-    color_title_fill:ctf_default,
-    color_title_stroke:cts_default,
-    alpha_border_inactive:abi_default,
-    alpha_border_active:aba_default,
-    alpha_fill_inactive:afi_default,
-    alpha_fill_active:afa_default
   },
   restroom:{
     color_border:"#DDD",
     color_fill:"#DDD",
-    color_title_fill:ctf_default,
-    color_title_stroke:cts_default,
-    alpha_border_inactive:abi_default,
-    alpha_border_active:aba_default,
-    alpha_fill_inactive:afi_default,
-    alpha_fill_active:afa_default
   },
   offlimit:{
-    color_border:"#888",
-    color_fill:"#888",
-    color_title_fill:ctf_default,
-    color_title_stroke:cts_default,
-    alpha_border_inactive:abi_default,
-    alpha_border_active:aba_default,
-    alpha_fill_inactive:afi_default,
-    alpha_fill_active:afa_default
+    color_border:"#C33",
+    color_fill:"#C33",
   }
 };
+// Copy all non-existing keys from ["base"]
+for (const k in category_data){
+  if (k=="base") continue;
+  for (const d in category_data["base"]){
+    if (category_data[k][d]===undefined){
+      category_data[k][d]=category_data["base"][d];
+    }
+  }
+}
 
 let current_lang="";
 export function set_lang(l){
@@ -367,15 +344,19 @@ function recalculate_centers(){
   centers={};
   for (const k in bounds){
     let coords=bounds[k];
-    let avgX=0;
-    let avgY=0;
+    let maxX=-Infinity;
+    let maxY=-Infinity;
+    let minX=Infinity;
+    let minY=Infinity;
     for (let i=0;i<coords.length;i++){
       let x=coords[i][0]/bounds_pixel_basis*current_size;
       let y=coords[i][1]/bounds_pixel_basis*current_size;
-      avgX+=x/coords.length;
-      avgY+=y/coords.length;
+      if (x>maxX) maxX=x;
+      if (x<minX) minX=x;
+      if (y>maxY) maxY=y;
+      if (y<minY) minY=y;
     }
-    centers[k]=[avgX,avgY];
+    centers[k]=[(minX+maxX)/2.0,(minY+maxY)/2.0];
   }
 }
 
@@ -471,14 +452,19 @@ const font_title="bold 24px NPS";
 const scale_inactive_title=0.7;
 const delta_y_inactive_title=0;
 const delta_y_active_title=-15;
-const stroke_title=5;
+const stroke_title=6;
 
 const font_desc="normal 16px NPS";
+const delta_y_desc=+30;
+const line_height_desc=20;
+const stroke_desc=6;
 
 function color_with_alpha(color,alpha){
   return "rgb(from "+color+" r g b / "+alpha+"%)";
 }
-
+function colormix(a,b,fac){
+  return "color-mix(in srgb, "+a+" "+(100-fac*100)+"%, "+b+")";
+}
 
 const sine_period_seconds=2.0;
 let sine_phase=0;
@@ -527,9 +513,20 @@ function update_canvas(dt){
     let x=c[0];
     let y=c[1];
     let sp=selection_progress[k].calculate_value();
-    const color_title_fill=category_data[zone_data[k].category].color_title_fill;
-    const color_title_stroke=category_data[zone_data[k].category].color_title_stroke;
+    
+    const ata=category_data[zone_data[k].category].alpha_title_active;
+    const ati=category_data[zone_data[k].category].alpha_title_inactive;
+    const alpha_title=linear_map(0,1,sp,ati,ata);
+    
+    const ctfa=category_data[zone_data[k].category].color_title_fill_active;
+    const ctfi=category_data[zone_data[k].category].color_title_fill_inactive;
+    const ctf=color_with_alpha(colormix(ctfi,ctfa,sp),alpha_title);
+    const ctsa=category_data[zone_data[k].category].color_title_stroke_active;
+    const ctsi=category_data[zone_data[k].category].color_title_stroke_inactive;
+    const cts=color_with_alpha(colormix(ctsi,ctsa,sp),alpha_title);
+    
     let text=zone_data[k]["name_"+current_lang];
+    let desc=zone_data[k]["desc_"+current_lang];
     
     // Title
     let dy=linear_map(0,1,sp,delta_y_inactive_title,delta_y_active_title);
@@ -542,11 +539,13 @@ function update_canvas(dt){
     sc2d.textBaseline="middle";
     
     // Shadow
-    let r_mult=(1+sp*sine_value*0.08)*scale;
-    sc2d.beginPath();
-    sc2d.ellipse(x,y+10,30*r_mult,10*r_mult,0,0,2*Math.PI);
-    sc2d.fillStyle=color_with_alpha("#000000",sp*25);
-    sc2d.fill();
+    if (sp>0.0001){
+      let r_mult=(1+sp*sine_value*0.08)*scale;
+      sc2d.beginPath();
+      sc2d.ellipse(x,y+10,30*r_mult,10*r_mult,0,0,2*Math.PI);
+      sc2d.fillStyle=color_with_alpha("#000000",sp*25);
+      sc2d.fill();
+    }
     
     sc2d.resetTransform();
     sc2d.translate(x,y+dy);
@@ -554,14 +553,40 @@ function update_canvas(dt){
     
     // Title Stroke
     sc2d.lineWidth = stroke_title;
-    sc2d.strokeStyle = color_title_stroke;
+    sc2d.strokeStyle = cts;
     sc2d.strokeText(text,0,0);
     
     // Title Fill
-    sc2d.fillStyle=color_title_fill;
+    sc2d.fillStyle=ctf;
     sc2d.fillText(text,0,0);
     sc2d.resetTransform();
     
+    if (sp>0.0001){
+      // Description
+      sc2d.font=font_desc;
+      sc2d.textAlign="center";
+      sc2d.textBaseline="alphabetic";
+      sc2d.resetTransform();
+      sc2d.translate(x,y+delta_y_desc);
+      
+      let dy=0;
+      let lines=desc.split("\n");
+      for (let line of lines){
+        line=line.trim();
+        
+        // Description Stroke
+        sc2d.lineWidth = stroke_desc;
+        sc2d.strokeStyle = color_with_alpha(cts,sp*100);
+        sc2d.strokeText(line,0,dy);
+        
+        // Description Fill
+        sc2d.fillStyle=color_with_alpha(ctf,sp*100);
+        sc2d.fillText(line,0,dy);
+        
+        dy+=line_height_desc;
+      }
+      sc2d.resetTransform();
+    }
     
   }
 }

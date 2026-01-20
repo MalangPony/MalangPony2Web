@@ -313,7 +313,7 @@ export let blocks=[
 	"end_time":"18:00",
 	"color_preset":"event-critical",
 	"column":"lobby-reg",
-	"description_en":"Redeem your badge and goodies from registration desk.",
+	"description_en":"Redeem your badge and goodies from the registration desk.",
 	"description_kr":"등록 데스크에서 참가증과 특전을 수령하세요.",
 	"tagline_en":"",
 	"tagline_kr":""
