@@ -87,25 +87,25 @@
 
 /* MainContentBackdrop Backgrounds */
 .dark-mode #main-content-backdrop:not(.on-intro-page){
-  --mcb-glow-opacity:30%;
+  --mcb-glow-opacity:40%;
   --mcb-edge-opacity:60%;
   --mcb-center-opacity:50%;
   --mcb-color:#000;
 }
 .dark-mode #main-content-backdrop.on-intro-page{
-  --mcb-glow-opacity:30%;
+  --mcb-glow-opacity:40%;
   --mcb-edge-opacity:70%;
   --mcb-center-opacity:60%;
   --mcb-color:#000;
 }
 .light-mode #main-content-backdrop:not(.on-intro-page){
-  --mcb-glow-opacity:30%;
-  --mcb-edge-opacity:60%;
-  --mcb-center-opacity:50%;
+  --mcb-glow-opacity:40%;
+  --mcb-edge-opacity:70%;
+  --mcb-center-opacity:60%;
   --mcb-color:#FFF;
 }
 .light-mode #main-content-backdrop.on-intro-page{
-  --mcb-glow-opacity:30%;
+  --mcb-glow-opacity:40%;
   --mcb-edge-opacity:80%;
   --mcb-center-opacity:70%;
   --mcb-color:#FFF;
