@@ -391,10 +391,16 @@ function recalculate_centers(){
 }
 
 let current_size=0;
+// All UI elements were sized using a canvas of 700px in size,
+// So if the canvas has a different size, we must scale the fonts accordingly.
+// BUT don't resize it to be too small.
+let font_size_muliplier=1.0;
 function handle_resize(){
   current_size=container.clientWidth;
   canvas.width=current_size;
   canvas.height=current_size;
+  font_size_muliplier=current_size/700.0;
+  if (font_size_muliplier<0.8) font_size_muliplier=0.8;
   recalculate_paths();
   recalculate_centers();
 }
@@ -590,14 +596,18 @@ function update_canvas(dt){
     if (sp>0.0001){
       let r_mult=(1+sp*sine_value*0.08)*scale;
       sc2d.beginPath();
-      sc2d.ellipse(x,y+10,30*r_mult,10*r_mult,0,0,2*Math.PI);
+      sc2d.ellipse(
+        x,y+10*font_size_muliplier,
+        30*r_mult*font_size_muliplier,
+        10*r_mult*font_size_muliplier,
+        0,0,2*Math.PI);
       sc2d.fillStyle=color_with_alpha("#000000",sp*25);
       sc2d.fill();
     }
     
     sc2d.resetTransform();
     sc2d.translate(x,y+dy);
-    sc2d.scale(scale,scale);
+    sc2d.scale(scale*font_size_muliplier,scale*font_size_muliplier);
     
     // Title Stroke
     sc2d.lineWidth = stroke_title;
@@ -616,6 +626,7 @@ function update_canvas(dt){
       sc2d.textBaseline="alphabetic";
       sc2d.resetTransform();
       sc2d.translate(x,y+delta_y_desc);
+      sc2d.scale(font_size_muliplier,font_size_muliplier);
       
       let dy=0;
       let lines=desc.split("\n");
