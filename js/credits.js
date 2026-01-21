@@ -12,14 +12,20 @@ for (const entry of CreditsData.credits_list){
 }
 
 
-// Shuffle groups
-let primary_roles_shuffled=[];
-while (primary_roles.length>0) {
-	let random_index=Math.floor(Math.random()*primary_roles.length);
-	let random_element=primary_roles.splice(random_index,1)[0];
-	primary_roles_shuffled.push(random_element);
+// Shuffle groups and entries
+function toShuffled(a){
+	let original=Array.from(a);
+	let result=[];
+	while (original.length>0) {
+		let random_index=Math.floor(Math.random()*original.length);
+		let random_element=original.splice(random_index,1)[0];
+		result.push(random_element);
+	}
+	return result;
 }
-primary_roles=primary_roles_shuffled;
+
+let primary_roles_shuffled=toShuffled(primary_roles);
+let entries_shuffled=toShuffled(CreditsData.credits_list);
 
 
 const staff_container = document.getElementById("credits-staff-container");
@@ -85,7 +91,7 @@ function generate_entry(entry,list_sns=true){
 }
 
 // Generate a list of people with the given primary role
-function generate_group(primary_role_id,list_roles=true){
+function generate_group(primary_role_id,list_sns=true){
 	let group=CreditsData.role_definitions[primary_role_id];
 	
 	let group_dom = template_section.content.cloneNode(true);
@@ -94,16 +100,16 @@ function generate_group(primary_role_id,list_roles=true){
 	group_dom.querySelector(".credits-section-name > .lang-en").innerHTML=group.en;
 	
 	let group_content_container = group_dom.querySelector(".credits-section-content");
-	for (const credits_entry of CreditsData.credits_list){
+	for (const credits_entry of entries_shuffled){
 		if (credits_entry.primary !== primary_role_id) continue;
-		group_content_container.appendChild(generate_entry(credits_entry,list_roles));
+		group_content_container.appendChild(generate_entry(credits_entry,list_sns));
 	}
 	return group_dom;
 }
 
 // Head is always at the top
 staff_container.appendChild(generate_group("head",true));
-for (const group_id of primary_roles){
+for (const group_id of primary_roles_shuffled){
 	staff_container.appendChild(generate_group(group_id,true));
 }
 
