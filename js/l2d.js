@@ -552,75 +552,6 @@ function calculate_seconds_since_last_activity(){
 }
 
 
-// Mouse movement activity.
-// In order to filter out small movements we use the following algorithm:
-// Every time a mouse movement event is received, we add the normalized 
-// movement distance to an accumulator.
-// When an accumulator reaches a threshold value, an activity event is fired.
-// The accumulator decays in a fixed speed, to reject small constant mouse jitters.
-
-// Below three constants were chosen arbitrarily.
-const MOUSE_DISTANCE_MULTIPLIER=50.0;
-const DECAY_PER_SECOND=1.0;
-const ACCUMULATOR_THRESHOLD=1.0;
-
-let mouse_movement_accumulator=0;
-let mousePositionLast=Vector2.ZERO;
-let mouseEventLastTime=performance.now();
-let last_significant_mouse_movement=performance.now();
-window.addEventListener("mousemove",(e)=>{
-	if (!Config.OPTION_ENABLE_L2D_HANMARI) return;
-	if (!PerformanceManager.check_feature_enabled(
-		PerformanceManager.Feature.HANMARI_L2D)) return;
-	if (canvas_hidden) return;
-	
-	// Calculate time delta
-	let t=performance.now();
-	let dt=(t-mouseEventLastTime)/1000;
-	mouseEventLastTime=t;
-	
-	// Calculate mouse delta
-	let mouse=new Vector2(e.clientX,e.clientY)
-	let delta = mouse.subtract(mousePositionLast);
-	mousePositionLast=mouse;
-	
-	// Calculate distance
-	let screen_dimension_ballpark=Math.min(window.innerHeight,window.innerWidth);
-	if (!screen_dimension_ballpark) {
-		console.log("Window size invalid");
-		screen_dimension_ballpark=1000;
-	}
-	let distance=delta.length();
-	let distance_normalized=distance/screen_dimension_ballpark;
-	
-	// Add movement to accumulator
-	mouse_movement_accumulator+=distance_normalized*MOUSE_DISTANCE_MULTIPLIER;
-	
-	// Subtract decay to accumulator
-	let decay_factor=DECAY_PER_SECOND*Math.min(dt,1.0);
-	mouse_movement_accumulator-=decay_factor;
-	if (mouse_movement_accumulator<0) mouse_movement_accumulator=0;
-	
-	// Fire activity report when above threshold
-	if (mouse_movement_accumulator>ACCUMULATOR_THRESHOLD) {
-		postpone_random_motion();
-		last_significant_mouse_movement=t;
-		mouse_movement_accumulator=0;
-	}
-});
-// A click is always significant.
-window.addEventListener("click",(e)=>{
-	let t=performance.now();
-	postpone_random_motion();
-	last_significant_mouse_movement=t;
-});
-
-// Used for timing out eye tracking.
-function seconds_since_last_significant_mouse_movement(){
-	return (performance.now()-last_significant_mouse_movement)/1000;
-}
-
-
 // Check and play random motion.
 function hanmari_random_action_check(){
 	let t=performance.now();
@@ -714,6 +645,7 @@ const PET_ACCUM_EXIT_THRESH=1.3;
 let petting_accumulator=0.0;
 
 let last_mouse_position=null;
+// For petting and cursor change
 window.addEventListener("mousemove",(e)=>{
 	wsd.style.cursor="unset";
 	if (!Config.OPTION_ENABLE_L2D_HANMARI) return;
@@ -772,45 +704,110 @@ let eye_position_sky=[-0.5,0.5];
 function reset_eye_position(){
 	eye_position_mouse=[0,0];
 }
+
+// Mouse movement activity.
+// In order to filter out small movements we use the following algorithm:
+// Every time a mouse movement event is received, we add the normalized 
+// movement distance to an accumulator.
+// When an accumulator reaches a threshold value, an activity event is fired.
+// The accumulator decays in a fixed speed, to reject small constant mouse jitters.
+
+// Below three constants were chosen arbitrarily.
+const MOUSE_DISTANCE_MULTIPLIER=50.0;
+const DECAY_PER_SECOND=1.0;
+const ACCUMULATOR_THRESHOLD=1.0;
+
+
+let last_significant_mouse_movement=performance.now();
+
+// Used for timing out eye tracking.
+function seconds_since_last_significant_mouse_movement(){
+	return (performance.now()-last_significant_mouse_movement)/1000;
+}
 // If more than 3 seconds since a significant move, don't do mouse tracking.
 function is_mouse_tracking_timed_out(){
 	return seconds_since_last_significant_mouse_movement()>3.0;
 }
-if (Config.OPTION_ENABLE_L2D_HANMARI){
-	window.addEventListener("mousemove",(e)=>{
-		if (is_mouse_tracking_timed_out()) return;
-		// All coordinates are in viewport coords.
-		let t=performance.now();
-		
-		// Bounding box of the canvas.
-		let bcr=l2d_canvas.getBoundingClientRect();
-		
-		// Mouse location.
-		let mouseX=e.clientX;
-		let mouseY=e.clientY;
-		
-		// Center coordinates of the canvas.
-		let centerX=bcr.x+bcr.width/2;
-		let centerY=bcr.y+bcr.height/2;
-		
-		// Relative coords of the mouse with respect to the canvas center.
-		let relX=mouseX-centerX;
-		let relY=mouseY-centerY;
-		
-		// Conform the relative coordinates into a -1 ~ +1 range.
-		let x=relX/500;
-		x*=Config.OPTION_L2D_EYE_FOLLOW_SENSITIVITY;
-		if (x<-1) x=-1;
-		if (x>1) x=1;
-		
-		let y=relY/500;
-		y*=-1; // We gotta flip the Y
-		y*=Config.OPTION_L2D_EYE_FOLLOW_SENSITIVITY;
-		if (y<-1) y=-1;
-		if (y>1) y=1;
-		eye_position_mouse=[x,y];
-	});
+
+// A click is always significant.
+window.addEventListener("click",(e)=>{
+	let t=performance.now();
+	postpone_random_motion();
+	last_significant_mouse_movement=t;
+});
+
+let mouse_movement_accumulator=0;
+let mousePositionLast=Vector2.ZERO;
+let mouseEventLastTime=performance.now();
+function mouse_movement_handler(mouse_coords){
+	if (!Config.OPTION_ENABLE_L2D_HANMARI) return;
+	if (!PerformanceManager.check_feature_enabled(
+		PerformanceManager.Feature.HANMARI_L2D)) return;
+	if (canvas_hidden) return;
+	
+	// Bounding box of the canvas.
+	let bcr=l2d_canvas.getBoundingClientRect();
+	
+	// Center coordinates of the canvas.
+	let canvas_center=new Vector2(bcr.x+bcr.width/2,bcr.y+bcr.height/2);
+	
+	// Relative coords of the mouse with respect to the canvas center.
+	let canvas_rel_mouse_coords=mouse_coords.subtract(canvas_center);
+	
+	
+	// Calculate time delta
+	let t=performance.now();
+	let dt=(t-mouseEventLastTime)/1000;
+	mouseEventLastTime=t;
+	
+	// Calculate mouse delta
+	let delta = canvas_rel_mouse_coords.subtract(mousePositionLast);
+	mousePositionLast=canvas_rel_mouse_coords;
+	
+	// Calculate distance
+	let screen_dimension_ballpark=Math.min(window.innerHeight,window.innerWidth);
+	if (!screen_dimension_ballpark) {
+		console.log("Window size invalid");
+		screen_dimension_ballpark=1000;
+	}
+	let distance=delta.length();
+	let distance_normalized=distance/screen_dimension_ballpark;
+	
+	// Add movement to accumulator
+	mouse_movement_accumulator+=distance_normalized*MOUSE_DISTANCE_MULTIPLIER;
+	
+	// Subtract decay to accumulator
+	let decay_factor=DECAY_PER_SECOND*Math.min(dt,1.0);
+	mouse_movement_accumulator-=decay_factor;
+	if (mouse_movement_accumulator<0) mouse_movement_accumulator=0;
+	
+	// Fire activity report when above threshold
+	if (mouse_movement_accumulator>ACCUMULATOR_THRESHOLD) {
+		postpone_random_motion();
+		last_significant_mouse_movement=t;
+		mouse_movement_accumulator=0;
+	}
+	
+	// Eye tracking code from here on
+	if (is_mouse_tracking_timed_out()) return;
+	
+	// Conform the relative coordinates into a -1 ~ +1 range.
+	let x=canvas_rel_mouse_coords.x/500;
+	x*=Config.OPTION_L2D_EYE_FOLLOW_SENSITIVITY;
+	if (x<-1) x=-1;
+	if (x>1) x=1;
+	
+	let y=canvas_rel_mouse_coords.y/500;
+	y*=-1; // We gotta flip the Y
+	y*=Config.OPTION_L2D_EYE_FOLLOW_SENSITIVITY;
+	if (y<-1) y=-1;
+	if (y>1) y=1;
+	eye_position_mouse=[x,y];
 }
+
+window.addEventListener("mousemove",(e)=>{
+	mouse_movement_handler(new Vector2(e.clientX,e.clientY));
+});
 
 if (Config.OPTION_ENABLE_L2D_HANMARI){
 	// .body is needed for Firefox apperently
