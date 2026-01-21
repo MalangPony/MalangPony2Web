@@ -5,7 +5,7 @@
 
 
 > Text
-
+Volunteer page
 
 > Important usability
 HMR L2D sometimes occludes text (This is very bad)
@@ -26,7 +26,6 @@ for Royal tier box, make it fancy
 L2D mobile gyroscope
 Hanmari sleep less frequent
 Hanmari random action less frequent
-timetable no desc blocks expanded smoller
 station numbers for directions EN (<sup>)
 map - clear route button
 Fix internal map zone alignments

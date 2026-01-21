@@ -335,7 +335,6 @@ for (const block of blocks){
 	popup_dom.style.zIndex=+81;
 	popup_dom.style.top=px2em(40);
 	popup_dom.style.bottom=px2em(40);
-	popup_dom.style.minHeight=px2em(100);
 	popup_dom.style.width=px2em(240);
 	popup_dom.style.display="none";
 	popup_dom.style.backgroundColor=bg_color;
