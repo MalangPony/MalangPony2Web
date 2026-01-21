@@ -417,17 +417,39 @@
 	position:relative;
 	border-bottom: 0.1em solid hsl(from var(--color-text-light) h s l / 50%);
 }
+.tier-table-data-row.tier-table-data-row-with-explanation .tier-table-perk-name{
+	cursor:pointer;
+}
 .tier-table-perk-name{
 	text-align:left;
 	width:var(--tier-table-perk-name-width);
 	height:fit-content;
 	font-weight:700;
 }
-.tier-table-perk-name-inner{
+.tier-table .cell-inner-div.tier-table-perk-name-inner{
 	padding-left:0.1em;
 	padding-top:0.3em;
 	padding-bottom:0.2em;
+	flex-direction:row;
+	justify-content:flex-start;
+	gap:0.4em;
+	align-items:baseline;
 }
+.tier-table .tier-table-perk-name-inner-text{
+	text-align:left;
+	flex-grow:1;
+}
+.tier-table .tier-table-perk-name-inner-icon{
+	width:1.0em;
+	height:1.0em;
+	flex-shrink:0;
+	flex-grow:0;
+	
+	font-family:'Material Symbols Rounded';
+	transform:scale(1.2);
+	margin-top:-0.5em;
+}
+
 .tier-table-boolean-cell{
 	width:var(--tier-table-data-columns-width);
 	height:var(--tier-table-data-rows-height);
@@ -444,52 +466,41 @@
 .tier-table-boolean-cell-inner.cell-false{
 	color: #FFFFFF20;
 }
-.tier-table-desc-container{
-	position:absolute;
-	left:0;
-	right:0;
-	top:100%; /* align top to container's bottom */
-	background-color: hsl(from var(--color-background-dark) h s l / 100%);
-	z-index:1;
-	pointer-events:none;
-	transition-property:max-height, opacity;
-	transition-duration:0.2s;
-	max-height:0em;
-	opacity:0;
-	overflow:hidden;
-}
-.tier-table-desc-container.expanded{
-	max-height:5.0em;
-	opacity:1.0;
-}
 .tier-table-explain-row{
 	border-bottom: 0.1em solid hsl(from var(--color-text-light) h s l / 50%);
 }
 .tier-table-explain-cell{
 	height:fit-content;
 	width:var(--tier-table-perk-name-width);
+	
 }
 .tier-table .cell-inner-div.tier-table-explain-cell-inner{
+	max-height:0em;
+	overflow:hidden;
+	transition-property:max-height, opacity;
+	transition-duration:0.2s;
+}
+
+.tier-table .tier-table-explain-row:not(.expanded) .tier-table-explain-cell-inner{
+	max-height:0em;
+	opacity:0.0;
+}
+
+.tier-table .tier-table-explain-row.expanded .tier-table-explain-cell-inner{
+	max-height:5.0em;
+	opacity:1.0;
+}
+.tier-table .cell-inner-div.tier-table-explain-cell-inner .tier-table-explain-cell-inner-text{
+	width:100%;
+	height:100%;
 	padding-left:0.6em;
 	padding-bottom:0.2em;
-	align-self:flex-start;
 	text-align:left;
 	line-height:1.4;
 	font-size:0.8em;
 	color: hsl( from currentColor h s l / 80%);
 }
-/*
-.tier-table-explain-cell-inner{
-	transition-property:max-height;
-	transition-duration:0.5s;
-	overflow:hidden;
-}
-.tier-table .tier-table-explain-row:not(.expanded) .tier-table-explain-cell-inner{
-	max-height:0;
-}
-.tier-table .tier-table-explain-row.expanded .tier-table-explain-cell-inner{
-	max-height: calc(var(--tier-table-data-rows-height) * 3.6);
-}*/
+
 
 /* Responsive Section */
 /* Targeting down to 300px. */

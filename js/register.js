@@ -145,10 +145,19 @@ for (const tier_id in TierData.tiers_data){
 			perk_dom.querySelector(".perk-name .lang-en").innerHTML=
 				TierData.perks_data[perk_id].name_en;
 			
+			let exr = TierData.perks_data[perk_id].explanation_required
+				
 			let desc_ko=TierData.perks_data[perk_id].desc_ko;
 			let desc_en=TierData.perks_data[perk_id].desc_en;
 			if (!desc_ko) desc_ko="설명 설명 설명...";
 			if (!desc_en) desc_en="Explanation goes here...";
+			
+			/*
+			if (!exr) {
+				desc_ko="";
+				desc_en="";
+			}*/
+			
 			
 			let overwritten_by=perk_overwrite_map[perk_id];
 			if (overwritten_by){
@@ -349,9 +358,7 @@ for (const perk_id in TierData.perks_data){
 	let row = document.createElement("tr");
 	row.classList.add("tier-table-data-row");
 	
-	// TESTING CODE!! Change to actual data later.
-	let has_explanation=["signed_poster","relay_prompt","conbook","shirt"].includes(perk_id);
-	//has_explanation=false;
+	let has_explanation=TierData.perks_data[perk_id].explanation_required;
 	
 	if (has_explanation)
 		row.classList.add("tier-table-data-row-with-explanation");
@@ -375,15 +382,28 @@ for (const perk_id in TierData.perks_data){
 	perk_name_inner.classList.add("cell-inner-div");
 	firstcell.appendChild(perk_name_inner);
 	
+	let perk_name_inner_icon = document.createElement("div");
+	perk_name_inner_icon.classList.add("tier-table-perk-name-inner-icon");
+	perk_name_inner.appendChild(perk_name_inner_icon);
+	
+	if (!has_explanation) perk_name_inner_icon.innerHTML="";
+	else perk_name_inner_icon.innerHTML="help";
+	
+	let perk_name_inner_text = document.createElement("div");
+	perk_name_inner_text.classList.add("tier-table-perk-name-inner-text");
+	perk_name_inner.appendChild(perk_name_inner_text);
+	
+	
+	
 	let perk_name_ko=document.createElement("span");
 	perk_name_ko.classList.add("lang-ko");
 	perk_name_ko.innerHTML=TierData.perks_data[perk_id].name_ko;
-	perk_name_inner.appendChild(perk_name_ko);
+	perk_name_inner_text.appendChild(perk_name_ko);
 	
 	let perk_name_en=document.createElement("span");
 	perk_name_en.classList.add("lang-en");
 	perk_name_en.innerHTML=TierData.perks_data[perk_id].name_en;
-	perk_name_inner.appendChild(perk_name_en);
+	perk_name_inner_text.appendChild(perk_name_en);
 	
 	row.appendChild(firstcell);
 	
@@ -424,23 +444,6 @@ for (const perk_id in TierData.perks_data){
 		row.appendChild(cell);
 	}
 	
-	/*
-	let desc_container = document.createElement("div");
-	desc_container.classList.add("tier-table-desc-container");
-	row.appendChild(desc_container);
-	desc_containers_by_perk[perk_id]=desc_container;
-	
-	let desc_en=document.createElement("span");
-	desc_en.classList.add("lang-en");
-	desc_en.innerHTML=TierData.perks_data[perk_id].desc_en;
-	desc_container.appendChild(desc_en);
-	
-	let desc_ko=document.createElement("span");
-	desc_ko.classList.add("lang-ko");
-	desc_ko.innerHTML=TierData.perks_data[perk_id].desc_ko;
-	desc_container.appendChild(desc_ko);
-	*/
-	
 	table.appendChild(row);
 	
 	if (has_explanation){
@@ -460,15 +463,19 @@ for (const perk_id in TierData.perks_data){
 		desc_inner.classList.add("cell-inner-div");
 		desc_inner.classList.add("unfocus-able");
 		
+		let desc_texts = document.createElement("div");
+		desc_texts.classList.add("tier-table-explain-cell-inner-text");
+		desc_inner.appendChild(desc_texts);
+		
 		let desc_en=document.createElement("span");
 		desc_en.classList.add("lang-en");
 		desc_en.innerHTML=TierData.perks_data[perk_id].desc_en;
-		desc_inner.appendChild(desc_en);
+		desc_texts.appendChild(desc_en);
 		
 		let desc_ko=document.createElement("span");
 		desc_ko.classList.add("lang-ko");
 		desc_ko.innerHTML=TierData.perks_data[perk_id].desc_ko;
-		desc_inner.appendChild(desc_ko);
+		desc_texts.appendChild(desc_ko);
 		
 		desc_cell.appendChild(desc_inner);
 		
@@ -481,7 +488,22 @@ for (const perk_id in TierData.perks_data){
 		
 		row2.appendChild(desc_cell);
 		table.appendChild(row2);
+		
+		let expanded=false;
+		firstcell.addEventListener("click",()=>{
+			expanded= !expanded;
+			if (expanded) {
+				row2.classList.add("expanded");
+				perk_name_inner_icon.innerHTML="chevron_line_up";
+			}
+			else {
+				row2.classList.remove("expanded");
+				perk_name_inner_icon.innerHTML="help";
+			}
+		});
 	}
+	
+	
 	
 }
 tier_table_container.appendChild(table);
