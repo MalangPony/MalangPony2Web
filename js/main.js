@@ -783,13 +783,24 @@ page_cleanup_functions["internal"]= function(){
 
 // Transition with animation.
 let page_transition_in_progress=false;
+
+// If a page transition was blocked due to another one being in progress,
+// add the transition to a queue and try again at the end of the current transition.
+let page_transition_queue=[];
+function try_pop_ptq(){
+  if ((!page_transition_in_progress) && (page_transition_queue.length>0)){
+    let pt=page_transition_queue.shift();
+    console.log("PTQ pop, "+pt);
+    page_transition(pt[0],pt[1],pt[2]);
+  }
+}
 function page_transition(name,animated=true,push_to_history=false){
-  console.log("Page transition to "+name+", animated="+animated+", PTH="+push_to_history);
   // Hide sidebar, even if the transition is invalid.
   if (mobile_mode) sidebar_mobile_close();
   
   if (page_transition_in_progress) {
     console.log("Rejecting page transition since another transition is in progress");
+    page_transition_queue.push([name,animated,push_to_history])
     return;
   }
   
@@ -906,6 +917,7 @@ function page_transition(name,animated=true,push_to_history=false){
     anim_show_new.onfinish= () => {
       main_content_backdrop.style.opacity=1;
       page_transition_in_progress=false;
+      try_pop_ptq();
     }
   
   }else{
@@ -954,6 +966,14 @@ function page_transition(name,animated=true,push_to_history=false){
   
   currently_on_page=name;
   autoset_title();
+  
+  // This will only succeed on instant transitions.
+  // And since instant transitions finish in a single call, 
+  //   another transition will never get queued while in progress.
+  // Meaning, this call is useless.
+  // Which I only realized while writing this comment. Hmm.
+  // Whatever, I'm too lazy to delete this.
+  try_pop_ptq();
 }
 
 window.addEventListener("popstate",(e)=>{

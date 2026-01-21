@@ -9,7 +9,6 @@ Volunteer page
 
 > Important usability
 HMR L2D sometimes occludes text (This is very bad)
-Spam-clicking back button will desync the page URL and page
 Timetable some blocks unclosable in mobile
 Optimize castle textures by cropping
 honor prefers-reduced-motion
