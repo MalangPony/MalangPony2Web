@@ -629,8 +629,8 @@ function hanmari_random_action_check(){
 		if (current_state!=STATE_GROUND) return;
 		let r=Math.random();
 		
-		if ((seconds_since_last_significant_mouse_movement()>15.0) && 
-			(Math.random()<0.5)) // 50% chance
+		if ((seconds_since_last_significant_mouse_movement()>Config.L2D_SLEEP_MINIMUM_TIME_SECONDS) && 
+			(Math.random()<Config.L2D_RANDOM_ACTION_SLEEP_TRANSITION_PROBABILITY))
 				apply_state(STATE_SLEEP);
 		else if (r<0.33) playMotion("Random",1,100);
 		else if (r<0.66) playMotion("Surprised",1,100);
