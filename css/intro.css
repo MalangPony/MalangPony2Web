@@ -2,7 +2,10 @@
 
 /* This is to offset the padding-top:120px from #main-content-actual */
 #page-intro{
-  margin-top:-80px;
+  margin-top:-90px;
+}
+.langmode-en #page-intro{
+  margin-top:-120px;
 }
 
 #ticket{

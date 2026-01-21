@@ -15,7 +15,7 @@ honor prefers-reduced-motion
 
 
 > Easy
-EN text at intro page under logo
+
 
 > Normal usability
 require click for petting
