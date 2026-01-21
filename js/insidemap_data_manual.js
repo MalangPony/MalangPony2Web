@@ -4,7 +4,7 @@ export const zone_data={
     name_en:"Entrance",
     desc_ko:"",
     desc_en:"",
-    category:"reg",
+    category:"facility",
     priority:2
   },
   main:{
@@ -76,7 +76,7 @@ export const zone_data={
     name_en:"HQ",
     desc_ko:"문의사항이 생기면 여기로 와주세요.",
     desc_en:"Staff-only area.",
-    category:"offlimit",
+    category:"reg",
     priority:2
   },
   vendor:{
@@ -132,7 +132,7 @@ export const zone_data={
     name_en:"Restrooms",
     desc_ko:"",
     desc_en:"",
-    category:"restroom",
+    category:"facility",
     priority:2
   },
 };
@@ -140,14 +140,8 @@ export const zone_data={
 
 export let category_data={
   base:{
-    color_border:"#FFF",
-    color_fill:"#FFF",
-    
-    color_title_fill_active:"#FFF",
-    color_title_fill_inactive:"#AAA",
-    
-    color_title_stroke_active:"#000",
-    color_title_stroke_inactive:"#555",
+    color_light:"#000",
+    color_dark:"#FFF",
     
     alpha_border_active:80,
     alpha_border_inactive:50,
@@ -159,38 +153,39 @@ export let category_data={
     alpha_title_inactive:100,
   },
   
-  area:{ //--template-malang-TWI --template-malang-TS
-    color_border:"#AD8CD9",
-    color_fill:"#765C99",
+  area:{ 
+    color_light:"#AD8CD9", //#765C99 --template-malang-TWI --template-malang-TS
+    color_dark:"#765C99",
     alpha_title_inactive:0,
+    alpha_fill_inactive:0,
   },
-  main:{ //--color-timetable-panel-main
-    color_border:"#afe0ff",
-    color_fill:"#afe0ff",
+  main:{ 
+    color_light:"#afe0ff", //--color-timetable-panel-main
+    color_dark:"#3e93cc",
   },
-  sub:{ //--color-timetable-panel-open
-    color_border:"#ffd1a9",
-    color_fill:"#ffd1a9",
+  sub:{ 
+    color_light:"#ffd1a9", //--color-timetable-panel-open
+    color_dark:"#dd9954",
   },
-  persistent:{ //--color-timetable-long-running
-    color_border:"#AFFAD7",
-    color_fill:"#AFFAD7",
+  persistent:{ 
+    color_light:"#AFFAD7", //--color-timetable-long-running
+    color_dark:"#3abe80",
   },
-  reg:{ //--color-timetable-event-critical
-    color_border:"#F8FAB5",
-    color_fill:"#F8FAB5",
+  reg:{ 
+    color_light:"#F8FAB5", //--color-timetable-event-critical
+    color_dark:"#ac9e08",
   },
-  vendor:{ //--color-timetable-vendor-main
-    color_border:"#FFCCFF",
-    color_fill:"#FFCCFF",
+  vendor:{ 
+    color_light:"#FFCCFF", //--color-timetable-vendor-main
+    color_dark:"#a64ca5",
   },
-  restroom:{
-    color_border:"#DDD",
-    color_fill:"#DDD",
+  facility:{
+    color_light:"#DDD",
+    color_dark:"#222",
   },
   offlimit:{
-    color_border:"#C33",
-    color_fill:"#C33",
+    color_light:"#C33",
+    color_dark:"#F77",
   }
 };
 // Copy all non-existing keys from ["base"]

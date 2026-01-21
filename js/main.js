@@ -713,16 +713,13 @@ function apply_darkmode(darkmode){
     body_dom.classList.add("light-mode");
     Cookies.createCookie("theme","L");
   }
+  InsideMap.set_darkmode(darkmode);
 }
 
 theme_btn.onclick= ()=>{
   darkmode=!darkmode;
   apply_darkmode(darkmode);
 }
-
-
-
-
 
 
 

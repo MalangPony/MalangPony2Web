@@ -7,8 +7,10 @@ import * as InsidemapManualData from "./insidemap_data_manual.js";
 
 let scroller = document.getElementById("internal-map-scroller");
 let container = document.getElementById("internal-map-container");
-let image_p = document.getElementById("internal-map-image-persp1");
-let image_o = document.getElementById("internal-map-image-ortho1");
+let image_pl = document.getElementById("internal-map-image-persp1-light");
+let image_ol = document.getElementById("internal-map-image-ortho1-light");
+let image_pd = document.getElementById("internal-map-image-persp1-dark");
+let image_od = document.getElementById("internal-map-image-ortho1-dark");
 let canvas = document.getElementById("internal-map-canvas");
 
 let button_overlay_off=document.getElementById("internal-map-button-overlay-off");
@@ -28,6 +30,7 @@ export function set_lang(l){
 
 let current_size=0;
 let current_domain="persp1";
+let in_darkmode=false;
 
 let paths={};
 function recalculate_paths(){
@@ -75,25 +78,37 @@ function recalculate_centers(){
   }
 }
 
-export function set_domain(d){
-  current_domain=d;
-  
-  image_p.style.display="none";
-  image_o.style.display="none";
+function apply_domain_and_theme(){
+  image_pl.style.display="none";
+  image_ol.style.display="none";
+  image_pd.style.display="none";
+  image_od.style.display="none";
   button_domain_ortho1.style.display="none";
   button_domain_persp1.style.display="none";
-  if (d=="ortho1"){
-    image_o.style.display="block";
+  if (current_domain=="ortho1"){
+    if (!in_darkmode) image_ol.style.display="block";
+    else image_od.style.display="block";
+    
     button_domain_persp1.style.display="flex";
-  }else if(d=="persp1"){
-    image_p.style.display="block";
+  }else if(current_domain=="persp1"){
+    if (!in_darkmode) image_pl.style.display="block";
+    else image_pd.style.display="block";
+    
     button_domain_ortho1.style.display="flex";
   }
   
   recalculate_paths();
   recalculate_centers();
 }
-set_domain("persp1");
+export function set_domain(d){
+  current_domain=d;
+  apply_domain_and_theme();
+}
+export function set_darkmode(d){
+  in_darkmode=d;
+  apply_domain_and_theme();
+}
+apply_domain_and_theme();
 
 
 // All UI elements were sized using a canvas of 700px in size,
@@ -113,8 +128,6 @@ function handle_resize(){
 let rso = new ResizeObserver(handle_resize);
 rso.observe(container);
 handle_resize();
-
-
 
 
 const sc2d = canvas.getContext("2d");
@@ -259,8 +272,8 @@ function update_canvas(dt){
     let fam = 0.6+0.4*focus_factor; // Focus Alpha Multiplier
     
     let cd=InsidemapManualData.category_data[InsidemapManualData.zone_data[k].category];
-    const color_border= cd.color_border;
-    const color_fill=cd.color_fill;
+    const color_border= in_darkmode ? cd.color_light:cd.color_dark;
+    const color_fill= in_darkmode ? cd.color_light:cd.color_dark;
     const alpha_inactive_border=cd.alpha_border_inactive;
     const alpha_active_border=cd.alpha_border_active;
     const alpha_inactive_fill=cd.alpha_fill_inactive;
@@ -292,11 +305,12 @@ function update_canvas(dt){
     const ati=cd.alpha_title_inactive;
     const alpha_title=linear_map(0,1,sp,ati,ata);
     
-    const ctfa=cd.color_title_fill_active;
-    const ctfi=cd.color_title_fill_inactive;
+    const ctfa=in_darkmode?"#FFF":"#FFF";
+    const ctfi=in_darkmode?"#AAA":"#CCC";
     const ctf=color_with_alpha(colormix(ctfi,ctfa,focus_factor),alpha_title);
-    const ctsa=cd.color_title_stroke_active;
-    const ctsi=cd.color_title_stroke_inactive;
+    
+    const ctsa=in_darkmode?"#000":"#2F4575";
+    const ctsi=in_darkmode?"#555":"#8e9fb3";
     const cts=color_with_alpha(colormix(ctsi,ctsa,focus_factor),alpha_title);
     
     let text=zone_data["name_"+current_lang];
@@ -388,7 +402,6 @@ function update_canvas(dt){
 }
 
 let overlay_active=true;
-
 
 // This should be called every frame, from main JS.
 export function animationTick(dt){

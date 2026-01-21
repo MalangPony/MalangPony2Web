@@ -63,6 +63,10 @@ export const data={
           1186.0752999999997,
           2179.2922
         ]
+      ],
+      "center_override": [
+        1032.226,
+        2480.1536
       ]
     },
     "sub": {
@@ -818,4 +822,4 @@ export const data={
   }
 };
 
-export const zone_list= ['vendor', 'shrine', 'entrance', 'lobby', 'storage', 'drawing', 'control', 'gallery', 'signboard', 'snack', 'stage', 'sub', 'seating', 'rest', 'regDesk', 'restroom', 'main'];
+export const zone_list= ['control', 'main', 'gallery', 'vendor', 'restroom', 'drawing', 'sub', 'regDesk', 'seating', 'signboard', 'stage', 'snack', 'shrine', 'entrance', 'storage', 'lobby', 'rest'];
