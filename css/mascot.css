@@ -22,6 +22,8 @@
   --character-bg:light-dark(
     var(--character-hanmari-body),
     var(--character-hanmari-mane-black));
+  --character-body:var(--character-hanmari-body);
+  --character-mane:var(--character-hanmari-mane-black);
   --character-minimize-bg:var(--character-hanmari-body);
 }
 .leebyeori{
@@ -31,6 +33,8 @@
   --character-bg:light-dark(
     var(--character-leebyeori-body),
     var(--character-leebyeori-mane-brown));
+  --character-body:var(--character-leebyeori-body);
+  --character-mane:var(--character-leebyeori-mane-brown);
   --character-minimize-bg:var(--character-leebyeori-body);
 }
 
@@ -47,6 +51,7 @@
   
   padding-bottom:24px;
 }
+
 .mascot-selector-divider{
   width:var(--mascot-divider-width);
   align-self:stretch;
@@ -89,11 +94,11 @@
     filter:none;
   }
   .mascot-container.isolate:hover .refsheet-thumb-isolated{
-    filter:drop-shadow(0 0 6px var(--character-minimize-bg));
+    filter:drop-shadow(0 0 6px var(--character-fg));
   }
   .mascot-container.isolate:hover .mascot-label{
-    box-shadow:0 0 12px var(--character-fg);
-    background-color: color-mix(in srgb, var(--character-fg) 20%, var(--character-bg));
+    box-shadow:0 0 12px var(--character-body);
+    background-color: color-mix(in srgb, var(--character-mane) 80%, var(--character-body));
   }
 }
 
@@ -157,11 +162,18 @@
   position:absolute;
   left:-100px;
   right:-100px;
-  top:calc(var(--mascot-container-width) * 0.45);
+  top:calc(calc(var(--mascot-container-width) * 0.50) - 30px);
   display:flex;
   align-items:center;
   justify-content:center;
   pointer-events:none;
+  transition-property: top;
+  transition-duration: 1.0s;
+}
+/* English text is longer so it may protrude outside and be ugly */
+.langmode-en .minimize .mascot-label-positioner{
+  /* Try to align bottom-ish of the vertical text to bottom of refsheet. */
+  top:calc(calc(var(--mascot-container-width) * 0.55) - 60px);
 }
 .mascot-label{
   opacity:0;
@@ -170,10 +182,13 @@
   transform:none;
   z-index:10;
   font-size:24px;
-  color: var(--character-fg);
-  background-color:var(--character-bg);
+  color: var(--character-body);
+  background-color:var(--character-mane);
   border-radius:4px;
   padding:8px;
+}
+.mobile-mode .mascot-label{
+  font-size:20px;
 }
 .isolate .mascot-label{
   opacity:1;
@@ -273,6 +288,9 @@
   .refsheet-downloads{
     flex-direction:column;
   }
+  .mascot-label{
+    font-size:20px;
+  }
 }
 
 /* Smaller Mobiles */
@@ -287,10 +305,22 @@
 /* PC <-640-> Big Mobile <-480-> Small Mobile <-360-> Ridiculous <-300-> I give up */
 @media (width>=480px) and (width<640px) {
   /* 640 ~ 480 : Big Mobiles */
+  
+  #mascot-selector{
+    --mascot-container-width:calc(var(--pages-actual-width) - 32px);
+  }
 }
 @media (width>=360px) and (width<480px) {
   /* 480 ~ 360 : Small Mobiles */
+  
+  #mascot-selector{
+    --mascot-container-width:calc(var(--pages-actual-width) - 16px);
+  }
 }
 @media (width<360px) {
   /* 360 ~ 300 : Ridiculously Small Mobiles */
+  
+  #mascot-selector{
+    --mascot-container-width:calc(var(--pages-actual-width) - 8px);
+  }
 }
