@@ -17,11 +17,7 @@ honor prefers-reduced-motion
 title monospace to actual font
 Reg table light mode
 Perk desc line-height
-link 3d map to timetable
-3d map isometric mode + one other view
-3d map mobile support
-3d map scaling
-3d map option buttons
+
 
 > Easy
 page-news top buttons non-functional

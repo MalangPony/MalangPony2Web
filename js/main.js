@@ -776,6 +776,12 @@ page_cleanup_functions["register"]= function(){
   Register.close_all_tierboxes();
 }
 
+page_setup_functions["internal"]= function(){
+  InsideMap.demonstrate_scroll();
+}
+page_cleanup_functions["internal"]= function(){
+}
+
 // Transition with animation.
 let page_transition_in_progress=false;
 function page_transition(name,animated=true,push_to_history=false){

@@ -5,6 +5,7 @@ import { linear_map } from "./utils.js";
 import * as InsidemapAutoData from "./insidemap_data_auto.js";
 import * as InsidemapManualData from "./insidemap_data_manual.js";
 
+let scroller = document.getElementById("internal-map-scroller");
 let container = document.getElementById("internal-map-container");
 let image_p = document.getElementById("internal-map-image-persp1");
 let image_o = document.getElementById("internal-map-image-ortho1");
@@ -440,3 +441,16 @@ button_domain_ortho1.addEventListener("click",()=>{
 button_domain_persp1.addEventListener("click",()=>{
   set_domain("persp1");
 });
+
+
+export function demonstrate_scroll(){
+  let max_scroll_amount = scroller.scrollWidth - scroller.clientWidth;
+  if (max_scroll_amount>10.0){
+    window.setTimeout(()=>{
+      scroller.scroll({top:0,left:max_scroll_amount,behavior:"smooth"});
+    },500);
+    window.setTimeout(()=>{
+      scroller.scroll({top:0,left:0,behavior:"smooth"});
+    },1500);
+  }
+}
