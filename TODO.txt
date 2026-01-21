@@ -27,7 +27,6 @@ L2D mobile gyroscope
 Hanmari sleep less frequent
 Hanmari random action less frequent
 station numbers for directions EN (<sup>)
-map - clear route button
 Fix internal map zone alignments
 
 

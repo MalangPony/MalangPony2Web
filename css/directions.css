@@ -124,27 +124,39 @@
   object-fit: contain;
 }
 
-
-#map-btn-jump{
+.map-inside-button{
   position:absolute;
-  top:16px;
-  left:16px;
   z-index:10;
-  
-  --lb-color-bg:var(--color-text-dark);
-  --lb-color-text:var(--color-text-light);
-  
-  /* bg-color and color is changed from .link-button code*/
-  transition-property: top,  opacity, background-color, color;
+  /* bg-color and color is changed from .link-button code */
+  transition-property: inset,  opacity, background-color, color;
   transition-duration: 0.5s, 0.5s,    0.2s,             0.2s;
   
   opacity:1.0;
 }
-
-#map-btn-jump.hidden{
-  top:-64px;
+.map-inside-button.hidden{
   opacity:0.0;
   pointer-events:none;
+}
+
+#map-btn-jump{
+  top:16px;
+  left:16px;
+  --lb-color-bg:var(--color-text-dark);
+  --lb-color-text:var(--color-text-light);
+  --lb-color-outline:#333;
+}
+#map-btn-jump.hidden{
+  top:-64px;
+}
+#map-btn-erase{
+  bottom:16px;
+  left:16px;
+  --lb-color-bg:var(--template-malang-PP);
+  --lb-color-text:#533;
+  
+}
+#map-btn-erase.hidden{
+  bottom:-64px;
 }
 
 .directions-intercity-divider{

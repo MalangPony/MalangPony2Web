@@ -37,6 +37,8 @@
  *    .icon-layer-off
  *    .icon-2d
  *    .icon-3d
+ *    .icon-close
+ *    .icon-trash
  * 
  * Alternatively, if .manual-icon class is added,
  *   the first child will be positioned as the icon. 
@@ -93,7 +95,7 @@
  * .inline       to make this an inline link.
  * .borderless   to disable borders 
  * .textless     for textless buttons
- * .lcons-big    Make icons larger
+ * .icons-big    Make icons larger
  */
 
 
@@ -187,7 +189,7 @@
 }
 .link-button.padded{
   --lb-padding-extra:0.3em;
-  --lb-icon-offset-multiplier:0.6;
+  --lb-icon-offset-multiplier:1.0;
 }
 .link-button.large{
   font-size:1.3em;
@@ -447,6 +449,18 @@
 }
 .link-button.icon-2d::before{
   content:"2d";
+  font-family:'Material Symbols Rounded';
+  transform:scale(calc(1.4 * var(--lb-icon-size-multiplier)));
+  margin-top:calc(-0.5em * var(--lb-icon-offset-multiplier));
+}
+.link-button.icon-close::before{
+  content:"close";
+  font-family:'Material Symbols Rounded';
+  transform:scale(calc(1.4 * var(--lb-icon-size-multiplier)));
+  margin-top:calc(-0.4em * var(--lb-icon-offset-multiplier));
+}
+.link-button.icon-trash::before{
+  content:"delete";
   font-family:'Material Symbols Rounded';
   transform:scale(calc(1.4 * var(--lb-icon-size-multiplier)));
   margin-top:calc(-0.5em * var(--lb-icon-offset-multiplier));

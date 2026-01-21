@@ -22,9 +22,9 @@ let container = document.getElementById('kakaomap-content');
 // Focus bounds
 let box_with_padding = document.getElementById('map-box-with-padding'); 
 
-// Jump to ATM button
+// Buttons
 let mbj=document.getElementById("map-btn-jump");
-
+let button_erase=document.getElementById("map-btn-erase");
 
 function array_to_latlng(a){
   return new kakao.maps.LatLng(a[0], a[1]); 
@@ -55,6 +55,7 @@ var kkm = new kakao.maps.Map(
   container, { 
 	center: positionATM, 
 	level: 5});
+kkm.setCopyrightPosition(kakao.maps.CopyrightPosition.BOTTOMRIGHT);
 
 // Note: Call kkm.relayout() on visibility changes!
 export function relayout(){
@@ -240,6 +241,7 @@ for (const k in routes){
   if (route.shown_by_default){
     route.polyline.setMap(kkm)
     route.shown=true;
+    button_erase.classList.remove("hidden");
   }else{
     route.shown=false;
   }
@@ -262,6 +264,8 @@ for (const k in routes){
       {strokeOpacity:0.7,strokeWeight:4,strokeStyle:"dashed"});
     kkm.setBounds(route.bounds,50);
     box_with_padding.scrollIntoView({behavior:"smooth",block:"nearest"});
+    
+    button_erase.classList.remove("hidden");
   });
   route.wp_overlays=[];
   
@@ -290,6 +294,15 @@ for (const k in routes){
   }
 }
 
+button_erase.addEventListener("click",()=>{
+  for (const k in routes){
+    let route=routes[k];
+    for (const wpo of route.wp_overlays) wpo.setMap(null);
+    route.polyline.setMap(null);
+    route.shown=false;
+  }
+  button_erase.classList.add("hidden");
+});
 
 /* ZL>7 not shown
  * ZL=7 not shown
