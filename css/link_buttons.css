@@ -35,6 +35,8 @@
  *    .icon-mail
  *    .icon-layer-on
  *    .icon-layer-off
+ *    .icon-2d
+ *    .icon-3d
  * 
  * Alternatively, if .manual-icon class is added,
  *   the first child will be positioned as the icon. 
@@ -433,6 +435,18 @@
 }
 .link-button.icon-layer-off::before{
   content:"layers_clear";
+  font-family:'Material Symbols Rounded';
+  transform:scale(calc(1.4 * var(--lb-icon-size-multiplier)));
+  margin-top:calc(-0.5em * var(--lb-icon-offset-multiplier));
+}
+.link-button.icon-3d::before{
+  content:"3d";
+  font-family:'Material Symbols Rounded';
+  transform:scale(calc(1.4 * var(--lb-icon-size-multiplier)));
+  margin-top:calc(-0.5em * var(--lb-icon-offset-multiplier));
+}
+.link-button.icon-2d::before{
+  content:"2d";
   font-family:'Material Symbols Rounded';
   transform:scale(calc(1.4 * var(--lb-icon-size-multiplier)));
   margin-top:calc(-0.5em * var(--lb-icon-offset-multiplier));

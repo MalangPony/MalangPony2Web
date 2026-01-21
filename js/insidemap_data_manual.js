@@ -1,0 +1,206 @@
+
+export const zone_data={
+  entrance:{
+    name_ko:"입구",
+    name_en:"Entrance",
+    desc_ko:"",
+    desc_en:"",
+    category:"reg",
+    priority:2
+  },
+  main:{
+    name_ko:"메인 홀",
+    name_en:"Main Hall",
+    desc_ko:"",
+    desc_en:"",
+    category:"area",
+    priority:1
+  },
+  lobby:{
+    name_ko:"로비",
+    name_en:"Lobby",
+    desc_ko:"",
+    desc_en:"",
+    category:"area",
+    priority:1
+  },
+  sub:{
+    name_ko:"서브 홀",
+    name_en:"Sub Hall",
+    desc_ko:"소규모 패널과 활동이\n이루어지는 공간입니다.",
+    desc_en:"A place for smaller\npanels and activities.",
+    category:"sub",
+    priority:2
+  },
+  storage:{
+    name_ko:"창고",
+    name_en:"Storage",
+    desc_ko:"출입금지",
+    desc_en:"Off limits.",
+    category:"offlimit",
+    priority:2
+  },
+  gallery:{
+    name_ko:"아트 갤러리",
+    name_en:"Art Gallery",
+    desc_ko:"참가자들이 직접 제작한\n팬아트를 전시하는 공간입니다.",
+    desc_en:"An art gallery of fanart\nsubmitted by other bronies.",
+    category:"persistent",
+    priority:2
+  },
+  regDesk:{
+    name_ko:"등록 데스크",
+    name_en:"Registration",
+    desc_ko:"등록 데스크에서\n참가증과 특전을 수령하세요.",
+    desc_en:"Redeem your badge and goodies\nfrom the registration desk.",
+    category:"reg",
+    priority:2
+  },
+  signboard:{
+    name_ko:"사인보드",
+    name_en:"Doodle Board",
+    desc_ko:"낙서와 방명록을 위한\n거대한 캔버스!",
+    desc_en:"A HUGE canvas for\nall your doodles and signatures.",
+    category:"persistent",
+    priority:2
+  },
+  stage:{
+    name_ko:"메인 무대",
+    name_en:"Main Stage",
+    desc_ko:"말랑포니의 중심!",
+    desc_en:"The center stage!",
+    category:"main",
+    priority:2
+  },
+  control:{
+    name_ko:"본부석",
+    name_en:"HQ",
+    desc_ko:"스태프 전용 공간입니다.",
+    desc_en:"Staff-only area.",
+    category:"offlimit",
+    priority:2
+  },
+  vendor:{
+    name_ko:"부스 존",
+    name_en:"Vendor Zone",
+    desc_ko:"부스에서 포니 굿즈를 구매하세요!",
+    desc_en:"Check out all the pony merch\nat the Vendor Zone!",
+    category:"vendor",
+    priority:2
+  },
+  snack:{
+    name_ko:"스낵 바",
+    name_en:"Snack Bar",
+    desc_ko:"출출하신 분들을 위해\n먹을것, 마실것이 준비되어 있습니다.",
+    desc_en:"Some food and drinks\nfor the hungry and thirsty.",
+    category:"persistent",
+    priority:2
+  },
+  seating:{
+    name_ko:"메인 관중석",
+    name_en:"Main Seating",
+    desc_ko:"",
+    desc_en:"",
+    category:"main",
+    priority:2
+  },
+  rest:{
+    name_ko:"휴식 공간",
+    name_en:"Resting Lounge",
+    desc_ko:"휴식 및 담소가 가능한 공간입니다.",
+    desc_en:"A place to rest and chat.",
+    category:"persistent",
+    priority:2
+  },
+  drawing:{
+    name_ko:"자유 그림 코너",
+    name_en:"Doodle Table",
+    desc_ko:"테이블에 둘러앉아\n자유롭게 포니를 그려봐요!",
+    desc_en:"A free drawing table for everypony!",
+    category:"persistent",
+    priority:2
+  },
+  shrine:{
+    name_ko:"굿즈 전시대",
+    name_en:"Merch Shrine",
+    desc_ko:"누구나 포니 굿즈를 가져와서\n전시할 수 있는 공간입니다.",
+    desc_en:"A place to show off\nyour pony merch.",
+    category:"persistent",
+    priority:2
+  },
+  restroom:{
+    name_ko:"화장실",
+    name_en:"Restrooms",
+    desc_ko:"",
+    desc_en:"",
+    category:"restroom",
+    priority:2
+  },
+};
+
+
+export let category_data={
+  base:{
+    color_border:"#FFF",
+    color_fill:"#FFF",
+    
+    color_title_fill_active:"#FFF",
+    color_title_fill_inactive:"#AAA",
+    
+    color_title_stroke_active:"#000",
+    color_title_stroke_inactive:"#555",
+    
+    alpha_border_active:80,
+    alpha_border_inactive:50,
+    
+    alpha_fill_active:50,
+    alpha_fill_inactive:20,
+    
+    alpha_title_active:100,
+    alpha_title_inactive:100,
+  },
+  
+  area:{ //--template-malang-TWI --template-malang-TS
+    color_border:"#AD8CD9",
+    color_fill:"#765C99",
+    alpha_title_inactive:0,
+  },
+  main:{ //--color-timetable-panel-main
+    color_border:"#afe0ff",
+    color_fill:"#afe0ff",
+  },
+  sub:{ //--color-timetable-panel-open
+    color_border:"#ffd1a9",
+    color_fill:"#ffd1a9",
+  },
+  persistent:{ //--color-timetable-long-running
+    color_border:"#AFFAD7",
+    color_fill:"#AFFAD7",
+  },
+  reg:{ //--color-timetable-event-critical
+    color_border:"#F8FAB5",
+    color_fill:"#F8FAB5",
+  },
+  vendor:{ //--color-timetable-vendor-main
+    color_border:"#FFCCFF",
+    color_fill:"#FFCCFF",
+  },
+  restroom:{
+    color_border:"#DDD",
+    color_fill:"#DDD",
+  },
+  offlimit:{
+    color_border:"#C33",
+    color_fill:"#C33",
+  }
+};
+
+// Copy all non-existing keys from ["base"]
+for (const k in category_data){
+  if (k=="base") continue;
+  for (const d in category_data["base"]){
+    if (category_data[k][d]===undefined){
+      category_data[k][d]=category_data["base"][d];
+    }
+  }
+}
