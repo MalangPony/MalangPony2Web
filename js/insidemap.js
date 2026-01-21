@@ -165,7 +165,7 @@ const zone_data={
   sub:{
     name_ko:"서브 홀",
     name_en:"Sub Hall",
-    desc_ko:"소규모 패널과 활동이\n이루어지는 공간입니다.",
+    desc_ko:"소규모 패널과 활동이\n진행되는 공간입니다.",
     desc_en:"A place for smaller\npanels and activities.",
     category:"sub",
     priority:2
@@ -173,8 +173,8 @@ const zone_data={
   storage:{
     name_ko:"창고",
     name_en:"Storage",
-    desc_ko:"출입금지",
-    desc_en:"Off limits.",
+    desc_ko:"스태프 전용 공간입니다.",
+    desc_en:"Staff-only area.",
     category:"offlimit",
     priority:2
   },
@@ -197,7 +197,7 @@ const zone_data={
   signboard:{
     name_ko:"사인보드",
     name_en:"Doodle Board",
-    desc_ko:"낙서와 방명록을 위한\n거대한 캔버스!",
+    desc_ko:"방명록과 낙서를 그릴 수 있는\n거대한 캔버스!",
     desc_en:"A HUGE canvas for\nall your doodles and signatures.",
     category:"persistent",
     priority:2
@@ -213,7 +213,7 @@ const zone_data={
   control:{
     name_ko:"본부석",
     name_en:"HQ",
-    desc_ko:"스태프 전용 공간입니다.",
+    desc_ko:"문의사항이 생기면 여기로 와주세요.",
     desc_en:"Staff-only area.",
     category:"offlimit",
     priority:2
@@ -229,7 +229,7 @@ const zone_data={
   snack:{
     name_ko:"스낵 바",
     name_en:"Snack Bar",
-    desc_ko:"출출하신 분들을 위해\n먹을것, 마실것이 준비되어 있습니다.",
+    desc_ko:"출출하신 분들을 위해\n간식이 준비되어 있습니다.",
     desc_en:"Some food and drinks\nfor the hungry and thirsty.",
     category:"persistent",
     priority:2
