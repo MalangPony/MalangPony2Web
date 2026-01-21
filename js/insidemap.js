@@ -18,6 +18,7 @@ let button_domain_ortho1=document.getElementById("internal-map-button-domain-ort
 
 const bounds_pixel_basis=3000;
 
+
 let current_lang="";
 export function set_lang(l){
   current_lang=l;
