@@ -1,9 +1,15 @@
 
-
+#internal-map-scroller{
+	width:max(100%,var(--mcd-inner-width)); /* Expand to absolute edges if needed*/
+	overflow-x:scroll;
+}
 #internal-map-container{
-	align-self:stretch;
+	align-self:center;
+	width:max(100%,400px); /* Don't shrink to less than 400px. */
 	aspect-ratio:1.0;
 	position:relative;
+	
+	
 }
 #internal-map-image{
 	position:absolute;
