@@ -1,5 +1,5 @@
 > Essential functionality
-
+Rules page
 
 > Important bugfix
 
@@ -12,7 +12,6 @@ HMR L2D sometimes occludes text (This is very bad)
 Timetable some blocks unclosable in mobile
 Optimize castle textures by cropping
 honor prefers-reduced-motion
-Perk desc line-height
 
 
 > Easy

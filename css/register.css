@@ -123,6 +123,7 @@
 	flex-shrink:1;
 }
 #register-tiers-list.narrow .register-topleft{
+	padding-left:50px;
 	border-bottom-right-radius:0;
 	align-self:stretch;
 }
@@ -137,6 +138,10 @@
 	/* +1 to go above stuff*/
 	z-index:1;
 }
+#register-tiers-list.narrow .register-tier-icon{
+	left:4px;
+	top:4px;
+}
 .register-tier-name{
 	font-size:1.8em;
 	font-weight:700;
@@ -146,6 +151,7 @@
 	color:var(--color-text-auto);
 	margin-left:16px;
 	margin-right:16px;
+	line-height:1.4;
 }
 .register-tier-topcenter{
 	display:flex;
