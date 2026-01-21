@@ -32,10 +32,72 @@
 <link href="css/faq.css" rel="stylesheet" />
 <link href="css/insidemap.css" rel="stylesheet" />
 <link href="css/etc.css" rel="stylesheet" />
+
+<!-- Bare minimum amount of styles to display the load screen -->
+<style>
+#load-screen{
+  position:absolute;
+  z-index:105;
+  inset:0;
+  /* 10% transparent - show page loading in background */
+  background-color:rgb(from #6d4c79 r g b / 90%); 
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction: column;
+  gap:16px;
+}
+@keyframes load-text-flash{
+  0%   { color:#FFFFFFA0; }
+  50%  { color:#FFFFFF60; }
+  100% { color:#FFFFFFA0; }
+}
+#load-text{
+  font-family:sans-serif;
+  font-size:24px;
+  color:#FFF;
+  background-color:#6d4c79;
+  padding:16px;
+  animation-name:load-text-flash;
+  animation-play-state:playing;
+  animation-duration:0.8s;
+  animation-iteration-count:infinite;
+  animation-timing-function: linear;
+}
+#load-error{
+  font-family:monospace;
+  text-align:left;
+  padding:16px;
+  font-size:12px;
+  background-color:#000;
+  color: #F00;
+  display:none;
+}
+</style>
 </head>
 
 <body>
-<div id="whole-screen-div" class="fullsize">
+<!-- Everything is inside this div. -->
+<div id="whole-screen-div" style="overflow:hidden;position:absolute;inset:0;">
+  
+  <!-- This does not actually wait until all resources are loaded   -->
+  <!--   and instead gets hidden as soon as all JS is done running. -->
+  <!-- Optionally displays error messages when exception is thrown. -->
+  <div id="load-screen">
+    <div id="load-text">Loading...</div>
+    <div id="load-error"></div>
+  </div>
+  <script>
+    window.addEventListener("error",(e)=>{
+      let dom=document.getElementById("load-error");
+      dom.style.display="block";
+      let emsg="";
+      emsg=emsg+"Error! Please go yell at @SheepPony.<br>";
+      emsg=emsg+e.message+"<br>";
+      emsg=emsg+e.filename+":"+e.lineno+","+e.colno+"";
+      dom.innerHTML=emsg;
+    })
+  </script>
   
   <div id="master-hanmari-container" class="fullsize" style="z-index:20;pointer-events:none;">
     

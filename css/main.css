@@ -1,10 +1,5 @@
 /* CSS of the main page. Anything outside #pages-container */
 
-/* This is the topmost element that covers the entire screen. */
-#whole-screen-div{
-  overflow:hidden;
-}
-
 :root{
   /* Main Content Div spacing calculations */
   /* These margins are applied at first. */

@@ -87,6 +87,8 @@ const main_content_actual = document.getElementById("main-content-actual");
 
 const countdown_display = document.getElementById("countdown-display");
 
+const load_screen = document.getElementById("load-screen");
+
 
 // Debug print area
 if (!Config.DEBUG_OVERLAY_ACTIVE) debug_print_container.style.display="none";
@@ -1370,3 +1372,16 @@ if (theme_from_cookie){
 
 // Apply initial
 apply_darkmode(darkmode);
+
+
+// Final code to run. Hide load screen.
+let anim_load_hide=load_screen.animate(
+    [{opacity:"1.0"},{opacity:"0.0"}],
+    {duration:200});
+anim_load_hide.onfinish=(e)=>{
+  load_screen.style.display="none";
+};
+
+window.addEventListener("load", (event) => {
+  console.log("Window OnLoad fired");
+});

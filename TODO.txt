@@ -17,7 +17,7 @@ Perk desc line-height
 
 
 > Easy
-
+EN text at intro page under logo
 
 > Normal usability
 require click for petting
