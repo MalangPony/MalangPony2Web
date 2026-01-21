@@ -496,13 +496,18 @@ container.addEventListener("mouseleave",(e)=>{
   }
 });
 
-const font_title="bold 24px NPS";
+const font_title_family="NPS";
+const font_title_weight="bold";
+const font_title_size=24;
 const scale_inactive_title=0.7;
+const scale_active_title=1.0;
 const delta_y_inactive_title=-3;
 const delta_y_active_title=-20;
 const stroke_title=6;
 
-const font_desc="normal 16px NPS";
+const font_desc_family="NPS";
+const font_desc_weight="normal";
+const font_desc_size=16;
 const delta_y_desc=+30;
 const line_height_desc=20;
 const stroke_desc=6;
@@ -586,9 +591,9 @@ function update_canvas(dt){
     let dy=linear_map(0,1,sp,delta_y_inactive_title,delta_y_active_title);
     dy+=3*sine_value*sp;
     
-    let scale=linear_map(0,1,sp,scale_inactive_title,1.0);
+    let scale=linear_map(0,1,sp,scale_inactive_title,scale_active_title);
     
-    sc2d.font=font_title;
+    //sc2d.font=font_title;
     sc2d.textAlign="center";
     sc2d.textBaseline="middle";
     
@@ -605,46 +610,63 @@ function update_canvas(dt){
       sc2d.fill();
     }
     
-    sc2d.resetTransform();
-    sc2d.translate(x,y+dy);
-    sc2d.scale(scale*font_size_muliplier,scale*font_size_muliplier);
+    sc2d.font=font_title_weight+" "+(font_title_size*scale*font_size_muliplier)+"px "+font_title_family;
     
     // Title Stroke
-    sc2d.lineWidth = stroke_title;
+    sc2d.lineWidth = stroke_title*font_size_muliplier;
     sc2d.strokeStyle = cts;
-    sc2d.strokeText(text,0,0);
+    sc2d.strokeText(text,x,y+dy);
     
     // Title Fill
     sc2d.fillStyle=ctf;
-    sc2d.fillText(text,0,0);
-    sc2d.resetTransform();
+    sc2d.fillText(text,x,y+dy);
     
+    sc2d.font=font_title_weight+" "+(font_title_size*scale_active_title*font_size_muliplier)+"px "+font_title_family;
+    let tm=sc2d.measureText(text);
+    let title_expanded_left=-tm.actualBoundingBoxLeft;
+    let title_expanded_right=tm.actualBoundingBoxRight;
+    
+
     if (sp>0.0001){
       // Description
-      sc2d.font=font_desc;
       sc2d.textAlign="center";
       sc2d.textBaseline="alphabetic";
-      sc2d.resetTransform();
-      sc2d.translate(x,y+delta_y_desc);
-      sc2d.scale(font_size_muliplier,font_size_muliplier);
+      sc2d.font=font_desc_weight+" "+(font_desc_size*font_size_muliplier)+"px "+font_desc_family;
       
-      let dy=0;
       let lines=desc.split("\n");
+      let dy=0; // add line height
+      let dx=0; // add title edge if align!=center
+      
+      
+      let align="center";
+      for (let line of lines){
+        let tm=sc2d.measureText(line);
+        if (x-tm.actualBoundingBoxLeft<0) {
+          align="left";
+          dx=title_expanded_left;
+        }
+        if (x+tm.actualBoundingBoxRight>current_size) {
+          align="right";
+          dx=title_expanded_right;
+        }
+      }
+      sc2d.textAlign=align;
+      
+      
       for (let line of lines){
         line=line.trim();
         
         // Description Stroke
-        sc2d.lineWidth = stroke_desc;
+        sc2d.lineWidth = stroke_desc*font_size_muliplier;
         sc2d.strokeStyle = color_with_alpha(cts,sp*100);
-        sc2d.strokeText(line,0,dy);
+        sc2d.strokeText(line,x+dx,y+(delta_y_desc+dy)*font_size_muliplier);
         
         // Description Fill
         sc2d.fillStyle=color_with_alpha(ctf,sp*100);
-        sc2d.fillText(line,0,dy);
+        sc2d.fillText(line,x+dx,y+(delta_y_desc+dy)*font_size_muliplier);
         
         dy+=line_height_desc;
       }
-      sc2d.resetTransform();
     }
     
   }
