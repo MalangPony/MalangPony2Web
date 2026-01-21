@@ -47,6 +47,11 @@ export const credits_list=[
 		name_en:"Nine the Divine",
 		socials:[
 			{
+				link:"https://x.com/NineTheDivine",
+				site:"twitter",
+				handle:"@NineTheDivine"
+			},
+			{
 				link:"https://bsky.app/profile/ninethedivine.bsky.social",
 				site:"bluesky",
 				handle:"@ninethedivine"
@@ -135,48 +140,24 @@ export const credits_list=[
 	
 
 	{
-		name_ko:"김스폰",
-		name_en:"Kim Spon",
+		name_ko:"",
+		name_en:"",
 		socials:[],
 		roles:["sponsor"],
 		primary:"sponsor",
 		profile_pic:null
 	},
 	{
-		name_ko:"박스폰",
-		name_en:"Park Spon",
-		socials:[],
-		roles:["sponsor"],
-		primary:"sponsor",
-		profile_pic:null
-	},
-	{
-		name_ko:"리스폰",
-		name_en:"Lee Spon",
-		socials:[],
-		roles:["sponsor"],
-		primary:"sponsor",
-		profile_pic:null
-	},
-	{
-		name_ko:"김식스",
-		name_en:"Kim Six",
+		name_ko:"",
+		name_en:"",
 		socials:[],
 		roles:["mane"],
 		primary:"mane",
 		profile_pic:null
 	},
 	{
-		name_ko:"이식스",
-		name_en:"Lee Six",
-		socials:[],
-		roles:["mane"],
-		primary:"mane",
-		profile_pic:null
-	},
-	{
-		name_ko:"김공주",
-		name_en:"Kim Prin",
+		name_ko:"",
+		name_en:"",
 		socials:[],
 		roles:["princess"],
 		primary:"princess",

@@ -21,7 +21,6 @@ Perk desc line-height
 
 > Easy
 page-news top buttons non-functional
-Add NTD twitter
 
 
 > Normal usability
