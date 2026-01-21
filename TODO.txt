@@ -20,7 +20,6 @@ Perk desc line-height
 
 
 > Easy
-page-news top buttons non-functional
 
 
 > Normal usability
