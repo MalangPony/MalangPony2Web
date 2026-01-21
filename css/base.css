@@ -17,6 +17,14 @@
 	font-weight:900;
 }
 
+/* DM Mono was selected as the monospace latin font */
+/*   since it is very light, at ~50KB per single ttf. */
+@font-face{
+	font-family: 'DM Mono';
+	src: url('../fonts/DMMono-Medium.ttf') format('truetype');
+	font-weight:500;
+}
+
 /* The Basics */
 *{
 	margin:0;

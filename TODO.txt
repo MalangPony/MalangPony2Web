@@ -13,7 +13,6 @@ Spam-clicking back button will desync the page URL and page
 Timetable some blocks unclosable in mobile
 Optimize castle textures by cropping
 honor prefers-reduced-motion
-title monospace to actual font
 Perk desc line-height
 
 

@@ -48,12 +48,12 @@ body.langmode-en #ticket{
   font-size:1.4em;
 }
 #countdown-display > .lang-ko > .dday{
-  font-family:monospace;
+  font-family:"DM Mono";
   font-weight:bold;
 }
 
 #countdown-display > .lang-en > .countdown-numeral{
-  font-family:monospace;
+  font-family:"DM Mono";
   font-weight:bold;
   font-size:1.4em;
 }
