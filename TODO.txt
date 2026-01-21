@@ -1,5 +1,4 @@
 > Essential functionality
-Reg table description filter
 
 
 > Important bugfix
@@ -15,7 +14,6 @@ Timetable some blocks unclosable in mobile
 Optimize castle textures by cropping
 honor prefers-reduced-motion
 title monospace to actual font
-Reg table light mode
 Perk desc line-height
 
 
@@ -33,6 +31,7 @@ Shuffle inside credit groups
 timetable no desc blocks expanded smoller
 station numbers for directions EN (<sup>)
 map - clear route button
+Fix internal map zone alignments
 
 
 > Technological

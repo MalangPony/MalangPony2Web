@@ -83,18 +83,6 @@
   --color-button-bg: var(--color-background-default);
   --color-button-text: var(--color-text-auto);
   
-  /* Tiers */
-  
-  --color-tier-standard:var(--template-malang-RD);
-  --color-tier-sponsor:var(--template-malang-FS);
-  --color-tier-mane:var(--template-malang-PP);
-  --color-tier-princess:var(--template-malang-TS);
-  --color-tier-spirit:var(--template-malang-AJ);
-  --color-tier-spirit-dx:#FF8D8D;
-  --color-tier-onsite:#C8F0C8;
-  
-  --color-perks-text:#202020;
-  
   /* Timetable */
   --color-timetable-event-critical:  #F8FAB5;
   --color-timetable-vendor-main:     #FFCCFF;

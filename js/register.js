@@ -256,12 +256,9 @@ function set_focus(tier_id=null,perk_id=null){
 		// focus on all perk headers selected by current tier
 		for (const p of tier_to_all_perks[tier_id]){
 			perk_header_doms[p].classList.remove("unfocused");
-			console.log("Perk",p);
 			let dc=desc_containers_by_perk[p];
-			console.log(dc);
 			if (dc!==undefined){
 				dc.classList.remove("unfocused");
-				console.log(dc.classList);
 			}
 			
 		}
@@ -320,10 +317,17 @@ for (const tier_id in TierData.tiers_data){
 	header_cell_rotator.classList.add("tier-table-header-cell-rotator");
 	header_cell_inner.appendChild(header_cell_rotator);
 	
-	let header_cell_icon = document.createElement("img");
-	header_cell_icon.classList.add("tier-table-header-icon");
-	header_cell_icon.src=TierData.tiers_data[tier_id].icon_orig;
-	header_cell_rotator.appendChild(header_cell_icon);
+	let header_cell_iconL = document.createElement("img");
+	header_cell_iconL.classList.add("tier-table-header-icon");
+	header_cell_iconL.classList.add("ld-light");
+	header_cell_iconL.src=TierData.tiers_data[tier_id].icon_dark;
+	header_cell_rotator.appendChild(header_cell_iconL);
+	
+	let header_cell_iconD = document.createElement("img");
+	header_cell_iconD.classList.add("tier-table-header-icon");
+	header_cell_iconD.classList.add("ld-dark");
+	header_cell_iconD.src=TierData.tiers_data[tier_id].icon_orig;
+	header_cell_rotator.appendChild(header_cell_iconD);
 	
 	let header_cell_name = document.createElement("div");
 	header_cell_name.classList.add("tier-table-header-name");
