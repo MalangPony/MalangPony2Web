@@ -3,7 +3,6 @@ Volunteer page
 
 
 > Important
-Timetable some blocks unclosable in mobile
 Optimize castle textures by cropping
 
 

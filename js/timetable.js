@@ -8,6 +8,8 @@ import * as Utils from "./utils.js";
 import * as TimetableData from "./timetable_data.js";
 import * as Global from "./global.js";
 
+const wsd = document.getElementById("whole-screen-div");
+
 const timetable_container = document.getElementById("ttable-container");
 const timetable_positoner = document.getElementById("ttable-positioner");
 
@@ -15,7 +17,6 @@ const ttmmbL=document.getElementById("ttmmb-left");
 const ttmmbR=document.getElementById("ttmmb-right");
 const buttons_container = document.getElementById("timetable-mobile-move-button");
 
-let mobile_mode=false;
 let in_timetable_page=false;
 
 // Parse H:M timestamp into total minutes
@@ -122,9 +123,11 @@ for (const col of columns){
 	if (x>max_x) max_x=x;
 }
 
+let cgs_to_cgroup_name={};
 for (const cg of cgroups){
-	cgroup_centers.push(
-		(cgroup_left[cg.name]+cgroup_right[cg.name])/2);
+	let cgc=(cgroup_left[cg.name]+cgroup_right[cg.name])/2;
+	cgroup_centers.push(cgc);
+	cgs_to_cgroup_name[cgc]=cg.name;
 }
 cgroup_centers.sort((a, b) => a - b);
 
@@ -153,6 +156,9 @@ let time_ticks=new Set();
 export function close_all_timetable_blocks(){
 	while (exit_functions.length>0) exit_functions.pop()();
 }
+Global.add_mobile_listener(()=>{
+	close_all_timetable_blocks();
+});
 
 
 // DOM Elements
@@ -394,25 +400,42 @@ for (const block of blocks){
 		
 		expanded=true;
 		
-		if (mobile_mode){
-			let popup_yoffset=Math.min(h,200);
-			popup_rail.style.top=px2em(y+popup_yoffset);
-			popup_rail.style.left=px2em(x-(240-w)/2);
-			popup_rail.style.width=px2em(240);
+		let popup_width=null;
+		let popup_center=null;
+		let popup_yoffset=0;
+		let popup_rail_height=null;
+		
+		if (Global.mobile){
+			popup_yoffset=Math.min(h,200);
 			
+			let cg_width=cg_right-cg_left;
+			
+			//popup_width=Math.max(cg_width-16,240);
+			popup_width=240;
+			popup_center=(cg_right+cg_left)/2.0;
 		}else{
-			popup_rail.style.top=px2em(y);
 			if (expand_direction=="L"){
-				popup_rail.style.left=px2em(x-240);
+				popup_center=x-120;
 			}else{
-				popup_rail.style.left=px2em(x+w);
+				popup_center=x+w+120;
 			}
-			popup_rail.style.height=px2em(h);
-			popup_rail.style.width=px2em(240);
+			popup_rail_height=h;
+			popup_width=240;
 		}
+		
+		popup_rail.style.top=px2em(y+popup_yoffset);
+		popup_rail.style.left=px2em(popup_center-(popup_width/2.0));
+		popup_rail.style.width=px2em(popup_width);
+		if (popup_rail_height){
+			popup_rail.style.height=px2em(popup_rail_height);
+		}else{
+			popup_rail.style.height="fit-content";
+		}
+		popup_dom.style.width=px2em(popup_width);
 	
 		popup_dom.style.display="block";
 		popup_rail.style.display="block";
+		
 		transition_in_progress=true;
 		let anim=popup_dom.animate(
 			[{ opacity: "0.0" },{ opacity: "1.0" }],
@@ -663,14 +686,10 @@ domroot.style.height=px2em(max_y);
 timetable_container.appendChild(domroot);
 
 let cgroup_index=0;
-export function enter_mobile(){
-	mobile_mode=true;
+
+Global.add_mobile_listener(()=>{
 	update_styles();
-}
-export function exit_mobile(){
-	mobile_mode=false;
-	update_styles();
-}
+});
 export function enter_timetable_page(){
 	in_timetable_page=true;
 	update_styles();
@@ -681,12 +700,12 @@ export function exit_timetable_page(){
 	close_all_timetable_blocks();
 }
 function update_styles(){
-	let active = in_timetable_page && mobile_mode;
+	let active = in_timetable_page && Global.mobile;
 	if (!active) buttons_container.style.display="none";
 	else buttons_container.style.display="flex";
 	
 	if (in_timetable_page){
-		if (mobile_mode){
+		if (Global.mobile){
 			let cgroup_center_px = cgroup_centers[cgroup_index];
 			let cgroup_center_em=px2em(cgroup_center_px);
 			
@@ -697,10 +716,29 @@ function update_styles(){
 			//console.log(margin);
 			timetable_container.style.marginLeft=margin;
 			
-			if (cgroup_index===(cgroup_centers.length-1)) ttmmbR.style.opacity=0.2;
-			else ttmmbR.style.opacity=1.0;
-			if (cgroup_index===0) ttmmbL.style.opacity=0.2;
-			else ttmmbL.style.opacity=1.0;
+			if (cgroup_index===(cgroup_centers.length-1)) ttmmbR.classList.add("disabled");
+			else ttmmbR.classList.remove("disabled");
+			if (cgroup_index===0) ttmmbL.classList.add("disabled");
+			else ttmmbL.classList.remove("disabled");
+			
+			/*
+			let focused_cgroup=cgs_to_cgroup_name[cgroup_center_px];
+			//console.log(cgroup_center_px,cgroup_index,focused_cgroup)
+			
+			for (const block of all_blocks){
+				let colgroup=columns_to_cgroups[block.column];
+				console.log(block.column,colgroup,focused_cgroup);
+				if (focused_cgroup==colgroup) block.classList.remove("defocus");
+				else block.classList.add("defocus");
+			}
+			
+			for (const cgn in all_cgroups){
+				if (cgn==focused_cgroup)
+					all_cgroups[cgn].classList.remove("defocus");
+				else
+					all_cgroups[cgn].classList.add("defocus");
+			}*/
+			
 		}else{
 			timetable_container.style.marginLeft="0";
 		}
@@ -709,7 +747,7 @@ function update_styles(){
 
 let last_known_positioner_width=-100000;
 let positioner_resize_observer = new ResizeObserver(()=>{
-	if (!mobile_mode) return;
+	if (!Global.mobile) return;
 	let w = timetable_positoner.clientWidth;
 	if (Math.abs(last_known_positioner_width-w)>10){
 		last_known_positioner_width=w;
@@ -719,17 +757,17 @@ let positioner_resize_observer = new ResizeObserver(()=>{
 });
 positioner_resize_observer.observe(timetable_positoner);
 export function mobile_next(){
-	if (!mobile_mode) return;
+	if (!Global.mobile) return;
 	cgroup_index++;
 	if (cgroup_index>=cgroup_centers.length) cgroup_index=cgroup_centers.length-1;
-	//console.log("CGI",cgroup_index);
+	//close_all_timetable_blocks();
 	update_styles();
 }
 export function mobile_prev(){
-	if (!mobile_mode) return;
+	if (!Global.mobile) return;
 	cgroup_index--;
 	if (cgroup_index<0) cgroup_index=0;
-	//console.log("CGI",cgroup_index);
+	//close_all_timetable_blocks();
 	update_styles();
 }
 
@@ -737,3 +775,41 @@ export function mobile_prev(){
 ttmmbL.addEventListener("click",()=>{mobile_prev()});
 ttmmbR.addEventListener("click",()=>{mobile_next()});
 
+let touch_srx_start=0; // Screen Relative X
+let touch_x_start=0;
+let touch_y_start=0;
+let touch_time_start=0;
+
+wsd.addEventListener('touchstart', (e)=>{
+	if (!Global.mobile) return;
+	if (!in_timetable_page) return;
+	
+	touch_srx_start = e.changedTouches[0].clientX/wsd.clientWidth;
+	touch_x_start = e.changedTouches[0].clientX;
+	touch_y_start = e.changedTouches[0].clientY;
+	touch_time_start=performance.now();
+});
+wsd.addEventListener('touchend', (e)=>{
+	if (!Global.mobile) return;
+	if (!in_timetable_page) return;
+	
+	let srx = e.changedTouches[0].clientX/wsd.clientWidth;
+	let x = e.changedTouches[0].clientX;
+	let y = e.changedTouches[0].clientY;
+	// Delta Relative X
+	let drx = srx - touch_srx_start;
+	
+	// Delta Y, Absolute
+	let dya = Math.abs(touch_y_start-y);
+	let dxa = Math.abs(touch_x_start-x);
+	
+	let dt = performance.now()-touch_time_start;
+	
+	if (dt<1000){ // Within 1 second
+		if (dxa>dya){ // More horizontal movement than vertical
+			// More than 20% of screen moved
+			if (drx>0.2) mobile_prev();
+			if (drx<-0.2) mobile_next();
+		}
+	}
+});

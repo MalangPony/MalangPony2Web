@@ -4,6 +4,7 @@
 /* To ensure scalability, all length units should be in em. */
 #ttable-positioner{
   font-size:min(1.5vw,16px);
+  margin-bottom:16px;
 }
 
 #ttable-container{
@@ -224,11 +225,32 @@
 }
 #timetable-mobile-move-button > div{
   color:#FFFFFF;
-  padding:16px;
+  padding-top:16px;
+  padding-bottom:16px;
   cursor:pointer;
   pointer-events:auto;
-  text-shadow: 0 0 10px #00000080;
   font-size:64px;
+  background:light-dark(#00000050,#00000080);
+  transition-property:color;
+  transition-duration:0.5s;
+  cursor:pointer;
+  user-select:none;
+}
+.anim-disabled #timetable-mobile-move-button > div{
+  transition-property:none;
+}
+#timetable-mobile-move-button > div.disabled{
+  color:#FFFFFF40;
+}
+#ttmmb-left{
+  /*padding-right:16px;*/
+  border-top-right-radius:8px;
+  border-bottom-right-radius:8px;
+}
+#ttmmb-right{
+  /*padding-left:16px;*/
+  border-top-left-radius:8px;
+  border-bottom-left-radius:8px;
 }
 
 
@@ -248,6 +270,7 @@
     width:100%;
     overflow-x:visible;
     font-size:min(4.0vw,16px);
+    margin-bottom:80px;
   }
   
   #timetable-mobile-move-button{

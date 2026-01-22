@@ -29,3 +29,13 @@ export function set_lang(l){
 	lang=l;
 	for (const f of lang_listeners) f();
 }
+
+export let mobile=null;
+let mobile_listeners=[];
+export function add_mobile_listener(f){
+	mobile_listeners.push(f);
+}
+export function set_mobile(m){
+	mobile=m;
+	for (const f of mobile_listeners) f();
+}

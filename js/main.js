@@ -1108,7 +1108,7 @@ function mobile_enter(){
     sidebar_desktop_hide_instant();
     sidebar_mobile_button_enter();
   }
-  Timetable.enter_mobile();
+  Global.set_mobile(true);
 }
 function mobile_leave(){
   body_dom.classList.remove("mobile-mode");
@@ -1117,7 +1117,7 @@ function mobile_leave(){
     sidebar_desktop_open();
     sidebar_mobile_button_exit();
   }
-  Timetable.exit_mobile();
+  Global.set_mobile(false);
 }
 
 mq_mobile.onchange= ()=>{
