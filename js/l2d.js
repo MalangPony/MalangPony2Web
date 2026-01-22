@@ -21,6 +21,12 @@ const button_hide = document.getElementById("l2d-button-hide");
 const button_hide_symbol_off = document.getElementById("l2d-button-hide-off");
 const button_hide_symbol_on = document.getElementById("l2d-button-hide-on");
 
+const debug_vmp = document.getElementById("debug-print-virtual-mouse-pos");
+const debug_gyro_raw = document.getElementById("debug-print-gyro-raw");
+const debug_gyro_corrected = document.getElementById("debug-print-gyro-corrected");
+const debug_mix_ratio = document.getElementById("debug-print-vm-mix-ratio");
+const debug_inactive_timer = document.getElementById("debug-print-mouse-inactive-timer");
+
 // PIXI Setup.
 PIXI.Ticker.shared.autoStart=false;
 export let app = null;
@@ -754,9 +760,7 @@ window.addEventListener("click",(e)=>{
 	last_significant_mouse_movement=t;
 });
 
-let mouse_movement_accumulator=0;
-let mousePositionLast=Vector2.ZERO;
-let mouseEventLastTime=performance.now();
+let last_canvas_relative_mouse_coords=Vector2.ZERO;
 function mouse_movement_handler(mouse_coords){
 	if (!Config.OPTION_ENABLE_L2D_HANMARI) return;
 	if (!PerformanceManager.check_feature_enabled(
@@ -772,15 +776,93 @@ function mouse_movement_handler(mouse_coords){
 	// Relative coords of the mouse with respect to the canvas center.
 	let canvas_rel_mouse_coords=mouse_coords.subtract(canvas_center);
 	
+	last_canvas_relative_mouse_coords=canvas_rel_mouse_coords;
+	unified_movement_handler();
+}
+
+// Format [N]umber, with fixed [D]ecimal places, 
+//   and padded to be a specific number of [C]haracters.
+function fmtN(n,d,c){
+	let res=n.toFixed(d);
+	if (n>0) res="+"+res;
+	return res.padStart(c," ");
+}
+
+// We emulate a 'virtual' mouse from the gyro data.
+let last_virtual_gyro_mouse_coords=Vector2.ZERO;
+window.addEventListener("deviceorientation",(e) => {
+	let alpha=e.alpha;
+	let beta = e.beta;
+	let gamma = e.gamma;
+	
+	const degtorad = Math.PI / 180; // Degree-to-Radian conversion
+	let cX = Math.cos( beta  * degtorad );
+	let cY = Math.cos( gamma * degtorad );
+	let cZ = Math.cos( alpha * degtorad );
+	let sX = Math.sin( beta  * degtorad );
+	let sY = Math.sin( gamma * degtorad );
+	let sZ = Math.sin( alpha * degtorad );
+
+	let m13 = cY * sZ * sX + cZ * sY;
+	let m23 = sZ * sY - cZ * cY * sX;
+	
+	// I think this value is the X,Y components of the normal vector of the screen.
+	let raw=new Vector2(m23,m13);
+	debug_gyro_raw.innerHTML="Gyro X:"+fmtN(raw.x,3,6)+" Y:"+fmtN(raw.y,3,6)
+	
+	// Correct raw data for axis and typical screen tilt
+	let corrected=new Vector2(-raw.y,raw.x+0.5);
+	
+	debug_gyro_corrected.innerHTML="GYC X:"+fmtN(corrected.x,3,6)+" Y:"+fmtN(corrected.y,3,6)
+	
+	
+	last_virtual_gyro_mouse_coords = new Vector2(
+		corrected.x*Config.L2D_GYRO_SENSITIVITY_X,
+		corrected.y*Config.L2D_GYRO_SENSITIVITY_Y
+	);
+	unified_movement_handler();
+});
+
+let unified_movement_accumulator=0;
+let unifiedPositionLast=Vector2.ZERO;
+let unifiedEventLastTime=performance.now();
+
+let rel_mouse_last_position=Vector2.ZERO;
+let virtual_gyro_mouse_last_position=Vector2.ZERO;
+let mouse_gyro_mix_ratio=0.5; // 1 is full gyro. 0 is full mouse.
+function unified_movement_handler(){
+	let delta_mouse=last_canvas_relative_mouse_coords.subtract(rel_mouse_last_position).length();
+	rel_mouse_last_position=last_canvas_relative_mouse_coords;
+	
+	let delta_vgm = last_virtual_gyro_mouse_coords.subtract(virtual_gyro_mouse_last_position).length();
+	virtual_gyro_mouse_last_position=last_virtual_gyro_mouse_coords;
+	
+	// Determine mix ratio by adding/subtracting the delta values.
+	// The one with more movement will win out.
+	// For PC, the mouse will win, and for mobile, the gyro will win.
+	mouse_gyro_mix_ratio-=delta_mouse/1000.0;
+	mouse_gyro_mix_ratio+=delta_vgm/1000.0;
+	if (mouse_gyro_mix_ratio<0.0) mouse_gyro_mix_ratio=0.0;
+	if (mouse_gyro_mix_ratio>1.0) mouse_gyro_mix_ratio=1.0;
+	debug_mix_ratio.innerHTML="0M-G1 Mix: "+mouse_gyro_mix_ratio.toFixed(5);
+	
+	// No, not THAT crc.
+	// Canvas Relative Coordinates.
+	// Calculated by mixing Actual mouse and Virtual gyro mouse
+	let crc = Vector2.ZERO;
+	crc=crc.add(last_canvas_relative_mouse_coords.multiply(1-mouse_gyro_mix_ratio));
+	crc=crc.add(last_virtual_gyro_mouse_coords.multiply(mouse_gyro_mix_ratio));
+	
+	debug_vmp.innerHTML="VMP X:"+fmtN(crc.x,1,6)+" Y:"+fmtN(crc.y,1,6);
 	
 	// Calculate time delta
 	let t=performance.now();
-	let dt=(t-mouseEventLastTime)/1000;
-	mouseEventLastTime=t;
+	let dt=(t-unifiedEventLastTime)/1000;
+	unifiedEventLastTime=t;
 	
 	// Calculate mouse delta
-	let delta = canvas_rel_mouse_coords.subtract(mousePositionLast);
-	mousePositionLast=canvas_rel_mouse_coords;
+	let delta = crc.subtract(unifiedPositionLast);
+	unifiedPositionLast=crc;
 	
 	// Calculate distance
 	let screen_dimension_ballpark=Math.min(window.innerHeight,window.innerWidth);
@@ -792,30 +874,30 @@ function mouse_movement_handler(mouse_coords){
 	let distance_normalized=distance/screen_dimension_ballpark;
 	
 	// Add movement to accumulator
-	mouse_movement_accumulator+=distance_normalized*MOUSE_DISTANCE_MULTIPLIER;
+	unified_movement_accumulator+=distance_normalized*MOUSE_DISTANCE_MULTIPLIER;
 	
 	// Subtract decay to accumulator
 	let decay_factor=DECAY_PER_SECOND*Math.min(dt,1.0);
-	mouse_movement_accumulator-=decay_factor;
-	if (mouse_movement_accumulator<0) mouse_movement_accumulator=0;
+	unified_movement_accumulator-=decay_factor;
+	if (unified_movement_accumulator<0) unified_movement_accumulator=0;
 	
 	// Fire activity report when above threshold
-	if (mouse_movement_accumulator>ACCUMULATOR_THRESHOLD) {
+	if (unified_movement_accumulator>ACCUMULATOR_THRESHOLD) {
 		postpone_random_motion();
 		last_significant_mouse_movement=t;
-		mouse_movement_accumulator=0;
+		unified_movement_accumulator=0;
 	}
 	
 	// Eye tracking code from here on
 	if (is_mouse_tracking_timed_out()) return;
 	
 	// Conform the relative coordinates into a -1 ~ +1 range.
-	let x=canvas_rel_mouse_coords.x/500;
+	let x=crc.x/500;
 	x*=Config.OPTION_L2D_EYE_FOLLOW_SENSITIVITY;
 	if (x<-1) x=-1;
 	if (x>1) x=1;
 	
-	let y=canvas_rel_mouse_coords.y/500;
+	let y=crc.y/500;
 	y*=-1; // We gotta flip the Y
 	y*=Config.OPTION_L2D_EYE_FOLLOW_SENSITIVITY;
 	if (y<-1) y=-1;
@@ -934,6 +1016,8 @@ export function animationTick(dt){
 	if (!PerformanceManager.check_feature_enabled(
 		PerformanceManager.Feature.HANMARI_L2D)) return;
 	if (canvas_hidden) return;
+	
+	debug_inactive_timer.innerHTML="Last mvmt "+calculate_seconds_since_last_activity().toFixed(2)+"s ago";
 	
 	// Animate & apply size
 	hanmari_size_multiplier_AV.tick(dt);

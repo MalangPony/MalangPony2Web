@@ -21,7 +21,6 @@ honor prefers-reduced-motion
 require click for petting
 A low-power device warning when feature level is low?
 for Royal tier box, make it fancy
-L2D mobile gyroscope
 station numbers for directions EN (<sup>)
 Fix internal map zone alignments
 
