@@ -6,233 +6,87 @@ const wsd = document.getElementById("whole-screen-div");
 
 // #castle-container is a .fullsize, so it exactly fills the screen.
 let castle_container = document.getElementById("castle-container");
-/*
-// Version: FullSplit
-const castle_layers={
-	p01:{
-		filename:"P01.png",
-		layer_order:18,
-		parallax_multiplier:1.19,
-	},
-	p02:{
-		filename:"P02.png",
-		layer_order:17,
-		parallax_multiplier:1.13,
-	},
-	p03:{
-		filename:"P03.png",
-		layer_order:16,
-		parallax_multiplier:1.13,
-	},
-	p04:{
-		filename:"P04.png",
-		layer_order:15,
-		parallax_multiplier:1.15,
-	},
-	p05:{
-		filename:"P05.png",
-		layer_order:14,
-		parallax_multiplier:1.0,
-	},
-	p06:{
-		filename:"P06.png",
-		layer_order:13,
-		parallax_multiplier:1.10,
-	},
-	p07:{
-		filename:"P07.png",
-		layer_order:12,
-		parallax_multiplier:1.06,
-	},
-	p08:{
-		filename:"P08.png",
-		layer_order:11,
-		parallax_multiplier:1.03,
-	},
-	p09:{
-		filename:"P09.png",
-		layer_order:10,
-		parallax_multiplier:0.90,
-	},
-	p010:{
-		filename:"P10.png",
-		layer_order:9,
-		parallax_multiplier:1.0,
-	},
-	p11:{
-		filename:"P11.png",
-		layer_order:8,
-		parallax_multiplier:0.97,
-	},
-	door_bars:{
-		filename:"P12.png",
-		layer_order:7,
-		parallax_multiplier:1.0,
-	},
-	door_left:{
-		filename:"P13.png",
-		layer_order:6,
-		parallax_multiplier:1.0,
-	},
-	door_right:{
-		filename:"P14.png",
-		layer_order:5,
-		parallax_multiplier:1.0,
-	},
-	p15:{
-		filename:"P15.png",
-		layer_order:4,
-		parallax_multiplier:1.0,
-	},
-	p16:{
-		filename:"P16.png",
-		layer_order:3,
-		parallax_multiplier:0.95,
-	},
-	p17:{
-		filename:"P17.png",
-		layer_order:2,
-		parallax_multiplier:0.90,
-	},
-	p18:{
-		filename:"P18.png",
-		layer_order:1,
-		parallax_multiplier:0.50,
-	},
-	door_glow:{
-		filename:"P91.png",
-		layer_order:91,
-		parallax_multiplier:0.95,
-	},
-};
-*/
 
-/*
-// Version: SemiSplit
+
+// Original image size [5375, 6248]
+// Scaled image size [1075, 1250]
 const castle_layers={
 	far:{
 		filename:"P01-FarBackdrop.png",
 		layer_order:1,
 		parallax_multiplier:0.5,
+		x:   0, y: 710,
+		w:2202, h:5538,
 	},
 	waterfall:{
 		filename:"P02-Waterfall.png",
 		layer_order:2,
 		parallax_multiplier:0.9,
+		x: 817, y:   0,
+		w:4558, h:6248,
 	},
 	ground_base:{
 		filename:"P03-GroundBase.png",
 		layer_order:3,
 		parallax_multiplier:0.95,
+		x:1287, y:4426,
+		w:3132, h: 963,
 	},
 	door_backdrop:{
 		filename:"P11-DoorBackdrop.png",
 		layer_order:11,
 		parallax_multiplier:1.0,
+		x:2464, y:4460,
+		w: 454, h: 819,
 	},
 	door_right:{
 		filename:"P12-DoorR.png",
 		layer_order:12,
 		parallax_multiplier:1.0,
+		x:2675, y:4462,
+		w: 243, h: 702,
 	},
 	door_left:{
 		filename:"P13-DoorL.png",
 		layer_order:13,
 		parallax_multiplier:1.0,
+		x:2464, y:4464,
+		w: 231, h: 817,
 	},
 	door_bars:{
 		filename:"P14-Bars.png",
 		layer_order:14,
 		parallax_multiplier:1.0,
-	},	
-	castle_back:{
-		filename:"P21-CastleBack.png",
-		layer_order:21,
-		parallax_multiplier:0.9,
-	},
-	castle_mid:{
-		filename:"P22-CastleMid.png",
-		layer_order:22,
-		parallax_multiplier:0.95,
-	},
-	castle_front:{
-		filename:"P23-CastleFront.png",
-		layer_order:23,
-		parallax_multiplier:1.0,
-	},
-	ground_front:{
-		filename:"P31-GroundFront.png",
-		layer_order:31,
-		parallax_multiplier:1.2,
-	},
-	bridge_chains:{
-		filename:"P32-Bridge.png",
-		layer_order:32,
-		parallax_multiplier:1.1,
-	},
-	door_glow:{
-		filename:"P91-DoorGlow.png",
-		layer_order:91,
-		parallax_multiplier:1.0,
-	}
-};*/
-
-// Version: MinimalSplit
-const castle_layers={
-	far:{
-		filename:"P01-FarBackdrop.png",
-		layer_order:1,
-		parallax_multiplier:0.5,
-	},
-	waterfall:{
-		filename:"P02-Waterfall.png",
-		layer_order:2,
-		parallax_multiplier:0.9,
-	},
-	ground_base:{
-		filename:"P03-GroundBase.png",
-		layer_order:3,
-		parallax_multiplier:0.95,
-	},
-	door_backdrop:{
-		filename:"P11-DoorBackdrop.png",
-		layer_order:11,
-		parallax_multiplier:1.0,
-	},
-	door_right:{
-		filename:"P12-DoorR.png",
-		layer_order:12,
-		parallax_multiplier:1.0,
-	},
-	door_left:{
-		filename:"P13-DoorL.png",
-		layer_order:13,
-		parallax_multiplier:1.0,
-	},
-	door_bars:{
-		filename:"P14-Bars.png",
-		layer_order:14,
-		parallax_multiplier:1.0,
+		x:2441, y:3994,
+		w: 538, h: 726,
 	},
 	castle:{
 		filename:"P20-Castle.png",
 		layer_order:20,
 		parallax_multiplier:1.0,
+		x:1360, y:1234,
+		w:2959, h:3990,
 	},
 	foreground:{
 		filename:"P30-Foreground.png",
 		layer_order:30,
 		parallax_multiplier:1.0,
+		x: 596, y:4580,
+		w:4779, h:1668,
 	},
 	door_glow:{
 		filename:"P91-DoorGlow.png",
 		layer_order:91,
 		parallax_multiplier:1.0,
-	}
+		x:2230, y:4245,
+		w: 917, h:1175,
+	},
 };
+
 
 let original_image_dimensions=new Vector2(5375,6248);
 let original_zoom_center=new Vector2(2700,4800);
+let original_width_to_height=(1/original_image_dimensions.x*original_image_dimensions.y);
 
 // Units: % of the width of original image
 let door_left_slide = 3.5;
@@ -245,7 +99,6 @@ let layers_parent = document.createElement("div");
 layers_parent.style.position="absolute";
 layers_parent.style.bottom=0;
 layers_parent.style.height="auto";
-layers_parent.style.aspectRatio=original_image_dimensions.x/original_image_dimensions.y;
 castle_container.appendChild(layers_parent);
 
 let whiteout=document.createElement("div");
@@ -259,30 +112,35 @@ whiteout.style.display="none";
 whiteout.style.backgroundColor="#FFF";
 castle_container.appendChild(whiteout);
 
-let layer_doms={};
 
 for (const layer_name in castle_layers){
 	let layer=castle_layers[layer_name];
+	
+	// Calculate size/coords in percentages
+	let orig_bottom=original_image_dimensions.y-(layer.y+layer.h);
+	let orig_left=layer.x;
+	layer.leftPercentage=orig_left/original_image_dimensions.x*100;
+	layer.bottomPercentage=orig_bottom/original_image_dimensions.y*100;
+	layer.widthPercentage=layer.w/original_image_dimensions.x*100;
+	layer.heightPercentage=layer.h/original_image_dimensions.y*100;
+	
 	let img=document.createElement("img");
 	img.src="/backgrounds/castle/"+layer.filename;
 	img.style.position="absolute";
 	img.style.zIndex=layer.layer_order;
 	//img.style.top=0;
-	img.style.bottom=0;
-	img.style.left=0;
-	img.style.width="100%";
-	img.style.height="100%";
-	
-	layer_doms[layer_name]=img;
+	img.style.bottom=layer.bottomPercentage+"%";
+	img.style.left=layer.leftPercentage+"%";
+	img.style.width=layer.widthPercentage+"%";
+	img.style.height=layer.heightPercentage+"%";
+
+	layer.dom=img;
 	layers_parent.appendChild(img);
 }
 
-layer_doms.door_glow.style.opacity=0.0;
-layer_doms.door_bars.style.bottom=(-door_bars_slide)+"%";
-layer_doms.door_left.style.left=0;
-layer_doms.door_right.style.left=0;
-//layer_doms.door_left.style.left=(-door_left_slide)+"%";
-//layer_doms.door_right.style.left=door_right_slide+"%";
+castle_layers.door_glow.dom.style.opacity=0.0;
+castle_layers.door_bars.dom.style.bottom=(castle_layers.door_bars.bottomPercentage-door_bars_slide)+"%";
+
 
 let scroll_offset = Config.OPTION_INTRO_CASTLE_SCROLL_AMOUNT;
 
@@ -307,6 +165,7 @@ function recalculate_size(){
 	let layer_parent_width=targetW;
 	let layer_parent_left=(containerW-targetW)/2;
 	layers_parent.style.width=layer_parent_width+"px";
+	layers_parent.style.height=(layer_parent_width*original_width_to_height)+"px";
 	layers_parent.style.left=layer_parent_left+"px";
 }
 
@@ -331,14 +190,17 @@ export function report_scroll_progress(current,maximum){
 	let yHeight=(1-ratio)*yHeightMax;
 	
 	for (const layer_name in castle_layers){
-		let img=layer_doms[layer_name];
-		let layer_def=castle_layers[layer_name];
-		let parallax_factor=(layer_def.parallax_multiplier-1);
+		let layer=castle_layers[layer_name];
+		let img=layer.dom;
+		let parallax_factor=(layer.parallax_multiplier-1);
 		// There's some inset CSS animations in the layers with 
 		// parallax multiplier of 1.0 (notably the castle doors)
 		// so we don't touch the inset if parallax_multiplier==1
-		if (Math.abs(parallax_factor)>0.001)
-			img.style.bottom=(-yHeight)*parallax_factor+"px";
+		if (Math.abs(parallax_factor)>0.001){
+			let offset_px=(-yHeight)*parallax_factor;
+			let orig_perc=layer.bottomPercentage;
+			img.style.bottom="calc("+orig_perc+"% + "+offset_px+"px)";
+		}
 	}
 	layers_parent.style.bottom=(-yHeight)+"px";
 }
@@ -402,11 +264,13 @@ function animate_transform_to(toP,delay,duration,ease,callback){
 			{ 
 				left: layers_parent.style.left,
 				bottom: layers_parent.style.bottom,
-				width: layers_parent.style.width
+				width: layers_parent.style.width,
+				height: layers_parent.style.height
 			},{ 
 				left: toP.left+"px",
 				bottom: toP.bottom+"px",
-				width: toP.width+"px"
+				width: toP.width+"px",
+				height: (toP.width*original_width_to_height)+"px",
 			}],{
 		duration: duration,
 		delay:delay,
@@ -416,6 +280,7 @@ function animate_transform_to(toP,delay,duration,ease,callback){
 		layers_parent.style.left=toP.left+"px";
 		layers_parent.style.bottom=toP.bottom+"px";
 		layers_parent.style.width=toP.width+"px";
+		layers_parent.style.height=(toP.width*original_width_to_height)+"px";
 		callback();
 	};
 }
@@ -425,11 +290,13 @@ function animate_transform(fromP,toP,delay,duration,ease,callback){
 			{ 
 				left: fromP.left+"px",
 				bottom: fromP.bottom+"px",
-				width: fromP.width+"px"
+				width: fromP.width+"px",
+				height:(fromP.width*original_width_to_height)+"px",
 			},{ 
 				left: toP.left+"px",
 				bottom: toP.bottom+"px",
-				width: toP.width+"px"
+				width: toP.width+"px",
+				height:(toP.width*original_width_to_height)+"px",
 			}],{
 		duration: duration,
 		delay:delay,
@@ -439,6 +306,7 @@ function animate_transform(fromP,toP,delay,duration,ease,callback){
 		layers_parent.style.left=toP.left+"px";
 		layers_parent.style.bottom=toP.bottom+"px";
 		layers_parent.style.width=toP.width+"px";
+		layers_parent.style.height=(toP.width*original_width_to_height)+"px";
 		callback();
 	};
 }
@@ -450,44 +318,48 @@ export function enter_instant(){
 export function enter_animation(delay,finished_callback){
 	let containerW=castle_container.clientWidth;
 	
-	let anim_bars=layer_doms.door_bars.animate([
-			{bottom:(-door_bars_slide)+"%"},{bottom:0}],{
+	
+	let anim_bars=castle_layers.door_bars.dom.animate([
+			{bottom:(castle_layers.door_bars.bottomPercentage-door_bars_slide)+"%"},
+			{bottom:castle_layers.door_bars.bottomPercentage+"%"}],{
 		duration: 500,
 		delay:delay+0,
 		easing:better_ease_inout
 	});
 	anim_bars.onfinish=()=>{
-		layer_doms.door_bars.style.bottom=0;
+		castle_layers.door_bars.dom.style.bottom=castle_layers.door_bars.bottomPercentage+"%";
 	};
 	
-	let anim_left=layer_doms.door_left.animate([
-			{left:0},{left:(-door_left_slide)+"%"}],{
+	let anim_left=castle_layers.door_left.dom.animate([
+			{left:castle_layers.door_left.leftPercentage+"%"},
+			{left:(castle_layers.door_left.leftPercentage-door_left_slide)+"%"}],{
 		duration: 500,
 		delay:delay+300,
 		easing:better_ease_in
 	});
 	anim_left.onfinish=()=>{
-		layer_doms.door_left.style.left=(-door_left_slide)+"%";
+		castle_layers.door_left.dom.style.left=(castle_layers.door_left.leftPercentage-door_left_slide)+"%";
 	};
 	
-	let anim_right=layer_doms.door_right.animate([
-			{left:0},{left:door_right_slide+"%"}],{
+	let anim_right=castle_layers.door_right.dom.animate([
+			{left:castle_layers.door_right.leftPercentage+"%"},
+			{left:(castle_layers.door_right.leftPercentage+door_right_slide)+"%"}],{
 		duration: 500,
 		delay:delay+300,
 		easing:better_ease_in
 	});
 	anim_right.onfinish=()=>{
-		layer_doms.door_right.style.left=door_right_slide+"%";
+		castle_layers.door_right.dom.style.left=(castle_layers.door_right.leftPercentage+door_right_slide)+"%";
 	};
 	
-	let anim_glow=layer_doms.door_glow.animate([
+	let anim_glow=castle_layers.door_glow.dom.animate([
 			{opacity:0},{opacity:1}],{
 		duration: 500,
 		delay:delay+500,
 		easing:"linear"
 	});
 	anim_glow.onfinish=()=>{
-		layer_doms.door_glow.style.opacity=1;
+		castle_layers.door_glow.dom.style.opacity=1;
 	};
 	
 	whiteout.style.opacity=0;
@@ -526,48 +398,51 @@ export function exit_animation(delay,finished_callback){
 		whiteout.style.display="none";
 	};
 	
-	layer_doms.door_glow.style.opacity=1;
-	let anim_glow=layer_doms.door_glow.animate([
+	castle_layers.door_glow.dom.style.opacity=1;
+	let anim_glow=castle_layers.door_glow.dom.animate([
 			{opacity:1},{opacity:0}],{
 		duration: 500,
 		delay:delay+500,
 		easing:"linear"
 	});
 	anim_glow.onfinish=()=>{
-		layer_doms.door_glow.style.opacity=0;
+		castle_layers.door_glow.dom.style.opacity=0;
 	};
 	
-	layer_doms.door_bars.style.bottom=0;
-	let anim_bars=layer_doms.door_bars.animate([
-			{bottom:0},{bottom:(-door_bars_slide)+"%"}],{
+	castle_layers.door_bars.dom.style.bottom=0;
+	let anim_bars=castle_layers.door_bars.dom.animate([
+			{bottom:castle_layers.door_bars.bottomPercentage+"%"},
+			{bottom:(castle_layers.door_bars.bottomPercentage-door_bars_slide)+"%"}],{
 		duration: 500,
 		delay:delay+700,
 		easing:better_ease_inout
 	});
 	anim_bars.onfinish=()=>{
-		layer_doms.door_bars.style.bottom=(-door_bars_slide)+"%";
+		castle_layers.door_bars.dom.style.bottom=(castle_layers.door_bars.bottomPercentage-door_bars_slide)+"%";
 	};
 	
-	layer_doms.door_left.style.left=(-door_left_slide)+"%";
-	let anim_left=layer_doms.door_left.animate([
-			{left:(-door_left_slide)+"%"},{left:0}],{
+	castle_layers.door_left.dom.style.left=(-door_left_slide)+"%";
+	let anim_left=castle_layers.door_left.dom.animate([
+			{left:(castle_layers.door_left.leftPercentage-door_left_slide)+"%"},
+			{left:castle_layers.door_left.leftPercentage+"%"}],{
 		duration: 500,
 		delay:delay+500,
 		easing:better_ease_out
 	});
 	anim_left.onfinish=()=>{
-		layer_doms.door_left.style.left=0;
+		castle_layers.door_left.dom.style.left=castle_layers.door_left.leftPercentage+"%";
 	};
 	
-	layer_doms.door_right.style.left=door_right_slide+"%";
-	let anim_right=layer_doms.door_right.animate([
-			{left:door_right_slide+"%"},{left:0}],{
+	castle_layers.door_right.dom.style.left=door_right_slide+"%";
+	let anim_right=castle_layers.door_right.dom.animate([
+			{left:(castle_layers.door_right.leftPercentage+door_right_slide)+"%"},
+			{left:castle_layers.door_right.leftPercentage+"%"}],{
 		duration: 500,
 		delay:delay+500,
 		easing:better_ease_out
 	});
 	anim_right.onfinish=()=>{
-		layer_doms.door_right.style.left=0;
+		castle_layers.door_right.dom.style.left=castle_layers.door_right.leftPercentage+"%";
 	};
 	
 	
@@ -579,12 +454,13 @@ export function exit_animation(delay,finished_callback){
 export function exit_instant(){
 	whiteout.style.display="none";
 	layers_parent.style.display="block";
-	layer_doms.door_glow.style.opacity=0;
-	layer_doms.door_bars.style.bottom=(-door_bars_slide)+"%";
-	layer_doms.door_left.style.left=0;
-	layer_doms.door_right.style.left=0;
+	castle_layers.door_glow.dom.style.opacity=0;
+	castle_layers.door_bars.dom.style.bottom=(-door_bars_slide)+"%";
+	castle_layers.door_left.dom.style.left=0;
+	castle_layers.door_right.dom.style.left=0;
 	let zp=calculate_out_parameters();
 	layers_parent.style.left=zp.left+"px";
 	layers_parent.style.bottom=zp.bottom+"px";
 	layers_parent.style.width=zp.width+"px";
+	layers_parent.style.height=(zp.width*original_width_to_height)+"px";
 }
