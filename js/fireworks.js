@@ -507,11 +507,14 @@ export function update_attention(dt){
   }
   
   // lerp calculation
+  /*
   attention_position_lerped=Vector2.lerp(
     attention_position_lerped,
     attention_position,
     dt*1.5
-  );
+  );*/
+  // lerping has been moved to l2d.js::look_at()
+  attention_position_lerped=attention_position
 }
 
 // Returns position in canvas-space.

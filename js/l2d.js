@@ -687,13 +687,31 @@ window.addEventListener("mousemove",(e)=>{
 });
 
 
+
+
+// We lerp the look_at direction before applying.
+let last_lookat_time=performance.now();
+let last_lookat_pos=Vector2.ZERO;
+
 // We use the FocusController::focus() instead of Live2DModel::focus()
 // Because the Live2DModel's focus() always goes full tilt in the mouse direction
 // And thus we can't look gently or reset the eye position.
 // Read the pixi-live2d-display source for more information.
 export function look_at(x,y){
 	if (!is_loaded) return;
-	get_model_focus_controller().focus(x,y);
+	
+	let t=performance.now();
+	let dt=(t-last_lookat_time)/1000.0;
+	last_lookat_time=t;
+	
+	let lerp_fac=dt*Config.L2D_EYE_LERP_FACTOR;
+	last_lookat_pos=Vector2.lerp(last_lookat_pos,new Vector2(x,y),lerp_fac);
+	
+	// The last parameter tells the controller to not apply smoothing.
+	// The focus controller's internal smoothing is physics-based and it is
+	//   prone to oscillations at low framerates.
+	// This is why we smooth the motion ourselves.
+	get_model_focus_controller().focus(last_lookat_pos.x,last_lookat_pos.y,true);
 }
 
 // Staring at the mouse.
