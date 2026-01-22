@@ -473,9 +473,9 @@ export function exit_instant(){
 	whiteout.style.display="none";
 	layers_parent.style.display="block";
 	castle_layers.door_glow.dom.style.opacity=0;
-	castle_layers.door_bars.dom.style.bottom=(-door_bars_slide)+"%";
-	castle_layers.door_left.dom.style.left=0;
-	castle_layers.door_right.dom.style.left=0;
+	castle_layers.door_bars.dom.style.bottom=(castle_layers.door_bars.bottomPercentage-door_bars_slide)+"%";
+	castle_layers.door_left.dom.style.left=castle_layers.door_left.leftPercentage+"%";
+	castle_layers.door_right.dom.style.left=castle_layers.door_right.leftPercentage+"%";
 	let zp=calculate_out_parameters();
 	layers_parent.style.left=zp.left+"px";
 	layers_parent.style.bottom=zp.bottom+"px";

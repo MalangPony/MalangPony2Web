@@ -9,6 +9,7 @@ import { Vector2, Vector3 } from "./vectors.js";
 import * as Config  from "./config.js";
 import * as Graphics  from "./graphics.js";
 import * as PerformanceManager from "./perfmanager.js";
+import * as Global from "./global.js";
 
 // DOM definitions
 const wsd = document.getElementById("whole-screen-div");
@@ -399,6 +400,7 @@ function refresh_fireworks_canvas(dt){
   firework_next_fire_timer-=dt;
   if (firework_next_fire_timer<=0){
     if (fireworks_enabled 
+      && Global.animated
       && Config.OPTION_ENABLE_FIREWORKS 
       && PerformanceManager.check_feature_enabled(
         PerformanceManager.Feature.FIREWORKS)){

@@ -602,6 +602,19 @@ function sky_enable(){
   forceScrollDown();
 }
 
+Global.add_animated_listener(()=>{
+  if (currently_on_page=="intro"){
+    if (Global.animated && sky_disabled){
+      sky_enable();
+      scroll_callback();
+    }
+    if ((!Global.animated) && (!sky_disabled)){
+      sky_disable();
+      scroll_callback();
+    }
+  }
+});
+
 let scroll_inviter_active=true;
 function forceScrollDown(){
   if (sky_disabled) return;
@@ -623,18 +636,6 @@ function scroll_callback(){
   }
   
   scroll_progress_ratio=Math.min(Math.max(scroll_progress_ratio,0),1);
-  
-  /*
-  if (!Global.animated){
-    if (scroll_progress_ratio>0.9) {
-      scroll_progress_ratio=1.0;
-      scroll_pixels=scroll_maxium;
-    }
-    else {
-      scroll_progress_ratio=0.0;
-      scroll_pixels=0;
-    }
-  }*/
   
   // Hide scroll inviter if scroll ratio > 30%
   if (scroll_inviter_active && (scroll_progress_ratio>0.3)){
@@ -928,7 +929,7 @@ function page_transition(name,animated=true,push_to_history=false){
       target.style.display="flex";
       main_content_backdrop.style.opacity=0;
       
-      if (to_intro) sky_enable();
+      if (to_intro && Global.animated) sky_enable();
       else sky_disable();
       
       if (to_intro && Config.OPTION_HIDE_HANMARI_ON_NONINTRO_PAGES) 
@@ -992,10 +993,11 @@ function page_transition(name,animated=true,push_to_history=false){
     if (setup_func) setup_func();
     
     currently_on_page=name;
-    if (currently_on_page==="intro") {
-      sky_enable();
-      
-      l2d_ground_transition_progress=0;
+    if ((currently_on_page==="intro")) {
+      if (Global.animated){
+        sky_enable();
+        l2d_ground_transition_progress=0;
+      } else sky_disable();
       main_content_backdrop.classList.add("on-intro-page");
       
     }else {

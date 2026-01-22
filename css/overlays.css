@@ -225,7 +225,10 @@
 #switch-positioner.activated .link-button{
   pointer-events:auto;
 }
-
+.anim-disabled #switch-positioner #animswitch-btn{
+  --lb-color-bg:light-dark(#F88,#A44);
+  --lb-color-text:light-dark(var(--color-text-dark),var(--color-text-light));
+}
 
 
 

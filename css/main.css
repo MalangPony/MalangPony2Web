@@ -85,6 +85,10 @@
   min-height: 100lvh;
 }
 
+.anim-disabled #main-content-backdrop.on-intro-page{
+  padding-top:48px;
+}
+
 /* MainContentBackdrop Backgrounds */
 .dark-mode #main-content-backdrop:not(.on-intro-page){
   --mcb-glow-opacity:40%;
