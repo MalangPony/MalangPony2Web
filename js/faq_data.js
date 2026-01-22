@@ -59,8 +59,8 @@ export let questions=[
 		categories:[]
 	},
 	{
-		qtext_ko:"패널, 아트갤러리, 부스를 지원하고 싶어요!",
-		qtext_en:"I want to apply to be a panelist / submit my art to the art gallery / be a vendor!",
+		qtext_ko:"패널, 아트갤러리, 부스, 도우미를 지원하고 싶어요!",
+		qtext_en:"I want to apply to be a panelist / submit my art to the art gallery / be a vendor / volunteer!",
 		atext_ko:"웹페이지의 \"참가하기\" 페이지들을 확인해 주세요.",
 		atext_en:"Please refer to the \"Participate\" pages on the website.",
 		categories:[]
