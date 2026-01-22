@@ -255,6 +255,10 @@
 
 /* Ridiculously Small Mobiles */
 @media (width<360px) {
+  #switch-positioner{    
+    margin-top:8px;
+    margin-right:8px;
+  }
 }
 
 /* Mobile ladder */

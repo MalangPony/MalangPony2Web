@@ -151,6 +151,7 @@ export function set_active(b){
 	else castle_container.style.display="none";
 }
 
+
 function recalculate_size(){
 	let containerW=castle_container.clientWidth;
 	let containerH=castle_container.clientHeight;
@@ -182,6 +183,7 @@ function recalculate_size(){
 
 let rso = new ResizeObserver(recalculate_size);
 rso.observe(castle_container);
+recalculate_size();
 
 // This should be called from the main JS file.
 export function report_scroll_progress(current,maximum){

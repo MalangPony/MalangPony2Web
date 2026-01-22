@@ -359,6 +359,7 @@ body.langmode-ko{
 }
 #sb-btn-outer-animator{
   /* display,transform,margin-left will be set in main.js */
+  margin-top:0;
 }
 @keyframes attention-grab{
    0%  { transform: scale(1.0) rotate(  0deg); }
@@ -450,6 +451,9 @@ body.langmode-ko{
 
 /* Ridiculously Small Mobiles */
 @media (width<360px) {
+  #sb-btn-outer-animator{
+    margin-top:16px;
+  }
 }
 
 /* Mobile ladder */

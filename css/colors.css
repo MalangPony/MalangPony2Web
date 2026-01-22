@@ -63,13 +63,13 @@
   --color-background-default:var(--color-background-auto);
   
   /* Borders */
-  --color-embed-border-light: #FFFFFF;
+  --color-embed-border-light: var(--template-malang-TS);
   --color-embed-border-dark: var(--template-malang-TS);
   --color-embed-border-auto: light-dark(
     var(--color-embed-border-light),
     var(--color-embed-border-dark));
   
-  --color-embed-glow-light: #FFFFFF;
+  --color-embed-glow-light: var(--template-malang-TS);
   --color-embed-glow-dark: var(--template-malang-TS);
   --color-embed-glow-auto: light-dark(
     var(--color-embed-glow-light),
