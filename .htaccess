@@ -17,3 +17,4 @@ RewriteRule ^panelist$ index.html
 RewriteRule ^vendor$ index.html
 RewriteRule ^artgallery$ index.html
 RewriteRule ^faq$ index.html
+RewriteRule ^volunteer$ index.html

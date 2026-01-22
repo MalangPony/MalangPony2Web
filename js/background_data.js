@@ -23,7 +23,7 @@ export let page_to_background_id={
 	panelist:  "bgd004",
 	vendor:    "bgd004",
 	artgallery:"bgd004",
-	
+	volunteer: "bgd004",
 	
 	
 	inquiries: "nothing",
