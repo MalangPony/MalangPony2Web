@@ -4,6 +4,7 @@ import { linear_map } from "./utils.js";
 
 import * as InsidemapAutoData from "./insidemap_data_auto.js";
 import * as InsidemapManualData from "./insidemap_data_manual.js";
+import * as Global from "./global.js";
 
 let scroller = document.getElementById("internal-map-scroller");
 let container = document.getElementById("internal-map-container");
@@ -22,15 +23,8 @@ let button_domain_ortho1=document.getElementById("internal-map-button-domain-ort
 const bounds_pixel_basis=3000;
 
 
-let current_lang="";
-export function set_lang(l){
-  current_lang=l;
-}
-
-
 let current_size=0;
 let current_domain="persp1";
-let in_darkmode=false;
 
 let paths={};
 function recalculate_paths(){
@@ -86,12 +80,12 @@ function apply_domain_and_theme(){
   button_domain_ortho1.style.display="none";
   button_domain_persp1.style.display="none";
   if (current_domain=="ortho1"){
-    if (!in_darkmode) image_ol.style.display="block";
+    if (!Global.darkmode) image_ol.style.display="block";
     else image_od.style.display="block";
     
     button_domain_persp1.style.display="flex";
   }else if(current_domain=="persp1"){
-    if (!in_darkmode) image_pl.style.display="block";
+    if (!Global.darkmode) image_pl.style.display="block";
     else image_pd.style.display="block";
     
     button_domain_ortho1.style.display="flex";
@@ -104,10 +98,9 @@ export function set_domain(d){
   current_domain=d;
   apply_domain_and_theme();
 }
-export function set_darkmode(d){
-  in_darkmode=d;
+Global.add_darkmode_listener(()=>{
   apply_domain_and_theme();
-}
+});
 apply_domain_and_theme();
 
 
@@ -272,8 +265,8 @@ function update_canvas(dt){
     let fam = 0.6+0.4*focus_factor; // Focus Alpha Multiplier
     
     let cd=InsidemapManualData.category_data[InsidemapManualData.zone_data[k].category];
-    const color_border= in_darkmode ? cd.color_light:cd.color_dark;
-    const color_fill= in_darkmode ? cd.color_light:cd.color_dark;
+    const color_border= Global.darkmode ? cd.color_light:cd.color_dark;
+    const color_fill= Global.darkmode ? cd.color_light:cd.color_dark;
     const alpha_inactive_border=cd.alpha_border_inactive;
     const alpha_active_border=cd.alpha_border_active;
     const alpha_inactive_fill=cd.alpha_fill_inactive;
@@ -305,16 +298,16 @@ function update_canvas(dt){
     const ati=cd.alpha_title_inactive;
     const alpha_title=linear_map(0,1,sp,ati,ata);
     
-    const ctfa=in_darkmode?"#FFF":"#FFF";
-    const ctfi=in_darkmode?"#AAA":"#CCC";
+    const ctfa=Global.darkmode?"#FFF":"#FFF";
+    const ctfi=Global.darkmode?"#AAA":"#CCC";
     const ctf=color_with_alpha(colormix(ctfi,ctfa,focus_factor),alpha_title);
     
-    const ctsa=in_darkmode?"#000":"#2F4575";
-    const ctsi=in_darkmode?"#555":"#8e9fb3";
+    const ctsa=Global.darkmode?"#000":"#2F4575";
+    const ctsi=Global.darkmode?"#555":"#8e9fb3";
     const cts=color_with_alpha(colormix(ctsi,ctsa,focus_factor),alpha_title);
     
-    let text=zone_data["name_"+current_lang];
-    let desc=zone_data["desc_"+current_lang];
+    let text=zone_data["name_"+Global.lang];
+    let desc=zone_data["desc_"+Global.lang];
     
     // Title
     let dy=linear_map(0,1,sp,delta_y_inactive_title,delta_y_active_title);

@@ -19,7 +19,7 @@ import * as Castle from "./castle.js";
 import * as StaticBG from "./static_bg.js";
 import * as FAQ from "./faq.js";
 import * as InsideMap from "./insidemap.js";
-
+import * as Global from "./global.js";
 // DOM
 const body_dom = document.querySelector("body");
 
@@ -683,11 +683,11 @@ function apply_lang(code){
   }
   
   autoset_title();
-  Maps.lang_changed();
-  InsideMap.set_lang(current_lang);
   
   // Save to cookie
   Cookies.createCookie("language",code);
+  
+  Global.set_lang(code);
 }
 
 lang_btn.onclick= ()=>{
@@ -715,15 +715,14 @@ function apply_darkmode(darkmode){
     body_dom.classList.add("light-mode");
     Cookies.createCookie("theme","L");
   }
-  InsideMap.set_darkmode(darkmode);
+  
+  Global.set_darkmode(darkmode);
 }
 
 theme_btn.onclick= ()=>{
   darkmode=!darkmode;
   apply_darkmode(darkmode);
 }
-
-
 
 // Page transition
 let currently_on_page="intro";

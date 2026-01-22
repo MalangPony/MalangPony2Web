@@ -4,6 +4,7 @@
  */
 
 import * as MapData from "./map_data.js";
+import * as Global from "./global.js";
 
 // Grab DOM
 
@@ -538,7 +539,7 @@ export function recenter(){
 // an overlay is added, changing the inner text will misalign the overlay.
 // So here, all content with text in them gets "refreshed" so that the
 // element size is re-calculated and gets aligned correctly.
-export function lang_changed(){
+Global.add_lang_listener(()=>{
   for (const k in routes){
     let route=routes[k];
     for (const wpo of route.wp_overlays){
@@ -552,8 +553,8 @@ export function lang_changed(){
   //placeLabel.setMap(null);
   //placeLabel.setMap(kkm);
   placeLabel.setContent(placeLabel.getContent());
-}
-lang_changed();
+});
+
 
 // Jump button
 mbj.addEventListener("click",recenter);
