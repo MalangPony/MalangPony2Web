@@ -1,16 +1,15 @@
 > Essential
-Volunteer page
+Sync page title and sidebar
 
 
 > Important
 For mobile internal map, clicking again should deselect area
-rule iframe pdf download back button - or just <a download>?
-ruledoc change bullet?
 
 
 > Normal
 station numbers for directions EN (<sup>)
 Castle bg mountain gets cut at top for long screens
+Tier box expand desc gets overlapped
 
 > Optional
 for Royal tier box, make it fancy
