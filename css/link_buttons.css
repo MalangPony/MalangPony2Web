@@ -39,6 +39,8 @@
  *    .icon-3d
  *    .icon-close
  *    .icon-trash
+ *    .icon-play
+ *    .icon-pause
  * 
  * Alternatively, if .manual-icon class is added,
  *   the first child will be positioned as the icon. 
@@ -461,6 +463,18 @@
 }
 .link-button.icon-trash::before{
   content:"delete";
+  font-family:'Material Symbols Rounded';
+  transform:scale(calc(1.4 * var(--lb-icon-size-multiplier)));
+  margin-top:calc(-0.5em * var(--lb-icon-offset-multiplier));
+}
+.link-button.icon-play::before{
+  content:"play_arrow";
+  font-family:'Material Symbols Rounded';
+  transform:scale(calc(1.4 * var(--lb-icon-size-multiplier)));
+  margin-top:calc(-0.5em * var(--lb-icon-offset-multiplier));
+}
+.link-button.icon-pause::before{
+  content:"pause";
   font-family:'Material Symbols Rounded';
   transform:scale(calc(1.4 * var(--lb-icon-size-multiplier)));
   margin-top:calc(-0.5em * var(--lb-icon-offset-multiplier));

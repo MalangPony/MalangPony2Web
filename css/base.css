@@ -53,7 +53,10 @@ img{
 }
 
 /* Mode Switches. 
- * .dark-mode, .light-mode, .langmode-*, .mobile-mode
+ * .dark-mode .light-mode, 
+ * .langmode-en .langmode-ko
+ * .mobile-mode .desktop-mode
+ * .anim-enabled .anim-disabled
  * may be added to the <body> element. */
 
 /* Light & Dark Modes */
@@ -77,6 +80,14 @@ img{
 	display:none;
 }
 .desktop-mode .mm-mobile{
+	display:none;
+}
+
+/* Anim Modes */
+.anim-enabled .anim-off{
+	display:none;
+}
+.anim-disabled .anim-on{
 	display:none;
 }
 

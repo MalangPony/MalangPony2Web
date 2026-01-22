@@ -44,6 +44,7 @@ const lmsa = document.getElementById("letter-magic-spritesheet-animation");
 
 const lang_btn = document.getElementById("langswitch-btn");
 const theme_btn = document.getElementById("themeswitch-btn");
+const anim_btn=document.getElementById("animswitch-btn");
 const sb_btn_active_area = document.getElementById("sb-btn-active-area");
 const sb_btn_outer_animator = document.getElementById("sb-btn-outer-animator");
 const sb_close_btn = document.getElementById("sb-close-button-container");
@@ -724,6 +725,31 @@ theme_btn.onclick= ()=>{
   apply_darkmode(darkmode);
 }
 
+
+function apply_anim(anim_enable){
+  if (anim_enable) {
+    body_dom.classList.add("anim-enabled");
+    body_dom.classList.remove("anim-disabled");
+    anim_btn.classList.add("icon-pause");
+    anim_btn.classList.remove("icon-play");
+    Cookies.createCookie("anim","Y");
+  }else {
+    body_dom.classList.remove("anim-enabled");
+    body_dom.classList.add("anim-disabled");
+    anim_btn.classList.remove("icon-pause");
+    anim_btn.classList.add("icon-play");
+    Cookies.createCookie("anim","N");
+  }
+  
+  Global.set_animated(anim_enable);
+}
+
+let animation_enabled=true;
+anim_btn.onclick= ()=>{
+  animation_enabled=!animation_enabled;
+  apply_anim(animation_enabled);
+}
+
 // Page transition
 let currently_on_page="intro";
 
@@ -1391,6 +1417,22 @@ if (theme_from_cookie){
 
 // Apply initial
 apply_darkmode(darkmode);
+
+
+// Get anim pref from cookie
+let anim_from_cookie=Cookies.readCookie("anim");
+if (anim_from_cookie){
+  if (anim_from_cookie==="Y"){
+    console.log("Set anim=true, from cookie");
+    animation_enabled=true;
+  }else if (anim_from_cookie==="N"){
+    console.log("Set anim=false, from cookie");
+    animation_enabled=false;
+  }
+}else{
+  console.log("No anim cookie, default to true");
+}
+apply_anim(animation_enabled);
 
 
 // Final code to run. Hide load screen.
