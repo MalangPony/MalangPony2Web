@@ -668,6 +668,10 @@ function mouse_events_handler(e,was_click){
 		
 		let hit=canvas_test(relativeX,relativeY);
 		
+		if (hit){
+			e.preventDefault();
+		}
+		
 		if (hit=="Head"){
 			if (current_state==STATE_SLEEP) wsd.style.cursor="help";
 			else if (current_state==STATE_PET) wsd.style.cursor="grab";
