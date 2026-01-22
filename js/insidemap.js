@@ -108,15 +108,26 @@ apply_domain_and_theme();
 // So if the canvas has a different size, we must scale the fonts accordingly.
 // BUT don't resize it to be too small.
 let font_size_muliplier=1.0;
+let canvas_resolution_multiplier=1.0;
 function handle_resize(){
   current_size=container.clientWidth;
-  canvas.width=current_size;
-  canvas.height=current_size;
+  if (Global.mobile) canvas_resolution_multiplier=2.0;
+  else canvas_resolution_multiplier=1.0;
+  
+  canvas.width=current_size*canvas_resolution_multiplier;
+  canvas.height=current_size*canvas_resolution_multiplier;
+  
+  console.log("InsideMap Size "+current_size.toFixed(1)+" (x"+canvas_resolution_multiplier.toFixed(2)+")");
+  
   font_size_muliplier=current_size/700.0;
   if (font_size_muliplier<0.5) font_size_muliplier=0.5;
   recalculate_paths();
   recalculate_centers();
 }
+Global.add_mobile_listener(()=>{
+  handle_resize();
+});
+
 
 let rso = new ResizeObserver(handle_resize);
 rso.observe(container);
@@ -261,7 +272,10 @@ function update_canvas(dt){
   }
   focusAV.tick(dt);
   
-  sc2d.clearRect(0,0,current_size,current_size);
+  sc2d.clearRect(0,0,current_size*canvas_resolution_multiplier,current_size*canvas_resolution_multiplier);
+  
+  sc2d.resetTransform();
+  sc2d.scale(canvas_resolution_multiplier,canvas_resolution_multiplier);
   
   sc2d.miterLimit=2;
   sc2d.lineJoin="round";
@@ -403,6 +417,7 @@ function update_canvas(dt){
     }
     
   }
+  sc2d.resetTransform();
 }
 
 let overlay_active=true;
