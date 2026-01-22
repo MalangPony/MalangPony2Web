@@ -63,6 +63,13 @@
   line-height:1.4;
 }
 
+/* Page: CoC */
+.ruledoc-embed{
+  width:min(100%,800px);
+  height:80svh;
+  margin-top:16px;
+}
+
 /* Responsive Section */
 /* Targeting down to 300px. */
 
