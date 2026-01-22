@@ -139,6 +139,11 @@ function transition_ground(){
   
   main_content_backdrop.classList.add("activated");
   pages_container.classList.add("activated");
+  
+  // Right now, the .activated class is already added at the HTML.
+  // Remove the class from HTML if you want the buttons to stay disabled
+  //   at the start.
+  // However, I figured it'd be better for usability this way.
   topright_switch_positioner.classList.add("activated");
   
 
