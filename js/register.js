@@ -74,7 +74,7 @@ for (const tier_id in TierData.tiers_data){
 	tier_dom.querySelector(".register-tier-price.lang-en").innerHTML=
 		tier_data.price+",000 KRW";
 		
-	tier_dom.querySelector(".register-tier-icon").src=tier_data.icon_dark;
+	tier_dom.querySelector(".register-tier-icon").src=tier_data.icon_darker;
 	
 	if (Number.isFinite(tier_data.limit)){
 		tier_dom.querySelector(".register-tier-limit.lang-ko").innerHTML=

@@ -11,31 +11,31 @@
 
 .tier-standard{
 	--tier-color-base:var(--template-malang-RD);
-	--tier-color-dark:#0b5db5;
+	--tier-color-dark:#3a91e2;
 }
 .tier-sponsor{
 	--tier-color-base:var(--template-malang-FS);
-	--tier-color-dark:#ad8307;
+	--tier-color-dark:#dbba00;
 }
 .tier-mane{
 	--tier-color-base:var(--template-malang-PP);
-	--tier-color-dark:#ab227b;
+	--tier-color-dark:#da5bb2;
 }
 .tier-princess{
 	--tier-color-base:var(--template-malang-TS);
-	--tier-color-dark:#5b2a98;
+	--tier-color-dark:#966bca;
 }
 .tier-spirit{
 	--tier-color-base:var(--template-malang-AJ);
-	--tier-color-dark:#9a6f0a;
+	--tier-color-dark:#cb8c27;
 }
 .tier-spirit-dx{
 	--tier-color-base:#FF8D8D;
-	--tier-color-dark:#ab2020;
+	--tier-color-dark:#da4040;
 }
 .tier-onsite{
 	--tier-color-base:#C8F0C8;
-	--tier-color-dark:#2f9025;
+	--tier-color-dark:#40a539;
 }
 .register-tier-divider{
 	/* This will go outside the container. */
@@ -316,7 +316,8 @@
 	--tier-table-perk-name-width:15.0em;
 	
 	--tier-table-bg:light-dark(
-		#F0F0F0,
+		#F4F4F4,
+		/*var(--template-malang-bg),*/
 		var(--color-background-dark));
 	
 	font-size:min(calc(var(--pages-actual-width) * 0.027),20px);
@@ -407,6 +408,10 @@
 	border-bottom: 0.15em solid hsl(
 		from light-dark(var(--tier-color-dark),var(--tier-color-base)) 
 		h s l / 70%);
+	
+	/* This extends the bounding box a bit so it overlaps the next rotator. */
+	/* Makes it so things won't flash around when moving the mouse over the header */
+	padding-top:0.50em
 	
 }
 .tier-table-header-icon{

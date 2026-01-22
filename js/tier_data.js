@@ -16,6 +16,7 @@ export const tiers_data={
 		price:30,
 		limit:Infinity,
 		icon_dark:"/sprites/tier_icons/standard_200_dark.png",
+		icon_darker:"/sprites/tier_icons/standard_200_darker.png",
 		icon_orig:"/sprites/tier_icons/standard_200_orig.png",
 		reg_button_class:"inperson"
 	},
@@ -40,6 +41,7 @@ export const tiers_data={
 		price:75,
 		limit:Infinity,
 		icon_dark:"/sprites/tier_icons/sponsor_200_dark.png",
+		icon_darker:"/sprites/tier_icons/sponsor_200_darker.png",
 		icon_orig:"/sprites/tier_icons/sponsor_200_orig.png",
 		reg_button_class:"inperson"
 	},
@@ -64,6 +66,7 @@ export const tiers_data={
 		price:150,
 		limit:6,
 		icon_dark:"/sprites/tier_icons/mane_200_dark.png",
+		icon_darker:"/sprites/tier_icons/mane_200_darker.png",
 		icon_orig:"/sprites/tier_icons/mane_200_orig.png",
 		reg_button_class:"inperson"
 	},
@@ -92,6 +95,7 @@ export const tiers_data={
 		price:400,
 		limit:3,
 		icon_dark:"/sprites/tier_icons/royal_200_dark.png",
+		icon_darker:"/sprites/tier_icons/royal_200_darker.png",
 		icon_orig:"/sprites/tier_icons/royal_200_orig.png",
 		reg_button_class:"inperson"
 	},
@@ -112,6 +116,7 @@ export const tiers_data={
 		price:20,
 		limit:Infinity,
 		icon_dark:"/sprites/tier_icons/spirit_200_dark.png",
+		icon_darker:"/sprites/tier_icons/spirit_200_darker.png",
 		icon_orig:"/sprites/tier_icons/spirit_200_orig.png",
 		reg_button_class:"spirit"
 	},
@@ -142,6 +147,7 @@ export const tiers_data={
 		price:200,
 		limit:Infinity,
 		icon_dark:"/sprites/tier_icons/spiritplus_200_dark.png",
+		icon_darker:"/sprites/tier_icons/spiritplus_200_darker.png",
 		icon_orig:"/sprites/tier_icons/spiritplus_200_orig.png",
 		reg_button_class:"spirit"
 	},
@@ -159,6 +165,7 @@ export const tiers_data={
 		price:40,
 		limit:NaN,
 		icon_dark:"/sprites/tier_icons/onsite_200_dark.png",
+		icon_darker:"/sprites/tier_icons/onsite_200_darker.png",
 		icon_orig:"/sprites/tier_icons/onsite_200_orig.png",
 		reg_button_class:""
 	},
