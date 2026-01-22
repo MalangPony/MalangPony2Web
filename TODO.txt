@@ -8,9 +8,9 @@ For mobile internal map, clicking again should deselect area
 > Normal
 Tier box expand desc gets overlapped
 
+
 > Optional
 for Royal tier box, make it fancy
-Directions page dark mode make pretty
 
 
 > Extra

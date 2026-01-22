@@ -174,50 +174,39 @@
   font-size:1.5em;
   font-weight:700;
   text-align:center;
+  line-height:1.4;
 }
 
-#directions-list .card-list-entry{}
-#directions-yangpyong{
+#directions-list .card-list-entry{
   --cle-color-bg: light-dark(
-    var(--color-background-line5-light),
-    var(--color-background-line5-dark));
-  --cle-color-title: var(--color-title-line5);
+    hsl(from var(--color-base) h s 90%),
+    hsl(from var(--color-base) h s 15%));
+  --cle-color-title: light-dark(
+    hsl(from var(--color-base) h s max(calc(l - 10),0)),
+    hsl(from var(--color-base) h s min(calc(l + 20),100)));
+}
+
+/* All colors below match the icons */
+#directions-yangpyong{
+  --color-base:#964db7;
 }
 #directions-munrae{
-  --cle-color-bg: light-dark(
-    var(--color-background-line2-light),
-    var(--color-background-line2-dark));
-  --cle-color-title: var(--color-title-line2);
+  --color-base:#4fb74d;
 }
 #directions-bus{
-  --cle-color-bg: light-dark(
-    var(--color-background-bluebus-light),
-    var(--color-background-bluebus-dark));
-  --cle-color-title: var(--color-title-bluebus);
+  --color-base:#0077e2;
 }
 #directions-icn{
-  --cle-color-bg: light-dark(
-    var(--color-background-icn-light),
-    var(--color-background-icn-dark));
-  --cle-color-title: var(--color-title-icn);
+  --color-base:#14bfd6;
 }
 #directions-gmp{
-  --cle-color-bg: light-dark(
-    var(--color-background-gmp-light),
-    var(--color-background-gmp-dark));
-  --cle-color-title: var(--color-title-gmp);
+  --color-base:#14d6ac;
 }
 #directions-railway{
-  --cle-color-bg: light-dark(
-    var(--color-background-railway-light),
-    var(--color-background-railway-dark));
-  --cle-color-title: var(--color-title-railway);
+  --color-base:#005bac;
 }
 #directions-gsbus{
-  --cle-color-bg: light-dark(
-    var(--color-background-gsbus-light),
-    var(--color-background-gsbus-dark));
-  --cle-color-title: var(--color-title-gsbus);
+  --color-base:#e13e61;
 }
 
 /* Responsive Section */

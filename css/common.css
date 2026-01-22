@@ -75,7 +75,7 @@ a.card-list-entry{
 }
 .cl-entry-icon{
   position:absolute;
-  opacity:0.8;
+  opacity:0.65;
   bottom:0;
   right:0;
   width:100px;
@@ -114,7 +114,7 @@ a.card-list-entry{
   
   /* Space saving mode */
   .cl-entry-icon{
-    opacity:0.25;
+    opacity:0.20;
   }
   .cl-entry-body{
     padding-right: 0;
