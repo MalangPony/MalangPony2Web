@@ -127,6 +127,7 @@ function transition_sky(){
   else sidebar_desktop_hide();
   
   L2D.transition_sky();
+  autoset_hanmari_size();
 }
 function transition_ground(){
   in_sky_mode=false;
@@ -147,6 +148,7 @@ function transition_ground(){
   else sidebar_desktop_open();
 
   L2D.transition_ground();
+  autoset_hanmari_size();
 }
 
 
@@ -839,7 +841,7 @@ page_cleanup_functions["register"]= function(){
 }
 
 page_setup_functions["internal"]= function(){
-  InsideMap.demonstrate_scroll();
+  //InsideMap.demonstrate_scroll();
 }
 page_cleanup_functions["internal"]= function(){
 }
@@ -907,10 +909,6 @@ function page_transition(name,animated=true,push_to_history=false){
     // L2D Hanmari size/visibility
     if ((!to_intro) && Config.OPTION_HIDE_HANMARI_ON_NONINTRO_PAGES) 
       L2D.hide_hanmari();
-    if (!to_intro)
-      L2D.set_hanmari_size(Config.OPTION_NONINTRO_PAGE_HANMARI_SHRINK_FACTOR);
-    else
-      L2D.set_hanmari_size(1.0);
     
     let animation_start_time=0;
     
@@ -998,7 +996,7 @@ function page_transition(name,animated=true,push_to_history=false){
     currently_on_page=name;
     if (currently_on_page==="intro") {
       sky_enable();
-      L2D.set_hanmari_size_instant(1.0);
+      
       l2d_ground_transition_progress=0;
       main_content_backdrop.classList.add("on-intro-page");
       
@@ -1007,7 +1005,7 @@ function page_transition(name,animated=true,push_to_history=false){
       if (Config.OPTION_HIDE_HANMARI_ON_NONINTRO_PAGES)
         L2D.hide_hanmari_instant();
       l2d_ground_transition_progress=1;
-      L2D.set_hanmari_size_instant(Config.OPTION_NONINTRO_PAGE_HANMARI_SHRINK_FACTOR);
+      
       main_content_backdrop.classList.remove("on-intro-page");
     }
     
@@ -1031,6 +1029,7 @@ function page_transition(name,animated=true,push_to_history=false){
   
   currently_on_page=name;
   autoset_title();
+  autoset_hanmari_size(!animated);
   
   // This will only succeed on instant transitions.
   // And since instant transitions finish in a single call, 
@@ -1048,6 +1047,30 @@ window.addEventListener("popstate",(e)=>{
     page_transition(pageid,true,false);
   }
 });
+
+
+
+function autoset_hanmari_size(instant=false){
+  let should_be_big=true; // big if true
+  if (currently_on_page!=="intro") should_be_big=false;
+  if (Global.mobile && (!in_sky_mode)){
+    // Mobile and on ground
+    should_be_big=false;
+  }
+  
+  if (instant){
+    if (should_be_big)
+      L2D.set_hanmari_size_instant(1.0);
+    else
+      L2D.set_hanmari_size_instant(Config.OPTION_NONINTRO_PAGE_HANMARI_SHRINK_FACTOR);
+  }else{
+    if (should_be_big)
+      L2D.set_hanmari_size(1.0);
+    else
+      L2D.set_hanmari_size(Config.OPTION_NONINTRO_PAGE_HANMARI_SHRINK_FACTOR);
+  }
+}
+Global.add_mobile_listener(()=>{autoset_hanmari_size();});
 
 // Setup all .internal-page-autolink
 let ipals=document.querySelectorAll(".internal-page-autolink");
