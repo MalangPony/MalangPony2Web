@@ -8,6 +8,20 @@
   margin-top:-120px;
 }
 
+#intro-mpn2-subtitle{
+  font-size:2.8em;
+  font-weight:700;
+  font-style:italic;
+  margin-bottom:12px;
+  white-space: nowrap;
+  text-align:center;
+}
+#intro-text-tagline{
+  font-size:2.0em;
+  font-weight:700;
+  text-align:center;
+}
+
 #ticket{
   background-size: contain;
   background-repeat:no-repeat;
@@ -49,6 +63,9 @@ body.langmode-en #ticket{
   }
 }
 
+#countdown-display{
+  text-align:center;
+}
 
 #countdown-display > .lang-ko{
   font-size:1.4em;
@@ -77,6 +94,7 @@ body.langmode-en #ticket{
 
 /* Ridiculously Small Mobiles */
 @media (width<360px) {
+  
 }
 
 /* Mobile ladder */
@@ -86,7 +104,19 @@ body.langmode-en #ticket{
 }
 @media (width>=360px) and (width<480px) {
   /* 480 ~ 360 : Small Mobiles */
+  #intro-mpn2-subtitle{
+    font-size:2.5em;
+  }
+  #intro-text-tagline{
+    font-size:1.8em;
+  }
 }
 @media (width<360px) {
   /* 360 ~ 300 : Ridiculously Small Mobiles */
+  #intro-mpn2-subtitle{
+    font-size:2.0em;
+  }
+  #intro-text-tagline{
+    font-size:1.5em;
+  }
 }

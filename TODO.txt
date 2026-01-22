@@ -3,15 +3,18 @@ Volunteer page
 
 
 > Important
+For mobile internal map, clicking again should deselect area
+rule iframe pdf download back button - or just <a download>?
+ruledoc change bullet?
 
 
 > Normal
-Fix internal map zone alignments
 station numbers for directions EN (<sup>)
-
+Castle bg mountain gets cut at top for long screens
 
 > Optional
 for Royal tier box, make it fancy
+Directions page dark mode make pretty
 
 
 > Extra
@@ -19,6 +22,8 @@ L2D SFX
 idle on sky mode - a smol hanmari horizontally moves across screen
 Sky constallations
 3d map add pony
+Timetable mobile when clicking on X button, block behind x gets hovered
+maybe: reg table slightly pink like in old site?
 
 
 > BEFORE SOURCE PUBLIC
