@@ -43,7 +43,7 @@ export const zone_data={
     name_ko:"아트 갤러리",
     name_en:"Art Gallery",
     desc_ko:"참가자들이 직접 제작한\n팬아트를 전시하는 공간입니다.",
-    desc_en:"An art gallery of fanart\nsubmitted by other bronies.",
+    desc_en:"An art gallery of fanart\nsubmitted by other attendees.",
     category:"persistent",
     priority:2
   },
@@ -75,7 +75,7 @@ export const zone_data={
     name_ko:"본부석",
     name_en:"HQ",
     desc_ko:"문의사항이 생기면 여기로 와주세요.",
-    desc_en:"Staff-only area.",
+    desc_en:"Here's where you can get help\nif you ever need it.",
     category:"reg",
     priority:2
   },
