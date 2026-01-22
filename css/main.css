@@ -124,6 +124,9 @@
   transition-property: --mcb-opacity, --mcb-color;
   transition-duration:0.5s;
 }
+.anim-disabled #main-content-backdrop{
+  transition-duration:0s;
+}
 #main-content-backdrop.activated{
   --mcb-opacity:1.0;
 }
@@ -233,6 +236,9 @@
   padding-left:var(--pages-padding-lr);
   padding-right:var(--pages-padding-lr);
 }
+.anim-disabled #pages-container{
+  transition-duration:0s;
+}
 #pages-container.activated{
   filter:none;
 }
@@ -287,12 +293,16 @@
   }
   
 }
-#scroll-inviter{
+.anim-enabled #scroll-inviter{
   animation-name:scroll-inviter-anim;
+}
+#scroll-inviter{
   animation-direction:alternate;
   animation-duration:1.5s;
   animation-iteration-count:infinite;
   animation-timing-function: ease-in-out;
+  
+  opacity:0.5;
   
   color:var(--color-text-light);
   font-weight:700;

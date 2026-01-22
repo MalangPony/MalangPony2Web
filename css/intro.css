@@ -28,6 +28,9 @@
   pointer-events:auto;
   color:var(--color-text-dark);
 }
+.anim-disabled #ticket{
+  transition-duration:0s;
+}
 body.langmode-ko #ticket{
   background-image : url("/sprites/OBJ-003_DeformedKR_PaperEdit-260106_RszW500.png");
 }

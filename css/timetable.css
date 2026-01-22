@@ -36,6 +36,9 @@
   border-color:hsl( from var(--color-text-dark) h s l / 70%);
   border-style:solid;
 }
+.anim-disabled .timetable-block-body{
+  transition-duration:0s;
+}
 .timetable-block-body:hover{
   filter:brightness(0.8);
 }
@@ -73,6 +76,9 @@
   height:2em;
   z-index:1;
 }
+.anim-disabled .timetable-popup-close-button{
+  transition-duration:0s;
+}
 .timetable-popup-close-svg{
   transition-property: transform;
   transition-duration: 0.5s;
@@ -84,6 +90,9 @@
   bottom:0.15em;
   /* This is to stop hover oscillations */
   pointer-events:none;
+}
+.anim-disabled .timetable-popup-close-svg{
+  transition-duration:0s;
 }
 .timetable-popup-close-button:hover .timetable-popup-close-svg{
   transform: scale(1.2) rotate(90deg);
@@ -103,6 +112,9 @@
   text-align:center;
   font-weight:700;
   line-height:1.4;
+}
+.anim-disabled .timetable-block-text{
+  transition-duration:0s;
 }
 .timetable-block-vertical .timetable-block-text{
   width:15em;
@@ -177,6 +189,9 @@
   transition-duration:0.2s;
   transition-timing-function:linear;
 }
+.anim-disabled .timetable-cgroup-outline{
+  transition-duration:0s;
+}
 .timetable-cgroup-outline.defocus{
   opacity:0.5;
 }
@@ -225,6 +240,9 @@
   #ttable-container{
     transition-property:margin;
     transition-duration:0.5s;
+  }
+  .anim-disabled #ttable-container{
+    transition-duration:0s;
   }
   #ttable-positioner{
     width:100%;

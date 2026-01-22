@@ -10,6 +10,7 @@ import * as PerformanceManager from "./perfmanager.js";
 import {FPS_Counter} from "./utils.js";
 import { Vector2, Vector3 } from "./vectors.js";
 import { AnimatedValue } from "./animator.js";
+import * as Global from "./global.js";
 
 // Grab DOM
 const master_hanmari_container = document.getElementById("master-hanmari-container");
@@ -1085,6 +1086,7 @@ function hide_hanmari(){
 		l2d_canvas.style.display="none";
 		canvas_hidden=true;
 	}
+	if (!Global.animated) anim3.finish();
 }
 function hide_hanmari_instant(){
 	l2d_canvas.style.display="none";
@@ -1110,6 +1112,7 @@ function show_hanmari(){
 	anim3.onfinish= () => {
 		l2d_canvas.style.opacity=1.0;
 	}
+	if (!Global.animated) anim3.finish();
 	reset_eye_position();
 }
 function show_hanmari_instant(){
@@ -1137,6 +1140,6 @@ button_hide.addEventListener("click",()=>{
 			button_hide_symbol_off.style.display="inline";
 		}
 		button_hide.classList.remove("hidden");
-	},1000);
+	},Global.animated?1000:0);
 	
 });

@@ -199,6 +199,9 @@ body.langmode-ko{
   /*background-image: linear-gradient(black, white);*/
   /*background-color:#F0F;*/
 }
+.anim-disabled .sb-link::after{
+  transition-duration:0s;
+}
 @media ((hover: hover) and (pointer: fine)) {
   .sb-link:not(.sb-link-disabled):not(.sb-link-selected):hover::after{
     margin-left:4px;
@@ -224,6 +227,9 @@ body.langmode-ko{
   /* Kind of a hack, but we use transform:scale here
    * so this won't affect the line height.*/
   transform:scale(1.2); 
+}
+.anim-disabled .sb-category-container .sb-category-header::after{
+  transition-duration:0s;
 }
 @media ((hover: hover) and (pointer: fine)) {
   .sb-category-container .sb-category-header:hover::after{
@@ -284,13 +290,16 @@ body.langmode-ko{
   display:flex;
   flex-direction:column;
   align-items:flex-start;
-  transition-property:gap margin;
+  transition-property:gap, margin;
   transition-duration:0.5s;
   transition-timing-function: cubic-bezier(0, 0.6, 0.4, 1);
   
   margin-top:0;
   margin-bottom:0;
   gap:0;
+}
+.anim-disabled .sb-category-content{
+  transition-duration:0s;
 }
 .sbcc-expanded .sb-category-content{
   margin-top:0.5em;
@@ -316,6 +325,9 @@ body.langmode-ko{
   transition-timing-function: cubic-bezier(0, 0.6, 0.4, 1);
   overflow-y:hidden;
   height:0px;
+}
+.anim-disabled .sb-link-sublevel{
+  transition-duration:0s;
 }
 .sbcc-expanded .sb-category-content .sb-link-sublevel{
   height:1.4em;
@@ -366,6 +378,9 @@ body.langmode-ko{
   transition-property:transform;
   transition-duration:0.5s;
   padding:16px;
+}
+.anim-disabled #sb-btn-active-area{
+  transition-duration:0s;
 }
 #sb-btn-active-area:hover{
   transform:scale(1.1);

@@ -141,6 +141,9 @@
   --lb-icon-offset-multiplier: 1.0;
   --lb-icon-size-multiplier:1.0;
 }
+.anim-disabled .link-button{
+  transition-duration:0s;
+}
 .link-button.icons-big{
   --lb-icon-size-multiplier:1.2;
 }

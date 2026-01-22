@@ -133,6 +133,9 @@
   
   opacity:1.0;
 }
+.anim-disabled .map-inside-button{
+  transition-duration:0s;
+}
 .map-inside-button.hidden{
   opacity:0.0;
   pointer-events:none;

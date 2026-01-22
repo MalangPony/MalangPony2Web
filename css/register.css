@@ -343,6 +343,9 @@
 	transition-property:opacity;
 	transition-duration:0.2s;
 }
+.anim-disabled .tier-table .unfocus-able{
+  transition-duration:0s;
+}
 .tier-table .unfocused .unfocus-able{
 	opacity:0.3;
 }
@@ -479,6 +482,9 @@
 	overflow:hidden;
 	transition-property:max-height, opacity;
 	transition-duration:0.2s;
+}
+.anim-disabled .tier-table .cell-inner-div.tier-table-explain-cell-inner{
+  transition-duration:0s;
 }
 
 .tier-table .tier-table-explain-row:not(.expanded) .tier-table-explain-cell-inner{

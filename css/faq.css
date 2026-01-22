@@ -27,6 +27,9 @@
 	transition-property:background-color;
 	transition-duration:0.2s;
 }
+.anim-disabled .faq-top{
+  transition-duration:0s;
+}
 .faq-top:hover{
 	background-color: color-mix(
 		in srgb,

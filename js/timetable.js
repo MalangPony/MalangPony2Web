@@ -6,7 +6,7 @@
 import * as Config  from "./config.js";
 import * as Utils from "./utils.js";
 import * as TimetableData from "./timetable_data.js";
-
+import * as Global from "./global.js";
 
 const timetable_container = document.getElementById("ttable-container");
 const timetable_positoner = document.getElementById("ttable-positioner");
@@ -359,13 +359,15 @@ for (const block of blocks){
 		expanded=false;
 		
 		transition_in_progress=true;
-		popup_dom.animate(
+		let anim=popup_dom.animate(
 			[{ opacity: "1.0" },{ opacity: "0.0" }],
-			{duration: 200,delay:0}).onfinish= () => {
+			{duration: 200,delay:0});
+		anim.onfinish= () => {
 			popup_dom.style.display="none";
 			popup_rail.style.display="none";
 			transition_in_progress=false;
 		};
+		if (!Global.animated) anim.finish();
 		
 
 		closebtn_dom.classList.add("hidden");
@@ -412,12 +414,14 @@ for (const block of blocks){
 		popup_dom.style.display="block";
 		popup_rail.style.display="block";
 		transition_in_progress=true;
-		popup_dom.animate(
+		let anim=popup_dom.animate(
 			[{ opacity: "0.0" },{ opacity: "1.0" }],
-			{duration: 200,delay:0}).onfinish= () => {
+			{duration: 200,delay:0});
+		anim.onfinish= () => {
 			popup_dom.style.opacity="1.0";
 			transition_in_progress=false;
 		};
+		if (!Global.animated) anim.finish();
 
 		closebtn_dom.classList.remove("hidden");
 		block_dom.style.cursor="unset";

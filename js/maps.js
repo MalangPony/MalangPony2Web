@@ -264,7 +264,9 @@ for (const k in routes){
       {strokeOpacity:0.5,strokeWeight:6,strokeStyle:"solid"},
       {strokeOpacity:0.7,strokeWeight:4,strokeStyle:"dashed"});
     kkm.setBounds(route.bounds,50);
-    box_with_padding.scrollIntoView({behavior:"smooth",block:"nearest"});
+    box_with_padding.scrollIntoView({
+      behavior:( Global.animated ? "smooth" : "instant"),
+      block:"nearest"});
     
     button_erase.classList.remove("hidden");
   });

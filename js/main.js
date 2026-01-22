@@ -115,7 +115,8 @@ function transition_sky(){
   let animation_out=[{ opacity: "1.0" },{ opacity: "0.0" } ];
   let animation_in=[{ opacity: "0.0" },{ opacity: "1.0" } ];
   let animation_opt={duration: 500,fill:"forwards"};
-  logo_image_orig.animate(animation_out,animation_opt);
+  let anim=logo_image_orig.animate(animation_out,animation_opt);
+  if (!Global.animated) anim.finish();
   
   main_content_backdrop.classList.remove("activated");
   pages_container.classList.remove("activated");
@@ -133,7 +134,8 @@ function transition_ground(){
   let animation_out=[{ opacity: "1.0" },{ opacity: "0.0" } ];
   let animation_in=[{ opacity: "0.0" },{ opacity: "1.0" } ];
   let animation_opt={duration: 500,fill:"forwards"};
-  logo_image_orig.animate(animation_in,animation_opt);
+  let anim=logo_image_orig.animate(animation_in,animation_opt);
+  if (!Global.animated) anim.finish();
   
   main_content_backdrop.classList.add("activated");
   pages_container.classList.add("activated");
@@ -197,6 +199,11 @@ function sidebar_magic_play(){
   anim_slide.onfinish=(e)=>{
     siap.style.display="none";
   };
+  
+  if (!Global.animated) anim_slide.finish();
+  if (!Global.animated) anim_fadein.finish();
+  if (!Global.animated) anim_rise.finish();
+  
   },0);
   
   return 1100;
@@ -237,6 +244,9 @@ function sidebar_desktop_open(){
   anim_unfold.onfinish=(e)=>{
     sidebar.style.maxHeight="100dvh";
   }
+  
+  if (!Global.animated) anim_scale.finish();
+  if (!Global.animated) anim_unfold.finish();
   },0);
 }
 
@@ -258,6 +268,8 @@ function sidebar_mobile_button_enter(){
   anim_popin.onfinish=(e)=>{
     sb_btn_outer_animator.style.transform="none";
   };  
+  
+  if (!Global.animated) anim_popin.finish();
   },0);
 }
 
@@ -275,6 +287,7 @@ function sidebar_mobile_button_exit(){
     sb_btn_outer_animator.style.display="none";
     sb_btn_outer_animator.style.marginLeft="0px";
   }
+  if (!Global.animated) anim_slideout.finish();
   },0);
 }
 
@@ -340,6 +353,11 @@ function sidebar_mobile_open(){
   anim_closebutton_fadein.onfinish=(e)=>{
     sb_close_btn.style.opacity=1;
   };  
+  if (!Global.animated) anim_fadein.finish();
+  if (!Global.animated) anim_scaleX.finish();
+  if (!Global.animated) anim_scaleY.finish();
+  if (!Global.animated) anim_button_fadeout.finish();
+  if (!Global.animated) anim_closebutton_fadein.finish();
   },0);
 }
 
@@ -369,6 +387,9 @@ function sidebar_desktop_hide(){
   
   // Not really needed, I think...
   sb_close_btn.style.display="none";
+  
+  if (!Global.animated) anim_slideout.finish();
+  if (!Global.animated) anim_fadeout.finish();
   },0);
 }
 
@@ -409,6 +430,10 @@ function sidebar_mobile_close(){
   anim_scroll_close_button_fadeout.onfinish=(e)=>{
     sb_close_btn.style.display="none";
   };  
+  
+  if (!Global.animated) anim_scroll_fadeout.finish();
+  if (!Global.animated) anim_button_fadein.finish();
+  if (!Global.animated) anim_scroll_close_button_fadeout.finish();
   },0);
 }
 function sidebar_desktop_hide_instant(){
@@ -599,6 +624,18 @@ function scroll_callback(){
   
   scroll_progress_ratio=Math.min(Math.max(scroll_progress_ratio,0),1);
   
+  /*
+  if (!Global.animated){
+    if (scroll_progress_ratio>0.9) {
+      scroll_progress_ratio=1.0;
+      scroll_pixels=scroll_maxium;
+    }
+    else {
+      scroll_progress_ratio=0.0;
+      scroll_pixels=0;
+    }
+  }*/
+  
   // Hide scroll inviter if scroll ratio > 30%
   if (scroll_inviter_active && (scroll_progress_ratio>0.3)){
     let anim=scroll_inviter_container.animate(
@@ -608,6 +645,7 @@ function scroll_callback(){
     anim.onfinish=()=>{
       scroll_inviter_container.style.display="none";
     }
+    //if (!Global.animated) anim.finish();
   }
   
   // Update sky
@@ -839,6 +877,8 @@ function page_transition(name,animated=true,push_to_history=false){
   let target=document.getElementById("page-"+name);
   if (target===null) return;
   
+  if (!animation_enabled) animated=false;
+  
   page_transition_in_progress=true;
   
   // Custom functions
@@ -957,9 +997,7 @@ function page_transition(name,animated=true,push_to_history=false){
     
     currently_on_page=name;
     if (currently_on_page==="intro") {
-      // Note: Currently this branch is never taken.
       sky_enable();
-      L2D.show_hanmari_instant();
       L2D.set_hanmari_size_instant(1.0);
       l2d_ground_transition_progress=0;
       main_content_backdrop.classList.add("on-intro-page");
@@ -975,6 +1013,8 @@ function page_transition(name,animated=true,push_to_history=false){
     
     StaticBG.activate_page_bg_instant(name);
     if (name !== "intro") Castle.enter_instant();
+    else Castle.exit_instant();
+    
     
     page_transition_in_progress=false;
   }

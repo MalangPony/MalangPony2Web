@@ -130,6 +130,9 @@
   transition-duration:0.5s;
   transition-timing-function:ease-in-out;
 }
+.anim-disabled #l2d-buttons-container{
+  transition-duration:0s;
+}
 #l2d-buttons-container.on-nonintro-page{
   padding-top:30%;
 }
@@ -154,6 +157,9 @@
   opacity:0.4;
   transition-property:opacity;
   transition-duration:0.3s;
+}
+.anim-disabled .l2d-button{
+  transition-duration:0s;
 }
 .l2d-button:hover{
   opacity:1.0;

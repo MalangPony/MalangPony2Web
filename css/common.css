@@ -64,6 +64,9 @@ a.card-list-entry{
   transition-property:background-color;
   transition-duration:0.2s;
 }
+.anim-disabled .card-list-entry.clickable{
+  transition-duration:0s;
+}
 .card-list-entry.clickable:hover{
   background-color:color-mix(
     in srgb, 

@@ -79,6 +79,9 @@
   background-color:transparent;
   position:relative;
 }
+.anim-disabled .mascot-container{
+  transition-duration:0s;
+}
 .mascot-container.isolate{
   max-width:calc(var(--mascot-container-width) * 0.50);
   max-height:calc(var(--mascot-container-width) / 1.556 );
@@ -111,6 +114,9 @@
   gap:4px;
   transition-property:opacity;
   transition-duration: 1.0s;
+}
+.anim-disabled .mascot-content{
+  transition-duration:0s;
 }
 .isolate .mascot-content{
   pointer-events:none;
@@ -170,6 +176,9 @@
   transition-property: top;
   transition-duration: 1.0s;
 }
+.anim-disabled .mascot-label-positioner{
+  transition-duration:0s;
+}
 /* English text is longer so it may protrude outside and be ugly */
 .langmode-en .minimize .mascot-label-positioner{
   /* Try to align bottom-ish of the vertical text to bottom of refsheet. */
@@ -186,6 +195,9 @@
   background-color:var(--character-mane);
   border-radius:4px;
   padding:8px;
+}
+.anim-disabled .mascot-label{
+  transition-duration:0s;
 }
 .mobile-mode .mascot-label{
   font-size:20px;
@@ -207,6 +219,9 @@
   height:calc(var(--mascot-container-width) / 1.556);;
   transition-property: left, opacity, filter;
   transition-duration: 1.0s, 1.0s,    0.3s;
+}
+.anim-disabled .refsheet-image > img{
+  transition-duration:0s;
 }
 
 .hanmari.isolate .refsheet-image > img{

@@ -185,10 +185,12 @@ container.addEventListener("mousemove",(e)=>{
     let hit = mouse_bounds_check[k];
     
     if (was_hit && (!hit)){
-      selection_progress[k].animate_to(0.0);
+      if (Global.animated) selection_progress[k].animate_to(0.0);
+      else selection_progress[k].jump_to(0.0);
     }
     if ((!was_hit) && hit){
-      selection_progress[k].animate_to(1.0);
+      if (Global.animated) selection_progress[k].animate_to(1.0);
+      else selection_progress[k].jump_to(1.0);
       
       selection_sorted_keys.splice(selection_sorted_keys.indexOf(k),1);
       selection_sorted_keys.push(k);
@@ -205,13 +207,20 @@ container.addEventListener("mousemove",(e)=>{
   if (any_hit) container.style.cursor="pointer";
   else container.style.cursor="unset";
   
-  if ((!any_hit_prev) && any_hit) focusAV.animate_to(1.0);
-  if (any_hit_prev && (!any_hit)) focusAV.animate_to(0.0);
+  if ((!any_hit_prev) && any_hit) {
+    if (Global.animated) focusAV.animate_to(1.0);
+    else focusAV.jump_to(1.0);
+  }
+  if (any_hit_prev && (!any_hit)) {
+    if (Global.animated) focusAV.animate_to(0.0);
+    else focusAV.jump_to(1.0);
+  }
 });
 container.addEventListener("mouseleave",(e)=>{
   for (const k of InsidemapAutoData.zone_list){
     mouse_bounds_check[k] = false;
-    selection_progress[k].animate_to(0.0);
+    if (Global.animated) selection_progress[k].animate_to(0.0);
+    else selection_progress[k].jump_to(0.0);
   }
 });
 
@@ -245,6 +254,8 @@ function update_canvas(dt){
   sine_phase+=dt*(2*Math.PI/sine_period_seconds);
   sine_phase = sine_phase % (2*Math.PI);
   let sine_value=Math.sin(sine_phase);
+  if (!Global.animated) sine_value=0;
+  
   for (const k of InsidemapAutoData.zone_list){
     selection_progress[k].tick(dt);
   }
@@ -416,6 +427,7 @@ function overlay_apply(){
     anim.addEventListener("finish",()=>{
       canvas.style.opacity=1.0;
     });
+    if (!Global.animated) anim.finish();
     
   }else{
     button_overlay_off.style.display="none";
@@ -428,6 +440,7 @@ function overlay_apply(){
     anim.addEventListener("finish",()=>{
       canvas.style.display="none";
     });
+    if (!Global.animated) anim.finish();
   }
 }
 overlay_apply();
@@ -450,6 +463,7 @@ button_domain_persp1.addEventListener("click",()=>{
 
 
 export function demonstrate_scroll(){
+  if (!Global.animated) return;
   let max_scroll_amount = scroller.scrollWidth - scroller.clientWidth;
   if (max_scroll_amount>10.0){
     window.setTimeout(()=>{

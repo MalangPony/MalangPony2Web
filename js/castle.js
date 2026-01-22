@@ -576,3 +576,15 @@ export function exit_animation(delay,finished_callback){
 	animate_transform(zp1,zp2,delay,1000,better_ease_out,finished_callback);
 	return 1200;
 }
+export function exit_instant(){
+	whiteout.style.display="none";
+	layers_parent.style.display="block";
+	layer_doms.door_glow.style.opacity=0;
+	layer_doms.door_bars.style.bottom=(-door_bars_slide)+"%";
+	layer_doms.door_left.style.left=0;
+	layer_doms.door_right.style.left=0;
+	let zp=calculate_out_parameters();
+	layers_parent.style.left=zp.left+"px";
+	layers_parent.style.bottom=zp.bottom+"px";
+	layers_parent.style.width=zp.width+"px";
+}
