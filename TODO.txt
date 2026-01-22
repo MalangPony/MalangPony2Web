@@ -18,7 +18,6 @@ honor prefers-reduced-motion
 
 
 > Normal usability
-require click for petting
 A low-power device warning when feature level is low?
 for Royal tier box, make it fancy
 station numbers for directions EN (<sup>)

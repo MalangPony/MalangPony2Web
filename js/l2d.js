@@ -624,35 +624,25 @@ l2d_canvas.addEventListener("click",hanmari_clicked);
 // This makes it so you can't scroll the page if you are hovering over the canvas.
 // So we use the event listener on the window object 
 // since that doesn't prevent any mouse events from reaching other elements.
-window.addEventListener("click",(e)=>{
-	if (!Config.OPTION_ENABLE_L2D_HANMARI) return;
-	if (!PerformanceManager.check_feature_enabled(
-		PerformanceManager.Feature.HANMARI_L2D)) return;
-	if (canvas_hidden) return;
-	let bbox=l2d_canvas.getBoundingClientRect();
-	let localX=e.clientX-bbox.left;
-	let localY=e.clientY-bbox.top;
-	let w=bbox.width;
-	let h=bbox.height;
-	let relativeX=localX/w;
-	let relativeY=localY/h;
-	if ((localX>0) && (localX<w) && (localY>0) && (localY<h)) {
-		let valid_hit=canvas_clicked(relativeX,relativeY);
-		if (valid_hit) e.stopPropagation();
-	}
-});
+window.addEventListener("click",(e)=>{mouse_events_handler(e,true);});
 
-const PET_ACCUM_ADD_MULTIPLIER=0.8; // 
-const PET_ACCUM_DECAY_SPEED=0.5; //per second
-const PET_ACCUM_MAX=2.0;
-const PET_ACCUM_ENTER_THRESH=1.5;
-const PET_ACCUM_EXIT_THRESH=1.3;
+
+const PET_ACCUM_ADD_MULTIPLIER=3.0; // per canvas-relative UV coords
+const PET_ACCUM_DECAY_SPEED=1.0; // per second
+const PET_ACCUM_MAX=1.5;
+const PET_ACCUM_ENTER_THRESH=1.4;
+const PET_ACCUM_EXIT_THRESH=1.0;
 
 let petting_accumulator=0.0;
 
-let last_mouse_position=null;
+let last_petting_mouse_position=null;
 // For petting and cursor change
-window.addEventListener("mousemove",(e)=>{
+window.addEventListener("mousemove",(e)=>{mouse_events_handler(e,false);});
+window.addEventListener("mousedown",(e)=>{mouse_events_handler(e,false);});
+window.addEventListener("mouseup",(e)=>{mouse_events_handler(e,false);});
+window.addEventListener("mouseleave",(e)=>{mouse_events_handler(e,false);});
+
+function mouse_events_handler(e,was_click){
 	wsd.style.cursor="unset";
 	if (!Config.OPTION_ENABLE_L2D_HANMARI) return;
 	if (!PerformanceManager.check_feature_enabled(
@@ -666,11 +656,22 @@ window.addEventListener("mousemove",(e)=>{
 	let relativeX=localX/w;
 	let relativeY=localY/h;
 	if ((localX>0) && (localX<w) && (localY>0) && (localY<h)) {
+		
+		if (was_click){
+			let valid_hit=canvas_clicked(relativeX,relativeY);
+			if (valid_hit) e.stopPropagation();
+		}
+		
+		// ANY mouse button is a-okay
+		let mouse_button_any = (e.buttons != 0);
+		
 		let hit=canvas_test(relativeX,relativeY);
+		
 		if (hit=="Head"){
 			if (current_state==STATE_SLEEP) wsd.style.cursor="help";
 			else if (current_state==STATE_PET) wsd.style.cursor="grab";
-			else wsd.style.cursor="grab";
+			else if (mouse_button_any)  wsd.style.cursor="grab";
+			else wsd.style.cursor="pointer";
 		}else if (hit=="Body"){
 			if (current_state==STATE_SLEEP) wsd.style.cursor="help";
 			else if (current_state==STATE_PET) wsd.style.cursor="grab";
@@ -680,17 +681,21 @@ window.addEventListener("mousemove",(e)=>{
 		}
 		
 		
-		let mouse_pos_vec = new Vector2(relativeX,relativeY);
-		if (last_mouse_position==null) last_mouse_position=mouse_pos_vec;
-		else{
-			let delta=mouse_pos_vec.subtract(last_mouse_position).length();
-			petting_accumulator+=delta*PET_ACCUM_ADD_MULTIPLIER;
-			last_mouse_position=mouse_pos_vec;
-		}
+		
+		if (mouse_button_any && (hit=="Head")){ 
+			let mouse_pos_vec = new Vector2(relativeX,relativeY);
+			
+			if (last_petting_mouse_position==null) last_petting_mouse_position=mouse_pos_vec;
+			else{
+				let delta=mouse_pos_vec.subtract(last_petting_mouse_position).length();
+				petting_accumulator+=delta*PET_ACCUM_ADD_MULTIPLIER;
+				last_petting_mouse_position=mouse_pos_vec;
+			}
+		}else last_petting_mouse_position=null;
 	}else{
-		last_mouse_position=null;
+		last_petting_mouse_position=null;
 	}
-});
+}
 
 
 
