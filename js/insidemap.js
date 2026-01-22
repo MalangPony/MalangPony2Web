@@ -137,12 +137,20 @@ handle_resize();
 const sc2d = canvas.getContext("2d");
 
 let selection_progress={};
+let hover_progress={};
 for (const k of InsidemapAutoData.zone_list){
-  let av=new AnimatedValue(0.0);
-  av.duration=0.5;
-  av.exponent=3.0;
-  av.ease_out=true;
-  selection_progress[k]=av;
+  let s=new AnimatedValue(0.0);
+  s.duration=0.5;
+  s.exponent=3.0;
+  s.ease_out=true;
+  selection_progress[k]=s;
+  
+  let h=new AnimatedValue(0.0);
+  h.duration=0.4;
+  h.exponent=3.0;
+  h.ease_out=true;
+  h.ease_in=true;
+  hover_progress[k]=h;
 }
 
 // Last selected area is at the end
@@ -158,8 +166,18 @@ focusAV.exponent=3.0;
 focusAV.ease_out=true;
 focusAV.ease_in=false;
 
-let mouse_bounds_check={};
-container.addEventListener("mousemove",(e)=>{
+
+// Is the zone selected? (clicked)
+let selection_map={};
+// Is the zone being hovered over?
+let hover_map={};
+
+for (const k of InsidemapAutoData.zone_list){
+  selection_map[k]=false;
+  hover_map[k]=false;
+}
+  
+function mouse_events_handler(e,click){
   if (!overlay_active) {
     container.style.cursor="unset";
     return;
@@ -170,66 +188,96 @@ container.addEventListener("mousemove",(e)=>{
   let localY=e.clientY-bbox.top;
   
   // Actual bounds check
-  let mbc_last=mouse_bounds_check;
-  mouse_bounds_check={};
+  let hm_last=hover_map;
+  hover_map={};
   for (const k of InsidemapAutoData.zone_list){
-    mouse_bounds_check[k] = sc2d.isPointInPath(paths[k],localX,localY);
+    hover_map[k] = sc2d.isPointInPath(paths[k],localX,localY);
   }
   
   // Calculate max priority
   let max_priority=-Infinity;
   for (const k of InsidemapAutoData.zone_list){
-    if (mouse_bounds_check[k]){
+    if (hover_map[k]){
       if (InsidemapManualData.zone_data[k].priority>max_priority) max_priority=InsidemapManualData.zone_data[k].priority;
     }
   }
   // Filter out lower-priority zones
   for (const k of InsidemapAutoData.zone_list){
     if (InsidemapManualData.zone_data[k].priority<max_priority){
-      mouse_bounds_check[k] = false;
+      hover_map[k] = false;
     }
   }
   
-  // Transition check
+  let sm_last=selection_map;
+  if (click){
+    // Select only hovered-over zones, deselect all else.
+    selection_map={};
+    for (const k of InsidemapAutoData.zone_list){
+      if (hover_map[k]) selection_map[k]= !sm_last[k];
+      else selection_map[k]=false;
+    }
+  }
+  
+  let any_hover=false;
+  let any_selected=false;
+  let was_any_selected=false;
   for (const k of InsidemapAutoData.zone_list){
-    let was_hit = mbc_last[k];
-    let hit = mouse_bounds_check[k];
+    let was_selected = sm_last[k];
+    let selected = selection_map[k];
+    let was_hovered = hm_last[k];
+    let hovered=hover_map[k];
     
-    if (was_hit && (!hit)){
+    if (selected) any_selected=true;
+    if (was_selected) was_any_selected=true;
+    
+    if (hovered) any_hover=true;
+    
+    if (was_selected && (!selected)){
       if (Global.animated) selection_progress[k].animate_to(0.0);
       else selection_progress[k].jump_to(0.0);
     }
-    if ((!was_hit) && hit){
+    if ((!was_selected) && selected){
       if (Global.animated) selection_progress[k].animate_to(1.0);
       else selection_progress[k].jump_to(1.0);
       
       selection_sorted_keys.splice(selection_sorted_keys.indexOf(k),1);
       selection_sorted_keys.push(k);
     }
+    
+    if (was_hovered && (!hovered)){
+      if (Global.animated) hover_progress[k].animate_to(0.0);
+      else hover_progress[k].jump_to(0.0);
+    }
+    if ((!was_hovered) && hovered){
+      if (Global.animated) hover_progress[k].animate_to(1.0);
+      else hover_progress[k].jump_to(1.0);
+    }
   }
   
   // Check if anything was hit
-  let any_hit=false;
-  let any_hit_prev=false;
-  for (const k of InsidemapAutoData.zone_list){
-    if (mouse_bounds_check[k]) any_hit=true;
-    if (mbc_last[k]) any_hit_prev=true;
-  }
-  if (any_hit) container.style.cursor="pointer";
+  
+  if (any_hover) container.style.cursor="pointer";
   else container.style.cursor="unset";
   
-  if ((!any_hit_prev) && any_hit) {
+  if ((!was_any_selected) && any_selected) {
     if (Global.animated) focusAV.animate_to(1.0);
     else focusAV.jump_to(1.0);
   }
-  if (any_hit_prev && (!any_hit)) {
+  if (was_any_selected && (!any_selected)) {
     if (Global.animated) focusAV.animate_to(0.0);
     else focusAV.jump_to(1.0);
   }
+}
+
+container.addEventListener("click",(e)=>{
+  mouse_events_handler(e,true);
+});
+container.addEventListener("mousemove",(e)=>{
+  mouse_events_handler(e,false);
 });
 container.addEventListener("mouseleave",(e)=>{
   for (const k of InsidemapAutoData.zone_list){
-    mouse_bounds_check[k] = false;
+    hover_map[k] = false;
     if (Global.animated) selection_progress[k].animate_to(0.0);
     else selection_progress[k].jump_to(0.0);
   }
@@ -269,6 +317,7 @@ function update_canvas(dt){
   
   for (const k of InsidemapAutoData.zone_list){
     selection_progress[k].tick(dt);
+    hover_progress[k].tick(dt);
   }
   focusAV.tick(dt);
   
@@ -285,8 +334,10 @@ function update_canvas(dt){
   //console.log(sp_max);
   for (const k of InsidemapAutoData.zone_list){
     let p=paths[k];
+    let hp=hover_progress[k].calculate_value();
     let sp=selection_progress[k].calculate_value();
-    let focus_factor=1-Math.max(focus-sp,0);
+    let prog=Math.max(hp,sp);
+    let focus_factor=1-Math.max(focus-prog,0);
     let fam = 0.6+0.4*focus_factor; // Focus Alpha Multiplier
     
     let cd=InsidemapManualData.category_data[InsidemapManualData.zone_data[k].category];
@@ -298,14 +349,14 @@ function update_canvas(dt){
     const alpha_active_fill=cd.alpha_fill_active;
     
     // bounds stroke
-    sc2d.lineWidth = 2;
+    sc2d.lineWidth = 2+sp*3;
     sc2d.strokeStyle = color_with_alpha(color_border,
-       linear_map(0,1,sp,alpha_inactive_border,alpha_active_border)*fam);
+       linear_map(0,1,prog,alpha_inactive_border,alpha_active_border)*fam);
     sc2d.stroke(p);
     
     // bounds fill
     sc2d.fillStyle=color_with_alpha(color_fill,
-       linear_map(0,1,sp,alpha_inactive_fill,alpha_active_fill)*fam);
+       linear_map(0,1,prog,alpha_inactive_fill,alpha_active_fill)*fam);
     sc2d.fill(p);
   }
   
@@ -314,8 +365,10 @@ function update_canvas(dt){
     let c=centers[k];
     let x=c[0];
     let y=c[1];
+    let hp=hover_progress[k].calculate_value();
     let sp=selection_progress[k].calculate_value();
-    let focus_factor=1-Math.max(focus-sp,0);
+    let prog=Math.max(hp,sp);
+    let focus_factor=1-Math.max(focus-prog,0);
     
     let zone_data=InsidemapManualData.zone_data[k];
     let cd=InsidemapManualData.category_data[zone_data.category];
@@ -339,6 +392,7 @@ function update_canvas(dt){
     dy+=3*sine_value*sp;
     
     let scale=linear_map(0,1,sp,scale_inactive_title,scale_active_title);
+    let font_scale = scale;//*linear_map(0,1,hp,1,1.2);
     
     //sc2d.font=font_title;
     sc2d.textAlign="center";
@@ -357,7 +411,7 @@ function update_canvas(dt){
       sc2d.fill();
     }
     
-    sc2d.font=font_title_weight+" "+(font_title_size*scale*font_size_muliplier)+"px "+font_title_family;
+    sc2d.font=font_title_weight+" "+(font_title_size*font_scale*font_size_muliplier)+"px "+font_title_family;
     
     // Title Stroke
     sc2d.lineWidth = stroke_title*font_size_muliplier;

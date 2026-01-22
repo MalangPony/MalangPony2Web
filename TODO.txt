@@ -2,7 +2,6 @@
 
 
 > Important
-For mobile internal map, clicking again should deselect area
 
 
 > Normal
