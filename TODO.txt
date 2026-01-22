@@ -1,38 +1,32 @@
-> Essential functionality
+> Essential
 Rules page
-
-> Important bugfix
-
-
-> Text
 Volunteer page
 
-> Important usability
-HMR L2D sometimes occludes text (This is very bad)
+
+> Important
 Timetable some blocks unclosable in mobile
 Optimize castle textures by cropping
 
 
-> Easy
-
-
-> Normal usability
-A low-power device warning when feature level is low?
-for Royal tier box, make it fancy
-station numbers for directions EN (<sup>)
+> Normal
 Fix internal map zone alignments
+station numbers for directions EN (<sup>)
 
 
-> Technological
-Add GH link
-Add License
+> Optional
+for Royal tier box, make it fancy
 
 
-> Extra easter eggs
+> Extra
 L2D SFX
 idle on sky mode - a smol hanmari horizontally moves across screen
 Sky constallations
 3d map add pony
+
+
+> BEFORE SOURCE PUBLIC
+Add GH link
+Add License
 
 
 > RIGHT BEFORE PUSH TO PROD
