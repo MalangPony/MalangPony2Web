@@ -1,14 +1,17 @@
 /* Page: directions (#page-directions) */
 #directions-place-name-top{
+  text-align:center;
 }
 #directions-place-name-title{
   margin-top:8px;
   font-size:32px;
   font-weight:700;
+  text-align:center;
 }
 #directions-place-address{
   margin-top:8px;
   font-style:italic;
+  text-align:center;
 }
 
 #map-outer{
@@ -144,6 +147,7 @@
 #map-btn-jump{
   top:16px;
   left:16px;
+  margin-right:16px;
   --lb-color-bg:var(--color-text-dark);
   --lb-color-text:var(--color-text-light);
   --lb-color-outline:#333;

@@ -385,8 +385,6 @@
     --mcd-margin-left:0px;
     --mcd-margin-right:0px;
     --intrologo-center-height-from-top:25svh;
-    --pages-padding-lr: 24px;
-    --pages-actual-width:calc(var(--mcd-inner-width) - 48px);
   }
   #main-content-backdrop{
     width:100%;
@@ -441,6 +439,10 @@
   .main-content-divider{
     margin-left:32px;
   }
+  :root{
+    --pages-padding-lr: 24px;
+    --pages-actual-width:calc(var(--mcd-inner-width) - 48px);
+  }
 }
 @media (width>=360px) and (width<480px) {
   /* 480 ~ 360 : Small Mobiles */
@@ -456,6 +458,10 @@
   #logo-header{
     max-width:50%;
   }
+  :root{
+    --pages-padding-lr: 16px;
+    --pages-actual-width:calc(var(--mcd-inner-width) - 32px);
+  }
 }
 @media (width<360px) {
   /* 360 ~ 300 : Ridiculously Small Mobiles */
@@ -467,5 +473,9 @@
   }
   #logo-header{
     display:none;
+  }
+  :root{
+    --pages-padding-lr: 8px;
+    --pages-actual-width:calc(var(--mcd-inner-width) - 16px);
   }
 }

@@ -319,7 +319,7 @@
 		#F0F0F0,
 		var(--color-background-dark));
 	
-	font-size:calc(var(--pages-actual-width) * 0.027);
+	font-size:min(calc(var(--pages-actual-width) * 0.027),20px);
 	padding-left:1.5em;
 	padding-right:1.5em;
 	padding-bottom:1.5em;
@@ -514,7 +514,7 @@
 /* Mobile mode */
 @media (width<640px) {
 	#register-tiers-table{
-		font-size:calc(var(--pages-actual-width) * 0.033);
+		font-size:calc(var(--pages-actual-width) * 0.032);
 	}
 	.tier-table{
 		--tier-table-header-rows-height:16.0em;

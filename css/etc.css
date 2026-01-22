@@ -4,6 +4,7 @@
 #bsky-outer{
   background-color: var(--color-bluesky-backdrop);
   color:var(--color-bluesky-text);
+  max-width:100%;
 }
 
 

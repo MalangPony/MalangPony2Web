@@ -105,6 +105,9 @@ img{
 
 /* Ridiculously Small Mobiles */
 @media (width<360px) {
+	body{
+		font-size:14px;
+	}
 }
 
 /* Mobile ladder */

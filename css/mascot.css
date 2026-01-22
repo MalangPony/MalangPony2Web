@@ -75,7 +75,7 @@
   transition-duration: 1.0s,       1.0s,      1.0s,            0.3s;
   max-width:var(--mascot-container-width);
   /* Just a rough estimate of how tall things should be. */
-  max-height:calc((var(--mascot-container-width) /1.5) + 20em);
+  max-height:calc((var(--mascot-container-width) /1.5) + 50em);
   background-color:transparent;
   position:relative;
 }
@@ -321,21 +321,12 @@
 @media (width>=480px) and (width<640px) {
   /* 640 ~ 480 : Big Mobiles */
   
-  #mascot-selector{
-    --mascot-container-width:calc(var(--pages-actual-width) - 32px);
-  }
 }
 @media (width>=360px) and (width<480px) {
   /* 480 ~ 360 : Small Mobiles */
   
-  #mascot-selector{
-    --mascot-container-width:calc(var(--pages-actual-width) - 16px);
-  }
 }
 @media (width<360px) {
   /* 360 ~ 300 : Ridiculously Small Mobiles */
   
-  #mascot-selector{
-    --mascot-container-width:calc(var(--pages-actual-width) - 8px);
-  }
 }
