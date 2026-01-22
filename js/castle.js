@@ -156,7 +156,18 @@ function recalculate_size(){
 	let containerH=castle_container.clientHeight;
 	
 	let targetW=containerW;
-	if (containerW>Config.OPTION_CASTLEBG_MAX_WIDTH_PIXELS) 
+	
+	console.log("CastleBG recalculating size: W"+containerW+" H "+containerH);
+	// Be at least 150% of screen height so scrolling effects are visible
+	// If less than that, scale up targetW.
+	let minimumH=containerH*1.5;
+	if (targetW*original_width_to_height<minimumH){
+		targetW=minimumH/original_width_to_height;
+		console.log("Force-growing target width to "+targetW);
+	}
+	
+	// Apply limits. Don't get too crazy.
+	if (targetW>Config.OPTION_CASTLEBG_MAX_WIDTH_PIXELS) 
 		targetW=Config.OPTION_CASTLEBG_MAX_WIDTH_PIXELS;
 	if (targetW<Config.OPTION_CASTLEBG_MIN_WIDTH_PIXELS)
 		targetW=Config.OPTION_CASTLEBG_MIN_WIDTH_PIXELS;
@@ -186,7 +197,14 @@ export function report_scroll_progress(current,maximum){
 	
 	//let yHeight=maximum-current;
 	let yHeightMax=(layers_parent.clientHeight-castle_container.clientHeight)/(1-fade_start);
+	
+	// Don't scroll backwards
 	if (yHeightMax<0) yHeightMax=0;
+	
+	// Don't scroll faster than foreground
+	if (yHeightMax>maximum) yHeightMax=maximum;
+	
+	
 	let yHeight=(1-ratio)*yHeightMax;
 	
 	for (const layer_name in castle_layers){

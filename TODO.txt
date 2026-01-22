@@ -7,7 +7,6 @@ For mobile internal map, clicking again should deselect area
 
 > Normal
 station numbers for directions EN (<sup>)
-Castle bg mountain gets cut at top for long screens
 Tier box expand desc gets overlapped
 Better colors for reg table light mode
 
