@@ -179,6 +179,12 @@ export const perks_data={
 		explanation_required:false,
 		desc_en:"A durable plastic badge.",
 		desc_ko:"PVC 재질의 목걸이형 명찰입니다."},
+	custom_badge:{
+		name_en:"Custom Badge",name_ko:"커스텀 참가증 제작권",
+		explanation_required:true,
+		desc_en:"We will create a one-of-a-kind badge, incorporating your OC or any image of your choosing into the design.",
+		desc_ko:"본인의 자캐(OC)나 원하는 이미지를 넣어 세상에 단 하나뿐인 명찰을 제작해 드립니다.",
+		overwrites:["standard_badge"]},
 	daiso_badge:{
 		name_en:"Acrylic Badge",name_ko:"일반 아크릴 명찰",
 		desc_en:"For on-site registrations, an acrylic badge with a paper insert will be provided instead of a pre-registration plastic badge.",
@@ -280,12 +286,6 @@ export const perks_data={
 		explanation_required:true,
 		desc_en:"We will reserve the frontmost seats to secure the best view for you.",
 		desc_ko:"메인 홀, 서브 홀의 맨 앞 좌석을 전용석으로 배정해 드립니다."},
-	custom_badge:{
-		name_en:"Custom Badge",name_ko:"커스텀 참가증 제작권",
-		explanation_required:true,
-		desc_en:"We will create a one-of-a-kind badge, incorporating your OC or any image of your choosing into the design.",
-		desc_ko:"본인의 자캐(OC)나 원하는 이미지를 넣어 세상에 단 하나뿐인 명찰을 제작해 드립니다.",
-		overwrites:["standard_badge"]},
 	large_tapestry:{
 		name_en:"Large Tapestry",name_ko:"대형 태피스트리",
 		explanation_required:false,
