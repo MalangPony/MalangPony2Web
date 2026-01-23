@@ -41,6 +41,7 @@
  *    .icon-trash
  *    .icon-play
  *    .icon-pause
+ *    .icon-code
  * 
  * Alternatively, if .manual-icon class is added,
  *   the first child will be positioned as the icon. 
@@ -478,6 +479,12 @@
 }
 .link-button.icon-pause::before{
   content:"pause";
+  font-family:'Material Symbols Rounded';
+  transform:scale(calc(1.4 * var(--lb-icon-size-multiplier)));
+  margin-top:calc(-0.5em * var(--lb-icon-offset-multiplier));
+}
+.link-button.icon-code::before{
+  content:"code";
   font-family:'Material Symbols Rounded';
   transform:scale(calc(1.4 * var(--lb-icon-size-multiplier)));
   margin-top:calc(-0.5em * var(--lb-icon-offset-multiplier));

@@ -378,6 +378,19 @@
   font-weight:400;
 }
 
+#footer-expander{
+  flex-grow:1;
+}
+#footer-source{
+  display:block;
+  font-size:0.8em;
+  align-self:flex-start;
+  padding-left:24px;
+}
+#footer-source-link{
+  font-weight:400;
+}
+
 /* Responsive Section */
 /* Targeting down to 300px. */
 
@@ -427,6 +440,9 @@
   #footer-content .footer-text-mobile-break{
     display:inline;
   }
+  #footer-source{
+    display:none;
+  }
 }
 
 /* Ridiculously Small Mobiles */
@@ -446,6 +462,10 @@
   :root{
     --pages-padding-lr: 24px;
     --pages-actual-width:calc(var(--mcd-inner-width) - 48px);
+  }
+  #footer-source{
+    padding-left:0;
+    padding-bottom:8px;
   }
 }
 @media (width>=360px) and (width<480px) {
