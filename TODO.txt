@@ -19,7 +19,7 @@ Sky constallations
 3d map add pony
 Timetable mobile when clicking on X button, block behind x gets hovered
 maybe: reg table slightly pink like in old site?
-
+Change all domains (malangpony.com) to a PHP expression, for when it gets old/
 
 > BEFORE SOURCE PUBLIC
 Add GH link
@@ -27,8 +27,6 @@ Add License
 
 
 > RIGHT BEFORE PUSH TO PROD
-Change all domains (testing.malangpony) to a PHP expression (<?php echo $webroot;?>)
-...or change all testing.malangpony domain to malangpony (automated search-replace?)
 
 
 > AFTER PUSH TO PROD
