@@ -85,8 +85,12 @@ export const data={
         ],
         [
           2546.5052,
-          911.3597000000004
+          911.3597
         ]
+      ],
+      "center_override": [
+        2253.396,
+        1481.212
       ]
     },
     "storage": {
@@ -209,7 +213,7 @@ export const data={
         ],
         [
           694.76271,
-          309.26099999999997
+          309.261
         ]
       ]
     },
@@ -221,15 +225,15 @@ export const data={
         ],
         [
           854.14298,
-          522.3330000000001
+          522.333
         ],
         [
           1798.1558,
-          522.3330000000001
+          522.333
         ],
         [
           1798.1558,
-          309.2610000000001
+          309.261
         ]
       ]
     },
@@ -361,8 +365,8 @@ export const data={
         ]
       ],
       "center_override": [
-        1946.1415,
-        1457.3145
+        1934.1926,
+        1315.6359
       ]
     },
     "restroom": {
@@ -469,6 +473,10 @@ export const data={
           1023.5998000000002,
           1718.0052999999998
         ]
+      ],
+      "center_override": [
+        737.71545,
+        1845.9646
       ]
     },
     "sub": {
@@ -491,8 +499,8 @@ export const data={
         ]
       ],
       "center_override": [
-        2285.8286,
-        1605.8208
+        2296.0706,
+        1583.6301
       ]
     },
     "storage": {
@@ -519,8 +527,8 @@ export const data={
         ]
       ],
       "center_override": [
-        2552.1162,
-        1105.6783
+        2564.0649,
+        1080.0737
       ]
     },
     "gallery": {
@@ -703,8 +711,8 @@ export const data={
         ]
       ],
       "center_override": [
-        1504.0361,
-        1110.7993
+        1405.0319,
+        1051.0553
       ]
     },
     "rest": {
@@ -775,8 +783,8 @@ export const data={
         ]
       ],
       "center_override": [
-        1847.3295,
-        1708.5233
+        1826.8458,
+        1734.1279
       ]
     },
     "restroom": {
@@ -826,4 +834,4 @@ export const data={
   }
 };
 
-export const zone_list= ['stage', 'main', 'vendor', 'lobby', 'snack', 'seating', 'shrine', 'entrance', 'regDesk', 'rest', 'sub', 'gallery', 'control', 'signboard', 'drawing', 'restroom', 'storage'];
+export const zone_list= ['main', 'seating', 'vendor', 'snack', 'rest', 'lobby', 'shrine', 'control', 'stage', 'drawing', 'regDesk', 'restroom', 'entrance', 'storage', 'sub', 'signboard', 'gallery'];

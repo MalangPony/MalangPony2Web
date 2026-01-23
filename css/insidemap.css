@@ -9,7 +9,15 @@
 	aspect-ratio:1.0;
 	position:relative;
 }
-
+#internal-map-scroll-explain{
+	display:none;
+	font-size:1.1em;
+}
+#internal-map-scroll-explain .material-symbols-rounded{
+	font-size:1.0em;
+	transform:scale(2.0);
+	vertical-align:-0.05em;
+}
 /**/
 @media (width<800px) {
 	#internal-map-scroller{
@@ -19,11 +27,14 @@
 }
 /* Mobile mode */
 @media (width<640px) {
+	#internal-map-scroll-explain{
+		display:block;
+	}
 	#internal-map-scroller{
 		overflow-x:scroll;
 	}
 	#internal-map-container{
-		width:max(100%,500px); /* Don't shrink to less than 500px. */
+		width:max(100%,550px); /* Don't shrink to less than 550px. */
 	}
 }
 

@@ -119,8 +119,16 @@ function handle_resize(){
   
   console.log("InsideMap Size "+current_size.toFixed(1)+" (x"+canvas_resolution_multiplier.toFixed(2)+")");
   
-  font_size_muliplier=current_size/700.0;
-  if (font_size_muliplier<0.5) font_size_muliplier=0.5;
+  let canvas_size_factor=current_size/700.0;
+  let naive_font_size_muliplier=canvas_size_factor;
+  if (naive_font_size_muliplier<1.0) naive_font_size_muliplier=1.0;
+  let canvas_relative_font_size = naive_font_size_muliplier/canvas_size_factor;
+  console.log("CRFS",canvas_relative_font_size);
+  
+  if (canvas_relative_font_size>1.1) font_size_muliplier=1.1*canvas_size_factor*1.1;
+  else font_size_muliplier=canvas_relative_font_size*canvas_size_factor*1.1;
+  
+  
   recalculate_paths();
   recalculate_centers();
 }
