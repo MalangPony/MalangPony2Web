@@ -211,6 +211,16 @@
 	flex-direction:column;
 }
 
+/* This transparent element makes sure the "Click for more..." text */
+/*   is never covered by the perk entries */
+.register-tier-entry:not(.tier-detail-mode) .register-tier-perks-list:after{
+	content:"";
+	display:block;
+	width:10.0em;
+	height:8px;
+	/*background:#FF000040;*/
+}
+
 .register-tier-perk{
 	padding:0.3em;
 	font-size:0.9em;

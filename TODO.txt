@@ -5,7 +5,6 @@
 
 
 > Normal
-Tier box expand desc gets overlapped
 
 
 > Optional
