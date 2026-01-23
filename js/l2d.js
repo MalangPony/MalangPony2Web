@@ -800,38 +800,73 @@ function fmtN(n,d,c){
 
 // We emulate a 'virtual' mouse from the gyro data.
 let last_virtual_gyro_mouse_coords=Vector2.ZERO;
-window.addEventListener("deviceorientation",(e) => {
-	let alpha=e.alpha;
-	let beta = e.beta;
-	let gamma = e.gamma;
-	
-	const degtorad = Math.PI / 180; // Degree-to-Radian conversion
-	let cX = Math.cos( beta  * degtorad );
-	let cY = Math.cos( gamma * degtorad );
-	let cZ = Math.cos( alpha * degtorad );
-	let sX = Math.sin( beta  * degtorad );
-	let sY = Math.sin( gamma * degtorad );
-	let sZ = Math.sin( alpha * degtorad );
 
-	let m13 = cY * sZ * sX + cZ * sY;
-	let m23 = sZ * sY - cZ * cY * sX;
-	
-	// I think this value is the X,Y components of the normal vector of the screen.
-	let raw=new Vector2(m23,m13);
-	debug_gyro_raw.innerHTML="Gyro X:"+fmtN(raw.x,3,6)+" Y:"+fmtN(raw.y,3,6)
-	
-	// Correct raw data for axis and typical screen tilt
-	let corrected=new Vector2(-raw.y,raw.x+0.5);
-	
-	debug_gyro_corrected.innerHTML="GYC X:"+fmtN(corrected.x,3,6)+" Y:"+fmtN(corrected.y,3,6)
-	
-	
-	last_virtual_gyro_mouse_coords = new Vector2(
-		corrected.x*Config.L2D_GYRO_SENSITIVITY_X,
-		corrected.y*Config.L2D_GYRO_SENSITIVITY_Y
-	);
-	unified_movement_handler();
-});
+// Accelerometer is more jerky and needs lerping,
+// but it can have nicer effects as it doesn't drift over time.
+if (Config.L2D_USE_ACCELEROMETER_INSTEAD){
+	let gyro_lerped=Vector2.ZERO;
+	let gyro_last_t=0;
+	window.addEventListener("devicemotion",(e) => {
+		let t=performance.now();
+		let dt=(t-gyro_last_t)/1000.0;
+		gyro_last_t=t;
+		
+		let x=e.accelerationIncludingGravity.x;
+		let y=e.accelerationIncludingGravity.y;
+		let raw=new Vector2(x,y);
+		debug_gyro_raw.innerHTML="ACL X:"+fmtN(raw.x,3,6)+" Y:"+fmtN(raw.y,3,6);
+		
+		// lerp smoothing
+		let lfac=dt*Config.L2D_GYRO_LERP_FACTOR;
+		gyro_lerped=Vector2.lerp(gyro_lerped,raw,lfac);
+		
+		// Correct raw data for sign and typical screen tilt
+		let corrected=new Vector2(gyro_lerped.x/9.8, (-gyro_lerped.y/9.8)+0.5);
+		
+		debug_gyro_corrected.innerHTML="ACC X:"+fmtN(corrected.x,3,6)+" Y:"+fmtN(corrected.y,3,6)
+		
+		
+		last_virtual_gyro_mouse_coords = new Vector2(
+			corrected.x*Config.L2D_GYRO_SENSITIVITY_X,
+			corrected.y*Config.L2D_GYRO_SENSITIVITY_Y
+		);
+		unified_movement_handler();
+	});
+}else{
+	window.addEventListener("deviceorientation",(e) => {
+		let alpha=e.alpha;
+		let beta = e.beta;
+		let gamma = e.gamma;
+		
+		const degtorad = Math.PI / 180; // Degree-to-Radian conversion
+		let cX = Math.cos( beta  * degtorad );
+		let cY = Math.cos( gamma * degtorad );
+		let cZ = Math.cos( alpha * degtorad );
+		let sX = Math.sin( beta  * degtorad );
+		let sY = Math.sin( gamma * degtorad );
+		let sZ = Math.sin( alpha * degtorad );
+
+		let m13 = cY * sZ * sX + cZ * sY;
+		let m23 = sZ * sY - cZ * cY * sX;
+		
+		// I think this value is the X,Y components of the normal vector of the screen.
+		let raw=new Vector2(m23,m13);
+		debug_gyro_raw.innerHTML="Gyro X:"+fmtN(raw.x,3,6)+" Y:"+fmtN(raw.y,3,6)
+		
+		// Correct raw data for axis and typical screen tilt
+		let corrected=new Vector2(-raw.y,raw.x+0.5);
+		
+		debug_gyro_corrected.innerHTML="GYC X:"+fmtN(corrected.x,3,6)+" Y:"+fmtN(corrected.y,3,6)
+		
+		
+		last_virtual_gyro_mouse_coords = new Vector2(
+			corrected.x*Config.L2D_GYRO_SENSITIVITY_X,
+			corrected.y*Config.L2D_GYRO_SENSITIVITY_Y
+		);
+		unified_movement_handler();
+	});
+}
+
 
 let unified_movement_accumulator=0;
 let unifiedPositionLast=Vector2.ZERO;
