@@ -357,7 +357,7 @@
 #footer-content .footer-text-mobile-break{
   display:none;
 }
-#footer-text-contact{
+.footer-text-contact{
   font-weight:700;
 }
 #footer-sns-buttons{
@@ -372,7 +372,7 @@
   --lb-color-bg: light-dark(var(--template-malang-text),var(--template-malang-TWI));
 }
 
-#footer-disclaimer{
+.footer-disclaimer{
   text-align:center;
   font-size:0.8em;
   font-weight:400;
@@ -414,7 +414,7 @@
   #footer-content{
     align-items:flex-start;
   }
-  #footer-disclaimer{
+  .footer-disclaimer{
     text-align:left;
   }
   .main-content-divider{

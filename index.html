@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 
+<title>말랑포니2!</title>
+
 <meta property="og:title" content="말랑포니2!" />
 <meta property="og:type" content="website" />
 <!-- TODO: Change below to <?php echo $webroot;?> -->
@@ -12,6 +14,7 @@
 <meta property="og:description" content="한국의 마이리틀포니 행사, 말랑포니입니다!" />
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@36,600,0,0&icon_names=2d,3d,arrow_drop_down,arrow_drop_up,arrow_left,arrow_left_alt,arrow_right,arrow_right_alt,check,chevron_line_up,circle,close,code,data_table,delete,download,help,home_pin,keyboard_double_arrow_down,language,layers,layers_clear,link,mail,map_pin_heart,open_in_browser,open_in_new,pause,photo_camera,play_arrow,play_circle,stat_0,swap_horiz,table,undo,unfold_less,unfold_more,visibility_off" />
 
 <link href="css/colors.css" rel="stylesheet" />
@@ -59,7 +62,7 @@
   background-color:#6d4c79;
   padding:16px;
   animation-name:load-text-flash;
-  animation-play-state:playing;
+  animation-play-state:running;
   animation-duration:0.8s;
   animation-iteration-count:infinite;
   animation-timing-function: linear;
@@ -401,7 +404,7 @@
               In <span class="countdown-days countdown-numeral"></span> <span class="countdown-unit-day-plural">days</span><span class="countdown-unit-day-singular">day</span>, <span class="countdown-hours countdown-numeral"></span> <span class="countdown-unit-hour-plural">hours</span><span class="countdown-unit-hour-singular">hour</span>, <span class="countdown-minutes countdown-numeral"></span> <span class="countdown-unit-minute-plural">minutes</span><span class="countdown-unit-minute-singular">minute</span>, and <span class="countdown-seconds countdown-numeral"></span> <span class="countdown-unit-second-plural">seconds</span><span class="countdown-unit-second-singular">second</span>
             </span>
             <span class="lang-en mm-mobile">
-              In <span class="countdown-days countdown-numeral"></span> days, <span class="countdown-hours-padded countdown-numeral"></span>:<span class="countdown-minutes-padded countdown-numeral"></span>:<span class="countdown-seconds-padded countdown-numeral"></span></span>
+              In <span class="countdown-days countdown-numeral"></span> days and <span class="countdown-hours-padded countdown-numeral"></span>h <span class="countdown-minutes-padded countdown-numeral"></span>m <span class="countdown-seconds-padded countdown-numeral"></span>s
             </span>
           </div>
         </div> <!-- #page-intro -->
@@ -1861,8 +1864,8 @@
       <div id="main-content-filler"></div>
       <div id="footer-divider" class="main-content-divider"></div>
       <div id="footer-content">
-        <div id="footer-text-contact" class="lang-ko">문의 및 최신 소식:</div>
-        <div id="footer-text-contact" class="lang-en">Contact &amp; follow us on:</div>
+        <div class="footer-text-contact lang-ko">문의 및 최신 소식:</div>
+        <div class="footer-text-contact lang-en">Contact &amp; follow us on:</div>
         <div id="footer-sns-buttons">
           <a id="footer-sns-button-twitter" target="_blank" 
              class="link-button generate-icon icon-twitter-white borderless textless large-square icons-big"
@@ -1877,12 +1880,12 @@
              class="link-button generate-icon icon-mail borderless textless large-square icons-big"
              onclick="show_email();"></a>
         </div>
-        <div id="footer-disclaimer" class="lang-ko">
+        <div class="footer-disclaimer lang-ko">
           말랑포니는 팬이 운영하는 <br class="footer-text-mobile-break">
           비공식 이벤트입니다.<br>
           본 행사는 해즈브로와 관계가 없습니다.
         </div>
-        <div id="footer-disclaimer" class="lang-en">
+        <div class="footer-disclaimer lang-en">
           MalangPony is an <br class="footer-text-mobile-break">
           unofficial event run by fans.<br>
           We are not affliated <br class="footer-text-mobile-break">
