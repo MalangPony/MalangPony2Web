@@ -52,3 +52,6 @@ export const STATIC_BG_TRANSITION_SPEED_CASTLE_ENTER=500;
 export const STATIC_BG_TRANSITION_SPEED_CASTLE_EXIT=1000;
 // Inside crossfade starts right away.
 export const STATIC_BG_TRANSITION_SPEED_INSIDE=page_transition_duration;
+
+
+export const ENABLE_ANIMATION_TOGGLE_BUTTON=true;

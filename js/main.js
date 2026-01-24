@@ -771,6 +771,11 @@ theme_btn.onclick= ()=>{
 
 
 function apply_anim(anim_enable){
+  if (!Config.ENABLE_ANIMATION_TOGGLE_BUTTON) {
+    Global.set_animated(true);
+    return;
+  }
+  
   if (anim_enable) {
     body_dom.classList.add("anim-enabled");
     body_dom.classList.remove("anim-disabled");
@@ -1488,19 +1493,25 @@ apply_darkmode(darkmode);
 
 
 // Get anim pref from cookie
-let anim_from_cookie=Cookies.readCookie("anim");
-if (anim_from_cookie){
-  if (anim_from_cookie==="Y"){
-    console.log("Set anim=true, from cookie");
-    animation_enabled=true;
-  }else if (anim_from_cookie==="N"){
-    console.log("Set anim=false, from cookie");
-    animation_enabled=false;
+if (Config.ENABLE_ANIMATION_TOGGLE_BUTTON){
+  let anim_from_cookie=Cookies.readCookie("anim");
+  if (anim_from_cookie){
+    if (anim_from_cookie==="Y"){
+      console.log("Set anim=true, from cookie");
+      animation_enabled=true;
+    }else if (anim_from_cookie==="N"){
+      console.log("Set anim=false, from cookie");
+      animation_enabled=false;
+    }
+  }else{
+    console.log("No anim cookie, default to true");
   }
+  apply_anim(animation_enabled);
 }else{
-  console.log("No anim cookie, default to true");
+  animation_enabled=true;
+  Global.set_animated(true);
+  anim_btn.style.display="none";
 }
-apply_anim(animation_enabled);
 
 
 // Final code to run. Hide load screen.
