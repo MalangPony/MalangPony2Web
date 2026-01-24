@@ -194,9 +194,9 @@
   align-items:flex-start;
   
   position:absolute;
-  /* #main-content-actual has 120px padding on top */
+  /* #main-content-actual has 128px padding on top */
   top:16px;
-  height:100px;
+  height:110px;
   right:0;
   left:24px;
   z-index:1;
@@ -211,7 +211,7 @@
 }
 
 #main-content-actual{
-  padding-top:120px; /* Space for the nonintro-header*/
+  padding-top:128px; /* Space for the nonintro-header*/
   position:relative;
   display:flex;
   flex-direction:column;

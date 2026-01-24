@@ -1,11 +1,11 @@
 /* Page: Intro (#page-intro) */
 
-/* This is to offset the padding-top:120px from #main-content-actual */
+/* This is to offset the padding-top:128px from #main-content-actual */
 #page-intro{
-  margin-top:-90px;
+  margin-top:-96px;
 }
 .langmode-en #page-intro{
-  margin-top:-120px;
+  margin-top:-128px;
 }
 
 #intro-mpn2-subtitle{
