@@ -195,7 +195,6 @@
 /* Buttons on top right */
 #switch-positioner{
   display:flex;
-  opacity:0.0;
   pointer-events:none;
   
   flex-direction:column;
@@ -206,24 +205,23 @@
   margin-top:16px;
   margin-right:16px;
   
-  transition-property:opacity;
-  transition-duration:1.0s;
-}
-.anim-disabled #switch-positioner{
-  transition-duration:0s;
-}
-#switch-positioner.activated{
-  opacity:1.0;
 }
 #switch-positioner .link-button{
   --lb-color-bg:light-dark(var(--color-text-light),var(--color-text-dark));
   --lb-color-text:light-dark(var(--color-text-dark),var(--color-text-light));
 }
-#switch-positioner:not(.activated) .link-button{
-  pointer-events:none;
+#switch-positioner .link-button{
+  /* Add to .link-buton transitions*/
+  transition-property: background-color, color, opacity;
+  transition-duration: 0.2s,             0.2s,  0.5s;
 }
-#switch-positioner.activated .link-button{
+#switch-positioner .link-button:not(.activated){
+  pointer-events:none;
+  opacity:0.0;
+}
+#switch-positioner .link-button.activated{
   pointer-events:auto;
+  opacity:1.0;
 }
 .anim-disabled #switch-positioner #animswitch-btn{
   --lb-color-bg:light-dark(#F88,#A44);

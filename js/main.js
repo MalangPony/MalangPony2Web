@@ -122,6 +122,9 @@ function transition_sky(){
   main_content_backdrop.classList.remove("activated");
   pages_container.classList.remove("activated");
   
+  lang_btn.classList.remove("activated");
+  theme_btn.classList.remove("activated");
+  
   if (mobile_mode) sidebar_mobile_button_exit();
   else sidebar_desktop_hide();
   
@@ -140,11 +143,10 @@ function transition_ground(){
   main_content_backdrop.classList.add("activated");
   pages_container.classList.add("activated");
   
-  // Right now, the .activated class is already added at the HTML.
-  // Remove the class from HTML if you want the buttons to stay disabled
-  //   at the start.
-  // However, I figured it'd be better for usability this way.
-  topright_switch_positioner.classList.add("activated");
+  
+  //anim btn is always active
+  lang_btn.classList.add("activated");
+  theme_btn.classList.add("activated");
   
 
   if (mobile_mode) sidebar_mobile_button_enter();
