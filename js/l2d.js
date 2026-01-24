@@ -793,6 +793,9 @@ function mouse_movement_handler(mouse_coords){
 // Format [N]umber, with fixed [D]ecimal places, 
 //   and padded to be a specific number of [C]haracters.
 function fmtN(n,d,c){
+	if (n===null) return "X";
+	if (n===undefined) return "U";
+	
 	let res=n.toFixed(d);
 	if (n>0) res="+"+res;
 	return res.padStart(c," ");
