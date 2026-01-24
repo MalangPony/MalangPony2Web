@@ -80,7 +80,7 @@ for (const tier_id in TierData.tiers_data){
 		tier_dom.querySelector(".register-tier-limit.lang-ko").innerHTML=
 			tier_data.limit+"명 한정";
 		tier_dom.querySelector(".register-tier-limit.lang-en").innerHTML=
-			"Limited to "+tier_data.limit+" persons";
+			"Limited to "+tier_data.limit+" people";
 	}else{
 		tier_dom.querySelector(".register-tier-limit.lang-ko").style.disply="none";
 		tier_dom.querySelector(".register-tier-limit.lang-en").style.disply="none";
