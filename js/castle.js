@@ -147,11 +147,17 @@ let scroll_offset = Config.OPTION_INTRO_CASTLE_SCROLL_AMOUNT;
 let active=true;
 export function set_active(b){
 	active=b;
-	if (active) castle_container.style.display="block";
+	if (active) {
+		castle_container.style.display="block";
+		recalculate_size();
+	}
 	else castle_container.style.display="none";
 }
 
 
+let current_containerW;
+let current_containerH;
+let current_targetW;
 function recalculate_size(){
 	let containerW=castle_container.clientWidth;
 	let containerH=castle_container.clientHeight;
@@ -173,6 +179,9 @@ function recalculate_size(){
 	if (targetW<Config.OPTION_CASTLEBG_MIN_WIDTH_PIXELS)
 		targetW=Config.OPTION_CASTLEBG_MIN_WIDTH_PIXELS;
 	
+	current_containerW=containerW;
+	current_containerH=containerH;
+	current_targetW=targetW;
 	
 	let layer_parent_width=targetW;
 	let layer_parent_left=(containerW-targetW)/2;
@@ -228,14 +237,9 @@ export function report_scroll_progress(current,maximum){
 report_scroll_progress(0,100); // Just to hide the castle
 
 function calculate_out_parameters(){
-	let containerW=castle_container.clientWidth;
-	let containerH=castle_container.clientHeight;
-	
-	let targetW=containerW;
-	if (containerW>Config.OPTION_CASTLEBG_MAX_WIDTH_PIXELS) 
-		targetW=Config.OPTION_CASTLEBG_MAX_WIDTH_PIXELS;
-	if (targetW<Config.OPTION_CASTLEBG_MIN_WIDTH_PIXELS)
-		targetW=Config.OPTION_CASTLEBG_MIN_WIDTH_PIXELS;
+	let containerW=current_containerW;
+	let containerH=current_containerH;
+	let targetW=current_targetW;
 
 	return {
 		left:(containerW-targetW)/2,
@@ -244,14 +248,9 @@ function calculate_out_parameters(){
 	};
 }
 function calculate_zoom_parameters(){
-	let containerW=castle_container.clientWidth;
-	let containerH=castle_container.clientHeight;
-	
-	let targetW=containerW;
-	if (containerW>Config.OPTION_CASTLEBG_MAX_WIDTH_PIXELS) 
-		targetW=Config.OPTION_CASTLEBG_MAX_WIDTH_PIXELS;
-	if (targetW<Config.OPTION_CASTLEBG_MIN_WIDTH_PIXELS)
-		targetW=Config.OPTION_CASTLEBG_MIN_WIDTH_PIXELS;
+	let containerW=current_containerW;
+	let containerH=current_containerH;
+	let targetW=current_targetW;
 	
 	let zoom_factor=10;
 	
@@ -336,8 +335,6 @@ export function enter_instant(){
 	layers_parent.style.display="none";
 }
 export function enter_animation(delay,finished_callback){
-	let containerW=castle_container.clientWidth;
-	
 	
 	let anim_bars=castle_layers.door_bars.dom.animate([
 			{bottom:(castle_layers.door_bars.bottomPercentage-door_bars_slide)+"%"},
@@ -472,6 +469,7 @@ export function exit_animation(delay,finished_callback){
 	return 1200;
 }
 export function exit_instant(){
+	
 	whiteout.style.display="none";
 	layers_parent.style.display="block";
 	castle_layers.door_glow.dom.style.opacity=0;
