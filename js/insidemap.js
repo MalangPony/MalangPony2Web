@@ -312,7 +312,7 @@ function mouse_events_handler(e,click){
   }
   if (was_any_selected && (!any_selected)) {
     if (Global.animated) focusAV.animate_to(0.0);
-    else focusAV.jump_to(1.0);
+    else focusAV.jump_to(0.0);
   }
 }
 
@@ -323,13 +323,10 @@ container.addEventListener("mousemove",(e)=>{
   mouse_events_handler(e,false);
 });
 // Deselect everything
+/*
 container.addEventListener("mouseleave",(e)=>{
-  for (const k of InsidemapAutoData.zone_list){
-    hover_map[k] = false;
-    if (Global.animated) selection_progress[k].animate_to(0.0);
-    else selection_progress[k].jump_to(0.0);
-  }
-});
+  mouse_events_handler({clientX:-10000,clientY:-10000},false);
+});*/
 
 // Canvas drawing constants
 const font_title_family="NPS";

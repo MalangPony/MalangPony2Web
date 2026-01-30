@@ -2,7 +2,7 @@
 
 
 > Important
-Bug on insidemap: mouseleave does not reset focus
+
 
 > Normal
 
