@@ -22,7 +22,7 @@ class Entity{
   position = new Vector2();
   // Velocity. Unit: px/sec
   velocity = new Vector2();
-  // Drag cofficients. Acceleration = Drag. Coeff * v^2
+  // Drag cofficients. Acceleration = DCL * |v| + DCQ * v^2
   drag_coefficient_linear = 0;
   drag_coefficient_quadratic = 0;
   // Gravitational acceleration towards +Y direction. px/s^2
@@ -79,9 +79,9 @@ class GlowingCircleEntity extends Entity{
   life_size_power=1.0
   // should this orb fade away?
   #life_fade=false;
-  // Total lifetime. Does not change.
+  // Total lifetime. Should not change during the particle's lifetime.
   #lifetime;
-  // Remaining lifetime. Gets updated constantly. Dies at 0.
+  // Remaining lifetime. Gets updated constantly. Particle dies at 0.
   #remaining_life;
   
   set lifetime(t){
@@ -133,7 +133,7 @@ class FireworkEntity extends GlowingCircleEntity{
     super.tick(dt);
     let new_position=this.position;
     
-    //failsafe
+    // Failsafe. May be triggered on laggy or suspended conditions.
     if (this.distance_travelled_without_particle>1000) 
       this.distance_travelled_without_particle=0
     
@@ -152,7 +152,7 @@ class FireworkEntity extends GlowingCircleEntity{
       let particle_highcount=PerformanceManager.check_feature_enabled(
         PerformanceManager.Feature.FIREWORKS_HIGHCOUNT);
       while (this.distance_travelled_without_particle>0){
-        // Spawn particle every 5 pixels
+        // Spawn particle every 5 pixels, 10 if low particle count mode.
         this.distance_travelled_without_particle-=(particle_highcount?5:10);
         
         // Spawn the actual smoke particle
@@ -194,21 +194,20 @@ function offset_all_entities(dx,dy){
 // Physical constant.
 const PARTICLE_PHYSICS_GRAVITY=300;
 
-
 const firework_color_presets=[
   ["#FFFFFF","#FF91DB","#FF91DB00"],
   ["#FFFFFF","#F7E38F","#F7E38F00"],
   ["#FFFFFF","#70BCFF","#70BCFF00"],
   ["#FFFFFF","#F5B96E","#F5B96E00"],
   ["#FFFFFF","#AD8CD9","#AD8CD900"],
-
   ["#FFFFFF","#C7303E","#C7303E00"],
-  //["#FFFFFF","#F19246","#F1924600"], // Removed, too similar to AJ
-  //["#FFFFFF","#FCC665","#FCC66500"], //Removed, too similar to FS
-  //["#FFFFFF","#41B46D","#41B46D00"], //Removed
-  //["#FFFFFF","#6683D0","#6683D000"], //Removed
-  //["#FFFFFF","#514061","#51406100"], //Removed, too dark
 ];
+
+
+// Firework spawning logic.
+// To make sure the firework doesn't overlap and stays within the screen,
+//   we first calculate where the firework should explode
+//   and work out the initial velocity and location backwards from there.
 let last_explosion_location=new Vector2();
 function spawn_firework_rocket(cs){
   let h=cs.height;
@@ -226,7 +225,7 @@ function spawn_firework_rocket(cs){
     planned_explosion_Y=Math.random()*0.5*h;
     let explosion_candidate=new Vector2(planned_explosion_X,planned_explosion_Y);
     
-    // Re-rollif too close to last explosion
+    // Re-roll if too close to last explosion
     let distance=last_explosion_location.subtract(explosion_candidate).length();
     if (distance>avoidance_thresh) {
       last_explosion_location=explosion_candidate;
@@ -275,8 +274,6 @@ function spawn_firework_rocket(cs){
   e.glow_radius=30;
   e.edge_color=random_color[2];
   
-  //console.log(`FWE ${w} ${h} ${px} ${py} ${vx} ${vy} ${fuze}`);
-  
   entity_array.push(e);
 }
 
@@ -298,9 +295,6 @@ function spawn_firework_burst(center=null,initial_velocity=null,parent=null){
   let particle_highcount=PerformanceManager.check_feature_enabled(
     PerformanceManager.Feature.FIREWORKS_HIGHCOUNT);
   
-  if (location===null){
-    center=new Vector2(Math.random()*600,Math.random()*300);
-  }
   if (initial_velocity===null){
     initial_velocity=new Vector2(0,0);
   }
@@ -369,6 +363,7 @@ function refresh_fireworks_canvas(dt){
   if (!containerH) containerH=1;
   let canvas_hires=PerformanceManager.check_feature_enabled(
     PerformanceManager.Feature.FIREWORKS_HIRES);
+  
   let resolution_multiplier=canvas_hires?1.0:0.5;
   let targetW=Math.round(containerW*resolution_multiplier);
   let targetH=Math.round(containerH*resolution_multiplier);
@@ -469,7 +464,8 @@ export function animationTick(dt){
 // Functions used for hanmari's firework-watching effect.
 // An object is selected as being 'tracked'.
 // We will lerp a point along that object's position.
-// When the object dies (firework explodes) another object will be selected.
+// When the object dies (firework explodes) another object will be selected
+//   after the attention runs out.
 let attention_hold_remaining=-1;
 let attention_position = Vector2.ZERO;
 let attention_position_lerped=Vector2.ZERO;

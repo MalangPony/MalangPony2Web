@@ -1,8 +1,9 @@
 /*
  * Main script. 
  * Imports all other scripts.
- * Handles some global page logic.
+ * Handles main page animations and page transisions.
  */
+
 import { Vector2, Vector3 } from "./vectors.js";
 import * as Config  from "./config.js";
 import * as Fireworks from "./fireworks.js";
@@ -20,6 +21,8 @@ import * as StaticBG from "./static_bg.js";
 import * as FAQ from "./faq.js";
 import * as InsideMap from "./insidemap.js";
 import * as Global from "./global.js";
+import * as PerformanceManager from "./perfmanager.js";
+
 // DOM
 const body_dom = document.querySelector("body");
 
@@ -104,7 +107,7 @@ PerformanceManager.register_feature_disable_callback(
   });
 PerformanceManager.register_feature_enable_callback(
   PerformanceManager.Feature.CSS_FILT_DROP_SHADOWS, ()=>{
-     ticket.classList.add("css-filters");
+    ticket.classList.add("css-filters");
     sidebar.classList.add("css-filters");
   });
 
@@ -114,7 +117,6 @@ function transition_sky(){
   in_sky_mode=true;
   
   let animation_out=[{ opacity: "1.0" },{ opacity: "0.0" } ];
-  let animation_in=[{ opacity: "0.0" },{ opacity: "1.0" } ];
   let animation_opt={duration: 500,fill:"forwards"};
   let anim=logo_image_orig.animate(animation_out,animation_opt);
   if (!Global.animated) anim.finish();
@@ -134,7 +136,6 @@ function transition_sky(){
 function transition_ground(){
   in_sky_mode=false;
   
-  let animation_out=[{ opacity: "1.0" },{ opacity: "0.0" } ];
   let animation_in=[{ opacity: "0.0" },{ opacity: "1.0" } ];
   let animation_opt={duration: 500,fill:"forwards"};
   let anim=logo_image_orig.animate(animation_in,animation_opt);
@@ -143,11 +144,9 @@ function transition_ground(){
   main_content_backdrop.classList.add("activated");
   pages_container.classList.add("activated");
   
-  
   //anim btn is always active
   lang_btn.classList.add("activated");
   theme_btn.classList.add("activated");
-  
 
   if (mobile_mode) sidebar_mobile_button_enter();
   else sidebar_desktop_open();
@@ -155,7 +154,6 @@ function transition_ground(){
   L2D.transition_ground();
   autoset_hanmari_size();
 }
-
 
 
 
@@ -176,6 +174,7 @@ function force_finish_all_sidebar_animations(){
 // Spike Magic animation
 function sidebar_magic_play(){
   force_finish_all_sidebar_animations();
+  
   // Run the animation code after 0 delay.
   // This is to give enough time for all the animations 
   // finished by force_finish_all_sidebar_animations() to run their onfinish code.
@@ -183,8 +182,11 @@ function sidebar_magic_play(){
   // will run before the force-finished animation's onfinish code
   // which messes up the animation.
   window.setTimeout(()=>{
+  // SIAP = #sidebar-intro-anim-positioner
+  // LMSA = #letter-magic-spritesheet-animation
   siap.style.display="flex";
   
+  // Runs the spritesheet animation.
   const animation_frame_count=16;
   const actual_size_x=lmsa.clientWidth;
   const actual_size_y=lmsa.clientHeight;
@@ -194,6 +196,7 @@ function sidebar_magic_play(){
     [{backgroundPositionX:"0"},{backgroundPositionX:"100%"}],
     {duration:1200,delay:0,easing:`steps(${animation_frame_count-1})`});
   sidebar_animations.push(anim_slide);
+  
   let anim_fadein=lmsa.animate(
     [{opacity:"0.0"},{opacity:"1.0"}],
     {duration:500,delay:0,easing:"linear"});
@@ -203,6 +206,7 @@ function sidebar_magic_play(){
     [{marginTop:"200px"},{marginTop:"0"}],
     {duration:1000,delay:0,easing:"cubic-bezier(.18,.58,.6,.99)"});
   sidebar_animations.push(anim_rise);
+  
   anim_slide.onfinish=(e)=>{
     siap.style.display="none";
   };
@@ -216,9 +220,10 @@ function sidebar_magic_play(){
   return 1100;
 }
 
-// After magic_animate, open up the scroll
+// After magic_animate, open up the scroll (desktop)
 function sidebar_desktop_open(){
   force_finish_all_sidebar_animations();
+  
   window.setTimeout(()=>{
   sidebar.classList.remove("sb-mobile-mode");
   sidebar.classList.add("sb-expanded");
@@ -229,25 +234,26 @@ function sidebar_desktop_open(){
   sidebar_collapse_and_unlock();
   sidebar_autoexpand(currently_on_page);
   
+  sidebar.style.display="flex";
+  
+  sidebar.style.transform="scale(0)";
   let anim_scale=sidebar.animate(
     [{transform:"scale(0.0)",opacity:0},
      {transform:"scale(1.0)",opacity:1}],
-    {duration:400,delay:magic_duration,easing:"ease-out"});
+    {duration:400,delay:magic_duration,
+     easing:"ease-out"});
   sidebar_animations.push(anim_scale);
-  let anim_unfold=sidebar.animate(
-    [{maxHeight:"160px"},
-     {maxHeight:"100dvh"}],
-    {duration:500,delay:magic_duration+400,easing:"cubic-bezier(0.7, 0.0, 1.0, 0.3)"});
-  sidebar_animations.push(anim_unfold);
-  
-  sidebar.style.transform="scale(0)";
-  sidebar.style.display="flex";
-  sidebar.style.maxHeight="160px";
-  
   anim_scale.onfinish=(e)=>{
     sidebar.style.transform="none";
   };
   
+  sidebar.style.maxHeight="160px";
+  let anim_unfold=sidebar.animate(
+    [{maxHeight:"160px"},
+     {maxHeight:"100dvh"}],
+    {duration:500,delay:magic_duration+400,
+     easing:"cubic-bezier(0.7, 0.0, 1.0, 0.3)"});
+  sidebar_animations.push(anim_unfold);  
   anim_unfold.onfinish=(e)=>{
     sidebar.style.maxHeight="100dvh";
   }
@@ -263,15 +269,14 @@ function sidebar_mobile_button_enter(){
   window.setTimeout(()=>{
   let magic_duration=sidebar_magic_play();
   
+  sb_btn_outer_animator.style.display="block";
+  
+  sb_btn_outer_animator.style.transform="scale(0.0)";
   let anim_popin=sb_btn_outer_animator.animate(
     [{transform:"scale(0.0)"},
      {transform:"scale(1.0)"}],
     {duration:400,delay:magic_duration,easing:"ease-out"});
   sidebar_animations.push(anim_popin);
-  
-  sb_btn_outer_animator.style.display="block";
-  sb_btn_outer_animator.style.transform="scale(0.0)";
-  
   anim_popin.onfinish=(e)=>{
     sb_btn_outer_animator.style.transform="none";
   };  
@@ -284,21 +289,25 @@ function sidebar_mobile_button_enter(){
 function sidebar_mobile_button_exit(){
   force_finish_all_sidebar_animations();
   window.setTimeout(()=>{
+    
   let anim_slideout=sb_btn_outer_animator.animate(
     [{marginLeft:"0px",opacity:"1"},
      {marginLeft:"-160px",opacity:"0"}],
     {duration:500,delay:0,easing:"ease-in"});
   sidebar_animations.push(anim_slideout);
-  
   anim_slideout.onfinish = (e)=>{
     sb_btn_outer_animator.style.display="none";
     sb_btn_outer_animator.style.marginLeft="0px";
   }
+  
   if (!Global.animated) anim_slideout.finish();
   },0);
 }
 
+// Has the sidebar been opened in mobile at least once?
+// If true, the sidebar button's attention-grabbing animation will stop.
 let sidebar_opened_in_mobile=false;
+
 // Open up the scroll in fullscreen (mobile mode)
 function sidebar_mobile_open(){
   force_finish_all_sidebar_animations();
@@ -322,6 +331,7 @@ function sidebar_mobile_open(){
      {opacity:"1"}],
     {duration:300,delay:0,easing:"ease-out"});
   sidebar_animations.push(anim_fadein);
+  
   let anim_scaleX=sidebar.animate(
     [{maxWidth:"0"},
      {maxWidth:"100vw"}],
@@ -330,6 +340,7 @@ function sidebar_mobile_open(){
   anim_scaleX.onfinish= ()=>{
     sidebar.style.maxWidth="100vw";
   }
+  
   sidebar.style.maxHeight="0";
   let anim_scaleY=sidebar.animate(
     [{maxHeight:"0"},
@@ -339,6 +350,7 @@ function sidebar_mobile_open(){
   anim_scaleY.onfinish= ()=>{
     sidebar.style.maxHeight="100dvh";
   };
+  
   let anim_button_fadeout=sb_btn_outer_animator.animate(
     [{opacity:1},
      {opacity:0}],
@@ -359,7 +371,8 @@ function sidebar_mobile_open(){
   sidebar_animations.push(anim_closebutton_fadein);
   anim_closebutton_fadein.onfinish=(e)=>{
     sb_close_btn.style.opacity=1;
-  };  
+  };
+  
   if (!Global.animated) anim_fadein.finish();
   if (!Global.animated) anim_scaleX.finish();
   if (!Global.animated) anim_scaleY.finish();
@@ -383,6 +396,7 @@ function sidebar_desktop_hide(){
   anim_slideout.onfinish = (e)=>{
     sidebar.style.marginLeft="0";
   }
+  
   let anim_fadeout=sidebar.animate(
     [{opacity:"1"},
      {opacity:"0"}],
@@ -403,6 +417,7 @@ function sidebar_desktop_hide(){
 // Mobile mode, hide fullscreen scroll
 function sidebar_mobile_close(){
   force_finish_all_sidebar_animations();
+  
   window.setTimeout(()=>{
   sidebar.classList.add("sb-mobile-mode");
   sidebar.classList.remove("sb-expanded");
@@ -443,6 +458,8 @@ function sidebar_mobile_close(){
   if (!Global.animated) anim_scroll_close_button_fadeout.finish();
   },0);
 }
+
+// Hide sidebar without any animations.
 function sidebar_desktop_hide_instant(){
   force_finish_all_sidebar_animations();
   window.setTimeout(()=>{
@@ -457,14 +474,13 @@ sb_close_btn.addEventListener("click",()=>{
   if (mobile_mode) sidebar_mobile_close();
 });
 
+
 // Called every time a firework explodes
 let firework_exploded=false;
 let last_firework_explosion_time=-1000;
 Fireworks.add_burst_callback(()=>{
   firework_exploded=true;
 });
-
-
 
 
 // FPS counter
@@ -487,7 +503,9 @@ window.setInterval(()=>{
   debug_print_acms.innerHTML="Anim CB taking "+avg.toFixed(2)+" ms"
 },500);
 
+// The speed at which the transition from ground to/from sky happens.
 const l2d_ground_transition_per_second=2.0;
+// 0 is sky mode, 1 is ground mode.
 let l2d_ground_transition_progress=0.0;
 
 let last_t=NaN;
@@ -496,7 +514,7 @@ function animationCallback(time) {
   fpsc_primary_anim_callback.frame();
   let cb_start_t=performance.now();
   
-  // Delta-T
+  // Delta-t (unit: seconds)
   if (isNaN(last_t)) last_t=time;
   let dt=(time-last_t)/1000;
   last_t=time;
@@ -506,6 +524,7 @@ function animationCallback(time) {
   PerformanceManager.report_frame_time(time);
   
   // Try to compensate for the scrollbar width. (Chromium)
+  // Otherwise, the overlays will go over the scrollbar, which looks wrong.
   let width_wholescreen=wsd.clientWidth;
   let width_scroller=content_scroller.clientWidth;
   let scrollbar_width=width_wholescreen-width_scroller;
@@ -528,13 +547,14 @@ function animationCallback(time) {
   L2D.set_lighten_strength(firework_light_factor);
   logo_image_flash01.style.opacity=firework_light_factor;
   
+  // Sky/Ground transition
   if (in_sky_mode)
     l2d_ground_transition_progress-=dt*l2d_ground_transition_per_second;
   else
     l2d_ground_transition_progress+=dt*l2d_ground_transition_per_second;
-  
   if (l2d_ground_transition_progress<0) l2d_ground_transition_progress=0;
   if (l2d_ground_transition_progress>1) l2d_ground_transition_progress=1;
+  
   L2D.set_darken_strength(1-l2d_ground_transition_progress);
   L2D.set_staring_strength(l2d_ground_transition_progress);
     
@@ -560,8 +580,6 @@ function animationCallback(time) {
   let sky_eye_pos=new Vector2(
     linear_map(1,0,fw_attn_pos.x,-0.8,-0.0),
     linear_map(1,0,fw_attn_pos.y,-0.7,+0.7));
-  //console.log("FW Attn Pos "+JSON.stringify(fw_attn_pos));
-  //console.log("L2D Sky eyepos "+JSON.stringify(sky_eye_pos));
   L2D.set_sky_eye_position(sky_eye_pos.x,sky_eye_pos.y)
   
   // Report frame time
@@ -569,7 +587,6 @@ function animationCallback(time) {
   ac_tt_hist.push(cb_time_taken);
   while (ac_tt_hist.length>100) ac_tt_hist.shift();
 }
-
 
 // The actual animationframe call.
 function recursiveAnimFrameFunc(t){
@@ -579,7 +596,8 @@ function recursiveAnimFrameFunc(t){
 requestAnimationFrame(recursiveAnimFrameFunc);
 
 
-
+// This is the amount the backdrop (at infinity) scrolls.
+// The stars will scroll the same amount.
 let sky_offset = Config.OPTION_INTRO_SKY_SCROLL_AMOUNT;
 
 // Sky BG size
@@ -609,6 +627,7 @@ function sky_enable(){
   forceScrollDown();
 }
 
+// Disable sky when animations are disabled
 Global.add_animated_listener(()=>{
   if (currently_on_page=="intro"){
     if (Global.animated && sky_disabled){
@@ -623,6 +642,8 @@ Global.add_animated_listener(()=>{
 });
 
 let scroll_inviter_active=true;
+
+// scroll just below screen_blanker
 function forceScrollDown(){
   if (sky_disabled) return;
   content_scroller.scrollTop=screen_blanker.clientHeight;
@@ -630,21 +651,24 @@ function forceScrollDown(){
 function forceScrollUp(){
   content_scroller.scrollTop=0;
 }
+
+
 function scroll_callback(){ 
   let scroll_progress_ratio=1;
   let scroll_pixels=0;
   let scroll_maxium=0;
   
+  // If sky is disabled, scroll progress will be 1.0 no matter what
   if (!sky_disabled) {
     scroll_pixels=content_scroller.scrollTop;
     scroll_maxium=screen_blanker.clientHeight;
     scroll_progress_ratio=scroll_pixels/scroll_maxium;
     if (scroll_pixels>scroll_maxium) scroll_pixels=scroll_maxium;
   }
-  
+  // clamp within 0~1
   scroll_progress_ratio=Math.min(Math.max(scroll_progress_ratio,0),1);
   
-  // Hide scroll inviter if scroll ratio > 30%
+  // Hide scroll inviter forever if scroll ratio > 30%
   if (scroll_inviter_active && (scroll_progress_ratio>0.3)){
     let anim=scroll_inviter_container.animate(
     [{ opacity: "1.0" },{ opacity: "0.0" } ],
@@ -653,7 +677,6 @@ function scroll_callback(){
     anim.onfinish=()=>{
       scroll_inviter_container.style.display="none";
     }
-    //if (!Global.animated) anim.finish();
   }
   
   // Update sky
@@ -678,6 +701,8 @@ function scroll_callback(){
 content_scroller.addEventListener("scroll",scroll_callback);
 window.setTimeout(scroll_callback,0); // Call after load
 
+
+// PageID to name mappings are parsed from the sidebar HTML tree.
 let pageid_to_name_en={};
 let pageid_to_name_ko={};
 let pageid_list=[];
@@ -693,6 +718,7 @@ for (const sbl of sbls){
   pageid_list.push(pageid);
 }
 
+// Automatically set title of the page from the page we're currently on.
 function autoset_title(){
   let title_pre="";
   let title_post=""
@@ -750,6 +776,7 @@ for (const dom of document.querySelectorAll(".lang-button-set-en")){
 }
 
 
+// Theme switching
 function apply_darkmode(darkmode){
   if (darkmode) {
     body_dom.style.colorScheme="dark";
@@ -772,6 +799,7 @@ theme_btn.onclick= ()=>{
 }
 
 
+// Animation ON/OFF
 function apply_anim(anim_enable){
   if (!Config.ENABLE_ANIMATION_TOGGLE_BUTTON) {
     Global.set_animated(true);
@@ -801,10 +829,12 @@ anim_btn.onclick= ()=>{
   apply_anim(animation_enabled);
 }
 
+
 // Page transition
 let currently_on_page="intro";
 
 // Custom page setup and cleanup functions may be defined here.
+// They are automatically run on page enter and exit.
 let page_setup_functions={};
 let page_cleanup_functions={};
 
@@ -827,7 +857,6 @@ page_cleanup_functions["timetable"]= function(){
   Timetable.exit_timetable_page();
 }
 
-
 page_setup_functions["directions"]= function(){
   Maps.relayout();
   Maps.recenter();
@@ -837,7 +866,6 @@ page_cleanup_functions["directions"]= function(){
 }
 
 page_setup_functions["mascot"]= function(){
-  
 }
 page_cleanup_functions["mascot"]= function(){
   mascot_selection_mode=0;
@@ -845,7 +873,6 @@ page_cleanup_functions["mascot"]= function(){
 }
 
 page_setup_functions["register"]= function(){
-  
 }
 page_cleanup_functions["register"]= function(){
   Register.close_all_tierboxes();
@@ -857,9 +884,9 @@ page_setup_functions["internal"]= function(){
 page_cleanup_functions["internal"]= function(){
 }
 
-// Transition with animation.
-let page_transition_in_progress=false;
 
+
+let page_transition_in_progress=false;
 // If a page transition was blocked due to another one being in progress,
 // add the transition to a queue and try again at the end of the current transition.
 let page_transition_queue=[];
@@ -870,6 +897,9 @@ function try_pop_ptq(){
     page_transition(pt[0],pt[1],pt[2]);
   }
 }
+
+// Actual page transition function.
+// if push_to_history is true, the page will be added to the history stack.
 function page_transition(name,animated=true,push_to_history=false){
   // Hide sidebar, even if the transition is invalid.
   if (mobile_mode) sidebar_mobile_close();
@@ -921,6 +951,7 @@ function page_transition(name,animated=true,push_to_history=false){
     if ((!to_intro) && Config.OPTION_HIDE_HANMARI_ON_NONINTRO_PAGES) 
       L2D.hide_hanmari();
     
+    // This is the delay value used for the animations.
     let animation_start_time=0;
     
     // Hide current page
@@ -933,7 +964,7 @@ function page_transition(name,animated=true,push_to_history=false){
     });
     animation_start_time+=Config.PAGE_TRANSITION_SPEED_FADEIN;
     
-    // This is the instant where the transition actually happens.
+    // This is run on the instant where the transition actually happens.
     function swap_page(){
       if (cleanup_func) cleanup_func();
       
@@ -956,8 +987,6 @@ function page_transition(name,animated=true,push_to_history=false){
     }
     
     
-   
-    
     // Castle animation
     if ( on_intro && (!to_intro) ){ // Enter Castle
       // In this case, the swap_page() should be called AFTER the castle animation.
@@ -968,6 +997,7 @@ function page_transition(name,animated=true,push_to_history=false){
       //after castle animation complete
       StaticBG.activate_page_bg(name,animation_start_time,
         Config.STATIC_BG_TRANSITION_SPEED_CASTLE_ENTER);
+      
     }else if ( (!on_intro) && to_intro ){ // Exit Castle
       anim_hide_old.addEventListener("finish",()=>{swap_page();});
       // Fade to transparent right away
@@ -989,13 +1019,14 @@ function page_transition(name,animated=true,push_to_history=false){
       {duration: Config.PAGE_TRANSITION_SPEED_FADEIN,
        delay:animation_start_time});
     anim_show_new.onfinish= () => {
+      // Transition is done at this point. Try popping the PTQ.
       main_content_backdrop.style.opacity=1;
       page_transition_in_progress=false;
       try_pop_ptq();
     }
   
   }else{
-    
+    // Instant transition.
     if (cleanup_func) cleanup_func();
     
     last.style.display="none";
@@ -1025,7 +1056,6 @@ function page_transition(name,animated=true,push_to_history=false){
     if (name !== "intro") Castle.enter_instant();
     else Castle.exit_instant();
     
-    
     page_transition_in_progress=false;
   }
   
@@ -1035,7 +1065,6 @@ function page_transition(name,animated=true,push_to_history=false){
     // Push state before changing the title.
     let url=window.location.origin+"/"+name;
     if (to_intro) url=window.location.origin;
-    //console.log("PushState,"+name+" : "+url);
     window.history.pushState({pageID:name},"",url);
   }
   
@@ -1052,14 +1081,13 @@ function page_transition(name,animated=true,push_to_history=false){
   try_pop_ptq();
 }
 
+// This handles fwd/back browser buttons
 window.addEventListener("popstate",(e)=>{
   let pageid=e.state.pageID;
-  //console.log("PopState,"+pageid);
   if (pageid){
     page_transition(pageid,true,false);
   }
 });
-
 
 
 function autoset_hanmari_size(instant=false){
@@ -1084,6 +1112,7 @@ function autoset_hanmari_size(instant=false){
 }
 Global.add_mobile_listener(()=>{autoset_hanmari_size();});
 
+
 // Setup all .internal-page-autolink
 let ipals=document.querySelectorAll(".internal-page-autolink");
 for(const ipal of ipals){
@@ -1107,7 +1136,6 @@ for(const ipal of ipals){
     ipal.appendChild(kspan);
     ipal.appendChild(espan);
   }
-  
 }
 
 
@@ -1123,6 +1151,7 @@ for (const sb of sidebar_buttons_active){
   else sb.href="/"+pageid;
 }
 
+// Select a sidebar link visually
 function sidebar_buttons_activate(pageid_active){
   for (const sb of sidebar_buttons_active){
     let pageid=sb.getAttribute("data-pageid");
@@ -1165,7 +1194,6 @@ sb_btn_active_area.onclick=sidebar_mobile_open;
 
 
 
-
 // Manual performance level set
 debug_btn_perf_increment.addEventListener("click", (e) => {
 	PerformanceManager.increment_feature_level();
@@ -1187,12 +1215,17 @@ debug_btn_perf_auto.addEventListener("click", (e) => {
  *     sb-link-sublevel
  * sb-link-toplevel
  */
-let sidebar_category_interactive=true; // set false to disable expand/collapse
-let sidebar_expand_functions={};
+
+// set false to disable expand/collapse
+let sidebar_category_interactive=true; 
+// K:pageid V:function to open the containing category
+let sidebar_expand_functions={}; 
+
 const sbccs=document.querySelectorAll(".sb-category-container");
 for (const clicked_sbcc of sbccs){
   const clicked_header_icon=clicked_sbcc.querySelector(".sbch-icon");
   const clicked_header=clicked_sbcc.querySelector(".sb-category-header");
+  
   function expand(toggle=false){
     if (!sidebar_category_interactive) return;
     for (const other_sbcc of sbccs){
@@ -1214,7 +1247,11 @@ for (const clicked_sbcc of sbccs){
       }
     }
   }
+  
+  // Clicked on header directly
   clicked_header.addEventListener("click",()=>{expand(true);});
+  
+  // Clicked on child link
   let clicked_sbcc_links=clicked_sbcc.querySelectorAll(".sb-link");
   for (const sbl of clicked_sbcc_links){
     let pageid=sbl.getAttribute("data-pageid");
@@ -1235,7 +1272,6 @@ for (const sblt of sblts){
   }
   let pageid=sblt.getAttribute("data-pageid");
   sidebar_expand_functions[pageid]=collapse_all;
-  
 }
 
 // Expand everything
@@ -1276,8 +1312,8 @@ function sidebar_autoexpand(name){
 // 0 None selected +1 Hanmari -1 Leebyeori
 let mascot_selection_mode=0;
 
+// Mascot page selection
 function apply_mascot_selection_mode(){
-  //console.log("MSM",mascot_selection_mode);
   if (mascot_selection_mode==0){
     mascot_container_hmr.classList.add("isolate");
     mascot_container_hmr.classList.remove("minimize");
@@ -1324,7 +1360,6 @@ apply_mascot_selection_mode();
 
 // Countdown
 function calculateDday(){
-  //let eventTime=new Date("2025-02-15T00:00:00+09:00");
   let eventTime=new Date("2026-08-01T10:00:00+09:00");
   let nowTime=new Date();
   let timeDelta = eventTime.getTime() - nowTime.getTime();
@@ -1368,6 +1403,7 @@ function calculateDday(){
     seconds_numeric:seconds_numeric
   };
 }
+// It's a bit messy...
 function updateDday(){
   let dday=calculateDday();
   for (const dom of countdown_display.querySelectorAll(".countdown-days"))
@@ -1407,7 +1443,9 @@ window.setInterval(
 )
 updateDday();
 
-// Initial Setup
+
+
+// Initial State Setup
 
 // Get mobile mode from media query
 if (mq_mobile.matches) mobile_enter();

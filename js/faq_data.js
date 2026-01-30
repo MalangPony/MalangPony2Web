@@ -1,4 +1,8 @@
+// FAQ Data. Manually input.
 
+// .category is not used yet.
+// if .dynamic_text_generator is not undefined, it will be called on every expand
+//   and it should return {ko:"",en:""} which is used as the answer text.
 export let questions=[
 	/*
 	{
@@ -149,6 +153,7 @@ export let questions=[
 	},
 ];
 
+// Unused
 export let categories={
 	ticket:{en:"Badge",ko:"참가증"},
 };

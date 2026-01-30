@@ -1,12 +1,16 @@
-/* Generates credits list */
+/*
+ * Generates FAQ entries using data from faq_data.js
+ * 
+ */
+
+
 import * as FAQData from "./faq_data.js";
 
-
+// Grab DOM
 const list_container = document.getElementById("faq-container");
-
 const entry_template  = document.getElementById("faq-entry-template");
 
-
+// Generate FAQ entry, using the template. Pretty straightforward.
 function generate_entry(data){
 	let entry_dom = entry_template.content.cloneNode(true);
 

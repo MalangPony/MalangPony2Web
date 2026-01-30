@@ -1,3 +1,7 @@
+/*
+ * Implements a simple vector class.
+ * 
+ */
 
 export class Vector2{
   // 2D Vector. Immutable.
@@ -19,11 +23,9 @@ export class Vector2{
     return this.add(v.invert());
   }
   multiply(n){
-    //console.log("V2/Mult "+n);
     return new Vector2(this.x*n,this.y*n);
   }
   divide(n){
-    //console.log("V2/Div "+n);
     return this.multiply(1/n);
   }
   length(){

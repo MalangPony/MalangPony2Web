@@ -1,3 +1,4 @@
+// Credits data. Manually input.
 
 export const credits_list=[
 	{

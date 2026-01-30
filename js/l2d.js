@@ -103,6 +103,7 @@ if (Config.OPTION_ENABLE_L2D_HANMARI){
 	`
 	// Applies below formula to all pixels. RGB=0.0~1.0
 	// outRGB = inRGB * multiplier + lift
+	// The output RGB is clamped to 0~1 range.
 	// Alpha is unaffected.
 	class LinearFilter extends PIXI.Filter{
 		constructor(){
@@ -148,6 +149,10 @@ if (Config.OPTION_ENABLE_L2D_HANMARI){
 	}
 	`
 	// Mix imageA and imageB, mix ratio determined by input's alpha channel.
+	// Note that Input(I) is different from either imageA and imageB.
+	// The alpha_ramp_exponent can be specified, which will apply an exponent over I's alpha channel.
+	// Additionally, the override ratio and override factor can be specified.
+	// See above shader code for specific algorithm. Should be easy enough to follow.
 	class MixByAlphaFilter extends PIXI.Filter{
 		constructor(){
 			super(PIXI.Filter.defaultVertexSrc,
@@ -182,6 +187,10 @@ if (Config.OPTION_ENABLE_L2D_HANMARI){
 	}
 	
 	// Combines multiple filters together.
+	// Blur, Darken, Lighten, MixByAlpha, and Copy filters are used.
+	// The filter graph is a bit complicated, but this basically implements the edge-lit effect
+	//   that is applied to hanmari in the fireworks scene.
+	// The darkened and lightened version of hanmari is mixed using the blurred alpha channel.
 	class CompositeFilter extends PIXI.Filter{
 		filterBlur=null;
 		filterDarken=null;
@@ -317,13 +326,16 @@ PerformanceManager.register_feature_enable_callback(
 
 
 
-// Canvas Pixel Multiplier
+// Canvas Pixel Multiplier.
+// Set to >1 to oversample, <1 to undersample.
 let resolution_multiplier=1.0;
 export function set_resolution_multiplier(f){
 	resolution_multiplier=f;
 	resize_canvas_to_fit();
 	auto_resize_model();
 }
+
+// Resize canvas to fit the container.
 function resize_canvas_to_fit(){
 	let w=l2d_container.clientWidth;
 	let h=l2d_container.clientHeight;
@@ -340,16 +352,20 @@ PerformanceManager.register_feature_enable_callback(
 
 
 // Size multiplier. Changed in animationTick() to match the AnimatedValue
+// This is used to make hanmari smaller in non-intro pages.
+// Should not be higher than 1.0, or the model will go out of bounds
 let hanmari_size_multiplier = 1.0;
 
 let hanmari_size_multiplier_AV = new AnimatedValue(hanmari_size_multiplier);
 hanmari_size_multiplier_AV.duration=1.0;
 hanmari_size_multiplier_AV.set_ease(3,true,true);
 
+// This is multiplied with the hanmari_size_multiplier above.
+// This value is only used when the hide model button is clicked.
 let hanmari_size_diminisher_AV = new AnimatedValue(1.0);
 
 
-
+// --l2d-scale CSS variable is needed for proper placement of the buttons
 export function set_hanmari_size(fac){
 	hanmari_size_multiplier_AV.animate_to(fac);
 	l2d_load_overlay.style.setProperty("--l2d-scale",fac);
@@ -360,6 +376,7 @@ export function set_hanmari_size_instant(fac){
 }
 
 // Automatically try to fit the model in the canvas.
+// Make the pivot point (1700,1700) go to the bottom-right corner.
 function auto_resize_model(){
 	if (!is_loaded) return;
 	let w=l2d_container.clientWidth;
@@ -482,6 +499,8 @@ export function playMotion(motion_name,priority=0,requeuable_after=-1){
 	}
 	return false;
 }
+
+// Check if we're playing the idle animation
 function is_idling(){
 	if (!is_loaded) return false;
 	if (!motion_manager.playing) return true;
@@ -490,7 +509,7 @@ function is_idling(){
 }
 
 
-// Play motion, overriding everything.
+// Play motion, overriding everything. No priority or requeue checks are performed.
 // The priority will be reset. 
 export function playMotionNow(motion_name){
 	playing_motion_priority=0;
@@ -502,6 +521,8 @@ export function playMotionNow(motion_name){
 
 // Call with the canvas-local coordinates of the click.
 // Will return true if the collision check succeeded.
+// the _clicked() function will make hanmari react.
+// the _test() function will not produce side effects.
 function canvas_clicked(relX,relY){
 	let canvas_coord_X=l2d_canvas.width*relX;
 	let canvas_coord_Y=l2d_canvas.height*relY;
@@ -534,8 +555,9 @@ function canvas_test(relX,relY){
 	return "";
 }
 
-let last_action;
-let random_action_interval;
+let last_action; // When the last action was performed.
+let random_action_interval; // Time until the next action.
+
 // Call this whenever there's an activity.
 // This will delay the random motion.
 function postpone_random_motion(){
@@ -567,6 +589,7 @@ function hanmari_random_action_check(){
 		if (current_state!=STATE_GROUND) return;
 		let r=Math.random();
 		
+		// Try to sleep if conditions are met
 		if ((seconds_since_last_significant_mouse_movement()>Config.L2D_SLEEP_MINIMUM_TIME_SECONDS) && 
 			(Math.random()<Config.L2D_RANDOM_ACTION_SLEEP_TRANSITION_PROBABILITY))
 				apply_state(STATE_SLEEP);
@@ -579,14 +602,16 @@ function hanmari_random_action_check(){
 	}
 }
 
+// Will be called on page transitions.
+// Hanmari will wake up if sleeping, and random motion postponed otherwise.
 export function wake_hanmari_if_possible(){
 	if(current_state==STATE_SLEEP)
 		apply_state(currently_on_ground?STATE_GROUND:STATE_SKY);
 	postpone_random_motion();
 }
 
+// Click handler
 let click_counter=0;
-// Play special animation if clicked more than 5 times.
 function hanmari_clicked(region){
 	if (current_state==STATE_SKY){
 		temporarily_stare_at_mouse();
@@ -594,9 +619,10 @@ function hanmari_clicked(region){
 	}else if(current_state==STATE_SLEEP){
 		apply_state(currently_on_ground?STATE_GROUND:STATE_SKY);
 	}else if(current_state==STATE_PET){
-		// ignore
+		// When in the petting state, clicking does nothing.
 	}else{
 		if (click_counter>=5){
+			// Play special animation if clicked more than 5 times.
 			playMotion("Annoyed",10,500);
 			click_counter=0;
 		}else if (region=="Body"){
@@ -627,28 +653,37 @@ l2d_canvas.addEventListener("click",hanmari_clicked);
 // since that doesn't prevent any mouse events from reaching other elements.
 window.addEventListener("click",(e)=>{mouse_events_handler(e,true);});
 
-
-const PET_ACCUM_ADD_MULTIPLIER=3.0; // per canvas-relative UV coords
-const PET_ACCUM_DECAY_SPEED=1.0; // per second
-const PET_ACCUM_MAX=1.5;
-const PET_ACCUM_ENTER_THRESH=1.4;
-const PET_ACCUM_EXIT_THRESH=1.0;
-
-let petting_accumulator=0.0;
-
-let last_petting_mouse_position=null;
 // For petting and cursor change
 window.addEventListener("mousemove",(e)=>{mouse_events_handler(e,false);});
 window.addEventListener("mousedown",(e)=>{mouse_events_handler(e,false);});
 window.addEventListener("mouseup",(e)=>{mouse_events_handler(e,false);});
 window.addEventListener("mouseleave",(e)=>{mouse_events_handler(e,false);});
 
+
+// Petting constants
+const PET_ACCUM_ADD_MULTIPLIER=3.0; // per canvas-relative UV coords
+const PET_ACCUM_DECAY_SPEED=1.0; // per second
+const PET_ACCUM_MAX=1.5;
+const PET_ACCUM_ENTER_THRESH=1.4;
+const PET_ACCUM_EXIT_THRESH=1.0;
+
+// The petting accumulator will increase with mouse movement, and decay over time.
+// If the accumulator is over a threshold, hanmari will enter the petting state.
+// And if under a threshold, hanmari will exit the petting state.
+let petting_accumulator=0.0;
+
+let last_petting_mouse_position=null;
+
+
 function mouse_events_handler(e,was_click){
+	// In case we hit an early return, reset the cursor first.
 	wsd.style.cursor="unset";
+	
 	if (!Config.OPTION_ENABLE_L2D_HANMARI) return;
 	if (!PerformanceManager.check_feature_enabled(
 		PerformanceManager.Feature.HANMARI_L2D)) return;
 	if (canvas_hidden) return;
+	
 	let bbox=l2d_canvas.getBoundingClientRect();
 	let localX=e.clientX-bbox.left;
 	let localY=e.clientY-bbox.top;
@@ -656,6 +691,8 @@ function mouse_events_handler(e,was_click){
 	let h=bbox.height;
 	let relativeX=localX/w;
 	let relativeY=localY/h;
+	// relativeX and relativeY is within 0~1 if mouse is within canvas
+	
 	if ((localX>0) && (localX<w) && (localY>0) && (localY<h)) {
 		
 		if (was_click){
@@ -672,6 +709,7 @@ function mouse_events_handler(e,was_click){
 			e.preventDefault();
 		}
 		
+		// Mouse pointer change
 		if (hit=="Head"){
 			if (current_state==STATE_SLEEP) wsd.style.cursor="help";
 			else if (current_state==STATE_PET) wsd.style.cursor="grab";
@@ -686,7 +724,7 @@ function mouse_events_handler(e,was_click){
 		}
 		
 		
-		
+		// Petting logic
 		if (mouse_button_any && (hit=="Head")){ 
 			let mouse_pos_vec = new Vector2(relativeX,relativeY);
 			
@@ -804,6 +842,9 @@ function fmtN(n,d,c){
 // We emulate a 'virtual' mouse from the gyro data.
 let last_virtual_gyro_mouse_coords=Vector2.ZERO;
 
+// TODO this does not work in Safari because safari will not provide
+//   accelerometer/gyroscope data unless we ask for permission.
+
 // Accelerometer is more jerky and needs lerping,
 // but it can have nicer effects as it doesn't drift over time.
 if (Config.L2D_USE_ACCELEROMETER_INSTEAD){
@@ -814,6 +855,7 @@ if (Config.L2D_USE_ACCELEROMETER_INSTEAD){
 		let dt=(t-gyro_last_t)/1000.0;
 		gyro_last_t=t;
 		
+		// We actually only want the gravity, but this will do
 		let x=e.accelerationIncludingGravity.x;
 		let y=e.accelerationIncludingGravity.y;
 		let raw=new Vector2(x,y);
@@ -837,6 +879,8 @@ if (Config.L2D_USE_ACCELEROMETER_INSTEAD){
 	});
 }else{
 	window.addEventListener("deviceorientation",(e) => {
+		// Below code was copied from:
+		//https://stackoverflow.com/questions/69216465/the-simplest-way-to-solve-gimbal-lock-when-using-deviceorientation-events-in-jav#comment138275927_75897568
 		let alpha=e.alpha;
 		let beta = e.beta;
 		let gamma = e.gamma;
@@ -878,6 +922,8 @@ let unifiedEventLastTime=performance.now();
 let rel_mouse_last_position=Vector2.ZERO;
 let virtual_gyro_mouse_last_position=Vector2.ZERO;
 let mouse_gyro_mix_ratio=0.5; // 1 is full gyro. 0 is full mouse.
+
+// This function handles all staring
 function unified_movement_handler(){
 	let delta_mouse=last_canvas_relative_mouse_coords.subtract(rel_mouse_last_position).length();
 	rel_mouse_last_position=last_canvas_relative_mouse_coords;
@@ -896,6 +942,7 @@ function unified_movement_handler(){
 	
 	// No, not THAT crc.
 	// Canvas Relative Coordinates.
+	// Will be 0,0 if mouse is at the center of the canvas.
 	// Calculated by mixing Actual mouse and Virtual gyro mouse
 	let crc = Vector2.ZERO;
 	crc=crc.add(last_canvas_relative_mouse_coords.multiply(1-mouse_gyro_mix_ratio));
@@ -908,11 +955,12 @@ function unified_movement_handler(){
 	let dt=(t-unifiedEventLastTime)/1000;
 	unifiedEventLastTime=t;
 	
-	// Calculate mouse delta
+	// Calculate (virtual) mouse delta
 	let delta = crc.subtract(unifiedPositionLast);
 	unifiedPositionLast=crc;
 	
 	// Calculate distance
+	// Normalized to the screen size
 	let screen_dimension_ballpark=Math.min(window.innerHeight,window.innerWidth);
 	if (!screen_dimension_ballpark) {
 		console.log("Window size invalid");
@@ -977,6 +1025,9 @@ export function set_staring_strength(f){
 	stare_strength=f;
 }
 
+// Below AV will be added to the stare_strength.
+// Used to make hanmari stare at the mouse for a litle while if
+//   clicked while in sky mode.
 let stare_strength_offset = new AnimatedValue(0.0);
 stare_strength_offset.delay=1.5;
 stare_strength_offset.duration=1.0;
@@ -1006,6 +1057,7 @@ export function transition_sky(){
 	apply_state(STATE_SKY);
 }
 
+// Transition to a given state. Automatically play intermediate(transition) animation.
 let current_state=STATE_SKY;
 function apply_state(new_state=null,instant=false){
 	
@@ -1035,7 +1087,8 @@ function apply_state(new_state=null,instant=false){
 	}
 	
 	let new_idle="";
-	
+	// Set the idle animation to the new state
+	//   so it will play when transition is done and will play infinitely
 	if (new_state==STATE_SKY) new_idle="IdleSky";
 	else if (new_state==STATE_GROUND) new_idle="IdleGround";
 	else if (new_state==STATE_PET) new_idle="PettingLoop";
@@ -1079,6 +1132,7 @@ export function animationTick(dt){
 		auto_resize_model();
 	}
 	
+	// Stare at sky or ground
 	stare_strength_offset.tick(dt)
 	let stare_strength_temp=stare_strength+stare_strength_offset.calculate_value();
 	if (stare_strength_temp>1) stare_strength_temp=1.0;
@@ -1090,10 +1144,13 @@ export function animationTick(dt){
 		eye_position_mouse[1]*stare_strength_temp+eye_position_sky[1]*(1-stare_strength_temp)
 	)
 	
+	// Petting detection
 	petting_accumulator-=PET_ACCUM_DECAY_SPEED*dt;
 	if (petting_accumulator>PET_ACCUM_MAX) petting_accumulator=PET_ACCUM_MAX;
 	if (petting_accumulator<0) petting_accumulator=0;
 	debug_print_pet.innerHTML="PetAcc: "+petting_accumulator.toFixed(3);
+	
+	// Petting state transition
 	if ((current_state==STATE_GROUND) && 
 		(petting_accumulator > PET_ACCUM_ENTER_THRESH))
 		apply_state(STATE_PET);
@@ -1101,6 +1158,7 @@ export function animationTick(dt){
 		(petting_accumulator < PET_ACCUM_EXIT_THRESH))
 		apply_state(currently_on_ground?STATE_GROUND:STATE_SKY);
 	
+	// While petting, postpone random motion
 	if (petting_accumulator>PET_ACCUM_ENTER_THRESH) postpone_random_motion();
 	
 	hanmari_random_action_check();
@@ -1113,6 +1171,7 @@ let canvas_hidden=false;
 
 // Hanmari hide/show
 function hide_hanmari(){
+	// Scale down and fade out
 	hanmari_size_diminisher_AV.stop();
 	hanmari_size_diminisher_AV.duration=0.8;
 	hanmari_size_diminisher_AV.set_ease(3,true,false);
@@ -1136,6 +1195,7 @@ function hide_hanmari_instant(){
 	canvas_hidden=true;
 }
 function show_hanmari(){
+	// Scale up while fading in
 	l2d_canvas.style.display="block";
 	canvas_hidden=false;
 	
@@ -1166,6 +1226,7 @@ function show_hanmari_instant(){
 	reset_eye_position();
 }
 
+// Button click listener
 button_hide.addEventListener("click",()=>{
 	button_hide.classList.add("hidden");
 	if (canvas_hidden){

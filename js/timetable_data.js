@@ -1,3 +1,9 @@
+/*
+ * Data used by the timetable.
+ * Manually input.
+ * 
+ */
+
 export let blocks=[
 	{ 
 	"display":true,

@@ -1,4 +1,5 @@
-// Place for globals.
+// Place to store global variables.
+// Right now, it holds darkmode, animated, langmode, and mobilemode flag and listeners.
 
 export let darkmode=null;
 let darkmode_listeners=[];

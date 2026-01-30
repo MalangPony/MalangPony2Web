@@ -10,7 +10,7 @@
 // color_edge: the color of the edge of the glow. Should have an alpha of 0.
 // radius: the base radius of the circle.
 // border_feather: the edge of the circle will be faded by this amount.
-// glor_radius: the radius of the glow.
+// glow_radius: the radius of the glow.
 export function draw_glowing_circle(
     c2d,
     x,y,

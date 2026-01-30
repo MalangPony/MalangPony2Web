@@ -2,10 +2,15 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<!--
+MalangPony 2 Website, mostly written by @SheepPony.
+Sorry (again) for the spaghetti.
+-->
 <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 
 <title>말랑포니2!</title>
 
+<!-- OpenGraph definitions for embeds -->
 <meta property="og:title" content="말랑포니2!" />
 <meta property="og:type" content="website" />
 <!-- TODO: Change below to <?php echo $webroot;?> -->
@@ -13,10 +18,13 @@
 <meta property="og:image" content="https://malangpony.com/image/MPN_LogoV2.1-Two_20260115a_BG+96dpi.png" />
 <meta property="og:description" content="한국의 마이리틀포니 행사, 말랑포니입니다!" />
 
+<!-- Disable mobile scaling -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<!-- Pull in Google Material Icons as a font -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@36,600,0,0&icon_names=2d,3d,arrow_drop_down,arrow_drop_up,arrow_left,arrow_left_alt,arrow_right,arrow_right_alt,check,chevron_line_up,circle,close,code,data_table,delete,download,help,home_pin,keyboard_double_arrow_down,language,layers,layers_clear,link,mail,map_pin_heart,open_in_browser,open_in_new,pause,photo_camera,play_arrow,play_circle,stat_0,swap_horiz,table,undo,unfold_less,unfold_more,visibility_off" />
 
+<!-- All my custom CSS -->
 <link href="css/colors.css" rel="stylesheet" />
 <link href="css/base.css" rel="stylesheet" />
 <link href="css/common.css" rel="stylesheet" />
@@ -37,6 +45,8 @@
 <link href="css/etc.css" rel="stylesheet" />
 
 <!-- Bare minimum amount of styles to display the load screen -->
+<!-- This is so that the load screen will display correctly without waiting -->
+<!--   for all the CSS files to load. -->
 <style>
 #load-screen{
   position:absolute;
@@ -77,11 +87,23 @@
   display:none;
 }
 </style>
-</head>
 
+</head>
 <body>
 <!-- Everything is inside this div. -->
 <div id="whole-screen-div" style="overflow:hidden;position:absolute;inset:0;">
+
+  <!-- Z-Index Allocations:  -->
+  <!-- +105 load-screen      -->
+  <!--  +80 Hanmari          -->
+  <!--  +20 Stickies         -->
+  <!--  +10 content-scroller -->
+  <!-- -992 static           -->
+  <!-- -993 castle           -->
+  <!-- -995 dyntex           -->
+  <!-- -996 fireworks        -->
+  <!-- -998 stars            -->
+  <!-- -999 sky-bg           -->
   
   <!-- This does not actually wait until all resources are loaded   -->
   <!--   and instead gets hidden as soon as all JS is done running. -->
@@ -102,15 +124,16 @@
     })
   </script>
   
+  <!-- L2D Hanmari canvas, buttons, and load indicator. -->
   <div id="master-hanmari-container" class="fullsize" style="z-index:20;pointer-events:none;">
-    
-    <div id="l2d-container" >
+    <div id="l2d-container">
       <div id="l2d-buttons-container">
         <div class="l2d-button" id="l2d-button-hide">
           <span class="material-symbols-rounded" id="l2d-button-hide-off">visibility_off</span>
           <span class="material-symbols-rounded" id="l2d-button-hide-on" style="display:none;">play_circle</span>
         </div>
       </div>
+      
       <div id="l2d-load-overlay">
         <div id="l2d-load-overlay-text">Loading...</div>
         <img class="l2d-load-overlay-image ld-light" src="sprites/HMR_Silhouette_Black.png">
@@ -118,18 +141,18 @@
       </div>
       
       <canvas id="l2d-canvas"></canvas>
-    </div>
-    
-  </div>
+    </div> <!-- #l2d-container -->
+  </div> <!-- #master-hanmari-container -->
+  
+  <!-- All the overlays. -->
   <div id="stickies" class="fullsize" style="z-index:80;pointer-events:none;">
     <!-- Zindex allocation: -->
     <!-- 99 #debug-print-area -->
     <!-- 30 #email-popup -->
-    <!-- 11  #sidebar-animation-container -->
+    <!-- 11 #sidebar-animation-container -->
     <!-- 10 #sidebar-container -->
     <!-- 6  #sb-button-positioner -->
     <!-- 5  #switch-positioner -->
-    
     
     <div id="email-popup" class="fullsize" style="display:none;">
       <div id="email-display-body">
@@ -139,6 +162,7 @@
       </div>
     </div>
     
+    <!-- Only does the spike magic animation. -->
     <div id="sidebar-animation-container" class="sidebar-positioner" style="z-index:11;">
         <div class="sidebar-topspacer"></div>
         <div id="sidebar-intro-anim-positioner" style="display:none;">
@@ -146,6 +170,7 @@
         </div>
     </div>
     
+    <!-- Actual sidebar contents. -->
     <div id="sidebar-container" class="sidebar-positioner" style="z-index:10;">
       <div class="sidebar-topspacer"></div>
       <div id="sidebar" class="css-filters" style="display:none;">
@@ -265,6 +290,7 @@
       </div><!-- #sidebar -->
     </div> <!-- sidebar-positioner -->
     
+    <!-- Top-Right Buttons -->
     <div id="switch-positioner" class="fullsize activated"  style="z-index:5;">
       <div id="animswitch-btn" class="link-button drop-shadow borderless generate-icon activated">
         <span class="lang-ko anim-on">애니메이션 끄기</span>
@@ -284,21 +310,26 @@
       </div>
     </div>
     
+    <!-- Sidebar button shown in mobile mode. -->
+    <!-- The tree is a bit deep because there's a lot of animations laid on top. -->
+    <!-- Check sidebar.css for more details. -->
     <div id="sb-button-positioner" class="fullsize" style="z-index:6;">
-      <div id="sb-btn-outer-animator" style="display:none;"> <!-- Handles fade-in and slide-out animation -->
-        <div id="sb-btn-active-area"> <!-- This is where the click handler is connected to-->
-          <div id="sb-btn-image-container">
+      <div id="sb-btn-outer-animator" style="display:none;"> 
+        <div id="sb-btn-active-area"> 
+          <div id="sb-btn-image-container"> 
             <img id="sb-btn-image" src="sprites/OBJ-002_RESIZE_5PxOutline.png"> 
           </div>
         </div>
       </div>
     </div>
     
+    <!-- The left, right buttons shown only in mobile mode and at the timetable screen. -->
     <div id="timetable-mobile-move-button" class="fullsize" style="z-index:4;display:none;">
       <div id="ttmmb-left" class="material-symbols-rounded">arrow_left</div>
       <div id="ttmmb-right" class="material-symbols-rounded">arrow_right</div>
     </div>
     
+    <!-- Debug overlay. -->
     <div id="debug-print-area" style="display:none;">
       <div id="debug-print-mouse-inactive-timer">-</div>
       <div id="debug-print-virtual-mouse-pos">-</div>
@@ -323,6 +354,8 @@
       <div id="debug-print-features">-</div>
     </div> <!-- #debug-print-area -->
   </div> <!-- #stickies -->
+  
+  <!-- ALL scrollable content, including all page content is here. -->
   <div id="content-scroller">
     
     <!-- 
@@ -336,6 +369,7 @@
       style="height:100lvh;position:absolute;top:0;left:0;right:0;opacity:0.00;background-color:#FFF;">
       ...
     </div>
+    
     <div id="scroll-inviter-container">
       <div id="scroll-inviter">
         <div class="si-arrow material-symbols-rounded">keyboard_double_arrow_down</div>
@@ -345,27 +379,35 @@
       </div>
     </div>
     
+    <!-- Backdrop and all the contents. -->
     <div id="main-content-backdrop" class="css-filters on-intro-page">
+      <!-- The below two divs display a gradient on each side.          -->
+      <!-- While this effect can be done using a simple box-shadow,     -->
+      <!--   this should be a bit more performence-friendly (probably?) -->
       <div id="mcd-shadow-left" class="mcd-shadow"></div>
       <div id="mcd-shadow-right" class="mcd-shadow"></div>
+      
+      <!-- Shown active on the intro screen. Makes sure the user has to scroll a bit. -->
       <div id="screen-blanker"></div>
       
-      
+      <!-- The big logo -->
       <div id="intro-logo">
         <img id="logo-orig" src="sprites/MPN_LogoV2.1-Two_20260115a_NoBG+96dpi_Crop-NoEdits.png" style="z-index:3;opacity:0;">
         <img id="logo-flash01" src="sprites/MPN_LogoV2.1-Two_20260115a_NoBG+96dpi_Crop-EdgeLit.png" style="z-index:2;opacity:0;">
         <img id="logo-base" src="sprites/MPN_LogoV2.1-Two_20260115a_NoBG+96dpi_Crop-Dim.png" style="z-index:1;">
       </div>
       
-      <div id="main-content-actual">
+      <!-- All the individal page contents. -->
+      <div id="main-content-actual"> <!-- Not indented! -->
+      
+      <!-- The small logo shown on the top for non-intro pages -->
       <div id="nonintro-header-content">
         <img id="logo-header" 
             src="sprites/MPN_LogoV2.1-Two_20260115a_NoBG+96dpi_Crop-NoEdits.png">
       </div>
             
-      <div id="pages-container">
+      <div id="pages-container"> <!-- All #page-* -->
         <div id="page-intro" class="page-content">
-
           <div class="page-text-body centered">
             <div class="lang-en" id="intro-mpn2-subtitle">
               MalangPony 2
@@ -589,6 +631,8 @@
             <span class="lang-ko">규칙</span>
           </div>
           
+          <!-- embed the HTML export from gdoc -->
+          <!-- Allow popups because the ruledoc links to a pdf download page -->
           <iframe 
             sandbox="allow-popups-to-escape-sandbox allow-popups" 
             src="documents/20260123a_E_PreProc.html" 
@@ -609,15 +653,7 @@
           </div>
           <div class="page-text-body centered" 
             style="font-size:1.2em; margin-bottom:24px;">
-            
-            <!--
-            <div style="font-weight:700;font-size:1.2em;margin-bottom:0.7em;">
-              <span class="lang-ko">말랑포니 행사 관련 최신 소식입니다.</span>
-              <span class="lang-en">The latest news about the MalangPony event.</span>
-            </div>-->
-            
             <div class="lang-en" style="margin-top:8px;">Updates are also posted on:</div>
-            
             <div class="linkbutton-row centered">
               <a class="link-button color-twitter icon-twitter generate-icon"
                  target="_blank" 
@@ -638,12 +674,8 @@
                 <span class="lang-en">Discord</span>
                 </a>
             </div>
-            
             <div class="lang-ko">에서도 최신 정보를 확인 가능합니다.</div>
-            
-            
-            
-          </div>
+          </div> 
           <div id="bsky-outer" class="embed-frame">
             <bsky-embed 
               username="malangpony.bsky.social"
@@ -680,7 +712,7 @@
           
           <div id="ttable-positioner">
             <div id="ttable-container">
-              <!-- Stuff will be generated by JS here... -->
+              <!-- Stuff will be generated by timetable.js here... -->
             </div>
           </div>
         </div> <!-- #page-timetable -->
@@ -744,29 +776,7 @@
             <div id="map-box-with-padding"></div>
           </div>
           
-          <!--
-          <div class="page-text-body centered" style="margin-top:32px;margin-bottom:16px;">
-            <span class="lang-ko">
-              경로를 
-              <span class="mm-mobile">탭하면</span>
-              <span class="mm-pc">클릭하면</span>
-              지도에 표시됩니다.
-            </span>
-            <span class="lang-en">
-              <span class="mm-mobile">Tap</span>
-              <span class="mm-pc">Click</span>
-              on a route to display on the map.
-            </span>
-          </div>
-          -->
-          
           <div class="card-list-container" id="directions-list">
-            <!--
-            <div class="directions-intercity-divider">
-              <span class="lang-ko">시내교통 이용시</span>
-              <span class="lang-en">Directions inside the city</span>
-            </div>
-            -->
             <div class="card-list-entry clickable" id="directions-munrae">
               <div class="cl-entry-title">
                 <span class="lang-ko">2호선 문래역</span>
@@ -959,6 +969,7 @@
             <span class="lang-en">Here are the mascots of our event!</span>
           </div>
           
+          <!-- The tree here is a bit messy due to the fancy animations. -->
           <div id="mascot-selector">
             <div class="mascot-container hanmari" id="mascot-container-hmr">
               <div class="mascot-label-positioner">
@@ -1343,6 +1354,8 @@
             <span class="lang-en">Map can be scrolled.</span>
             <span class="material-symbols-rounded">arrow_right</span>
           </div>
+          
+          <!-- The internal map, All images and canvas is overlaid to fit the parent div. -->
           <div id="internal-map-scroller">
             <div id="internal-map-container">
               <img class="internal-map-image"
@@ -1788,8 +1801,9 @@
               </div>
             </div>
           </template>
+          
           <div id="faq-container">
-            <!-- To be filled with .faq-entry -->
+            <!-- To be filled with .faq-entry - see faq.js -->
           </div>
           
         </div> <!-- #page-faq -->
@@ -1867,8 +1881,11 @@
           </div>
         </div> <!-- #page-volunteer -->
         
-      </div>
+      </div> <!-- #pages-container -->
+      
+      <!-- Fills up if page is shorter than scren size -->
       <div id="main-content-filler"></div>
+      
       <div id="footer-divider" class="main-content-divider"></div>
       <div id="footer-content">
         <div class="footer-text-contact lang-ko">문의 및 최신 소식:</div>
@@ -1904,18 +1921,19 @@
             class="link-button inline generate-icon icon-code" id="footer-source-link">
             Source Code on GitHub</a>
         </div>
-      </div>
+      </div> <!-- #footer-content -->
       </div> <!-- #main-content-actual -->
-    </div>
-    
-  </div>
+    </div> <!-- #main-content-backdrop -->
+  </div> <!-- #content-scroller -->
+  
+  <!-- Background elements -->
   <div id="staticbg-container" class="fullsize" style="z-index:-992;"></div>
   <div id="castle-container" class="fullsize" style="z-index:-993;"></div>
   <canvas id="canvas-dyntex" class="fullsize" style="z-index:-995;"></canvas>
   <canvas id="canvas-fireworks" class="fullsize" style="z-index:-996;"></canvas>
   <canvas id="canvas-stars" style="position:absolute;left:0;right:0;z-index:-998;"></canvas>
   <div id="sky-bg" style="position:absolute;left:0;right:0;z-index:-999;"></div>
-</div>
+</div> <!-- #whole-screen-div -->
 
 <!-- 3rd party JS libraries -->
 <!-- Using CDN -->
@@ -1952,8 +1970,6 @@ email_popup.addEventListener("click",()=>{email_popup.style.display="none";})
 // For debugging
 let L2D;
 import('./js/l2d.js').then(m => L2D = m);
-let PerformanceManager;
-import('./js/perfmanager.js').then(m => PerformanceManager = m);
 </script>
 
 </body>

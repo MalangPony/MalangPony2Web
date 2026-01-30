@@ -1,8 +1,12 @@
 /*
- * Module for turning on/off website features
+ * Module for dynamically turning on/off website features
  * for differently performant devices.
  */
 
+// Note: Right now this module doesn't really do anything.
+//       The feature level is always locked at FULL, so all features are
+//         permanently on.
+//       You can re-enable by setting .auto_adjust_feature_level to true.
 
 
 // 'Enum' of features that can be turned on/off.

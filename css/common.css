@@ -8,8 +8,6 @@
 }
 
 
-
-
 /* Border for embeds */
 .embed-frame{
   box-shadow: 0 0 16px var(--color-embed-glow-auto);
@@ -17,7 +15,6 @@
   border-radius:16px;
   overflow:hidden;
 }
-
 
 /* 
  * List of card-like entries. 

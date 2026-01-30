@@ -1,11 +1,18 @@
+/*
+ * Generate Registration page's tier list and table.
+ * 
+ * Pulls data from tier_data.js
+ */
+
 import * as TierData from "./tier_data.js";
 
-// Parse all the data above
+// Grab DOM
 const tier_entry_template=document.getElementById("register-tier-entry-template");
 const tier_perk_template=document.getElementById("register-tier-perk-template");
 const tier_list_container=document.getElementById("register-tiers-list");
 const tier_table_container = document.getElementById("register-tiers-table");
 
+// Some data preparation from here on
 const tierid_list=Object.keys(TierData.tiers_data);
 const perkid_list=Object.keys(TierData.perks_data);
 const len_tiers=Object.keys(TierData.tiers_data).length;
@@ -25,6 +32,7 @@ for (const tier_id in TierData.tiers_data){
 	// OOP programmer try not to use inheritance relationship in their code challenge (IMPOSSIBLE)
 	let tier_inheritance_chain=[]; //[0] is the root. [-1] is the current tier.
 	let perk_overwrite_map={}; // k gets overwritten by v
+	
 	let tier_ptr=tier_id;
 	while (tier_ptr){
 		tier_inheritance_chain.unshift(tier_ptr);
@@ -54,6 +62,8 @@ for (const tier_id in TierData.tiers_data){
 	}
 }
 
+// Generate tier list
+// It's just filling in data, not too complicated...
 for (const tier_id in TierData.tiers_data){
 	let tier_data=TierData.tiers_data[tier_id];
 	let tier_dom = tier_entry_template.content.cloneNode(true);
@@ -90,7 +100,6 @@ for (const tier_id in TierData.tiers_data){
 	let reg_button_div = tier_dom.querySelector(".register-tier-button");
 	for (const dom of reg_button_div.children){
 		if (dom.classList.contains("reg-button-"+tier_data.reg_button_class)){
-			
 		}else{
 			dom.style.display="none";
 		}
@@ -112,30 +121,21 @@ for (const tier_id in TierData.tiers_data){
 	}
 	
 	
+	// Perks list is a bit more involved because we need to take
+	//   inheritance into account.
 	let perks_list_dom=tier_dom.querySelector(".register-tier-perks-list");
 	// Walk down the inheritance chain.
 	for (const inherited_tid of tier_inheritance_chain){
 		let inherited_tdata = TierData.tiers_data[inherited_tid];
 		
-		
 		if ((tier_inheritance_chain.length>1) && (inherited_tid === tier_id)){
 			// This is the original tier, not inherited.
-			/*
-			let perk_inherit_divider = document.createElement("div");
-			perk_inherit_divider.classList.add(inherited_tdata.css_class);
-			perk_inherit_divider.classList.add("register-tier-perks-inherit-divider");
-			perk_inherit_divider.innerHTML="+";
-			perks_list_dom.appendChild(perk_inherit_divider);*/
 			let perk_inherit_marker = document.createElement("div");
 			perk_inherit_marker.classList.add(inherited_tdata.css_class);
 			perk_inherit_marker.classList.add("register-tier-perks-inherit-marker");
 			perk_inherit_marker.innerHTML="+";
 			perks_list_dom.appendChild(perk_inherit_marker);
 		}
-		/*
-		let perks_row_dom=document.createElement("div");
-		perks_row_dom.classList.add("register-tier-perks-row");
-		*/
 		
 		for( const perk_id of inherited_tdata.perks_list ){
 			let perk_dom = tier_perk_template.content.cloneNode(true);
@@ -152,13 +152,6 @@ for (const tier_id in TierData.tiers_data){
 			if (!desc_ko) desc_ko="설명 설명 설명...";
 			if (!desc_en) desc_en="Explanation goes here...";
 			
-			/*
-			if (!exr) {
-				desc_ko="";
-				desc_en="";
-			}*/
-			
-			
 			let overwritten_by=perk_overwrite_map[perk_id];
 			if (overwritten_by){
 				perk_dom.querySelector(".register-tier-perk").classList.add("perk-overwritten");
@@ -171,7 +164,6 @@ for (const tier_id in TierData.tiers_data){
 			perk_dom.querySelector(".perk-detail .lang-en").innerHTML=
 				desc_en;
 			
-			
 			if (inherited_tid !== tier_id){
 				perk_dom.querySelector(".register-tier-perk").classList.add("perk-inherited");
 			}
@@ -179,12 +171,9 @@ for (const tier_id in TierData.tiers_data){
 			perk_dom.querySelector(".register-tier-perk").classList.add(
 				inherited_tdata.css_class);
 			
-			//perks_row_dom.appendChild(perk_dom);
 			perks_list_dom.appendChild(perk_dom);
 		}
-		//perks_list_dom.appendChild(perks_row_dom);
 	}
-	
 	
 	perks_list_dom.addEventListener("click",()=>{
 		tier_dom_inner.classList.toggle("tier-detail-mode");
@@ -193,6 +182,7 @@ for (const tier_id in TierData.tiers_data){
 	tier_list_container.appendChild(tier_dom);
 }
 
+// Go into narrow mode if <500px
 let rsl=new ResizeObserver(()=>{
 	if (tier_list_container.clientWidth<500) tier_list_container.classList.add("narrow");
 	else tier_list_container.classList.remove("narrow");
@@ -200,6 +190,7 @@ let rsl=new ResizeObserver(()=>{
 });
 rsl.observe(tier_list_container);
 
+// This is run on page exit.
 export function close_all_tierboxes(){
 	let entries=document.querySelectorAll(".register-tier-entry");
 	for (const dom of entries){
@@ -208,9 +199,12 @@ export function close_all_tierboxes(){
 }
 
 
+// Tier comparison table from here on
+
 // List of cell DOMs, indexed by row and cols
 let cell_dom_list_by_tier={};
 let cell_dom_list_by_perk={};
+
 let all_cell_doms=[];
 for (const tier_id in TierData.tiers_data) cell_dom_list_by_tier[tier_id]=[];
 for (const perk_id in TierData.perks_data) cell_dom_list_by_perk[perk_id]=[];
@@ -218,9 +212,11 @@ let tier_header_doms={};
 let perk_header_doms={};
 let desc_containers_by_perk={};
 
+// Focus on a row & column. Both can be nullable.
 function set_focus(tier_id=null,perk_id=null){
 	if (tier_id==null && perk_id==null){
 		// Clear all focuses
+		
 		for (const dom of all_cell_doms) dom.classList.remove("unfocused");
 		
 		for (const p in desc_containers_by_perk) 
@@ -228,6 +224,7 @@ function set_focus(tier_id=null,perk_id=null){
 		
 	}else if(tier_id==null){
 		// Selected a perk
+		
 		for (const dom of all_cell_doms) dom.classList.add("unfocused");
 		// focus on current perk
 		for (const dom of cell_dom_list_by_perk[perk_id])
@@ -245,6 +242,7 @@ function set_focus(tier_id=null,perk_id=null){
 		
 	}else if(perk_id==null){
 		// Selected a tier
+		
 		for (const dom of all_cell_doms) dom.classList.add("unfocused");
 		// focus on current tier
 		for (const dom of cell_dom_list_by_tier[tier_id])
@@ -260,11 +258,11 @@ function set_focus(tier_id=null,perk_id=null){
 			if (dc!==undefined){
 				dc.classList.remove("unfocused");
 			}
-			
 		}
 		
 	}else{
 		// Focus on a cell
+		
 		for (const dom of all_cell_doms) dom.classList.add("unfocused");
 		for (const dom of cell_dom_list_by_tier[tier_id])
 			dom.classList.remove("unfocused");
@@ -279,15 +277,10 @@ function set_focus(tier_id=null,perk_id=null){
 		}
 	}
 	
-	/*
-	for (const p in desc_containers_by_perk) 
-		desc_containers_by_perk[p].classList.remove("expanded");
-	if (perk_id !== null){
-		desc_containers_by_perk[perk_id].classList.add("expanded");
-	}*/	
 }
 
-
+// Actual table generation.
+// Mostly tedius DOM manipulation. Probably should've just used <template>
 let table=document.createElement("table");
 table.classList.add("tier-table");
 
@@ -299,6 +292,7 @@ table.classList.add("tier-table-corner-cell");
 header_row.appendChild(corner_cell);
 all_cell_doms.push(corner_cell);
 
+// Header generation
 for (const tier_id in TierData.tiers_data){
 	let cell = document.createElement("th");
 	cell.classList.add("tier-table-header-cell");
@@ -358,6 +352,7 @@ for (const tier_id in TierData.tiers_data){
 }
 table.appendChild(header_row);
 
+// Row generation
 for (const perk_id in TierData.perks_data){
 	let row = document.createElement("tr");
 	row.classList.add("tier-table-data-row");
@@ -397,8 +392,6 @@ for (const perk_id in TierData.perks_data){
 	perk_name_inner_text.classList.add("tier-table-perk-name-inner-text");
 	perk_name_inner.appendChild(perk_name_inner_text);
 	
-	
-	
 	let perk_name_ko=document.createElement("span");
 	perk_name_ko.classList.add("lang-ko");
 	perk_name_ko.innerHTML=TierData.perks_data[perk_id].name_ko;
@@ -419,11 +412,11 @@ for (const perk_id in TierData.perks_data){
 			cell.setAttribute("rowspan",2);
 		}
 		
-		
 		let cell_inner = document.createElement("div");
 		cell_inner.classList.add("tier-table-boolean-cell-inner");
 		cell_inner.classList.add("unfocus-able");
 		cell_inner.classList.add("cell-inner-div");
+		
 		// O(n) operation inside a double for loop... ehh whatever
 		let perk_included=tier_to_all_perks[tier_id].includes(perk_id)
 		if (perk_included){
@@ -457,7 +450,6 @@ for (const perk_id in TierData.perks_data){
 		
 		let desc_cell = document.createElement("td");
 		desc_cell.classList.add("tier-table-explain-cell");
-		//desc_cell.setAttribute("colspan",1+len_tiers);
 		cell_dom_list_by_perk[perk_id].push(desc_cell);
 		all_cell_doms.push(desc_cell);
 		desc_containers_by_perk[perk_id]=desc_cell;
@@ -506,9 +498,6 @@ for (const perk_id in TierData.perks_data){
 			}
 		});
 	}
-	
-	
-	
 }
 tier_table_container.appendChild(table);
 

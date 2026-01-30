@@ -30,7 +30,6 @@ export let page_to_background_id={
 };
 
 
-/* All images are fit to height. */
 export let background_definitions={
 	nothing:{
 		base_image:"",

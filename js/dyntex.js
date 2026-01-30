@@ -1,6 +1,8 @@
 /*
- * BG Dynamic Texture
- * The pretty triangles.
+ * BG DYNamic TEXture
+ * aka, the pretty triangles.
+ * 
+ * Generates a random mesh-like graphic using delaunay triangulation.
  */
 
 // Module imports
@@ -250,7 +252,7 @@ export function animationTick(dt){
 	for (const wp of wpoints)
 		wp.tick(dt);
 	
-	
+	// Tick all TVFs
 	for (const tvf of triangle_visiblity_factors) 
 		tvf.tick(dt);
 	

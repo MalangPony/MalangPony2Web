@@ -1,8 +1,14 @@
+/*
+ * Handles the non-castle static backgrounds + the side images
+ * 
+ * Pulls data from background_data.js
+ */
+
 import { AnimatedValue } from "./animator.js";
 import * as BackgroundData from "./background_data.js";
 import * as Config  from "./config.js";
 
-
+// Top container
 let bg_container=document.getElementById("staticbg-container");
 
 let active=true;
@@ -12,12 +18,15 @@ export function set_active(b){
 	else bg_container.style.display="block";
 }
 
+// The side images will be hidden under this threshold.
 const LR_IMAGE_WIDTH_THRESHOLD=Config.SCREEN_MINWIDTH_FOR_STATICBG_LR_IMAGE;
 
 let lr_image_active=(bg_container.clientWidth>LR_IMAGE_WIDTH_THRESHOLD);
 let screen_resize_observer = new ResizeObserver(()=>{
 	let w=bg_container.clientWidth;
 	if (lr_image_active && (w<LR_IMAGE_WIDTH_THRESHOLD)){
+		// Need to hide image.
+		// Don't bother animating if the layer is not visible.
 		for (const bgid in BackgroundData.background_definitions){
 			 if (bgid===currently_active_image){
 				animations[bgid].anim_out(0,500);
@@ -28,6 +37,7 @@ let screen_resize_observer = new ResizeObserver(()=>{
 		lr_image_active=false;
 	}
 	if ((!lr_image_active) && (w>LR_IMAGE_WIDTH_THRESHOLD)){
+		// Need to show image
 		for (const bgid in BackgroundData.background_definitions){
 			 if (bgid===currently_active_image){
 				animations[bgid].anim_in(0,500);
@@ -40,10 +50,13 @@ let screen_resize_observer = new ResizeObserver(()=>{
 });
 screen_resize_observer.observe(bg_container);
 
+
 let currently_active_image="";
 
 let image_doms={};
 let animations={};
+// BG layer generation.
+// Boring DOM setup.
 for (const bgid in BackgroundData.background_definitions){
 	let bgdef=BackgroundData.background_definitions[bgid];
 	
@@ -113,6 +126,7 @@ for (const bgid in BackgroundData.background_definitions){
 	
 	bg_container.appendChild(bg_scene);
 	
+	// Animate the side images in
 	function animate_in(delay,duration){
 		if (bg_left){
 			let left=bg_left.animate(
@@ -135,6 +149,7 @@ for (const bgid in BackgroundData.background_definitions){
 			};
 		}
 	}
+	// Animate the side images out
 	function animate_out(delay,duration){
 		if (bg_left){
 			let left=bg_left.animate(
@@ -151,6 +166,7 @@ for (const bgid in BackgroundData.background_definitions){
 			right.onfinish=()=>{bg_right.style.opacity=0;};
 		}
 	}
+	// Bring in/out the side images without animation
 	function jump_in(){
 		if (bg_left){
 			bg_left.style.left=0;
@@ -177,6 +193,7 @@ for (const bgid in BackgroundData.background_definitions){
 }
 
 // Preload base images
+// Without this, we may get flickering on BG transition.
 // This only works some of the time, but better than nothing, I guess
 let preloaded_image_objects=[];
 for (const bgid in BackgroundData.background_definitions){
@@ -191,6 +208,7 @@ for (const bgid in BackgroundData.background_definitions){
 export function activate_page_bg(pageid,delay,duration){
 	activate_img(BackgroundData.page_to_background_id[pageid],delay,duration);
 }
+
 // Call with target_src="" to clear image.
 function activate_img(target_bgid,delay,duration){
 	if (target_bgid===currently_active_image) return;
@@ -238,6 +256,7 @@ function activate_img(target_bgid,delay,duration){
 			if (lr_image_active)
 				animations[bgid].anim_out(delay,duration/2);
 		} else{
+			// Image that does not partake in this transition.
 			img.style.display="none";
 		}
 	}
@@ -247,6 +266,7 @@ function activate_img(target_bgid,delay,duration){
 export function activate_page_bg_instant(pageid){
 	activate_img_instant(BackgroundData.page_to_background_id[pageid]);
 }
+
 // Call with target_src="" to clear image.
 function activate_img_instant(target_bgid){
 	if (target_bgid===currently_active_image) return;

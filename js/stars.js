@@ -104,7 +104,6 @@ function resize_star_area(new_w,new_h){
 
 let scroll_offset = Config.OPTION_INTRO_SKY_SCROLL_AMOUNT;
 
-
 // This should be called from the main JS file.
 export function set_scroll_progress(f){
   stars_scroll_pixels=f*scroll_offset;
@@ -144,7 +143,6 @@ function refresh_stars_canvas(dt){
     // Clear canvas.
     sc2d.clearRect(0,0,w,h);
     
-    
     // Draw all the stars.
     // The stars flicker in a sine wave.
     for (const sd of star_definitions){
@@ -167,10 +165,9 @@ function refresh_stars_canvas(dt){
     }
   }
   
+  // Scroll. Move the whole canvas.
   canvas_stars.style.top="-"+stars_scroll_pixels+"px";
   canvas_stars.style.height=""+targetSizeH+"px";
-  //console.log(`canvas_stars ${stars_scroll_pixels} ${targetSizeH}`);
-  
   
   debug_print_stars.innerHTML="Stars x"+star_definitions.length+(animated?" (Animated)":" (Static)");
 }

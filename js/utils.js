@@ -4,7 +4,7 @@
  */
 
 
-//Calculates FPS.
+// Keep track of FPS.
 export class FPS_Counter{
 	history_window_seconds=30;
 	frame_times_ms=[];
@@ -44,7 +44,6 @@ export class FPS_Counter{
 	fps_10sec(){
 		return this.calculate_fps(10000);
 	}
-	
 }
 
 export function linear_map(input_min,input_max,x,out_min,out_max,clamp=true){

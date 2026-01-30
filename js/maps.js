@@ -1,6 +1,7 @@
 /*
  * Handles all KakaoMap logic.
  * 
+ * Refer to the KakaoMap API docs for information.
  */
 
 import * as MapData from "./map_data.js";
@@ -27,6 +28,7 @@ let box_with_padding = document.getElementById('map-box-with-padding');
 let mbj=document.getElementById("map-btn-jump");
 let button_erase=document.getElementById("map-btn-erase");
 
+// Some convenience functions
 function array_to_latlng(a){
   return new kakao.maps.LatLng(a[0], a[1]); 
 }
@@ -86,6 +88,7 @@ var placeLabel = new kakao.maps.CustomOverlay({
     yAnchor: 0.0,
     zIndex:4
 });
+
 
 // Route functions
 
@@ -230,8 +233,11 @@ let routes={
   }
 };
 
+// Automatically set up all routes and flashing animations
 for (const k in routes){
   let route=routes[k];
+  
+  // Setup polyline
   route.polyline=new kakao.maps.Polyline({
     path:convert_to_polyline_path(route.points),
     strokeOpacity:0.7,
@@ -239,6 +245,7 @@ for (const k in routes){
     strokeStyle:"dashed",
     strokeWeight:4,
   });
+  
   if (route.shown_by_default){
     route.polyline.setMap(kkm)
     route.shown=true;
@@ -246,6 +253,8 @@ for (const k in routes){
   }else{
     route.shown=false;
   }
+  
+  // On click, zoom to polyline and flash route and show waypoint
   route.bounds=calculate_polyline_bounds(route.polyline);
   route.focus_button.addEventListener("click",()=>{
     for (const otherK in routes){
@@ -270,8 +279,11 @@ for (const k in routes){
     
     button_erase.classList.remove("hidden");
   });
+  
+  // Contains all waypoint overlays
   route.wp_overlays=[];
   
+  // Setup waypoints
   for (const wp of route.waypoints){
     let topalign=!!wp.topalign; // Convert undefined to false
     let overlay_content="";
@@ -297,6 +309,7 @@ for (const k in routes){
   }
 }
 
+// Erase Route button
 button_erase.addEventListener("click",()=>{
   for (const k in routes){
     let route=routes[k];
@@ -307,7 +320,9 @@ button_erase.addEventListener("click",()=>{
   button_erase.classList.add("hidden");
 });
 
-/* ZL>7 not shown
+/* 
+ * Hanmari/Leebyeori drawings
+ * ZL>7 not shown
  * ZL=7 not shown
  * ZL=6 small
  * ZL=5 medium
@@ -384,7 +399,7 @@ var drawing2 = new kakao.maps.CustomOverlay({
 });
 
 
-// Markers of previous locations
+// Markers of previous locations. MPN1, MPNL
 function generate_previous_marker_content(desc_en,desc_ko,date,src,compact){
   let previous_marker_content="";
   if (compact)
@@ -519,7 +534,7 @@ function zoom_change(){
     marker_mpnL.setContent(marker_mpnL_content_expanded);
   }
 
-  placeLabel.setVisible( (zl>4.5) && (zl<6.5) ); //Onlt ZL=5,6
+  placeLabel.setVisible( (zl>4.5) && (zl<6.5) ); //Only show on ZL=5,6
   
   for (const k in routes){
     let route=routes[k];
@@ -546,14 +561,10 @@ Global.add_lang_listener(()=>{
     let route=routes[k];
     for (const wpo of route.wp_overlays){
       if (route.shown) {
-        //wpo.setMap(null);
-        //wpo.setMap(kkm);
         wpo.setContent(wpo.getContent());
       }
     }
   }
-  //placeLabel.setMap(null);
-  //placeLabel.setMap(kkm);
   placeLabel.setContent(placeLabel.getContent());
 });
 

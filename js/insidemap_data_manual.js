@@ -1,3 +1,7 @@
+// Data for the internal map.
+// This data is manually input.
+
+// Zones. The actual boundaries are defined over at insidemap_data_auto.js
 export const zone_data={
   entrance:{
     name_ko:"입구",
@@ -137,7 +141,7 @@ export const zone_data={
   },
 };
 
-
+// Categories. Defines the colors.
 export let category_data={
   base:{
     color_light:"#000",

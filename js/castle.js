@@ -1,4 +1,5 @@
-/* Castle Background */
+/* Handles the scrolling parallax castle at the intro page */
+
 import { Vector2, Vector3 } from "./vectors.js";
 import * as Config from "./config.js";
 
@@ -128,7 +129,6 @@ for (const layer_name in castle_layers){
 	img.src="/backgrounds/castle/"+layer.filename;
 	img.style.position="absolute";
 	img.style.zIndex=layer.layer_order;
-	//img.style.top=0;
 	img.style.bottom=layer.bottomPercentage+"%";
 	img.style.left=layer.leftPercentage+"%";
 	img.style.width=layer.widthPercentage+"%";
@@ -206,7 +206,6 @@ export function report_scroll_progress(current,maximum){
 	else if (ratio<fade_end) layers_parent.style.opacity=(ratio-fade_start)/(fade_end-fade_start)
 	else layers_parent.style.opacity=1.0;
 	
-	//let yHeight=maximum-current;
 	let yHeightMax=(layers_parent.clientHeight-castle_container.clientHeight)/(1-fade_start);
 	
 	// Don't scroll backwards
@@ -236,6 +235,7 @@ export function report_scroll_progress(current,maximum){
 
 report_scroll_progress(0,100); // Just to hide the castle
 
+// Zoom parameters of the intro page, scrolled down
 function calculate_out_parameters(){
 	let containerW=current_containerW;
 	let containerH=current_containerH;
@@ -247,6 +247,8 @@ function calculate_out_parameters(){
 		width:targetW
 	};
 }
+
+// Zoom parameters of animation end, zoomed into the door
 function calculate_zoom_parameters(){
 	let containerW=current_containerW;
 	let containerH=current_containerH;
@@ -278,6 +280,7 @@ let better_ease_out="cubic-bezier(0, 0.7, 0.3, 1)";
 let better_ease_in="cubic-bezier(0.7, 0, 1, 0.3)";
 let better_ease_inout="cubic-bezier(0.7, 0, 0.3, 1.0)";
 
+// Animate layers_parent from current state to a given zoom parameter. 
 function animate_transform_to(toP,delay,duration,ease,callback){
 	let anim_zoom=layers_parent.animate([
 			{ 
@@ -304,6 +307,7 @@ function animate_transform_to(toP,delay,duration,ease,callback){
 	};
 }
 
+// Animate layers_parent from and to the given zoom parameter.
 function animate_transform(fromP,toP,delay,duration,ease,callback){
 	let anim_zoom=layers_parent.animate([
 			{ 
@@ -334,6 +338,8 @@ export function enter_instant(){
 	whiteout.style.display="block";
 	layers_parent.style.display="none";
 }
+
+// Open the gates and enter the castle. Should be completely white at the end.
 export function enter_animation(delay,finished_callback){
 	
 	let anim_bars=castle_layers.door_bars.dom.animate([
@@ -400,6 +406,8 @@ export function enter_animation(delay,finished_callback){
 	
 	return 1500;
 }
+
+// Exit the castle and close the gates. 
 export function exit_animation(delay,finished_callback){
 	
 	whiteout.style.opacity=1;

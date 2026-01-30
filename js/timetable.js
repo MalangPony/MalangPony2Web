@@ -1,5 +1,7 @@
 /*
- * Generates timetable from the JSON data.
+ * Generates the timetable page.
+ * 
+ * Pulls data from timetable_data.js
  * 
  */
 
@@ -8,6 +10,7 @@ import * as Utils from "./utils.js";
 import * as TimetableData from "./timetable_data.js";
 import * as Global from "./global.js";
 
+// Grab DOM
 const wsd = document.getElementById("whole-screen-div");
 
 const timetable_container = document.getElementById("ttable-container");
@@ -16,6 +19,7 @@ const timetable_positoner = document.getElementById("ttable-positioner");
 const ttmmbL=document.getElementById("ttmmb-left");
 const ttmmbR=document.getElementById("ttmmb-right");
 const buttons_container = document.getElementById("timetable-mobile-move-button");
+
 
 let in_timetable_page=false;
 
@@ -34,7 +38,7 @@ function parse_time(s){
 }
 
 
-// Timetable UI constants.
+// Timetable UI constants. In px units.
 const tt_start_t=parse_time("8:20");
 const tt_block_gap_x=2;
 const tt_block_gap_y=-1;
@@ -49,13 +53,14 @@ const tt_block_expanded_width=260;
 const tt_block_padding_lr=8;
 const tt_block_y_offset=-2;
 
-// For scalibilty, all units should be in em.
+// In the actual CSS, all units are in em.
+// This makes it so the timetable can be freely scaled up and down,
+//   which is essential for making the table fit the page.
+
 // Converts px values to em.
 function px2em(p){
 	return (p/16)+"em";
 }
-
-let cgroup_centers=[];
 
 
 let domroot=document.createElement("div");
@@ -79,6 +84,7 @@ let column_widths={};
 let column_expand_direction={};
 
 let columns_to_cgroups={};
+let cgroup_centers=[];
 
 let cgroup_left={};
 let cgroup_right={};
@@ -89,11 +95,11 @@ let max_x=0;
 let max_y=0;
 
 // Pre-parse data
+// The X-coordinates for each column are accumulated and calculated here.
 for (const cg of cgroups){
 	cgroup_left[cg.name] =+1000000;
 	cgroup_right[cg.name]=-1000000;
 }
-
 for (const col of columns){
 	if (col.type=="spacer") x+=col.width;
 	else if (col.type=="location"){
@@ -123,6 +129,7 @@ for (const col of columns){
 	if (x>max_x) max_x=x;
 }
 
+// Column-group centers. Used in mobile mode.
 let cgs_to_cgroup_name={};
 for (const cg of cgroups){
 	let cgc=(cgroup_left[cg.name]+cgroup_right[cg.name])/2;
@@ -145,7 +152,7 @@ for(const cp of cpresets){
 	* 51 Column groups text
 	* 
 	* 70 Blocks
-	* 80 Popup
+	* 81 Popup
 	*/
 
 // Block close functions for currently open blocks
@@ -162,7 +169,7 @@ Global.add_mobile_listener(()=>{
 
 
 // DOM Elements
-let all_blocks=[]; //K:
+let all_blocks=[];
 let all_ticks={}; // K:Minutes V:DOM
 let all_cgroups={}; // K:Name V:DOM
 
@@ -189,6 +196,7 @@ for (const block of blocks){
 	let bg_color=color_preset_raw.color;
 	let expand_direction=column_expand_direction[block.column];
 	
+	// Font size
 	let font_size_multiplier_en=1.0;
 	let font_size_multiplier_ko=1.0;
 	if (block.font_size_multiplier){
@@ -202,7 +210,6 @@ for (const block of blocks){
 		font_size_multiplier_ko=block.font_size_multiplier_ko;
 	}
 	
-	
 	let padding_override_px=null;
 	if (block.padding_override_px){
 		padding_override_px=block.padding_override_px;
@@ -211,7 +218,6 @@ for (const block of blocks){
 	let colgroup=columns_to_cgroups[block.column];
 	let cg_left=cgroup_left[colgroup];
 	let cg_right=cgroup_right[colgroup];
-	//console.log(`BLK CL${block.column} CGL${colgroup} CL${cg_left} CR${cg_right}`);
 	
 	// DOM Elements: Block
 	let block_dom=document.createElement("div");
@@ -240,8 +246,6 @@ for (const block of blocks){
 	close_svg.classList.add("timetable-popup-close-svg");
 	closebtn_dom.appendChild(close_svg);
 	popup_dom.appendChild(closebtn_dom);
-	
-	
 	
 	let popup_content_dom=document.createElement("div");
 	popup_content_dom.classList.add("timetable-popup-content-container");
@@ -282,9 +286,7 @@ for (const block of blocks){
 	info_text_dom_en.innerHTML=block.description_en;
 	popup_content_dom.appendChild(info_text_dom_en);
 	
-	
-	
-	// Connecting
+	// Connecting to another block
 	let connecting={"T":false,"B":false,"R":false,"L":false};
 	if ("connecting" in block){
 		for (const c of block["connecting"]){
@@ -316,6 +318,7 @@ for (const block of blocks){
 		w-=tt_block_gap_x;
 	}
 	
+	// Position the block
 	block_dom.style.position="absolute";
 	block_dom.style.zIndex=+70;
 	block_dom.style.top=px2em(y);
@@ -331,12 +334,12 @@ for (const block of blocks){
 		block_dom.style.paddingRight=px2em(tt_block_padding_lr);
 	}
 	
-	
+	// The 'rail' where the popup can slide in.
 	popup_rail.style.position="absolute";
 	popup_rail.style.zIndex=+80;
-	
 	popup_rail.style.display="none";
 	
+	// Popup is sticky
 	popup_dom.style.position="sticky";
 	popup_dom.style.zIndex=+81;
 	popup_dom.style.top=px2em(40);
@@ -353,6 +356,7 @@ for (const block of blocks){
 	let rel_start_time_gapped=(y-tt_cg_top_extension)/tt_px_per_minute;
 	let rel_end_time_gapped=(y+h-tt_cg_top_extension)/tt_px_per_minute;
 	
+	// Expansion/Close handlers
 	let expanded=false;
 	let transition_in_progress=false;
 	function exit(){
@@ -382,6 +386,7 @@ for (const block of blocks){
 			b.classList.remove("defocus");
 		}
 		
+		// Restore on-hour ticks and hide all else
 		for (const tt in all_ticks){
 			if (tt%60!=0) all_ticks[tt].classList.add("hidden");
 			else all_ticks[tt].classList.remove("hidden");
@@ -400,17 +405,16 @@ for (const block of blocks){
 		
 		expanded=true;
 		
+		// Calculate where the popup should go
 		let popup_width=null;
 		let popup_center=null;
 		let popup_yoffset=0;
 		let popup_rail_height=null;
-		
 		if (Global.mobile){
 			popup_yoffset=Math.min(h,200);
 			
 			let cg_width=cg_right-cg_left;
 			
-			//popup_width=Math.max(cg_width-16,240);
 			popup_width=240;
 			popup_center=(cg_right+cg_left)/2.0;
 		}else{
@@ -436,6 +440,7 @@ for (const block of blocks){
 		popup_dom.style.display="block";
 		popup_rail.style.display="block";
 		
+		
 		transition_in_progress=true;
 		let anim=popup_dom.animate(
 			[{ opacity: "0.0" },{ opacity: "1.0" }],
@@ -454,27 +459,25 @@ for (const block of blocks){
 			else b.classList.add("defocus");
 		}
 		
+		// Show only ticks for start and end time of current block
 		for (const tt in all_ticks){
 			if ((tt==start_time) || (tt==end_time))
 				all_ticks[tt].classList.remove("hidden");
 			else all_ticks[tt].classList.add("hidden");
 		}
 		
+		// defocus all other column groups
 		for (const cgn in all_cgroups){
 			if (cgn==colgroup)
 				all_cgroups[cgn].classList.remove("defocus");
 			else
 				all_cgroups[cgn].classList.add("defocus");
 		}
-		
 	}
 	
 	
 	block_dom.style.cursor="pointer";
-	block_dom.addEventListener("mouseleave",()=>{
-	});
-	block_dom.addEventListener("mouseenter",()=>{
-	});
+	// Close all other blocks before entering a block
 	block_dom.addEventListener("click",()=>{
 		while (exit_functions.length>0) exit_functions.pop()();
 		exit_functions.push(exit);
@@ -524,9 +527,9 @@ for (const block of blocks){
 		block_dom.style.borderBottomRightRadius = radius;
 	}
 	
+	// This is used in the vendor block only.
+	// Fills the block with a sharp gradient.
 	if ("color_list" in color_preset_raw){
-		//console.log("CPR-CL",color_preset_raw.color_list)
-		//console.log("CPR-CTM",color_preset_raw.color_transition_minutes)
 		let visual_duration=rel_end_time_gapped-rel_start_time_gapped;
 		let start_time_visual = rel_start_time_gapped
 		let stops=[];
@@ -547,11 +550,9 @@ for (const block of blocks){
 			gradient_def=gradient_def+" "+highstop;
 		}
 		gradient_def=gradient_def+")";
-		//console.log("GDEF",gradient_def);
 		block_dom.style.backgroundImage=gradient_def;
 	}else{
 		block_dom.style.backgroundColor=bg_color;
-		
 	}
 	
 	if (vertical){
@@ -565,6 +566,7 @@ for (const block of blocks){
 // time_ticks are where the blocks line up,
 // But putting lines only there looks kinda weird.
 // So we just populate it manually at 1-hour intervals.
+// It's a Set, so don't worry about duplicates.
 for (let i=9;i<24;i++){
 	time_ticks.add(60*i);
 }
@@ -677,19 +679,16 @@ for (const cg of cgroups){
 
 max_y=Math.max(max_y,max_y+tt_cg_bottom_extension);
 
+
 // Need to do this in order for the root DOM to actually
 // contain all the timetable.
 domroot.style.width=px2em(max_x);
 domroot.style.height=px2em(max_y);
-//domroot.style.border="1px solid #F0F";
 
 timetable_container.appendChild(domroot);
 
-let cgroup_index=0;
 
-Global.add_mobile_listener(()=>{
-	update_styles();
-});
+
 export function enter_timetable_page(){
 	in_timetable_page=true;
 	update_styles();
@@ -699,6 +698,16 @@ export function exit_timetable_page(){
 	update_styles();
 	close_all_timetable_blocks();
 }
+
+
+// Mobile logic from here on
+let cgroup_index=0;
+
+Global.add_mobile_listener(()=>{
+	update_styles();
+});
+
+// Update timetable size and position and buttons
 function update_styles(){
 	let active = in_timetable_page && Global.mobile;
 	if (!active) buttons_container.style.display="none";
@@ -713,32 +722,13 @@ function update_styles(){
 			let positioner_center_px=positioner_width/2;
 			
 			let margin=`calc(${positioner_center_px}px - ${cgroup_center_em})`;
-			//console.log(margin);
 			timetable_container.style.marginLeft=margin;
 			
 			if (cgroup_index===(cgroup_centers.length-1)) ttmmbR.classList.add("disabled");
 			else ttmmbR.classList.remove("disabled");
 			if (cgroup_index===0) ttmmbL.classList.add("disabled");
 			else ttmmbL.classList.remove("disabled");
-			
-			/*
-			let focused_cgroup=cgs_to_cgroup_name[cgroup_center_px];
-			//console.log(cgroup_center_px,cgroup_index,focused_cgroup)
-			
-			for (const block of all_blocks){
-				let colgroup=columns_to_cgroups[block.column];
-				console.log(block.column,colgroup,focused_cgroup);
-				if (focused_cgroup==colgroup) block.classList.remove("defocus");
-				else block.classList.add("defocus");
-			}
-			
-			for (const cgn in all_cgroups){
-				if (cgn==focused_cgroup)
-					all_cgroups[cgn].classList.remove("defocus");
-				else
-					all_cgroups[cgn].classList.add("defocus");
-			}*/
-			
+
 		}else{
 			timetable_container.style.marginLeft="0";
 		}
@@ -756,6 +746,7 @@ let positioner_resize_observer = new ResizeObserver(()=>{
 	}
 });
 positioner_resize_observer.observe(timetable_positoner);
+
 export function mobile_next(){
 	if (!Global.mobile) return;
 	cgroup_index++;
@@ -770,11 +761,11 @@ export function mobile_prev(){
 	//close_all_timetable_blocks();
 	update_styles();
 }
-
-
 ttmmbL.addEventListener("click",()=>{mobile_prev()});
 ttmmbR.addEventListener("click",()=>{mobile_next()});
 
+
+// Swipe detection
 let touch_srx_start=0; // Screen Relative X
 let touch_x_start=0;
 let touch_y_start=0;
@@ -799,7 +790,7 @@ wsd.addEventListener('touchend', (e)=>{
 	// Delta Relative X
 	let drx = srx - touch_srx_start;
 	
-	// Delta Y, Absolute
+	// Delta X,Y, Absolute
 	let dya = Math.abs(touch_y_start-y);
 	let dxa = Math.abs(touch_x_start-x);
 	
