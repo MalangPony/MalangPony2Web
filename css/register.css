@@ -508,7 +508,7 @@
 }
 
 .tier-table .tier-table-explain-row.expanded .tier-table-explain-cell-inner{
-	max-height:5.0em;
+	max-height:8.0em;
 	opacity:1.0;
 }
 .tier-table .cell-inner-div.tier-table-explain-cell-inner .tier-table-explain-cell-inner-text{
