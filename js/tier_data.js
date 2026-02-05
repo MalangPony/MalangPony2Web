@@ -242,10 +242,10 @@ export const perks_data={
 		desc_en:"We will call out your name at the start and end of the event and express gratitude for your support.",
 		desc_ko:"행사의 시작과 끝에 사회자가 직접 닉네임을 호명하며 감사의 인사를 전합니다."},
 	vendor_priority:{
-		name_en:"Vendor Zone Early Access",name_ko:"부스존 우선 입장",
+		name_en:"Vendor Zone Early Access",name_ko:"부스존 조기 입장",
 		explanation_required:true,
 		desc_en:"You'll be able to enter the Vendor Zone 30 minutes earlier, so you can browse and shop more comfortably.",
-		desc_ko:"부스존에 스탠다드 등급 참가자보다 30분 먼저 입장하여 여유롭게 부스를 둘러보고 굿즈를 구매할 수 있습니다."},
+		desc_ko:"부스존에 다른 참가자보다 30분 먼저 입장하여 여유롭게 부스를 둘러보고 굿즈를 구매할 수 있습니다."},
 	acrylic_keyring:{
 		name_en:"Mascot Acrylic Charm",name_ko:"마스코트 아크릴 키링",
 		explanation_required:false,
