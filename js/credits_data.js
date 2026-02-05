@@ -141,24 +141,48 @@ export const credits_list=[
 	
 
 	{
-		name_ko:"",
-		name_en:"",
+		name_ko:"RestIsBackAsure",
+		name_en:"RestIsBackAsure",
 		socials:[],
 		roles:["sponsor"],
 		primary:"sponsor",
 		profile_pic:null
 	},
 	{
-		name_ko:"",
-		name_en:"",
+		name_ko:"반잠",
+		name_en:"반잠",
+		socials:[],
+		roles:["sponsor"],
+		primary:"sponsor",
+		profile_pic:null
+	},
+	{
+		name_ko:"후이늠델란타",
+		name_en:"후이늠델란타",
 		socials:[],
 		roles:["mane"],
 		primary:"mane",
 		profile_pic:null
 	},
 	{
-		name_ko:"",
-		name_en:"",
+		name_ko:"호기심많은학교690",
+		name_en:"호기심많은학교690",
+		socials:[],
+		roles:["mane"],
+		primary:"mane",
+		profile_pic:null
+	},
+	{
+		name_ko:"레인보우 런",
+		name_en:"레인보우 런",
+		socials:[],
+		roles:["princess"],
+		primary:"princess",
+		profile_pic:null
+	},
+	{
+		name_ko:"마싱는수박",
+		name_en:"마싱는수박",
 		socials:[],
 		roles:["princess"],
 		primary:"princess",
