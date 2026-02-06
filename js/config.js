@@ -57,3 +57,5 @@ export const STATIC_BG_TRANSITION_SPEED_INSIDE=page_transition_duration;
 
 
 export const ENABLE_ANIMATION_TOGGLE_BUTTON=true;
+
+export const CANVAS_TEXT_STROKE_HOLE_WORKAROUND_PASSES=3;

@@ -10,6 +10,7 @@ import { linear_map } from "./utils.js";
 import * as InsidemapAutoData from "./insidemap_data_auto.js";
 import * as InsidemapManualData from "./insidemap_data_manual.js";
 import * as Global from "./global.js";
+import * as Config  from "./config.js";
 
 // Grab DOM
 let scroller = document.getElementById("internal-map-scroller");
@@ -469,9 +470,17 @@ function update_canvas(dt){
     sc2d.font=font_title_weight+" "+(font_title_size*font_scale*font_size_muliplier)+"px "+font_title_family;
     
     // Title Stroke
-    sc2d.lineWidth = stroke_title*font_size_muliplier;
+    
     sc2d.strokeStyle = cts;
-    sc2d.strokeText(text,x,y+dy);
+    // Workaround for self-intersecting stroke producing gaps
+    // https://stackoverflow.com/a/69006387
+    // setLineDash does nothing, so this is the next best thing (probably)
+    // sc2d.setLineDash([10000,1]);
+    const ctshwp=Config.CANVAS_TEXT_STROKE_HOLE_WORKAROUND_PASSES;
+    for (let i=0;i<ctshwp;i++){
+      sc2d.lineWidth = stroke_title*font_size_muliplier*((i+1)/ctshwp);
+      sc2d.strokeText(text,x,y+dy);
+    }
     
     // Title Fill
     sc2d.fillStyle=ctf;
@@ -520,9 +529,12 @@ function update_canvas(dt){
         line=line.trim();
         
         // Description Stroke
-        sc2d.lineWidth = stroke_desc*font_size_muliplier;
         sc2d.strokeStyle = color_with_alpha(cts,sp*100);
-        sc2d.strokeText(line,x+dx,y+(delta_y_desc+dy)*font_size_muliplier);
+        for (let i=0;i<ctshwp;i++){
+          sc2d.lineWidth = stroke_desc*font_size_muliplier*((i+1)/ctshwp);
+          sc2d.strokeText(line,x+dx,y+(delta_y_desc+dy)*font_size_muliplier);
+        }
+        
         
         // Description Fill
         sc2d.fillStyle=color_with_alpha(ctf,sp*100);
