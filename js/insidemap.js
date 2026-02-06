@@ -126,12 +126,19 @@ apply_domain_and_theme();
 // BUT don't resize it to be too small.
 let font_size_muliplier=1.0;
 let canvas_resolution_multiplier=1.0;
+let canvas_oversample=1.0;
+export function set_canvas_oversample(n){
+  canvas_oversample=n;
+  handle_resize();
+}
 function handle_resize(){
   current_size=container.clientWidth;
   
   // For mobile, we must render the canvas at 2x resolution or it will be blurry.
   if (Global.mobile) canvas_resolution_multiplier=2.0;
   else canvas_resolution_multiplier=1.0;
+  
+  canvas_resolution_multiplier*=canvas_oversample;
   
   canvas.width=current_size*canvas_resolution_multiplier;
   canvas.height=current_size*canvas_resolution_multiplier;
@@ -354,6 +361,11 @@ function colormix(a,b,fac){
   return "color-mix(in srgb, "+a+" "+(100-fac*100)+"%, "+b+")";
 }
 
+let description_enabled=true;
+export function set_description_enable(b){
+  description_enabled=b;
+}
+
 // Sine wave used for float-y text
 const sine_period_seconds=2.0;
 let sine_phase=0;
@@ -496,7 +508,7 @@ function update_canvas(dt){
     let title_expanded_right=tm.actualBoundingBoxRight;
     
 
-    if (sp>0.0001){ // Only if selected
+    if ((sp>0.0001) && description_enabled){ // Only if selected
       // Description
       sc2d.textAlign="center";
       sc2d.textBaseline="alphabetic";
@@ -621,4 +633,17 @@ export function demonstrate_scroll(){
       scroller.scroll({top:0,left:0,behavior:"smooth"});
     },1500);
   }
+}
+
+
+export function save_internal_map_to_file(){
+  canvas.toBlob((b)=>{
+    let url = URL.createObjectURL(b);
+    let a = document.createElement('a');
+    a.style.display = 'none';
+    a.href = url;
+    a.download = 'canvas.png';
+    document.body.appendChild(a);
+    a.click();
+  })
 }

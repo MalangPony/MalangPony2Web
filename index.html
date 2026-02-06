@@ -1952,13 +1952,19 @@ let email_popup=document.getElementById("email-popup");
 function show_email(){
   email_popup.style.display="flex";
 }
-email_popup.addEventListener("click",()=>{email_popup.style.display="none";})
+email_popup.addEventListener("click",()=>{email_popup.style.display="none";});
 </script>
 
 <script>
 // For debugging
 let L2D;
 import('./js/l2d.js').then(m => L2D = m);
+
+let InsideMap;
+import('./js/insidemap.js').then(m => InsideMap = m);
+
+
+
 </script>
 
 </body>
