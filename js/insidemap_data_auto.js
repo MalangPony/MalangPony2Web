@@ -487,8 +487,8 @@ export const data={
         ]
       ],
       "center_override": [
-        2296.0706,
-        1583.6301
+        2132.2014,
+        1815.7782
       ]
     },
     "storage": {
@@ -515,8 +515,8 @@ export const data={
         ]
       ],
       "center_override": [
-        2564.0649,
-        1080.0737
+        2553.823,
+        1100.5574
       ]
     },
     "gallery": {
@@ -727,8 +727,8 @@ export const data={
         ]
       ],
       "center_override": [
-        1405.0319,
-        1051.0553
+        1451.1201,
+        1074.9529
       ]
     },
     "drawing": {
@@ -818,4 +818,4 @@ export const data={
   }
 };
 
-export const zone_list= ['seating', 'vendor', 'shrine', 'lobby', 'control', 'entrance', 'gallery', 'sub', 'drawing', 'storage', 'snack', 'stage', 'restroom', 'regDesk', 'signboard', 'main'];
+export const zone_list= ['storage', 'lobby', 'main', 'regDesk', 'control', 'drawing', 'shrine', 'entrance', 'vendor', 'restroom', 'seating', 'signboard', 'sub', 'snack', 'gallery', 'stage'];

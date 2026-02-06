@@ -345,6 +345,7 @@ const scale_active_title=1.0;
 const delta_y_inactive_title=0;
 const delta_y_active_title=-20;
 const stroke_title=6;
+const line_height_title=30;
 
 const font_desc_family="NPS";
 const font_desc_weight="normal";
@@ -479,33 +480,51 @@ function update_canvas(dt){
       sc2d.fill();
     }
     
-    sc2d.font=font_title_weight+" "+(font_title_size*font_scale*font_size_muliplier)+"px "+font_title_family;
-    
-    // Title Stroke
-    
-    sc2d.strokeStyle = cts;
-    // Workaround for self-intersecting stroke producing gaps
-    // https://stackoverflow.com/a/69006387
-    // setLineDash does nothing, so this is the next best thing (probably)
-    // sc2d.setLineDash([10000,1]);
     const ctshwp=Config.CANVAS_TEXT_STROKE_HOLE_WORKAROUND_PASSES;
-    for (let i=0;i<ctshwp;i++){
-      sc2d.lineWidth = stroke_title*font_size_muliplier*((i+1)/ctshwp);
-      sc2d.strokeText(text,x,y+dy);
+    
+    let title_expanded_left=0;
+    let title_expanded_right=0;
+      
+    let title_lines=text.split("\n");
+    let lineN=0;
+    for (let line of title_lines){
+      lineN++;
+      let lineY_centered=(lineN-1-(title_lines.length/2-0.5))*line_height_title;
+      let lineY_bottomed=(lineN-(title_lines.length))*line_height_title;
+      let lineY=linear_map(0,1,sp,lineY_centered,lineY_bottomed);
+      lineY*=font_scale*font_size_muliplier;
+      line=line.trim();
+      
+      
+      sc2d.font=font_title_weight+" "+(font_title_size*font_scale*font_size_muliplier)+"px "+font_title_family;
+      
+      // Title Stroke
+      sc2d.strokeStyle = cts;
+      // Workaround for self-intersecting stroke producing gaps
+      // https://stackoverflow.com/a/69006387
+      // setLineDash does nothing, so this is the next best thing (probably)
+      // sc2d.setLineDash([10000,1]);
+      
+      for (let i=0;i<ctshwp;i++){
+        sc2d.lineWidth = stroke_title*font_size_muliplier*((i+1)/ctshwp);
+        sc2d.strokeText(line,x,y+dy+lineY);
+      }
+      
+      // Title Fill
+      sc2d.fillStyle=ctf;
+      sc2d.fillText(line,x,y+dy+lineY);
+    
+
+      // Measure the title text. Measure at the biggest font size.
+      // If the description goes off the canvas, the description will instead align itself to one of the
+      //   edges of the title text, measured here.
+      // This will only work if the title text does not protrude from the canvas though.
+      sc2d.font=font_title_weight+" "+(font_title_size*scale_active_title*font_size_muliplier)+"px "+font_title_family;
+      let tm=sc2d.measureText(text);
+      title_expanded_left=Math.min(-tm.actualBoundingBoxLeft,title_expanded_left);
+      title_expanded_right=Math.max(tm.actualBoundingBoxRight,title_expanded_right);
+    
     }
-    
-    // Title Fill
-    sc2d.fillStyle=ctf;
-    sc2d.fillText(text,x,y+dy);
-    
-    // Measure the title text. Measure at the biggest font size.
-    // If the description goes off the canvas, the description will instead align itself to one of the
-    //   edges of the title text, measured here.
-    // This will only work if the title text does not protrude from the canvas though.
-    sc2d.font=font_title_weight+" "+(font_title_size*scale_active_title*font_size_muliplier)+"px "+font_title_family;
-    let tm=sc2d.measureText(text);
-    let title_expanded_left=-tm.actualBoundingBoxLeft;
-    let title_expanded_right=tm.actualBoundingBoxRight;
     
 
     if ((sp>0.0001) && description_enabled){ // Only if selected

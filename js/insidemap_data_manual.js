@@ -101,25 +101,17 @@ export const zone_data={
   },
   seating:{
     name_ko:"메인 관중석",
-    name_en:"Main Seating",
+    name_en:"Main\nSeating",
     desc_ko:"",
     desc_en:"",
     category:"main",
     priority:2
   },
-  rest:{
-    name_ko:"휴식 공간",
-    name_en:"Resting Lounge",
-    desc_ko:"휴식 및 담소가 가능한 공간입니다.",
-    desc_en:"A place to rest and chat.",
-    category:"persistent",
-    priority:2
-  },
   drawing:{
-    name_ko:"자유 그림 코너",
-    name_en:"Doodle Table",
-    desc_ko:"테이블에 둘러앉아\n자유롭게 포니를 그려봐요!",
-    desc_en:"A free drawing table for everypony!",
+    name_ko:"그림 라운지",
+    name_en:"Drawing\nLounge",
+    desc_ko:"잠깐 쉬어가며 포니 그림을 그리고\n담소도 나눌 수 있는 공간입니다.",
+    desc_en:"Take a break, draw ponies, and chat.",
     category:"persistent",
     priority:2
   },
