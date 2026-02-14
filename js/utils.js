@@ -68,3 +68,15 @@ export function generate_svg_cross(fill){
 	close_svg.appendChild(svg_path);
 	return close_svg;
 }
+
+export function save_canvas_to_file(canvas){
+  canvas.toBlob((b)=>{
+    let url = URL.createObjectURL(b);
+    let a = document.createElement('a');
+    a.style.display = 'none';
+    a.href = url;
+    a.download = 'canvas.png';
+    document.body.appendChild(a);
+    a.click();
+  })
+}

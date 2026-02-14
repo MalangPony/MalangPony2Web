@@ -6,7 +6,7 @@
 
 import { Vector2, Vector3 } from "./vectors.js";
 import { AnimatedValue } from "./animator.js";
-import { linear_map } from "./utils.js";
+import { linear_map,save_canvas_to_file } from "./utils.js";
 import * as InsidemapAutoData from "./insidemap_data_auto.js";
 import * as InsidemapManualData from "./insidemap_data_manual.js";
 import * as Global from "./global.js";
@@ -656,13 +656,5 @@ export function demonstrate_scroll(){
 
 
 export function save_internal_map_to_file(){
-  canvas.toBlob((b)=>{
-    let url = URL.createObjectURL(b);
-    let a = document.createElement('a');
-    a.style.display = 'none';
-    a.href = url;
-    a.download = 'canvas.png';
-    document.body.appendChild(a);
-    a.click();
-  })
+  save_canvas_to_file(canvas);
 }

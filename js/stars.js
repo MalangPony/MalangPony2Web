@@ -7,6 +7,7 @@
 import * as Config  from "./config.js";
 import * as Graphics  from "./graphics.js";
 import * as PerformanceManager from "./perfmanager.js";
+import { save_canvas_to_file } from "./utils.js";
 
 // DOM definitions
 const wsd = document.getElementById("whole-screen-div");
@@ -109,6 +110,14 @@ export function set_scroll_progress(f){
   stars_scroll_pixels=f*scroll_offset;
 }
 
+// Functions for image export
+let canvas_oversample=1.0;
+export function set_canvas_oversample(n){
+  canvas_oversample=n;
+}
+export function save_stars_to_file(){
+  save_canvas_to_file(canvas_stars);
+}
 
 const sc2d = canvas_stars.getContext("2d");
 function refresh_stars_canvas(dt){
@@ -116,39 +125,43 @@ function refresh_stars_canvas(dt){
   let fullscreenW=wsd.clientWidth;
   let fullscreenH=wsd.clientHeight;
   
-  let targetSizeW=fullscreenW;
-  let targetSizeH=fullscreenH+scroll_offset;
+  let logicalW=fullscreenW;
+  let logicalH=fullscreenH+scroll_offset;
   
-  if ((canvas_stars.width!=targetSizeW) || (canvas_stars.height!=targetSizeH)){
+  let pixelW=Math.round(logicalW*canvas_oversample);
+  let pixelH=Math.round(logicalH*canvas_oversample);
+  
+  if ((canvas_stars.width!=pixelW) || (canvas_stars.height!=pixelH)){
     console.log("Star canvas change size");
-    canvas_stars.width=targetSizeW;
-    canvas_stars.height=targetSizeH;
+    canvas_stars.width=pixelW;
+    canvas_stars.height=pixelH;
   }
   
-  let w=canvas_stars.width;
-  let h=canvas_stars.height;
+  
   
   // Check if resize is needed
   let resized=false;
-  if ((w!=star_def_area_w) || (h!=star_def_area_h)){
-    resize_star_area(w,h);
+  if ((logicalW!=star_def_area_w) || (logicalH!=star_def_area_h)){
+    resize_star_area(logicalW,logicalH);
     resized=true;
   }
   
   let animated = (Config.OPTION_ENABLE_ANIMATED_STARS 
        && PerformanceManager.check_feature_enabled(
             PerformanceManager.Feature.ANIMATED_STARS))
-
+  
+  sc2d.save();
+  sc2d.scale(canvas_oversample,canvas_oversample);
   if (animated || resized){
     // Clear canvas.
-    sc2d.clearRect(0,0,w,h);
+    sc2d.clearRect(0,0,logicalW,logicalH);
     
     // Draw all the stars.
     // The stars flicker in a sine wave.
     for (const sd of star_definitions){
       let x=sd.x;
       let y=sd.y;
-      if ((y<0) || (y>h)) continue;
+      if ((y<0) || (y>logicalH)) continue;
       sd.sine_phase+=(dt/sd.sine_period);
       // Discard integer part
       sd.sine_phase=sd.sine_phase-Math.floor(sd.sine_phase);
@@ -164,10 +177,12 @@ function refresh_stars_canvas(dt){
       )
     }
   }
+  sc2d.restore();
   
   // Scroll. Move the whole canvas.
   canvas_stars.style.top="-"+stars_scroll_pixels+"px";
-  canvas_stars.style.height=""+targetSizeH+"px";
+  canvas_stars.style.height=""+logicalH+"px";
+  canvas_stars.style.width=""+logicalW+"px";
   
   debug_print_stars.innerHTML="Stars x"+star_definitions.length+(animated?" (Animated)":" (Static)");
 }

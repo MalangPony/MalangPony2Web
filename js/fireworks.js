@@ -6,6 +6,7 @@
 
 // Module imports
 import { Vector2, Vector3 } from "./vectors.js";
+import { save_canvas_to_file } from "./utils.js";
 import * as Config  from "./config.js";
 import * as Graphics  from "./graphics.js";
 import * as PerformanceManager from "./perfmanager.js";
@@ -354,9 +355,28 @@ PerformanceManager.register_feature_disable_callback(
   }
 );
 
+
+// Functions for image export
+let canvas_oversample=1.0;
+export function set_canvas_oversample(n){
+  canvas_oversample=n;
+}
+export function save_fireworks_to_file(){
+  save_canvas_to_file(canvas_fireworks);
+}
+let fireworks_overdrive_freq=0;
+export function set_overdrive(f){
+  fireworks_overdrive_freq=f;
+}
+let time_multiplier=1.0;
+export function set_time_multiplier(f){
+  time_multiplier=f;
+}
+
 // Main re-draw loop
 let firework_next_fire_timer=0;
 function refresh_fireworks_canvas(dt){
+  
   let containerW=wsd.clientWidth;
   if (!containerW) containerW=1; // Check for false-ish values
   let containerH=wsd.clientHeight;
@@ -365,6 +385,7 @@ function refresh_fireworks_canvas(dt){
     PerformanceManager.Feature.FIREWORKS_HIRES);
   
   let resolution_multiplier=canvas_hires?1.0:0.5;
+  resolution_multiplier *= canvas_oversample;
   let targetW=Math.round(containerW*resolution_multiplier);
   let targetH=Math.round(containerH*resolution_multiplier);
   let pixelW=targetW;
@@ -402,6 +423,8 @@ function refresh_fireworks_canvas(dt){
       spawn_firework_rocket(cs);
       
       firework_next_fire_timer=Math.random()*2.5+0.5;
+      if (fireworks_overdrive_freq>0.001) 
+        firework_next_fire_timer=1.0/fireworks_overdrive_freq;
     }else{
       // We want to fire a firework, but it is disabled.
       // Keep the timer at 0 so it will be fired the moment it is enabled.
@@ -411,7 +434,7 @@ function refresh_fireworks_canvas(dt){
   
   // Tick all entities
   for (const e of entity_array){
-    e.tick(dt);
+    e.tick(dt*time_multiplier);
   }
   
   // Kill any entities that went off-screen.

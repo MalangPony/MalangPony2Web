@@ -10,6 +10,7 @@ import { Vector2, Vector3 } from "./vectors.js";
 import * as Config  from "./config.js";
 import {drawTriangle}  from "./graphics.js";
 import * as PerformanceManager from "./perfmanager.js";
+import { save_canvas_to_file } from "./utils.js";
 
 // DOM definitions
 const wsd = document.getElementById("whole-screen-div");
@@ -222,6 +223,20 @@ function recalculate_triangulation(){
 	}
 }
 
+
+// Functions for image export
+let canvas_oversample=1.0;
+export function set_canvas_oversample(n){
+  canvas_oversample=n;
+}
+export function save_dyntex_to_file(){
+  save_canvas_to_file(canvas_dyntex);
+}
+let time_multiplier=1.0;
+export function set_time_multiplier(f){
+  time_multiplier=f;
+}
+
 export function animationTick(dt){
 	// Canvas resize handle
 	let containerW=wsd.clientWidth;
@@ -229,19 +244,23 @@ export function animationTick(dt){
 	let containerH=wsd.clientHeight;
 	if (!containerH) containerH=1;
 	
-	if (canvas_dyntex.width!=containerW)
-		canvas_dyntex.width=containerW;
-	if (canvas_dyntex.height!=containerH)
-		canvas_dyntex.height=containerH;
+	let logicalW=containerW;
+	let logicalH=containerH;
+	let pixelW=Math.round(logicalW*canvas_oversample);
+	let pixelH=Math.round(logicalH*canvas_oversample);
 	
-	let w=canvas_dyntex.width;
-	let h=canvas_dyntex.height;
+	if ((canvas_dyntex.width!=pixelW) || (canvas_dyntex.height!=pixelH)){
+		canvas_dyntex.width=pixelW;
+		canvas_dyntex.height=pixelH;
+		canvas_dyntex.style.height=containerH+"px";
+		canvas_dyntex.style.width=containerW+"px";
+	}
 	
 	// Recalculate everything if canvas changed
-	let canvas_megapixels = w * h /1000 /1000;
+	let canvas_megapixels = logicalW * logicalH /1000 /1000;
 	let point_count_target=Math.round(canvas_megapixels*POINT_DENSITY);
 	if (last_generated_with_pointcount != point_count_target){
-		spawn_points(w,h,point_count_target);
+		spawn_points(logicalW,logicalH,point_count_target);
 		recalculate_triangulation();
 		for (let i=0;i<100;i++){
 			for (const tvf of triangle_visiblity_factors) tvf.tick(0.1);
@@ -250,14 +269,16 @@ export function animationTick(dt){
 	
 	// Tick all WigglyPoints
 	for (const wp of wpoints)
-		wp.tick(dt);
+		wp.tick(dt*time_multiplier);
 	
 	// Tick all TVFs
 	for (const tvf of triangle_visiblity_factors) 
-		tvf.tick(dt);
+		tvf.tick(dt*time_multiplier);
 	
 	
-	cc2d.clearRect(0,0,w,h);
+	cc2d.clearRect(0,0,pixelW,pixelH);
+	cc2d.save();
+	cc2d.scale(canvas_oversample,canvas_oversample);
 	// Draw all triangles.
 	// The X coordinates of the TriangleVisibilityFactor array
 	// is used to generate the triangle's alpha value.
@@ -283,4 +304,5 @@ export function animationTick(dt){
 				"rgba(255,255,255,"+alpha+")");
 		}
 	}
+	cc2d.restore();
 }
