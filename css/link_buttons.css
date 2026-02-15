@@ -99,6 +99,10 @@
  * .borderless   to disable borders 
  * .textless     for textless buttons
  * .icons-big    Make icons larger
+ * .disabled     Disable button 
+ *                 Note that this does NOT actually disable the link.
+ *                 You must manually remove the href attribute to fully
+ *                   disable the link.
  */
 
 
@@ -142,6 +146,15 @@
   --lb-icon-offset-multiplier: 1.0;
   --lb-icon-size-multiplier:1.0;
 }
+
+.link-button.disabled{
+  cursor: not-allowed;
+  filter: brightness(60%) grayscale(100%);
+  
+  text-decoration-line: line-through;
+  text-decoration-thickness: 0.15em;
+}
+
 .anim-disabled .link-button{
   transition-duration:0s;
 }
@@ -162,7 +175,7 @@
   padding-left: calc(var(--lb-padding-x) + var(--lb-padding-extra) + var(--lb-border-width));
   padding-right: calc(var(--lb-padding-x) + var(--lb-padding-extra) + var(--lb-border-width));
 }
-.link-button:hover{
+.link-button:not(.disabled):hover{
   background-color:color-mix(in srgb, var(--lb-color-bg) 80%, var(--lb-color-text));
 }
 
@@ -260,7 +273,7 @@
     / alpha);
 }
 
-.link-button.inline.inline:hover{
+.link-button:not(.disabled).inline.inline:hover{
   color:var(--lb-color-text-inverted);
 }
 

@@ -109,6 +109,10 @@
   padding-inline-start: 1.3em;
 }
 
+.page-text-body .cancelled{
+  opacity:0.4;
+}
+
 .linkbutton-row{
   margin-top:16px;
   margin-bottom:12px;
