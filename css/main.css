@@ -394,6 +394,12 @@
 /* Responsive Section */
 /* Targeting down to 300px. */
 
+@media (width<800px) {
+  #footer-sns-buttons{
+    flex-wrap:wrap;
+    max-width:12.0em;
+  }
+}
 /* Mobile mode */
 @media (width<640px) {
   :root{
@@ -428,15 +434,15 @@
     justify-content:center;
     left:0;
   }
+  
+  #footer-sns-buttons{
+    justify-content:flex-start;
+  }
 }
 
 /* Smaller Mobiles */
 @media (width<480px) {
-  #footer-sns-buttons{
-    flex-wrap:wrap;
-    max-width:8.0em;
-    justify-content:flex-start;
-  }
+  
   #footer-content .footer-text-mobile-break{
     display:inline;
   }

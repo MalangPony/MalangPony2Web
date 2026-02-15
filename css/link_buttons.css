@@ -25,6 +25,7 @@
  *    .icon-google-forms
  *    .icon-google-slides
  *    .icon-witchform
+ *    .icon-instagram
  *    .icon-swap
  *    .icon-table
  *    .icon-list
@@ -69,6 +70,7 @@
  *    .color-google-forms
  *    .color-google-slides
  *    .color-witchform
+ *    .color-instagram
  * 
  * Alternatively, the colors can be set using CSS variables below:
  *   --lb-color-text
@@ -325,7 +327,7 @@
 }
 .link-button.color-bluesky{
   --lb-color-bg:light-dark(
-    var(--color-bluesky-light-bg),
+    #e1f2ff,
     var(--color-bluesky-dark-bg));
   --lb-color-text:light-dark(
     var(--color-bluesky-light-fg),
@@ -342,7 +344,7 @@
 
 .link-button.color-discord{
   --lb-color-bg:light-dark(
-    var(--color-discord-light-blurple),
+    #e5e8ff,
     var(--color-discord-dark));
   --lb-color-text:var(--color-discord-blurple);
 }
@@ -612,6 +614,27 @@
   --lb-color-bg:light-dark(
     var(--color-background-light),
     var(--color-background-dark));
+}
+
+.link-button.color-instagram{
+  --lb-color-bg:light-dark(
+      #f9dfeb,
+      var(--color-background-dark)
+  );
+  --lb-color-text:light-dark(
+      #b01467,
+      #da2f7d
+  );
+}
+.link-button.icon-instagram::before{
+  background-image:url("/siteicons/Instagram_icon_64.png");
+  --lb-image-icon-size-multiplier:calc(1.2 * var(--lb-icon-size-multiplier));
+  margin-top:calc(-0.1em * var(--lb-icon-offset-multiplier));
+}
+.link-button.icon-instagram-white::before{
+  background-image:url("/siteicons/Instagram_white_64.png");
+  --lb-image-icon-size-multiplier:calc(1.2 * var(--lb-icon-size-multiplier));
+  margin-top:calc(-0.1em * var(--lb-icon-offset-multiplier));
 }
 
 .light-mode .link-button.icon-witchform::before{
