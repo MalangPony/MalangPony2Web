@@ -11,6 +11,7 @@ import * as Config  from "./config.js";
 import {drawTriangle}  from "./graphics.js";
 import * as PerformanceManager from "./perfmanager.js";
 import { save_canvas_to_file } from "./utils.js";
+import * as Global from "./global.js";
 
 // DOM definitions
 const wsd = document.getElementById("whole-screen-div");
@@ -237,6 +238,11 @@ export function set_time_multiplier(f){
   time_multiplier=f;
 }
 
+Global.add_animated_listener(()=>{
+	if (!Global.animated) {
+		cc2d.clearRect(0,0,canvas_dyntex.width,canvas_dyntex.height);
+	}
+});
 export function animationTick(dt){
 	// Canvas resize handle
 	let containerW=wsd.clientWidth;
@@ -267,6 +273,9 @@ export function animationTick(dt){
 		}
 	}
 	
+	if (!Global.animated) return;
+	
+	
 	// Tick all WigglyPoints
 	for (const wp of wpoints)
 		wp.tick(dt*time_multiplier);
@@ -274,7 +283,6 @@ export function animationTick(dt){
 	// Tick all TVFs
 	for (const tvf of triangle_visiblity_factors) 
 		tvf.tick(dt*time_multiplier);
-	
 	
 	cc2d.clearRect(0,0,pixelW,pixelH);
 	cc2d.save();

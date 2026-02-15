@@ -8,6 +8,7 @@ import * as Config  from "./config.js";
 import * as Graphics  from "./graphics.js";
 import * as PerformanceManager from "./perfmanager.js";
 import { save_canvas_to_file } from "./utils.js";
+import * as Global from "./global.js";
 
 // DOM definitions
 const wsd = document.getElementById("whole-screen-div");
@@ -148,7 +149,8 @@ function refresh_stars_canvas(dt){
   
   let animated = (Config.OPTION_ENABLE_ANIMATED_STARS 
        && PerformanceManager.check_feature_enabled(
-            PerformanceManager.Feature.ANIMATED_STARS))
+            PerformanceManager.Feature.ANIMATED_STARS)
+       && Global.animated);
   
   sc2d.save();
   sc2d.scale(canvas_oversample,canvas_oversample);

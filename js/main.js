@@ -564,12 +564,14 @@ function animationCallback(time) {
   debug_print_features.innerHTML = PerformanceManager.generate_feature_list();
   debug_print_faa.innerHTML = PerformanceManager.is_auto_adjust_enabled()?"ON":"OFF";
   
+  let in_intro_page= (currently_on_page=="intro");
+  let in_internal_page= (currently_on_page=="internal");
   // Tick all subsystems
-  Stars.animationTick(dt);
-  Fireworks.animationTick(dt);
+  if (in_intro_page) Stars.animationTick(dt);
+  if (in_intro_page) Fireworks.animationTick(dt);
   L2D.animationTick(dt);
-  Dyntex.animationTick(dt);
-  InsideMap.animationTick(dt);
+  if (in_intro_page) Dyntex.animationTick(dt);
+  if (in_internal_page) InsideMap.animationTick(dt);
   
   // Eye tracking.
   Fireworks.update_attention(dt);
