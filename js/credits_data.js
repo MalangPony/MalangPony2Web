@@ -141,14 +141,6 @@ export const credits_list=[
 	
 
 	{
-		name_ko:"RestIsBackAsure",
-		name_en:"RestIsBackAsure",
-		socials:[],
-		roles:["sponsor"],
-		primary:"sponsor",
-		profile_pic:null
-	},
-	{
 		name_ko:"반잠",
 		name_en:"반잠",
 		socials:[],
@@ -157,24 +149,56 @@ export const credits_list=[
 		profile_pic:null
 	},
 	{
-		name_ko:"후이늠델란타",
-		name_en:"후이늠델란타",
+		name_ko:"식스 루나 투 셀레",
+		name_en:"식스 루나 투 셀레",
+		socials:[],
+		roles:["sponsor"],
+		primary:"sponsor",
+		profile_pic:null
+	},
+	{
+		name_ko:"아란",
+		name_en:"아란",
+		socials:[],
+		roles:["sponsor"],
+		primary:"sponsor",
+		profile_pic:null
+	},
+	{
+		name_ko:"수랑",
+		name_en:"수랑",
+		socials:[],
+		roles:["sponsor"],
+		primary:"sponsor",
+		profile_pic:null
+	},
+	{
+		name_ko:"Puck 파크",
+		name_en:"Puck 파크",
+		socials:[],
+		roles:["sponsor"],
+		primary:"sponsor",
+		profile_pic:null
+	},
+	{
+		name_ko:"Ruinflare Rune",
+		name_en:"Ruinflare Rune",
 		socials:[],
 		roles:["mane"],
 		primary:"mane",
 		profile_pic:null
 	},
 	{
-		name_ko:"호기심많은학교690",
-		name_en:"호기심많은학교690",
+		name_ko:"후이늠",
+		name_en:"후이늠",
 		socials:[],
 		roles:["mane"],
 		primary:"mane",
 		profile_pic:null
 	},
 	{
-		name_ko:"레인보우 런",
-		name_en:"레인보우 런",
+		name_ko:"나이트메어 레런",
+		name_en:"나이트메어 레런",
 		socials:[],
 		roles:["princess"],
 		primary:"princess",
