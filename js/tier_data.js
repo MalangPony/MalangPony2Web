@@ -97,7 +97,8 @@ export const tiers_data={
 		icon_dark:"/sprites/tier_icons/royal_200_dark.png",
 		icon_darker:"/sprites/tier_icons/royal_200_darker.png",
 		icon_orig:"/sprites/tier_icons/royal_200_orig.png",
-		reg_button_class:"inperson"
+		reg_button_class:"inperson",
+		sold_out:true
 	},
 	spirit:{
 		insert_divider:true,

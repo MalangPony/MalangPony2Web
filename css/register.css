@@ -59,6 +59,11 @@
 	z-index:1;
 }
 
+.register-tier-entry.sold-out{
+	opacity:0.8;
+	filter: grayscale(50%);
+}
+
 .register-click-hint{
 	position:absolute;
 	right:8px;
@@ -182,6 +187,10 @@
 	font-size:1.0em;
 	font-weight:700;
 	color:var(--color-text-auto);
+}
+
+.register-tier-entry.sold-out .register-tier-price{
+	text-decoration: line-through 0.15em;
 }
 
 .register-tier-button{

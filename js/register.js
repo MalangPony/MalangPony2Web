@@ -73,6 +73,10 @@ for (const tier_id in TierData.tiers_data){
 	
 	tier_dom_inner.classList.add(tier_data.css_class);
 	
+	if (tier_data.sold_out){
+		tier_dom_inner.classList.add("sold-out");
+	}
+	
 	tier_dom.querySelector(".register-tier-name.lang-ko").innerHTML=tier_data.name_ko;
 	tier_dom.querySelector(".register-tier-name.lang-en").innerHTML=tier_data.name_en;
 	
@@ -86,7 +90,12 @@ for (const tier_id in TierData.tiers_data){
 		
 	tier_dom.querySelector(".register-tier-icon").src=tier_data.icon_darker;
 	
-	if (Number.isFinite(tier_data.limit)){
+	if (tier_data.sold_out){
+		tier_dom.querySelector(".register-tier-limit.lang-ko").innerHTML=
+			"<strong>매진!</strong>";
+		tier_dom.querySelector(".register-tier-limit.lang-en").innerHTML=
+			"<strong>Sold out!</strong>";
+	}else if (Number.isFinite(tier_data.limit)){
 		tier_dom.querySelector(".register-tier-limit.lang-ko").innerHTML=
 			tier_data.limit+"명 한정";
 		tier_dom.querySelector(".register-tier-limit.lang-en").innerHTML=
@@ -100,6 +109,12 @@ for (const tier_id in TierData.tiers_data){
 	let reg_button_div = tier_dom.querySelector(".register-tier-button");
 	for (const dom of reg_button_div.children){
 		if (dom.classList.contains("reg-button-"+tier_data.reg_button_class)){
+			// Sold-Out handling
+			if (tier_data.sold_out){
+				dom.classList.add("disabled");
+				dom.removeAttribute("href");
+				dom.removeAttribute("target");
+			}
 		}else{
 			dom.style.display="none";
 		}
