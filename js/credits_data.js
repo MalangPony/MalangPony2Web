@@ -197,6 +197,14 @@ export const credits_list=[
 		profile_pic:null
 	},
 	{
+		name_ko:"디테일",
+		name_en:"디테일",
+		socials:[],
+		roles:["mane"],
+		primary:"mane",
+		profile_pic:null
+	},
+	{
 		name_ko:"나이트메어 레런",
 		name_en:"나이트메어 레런",
 		socials:[],
@@ -207,6 +215,14 @@ export const credits_list=[
 	{
 		name_ko:"마싱는수박",
 		name_en:"마싱는수박",
+		socials:[],
+		roles:["princess"],
+		primary:"princess",
+		profile_pic:null
+	},
+	{
+		name_ko:"김준호진",
+		name_en:"김준호진",
 		socials:[],
 		roles:["princess"],
 		primary:"princess",
