@@ -205,6 +205,22 @@ export const credits_list=[
 		profile_pic:null
 	},
 	{
+		name_ko:"Flash",
+		name_en:"Flash",
+		socials:[],
+		roles:["mane"],
+		primary:"mane",
+		profile_pic:null
+	},
+	{
+		name_ko:"능비",
+		name_en:"능비",
+		socials:[],
+		roles:["mane"],
+		primary:"mane",
+		profile_pic:null
+	},
+	{
 		name_ko:"나이트메어 레런",
 		name_en:"나이트메어 레런",
 		socials:[],
