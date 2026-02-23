@@ -92,9 +92,9 @@ for (const tier_id in TierData.tiers_data){
 	
 	if (tier_data.sold_out){
 		tier_dom.querySelector(".register-tier-limit.lang-ko").innerHTML=
-			"<strong>매진!</strong>";
+			tier_data.limit+"명 (매진)";
 		tier_dom.querySelector(".register-tier-limit.lang-en").innerHTML=
-			"<strong>Sold out!</strong>";
+			"All "+tier_data.limit+" sold out!";
 	}else if (Number.isFinite(tier_data.limit)){
 		tier_dom.querySelector(".register-tier-limit.lang-ko").innerHTML=
 			tier_data.limit+"명 한정";
@@ -108,13 +108,12 @@ for (const tier_id in TierData.tiers_data){
 	// Setup registration link
 	let reg_button_div = tier_dom.querySelector(".register-tier-button");
 	for (const dom of reg_button_div.children){
-		if (dom.classList.contains("reg-button-"+tier_data.reg_button_class)){
-			// Sold-Out handling
-			if (tier_data.sold_out){
-				dom.classList.add("disabled");
-				dom.removeAttribute("href");
-				dom.removeAttribute("target");
-			}
+		if (tier_data.sold_out && dom.classList.contains("reg-button-soldout")){
+			//pass
+		}else if (tier_data.sold_out){
+			dom.style.display="none";
+		}else if (dom.classList.contains("reg-button-"+tier_data.reg_button_class)){
+			// pass
 		}else{
 			dom.style.display="none";
 		}
