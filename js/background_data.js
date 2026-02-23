@@ -16,6 +16,7 @@ export let page_to_background_id={
 	conbook:   "bgd003",
 	internal:  "bgd003",
 	faq:       "bgd003",
+	vendorlist:"bgd003",
 	
 	involved:  "nothing",
 	

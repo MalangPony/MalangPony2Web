@@ -20,6 +20,7 @@ rewrite_map={
 	"/artgallery":"/",
 	"/faq":"/",
 	"/volunteer":"/",
+	"/vendorlist":"/",
 	}
 PORT = 8003
 
