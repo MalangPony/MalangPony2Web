@@ -221,6 +221,14 @@ export const credits_list=[
 		profile_pic:null
 	},
 	{
+		name_ko:"Taurson",
+		name_en:"Taurson",
+		socials:[],
+		roles:["mane"],
+		primary:"mane",
+		profile_pic:null
+	},
+	{
 		name_ko:"나이트메어 레런",
 		name_en:"나이트메어 레런",
 		socials:[],
