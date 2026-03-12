@@ -194,6 +194,8 @@ for (const block of blocks){
 	let text_size_ko=column_textsizes_ko[block.column];
 	let color_preset_raw=color_presets[block.color_preset];
 	let bg_color=color_preset_raw.color;
+	let fg_color=color_preset_raw.text_color;
+	let ol_color=color_preset_raw.outline_color;
 	let expand_direction=column_expand_direction[block.column];
 	
 	// Font size
@@ -333,6 +335,8 @@ for (const block of blocks){
 		block_dom.style.paddingLeft=px2em(tt_block_padding_lr);
 		block_dom.style.paddingRight=px2em(tt_block_padding_lr);
 	}
+	if (ol_color !== undefined) block_dom.style.borderColor = ol_color;
+	if (fg_color !== undefined) block_dom.style.color=fg_color;
 	
 	// The 'rail' where the popup can slide in.
 	popup_rail.style.position="absolute";
@@ -347,8 +351,12 @@ for (const block of blocks){
 	popup_dom.style.width=px2em(240);
 	popup_dom.style.display="none";
 	popup_dom.style.backgroundColor=bg_color;
+	if (ol_color !== undefined) popup_dom.style.borderColor = ol_color;
+	if (fg_color !== undefined) popup_dom.style.color=fg_color;
 	popup_dom.style.borderRadius = px2em(6);
 	popup_dom.style.borderWidth=px2em(tt_block_border_width);
+	
+	console.log(fg_color);
 	
 	max_y=Math.max(max_y,y+h);
 	
