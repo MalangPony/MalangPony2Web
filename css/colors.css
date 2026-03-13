@@ -92,8 +92,8 @@
   --color-timetable-panel-main:      #afe0ff;
   --color-timetable-panel-open:      #ffd1a9;
   --color-timetable-night-show:      #e8ddff;
-  --color-timetable-panel-late-a:    #2F4575;
-  --color-timetable-panel-late-b:    #52317f;
+  --color-timetable-panel-late-a:    #38538c;/*#2F4575;*/
+  --color-timetable-panel-late-b:    #673ea1;/*#52317f;*/
   --color-timetable-panel-late-c:    #31765f;
   
   /* Directions */
