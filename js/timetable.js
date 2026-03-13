@@ -196,6 +196,7 @@ for (const block of blocks){
 	let bg_color=color_preset_raw.color;
 	let fg_color=color_preset_raw.text_color;
 	let ol_color=color_preset_raw.outline_color;
+	let ol_style = color_preset_raw.outline_style;
 	let expand_direction=column_expand_direction[block.column];
 	
 	// Font size
@@ -337,6 +338,7 @@ for (const block of blocks){
 	}
 	if (ol_color !== undefined) block_dom.style.borderColor = ol_color;
 	if (fg_color !== undefined) block_dom.style.color=fg_color;
+	if (ol_style !== undefined) block_dom.style.borderStyle=ol_style;
 	
 	// The 'rail' where the popup can slide in.
 	popup_rail.style.position="absolute";
@@ -355,6 +357,7 @@ for (const block of blocks){
 	if (fg_color !== undefined) popup_dom.style.color=fg_color;
 	popup_dom.style.borderRadius = px2em(6);
 	popup_dom.style.borderWidth=px2em(tt_block_border_width);
+	if (ol_style !== undefined) popup_dom.style.borderStyle=ol_style;
 	
 	console.log(fg_color);
 	

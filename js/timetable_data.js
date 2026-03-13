@@ -540,7 +540,8 @@ export let color_presets=[
 	},
 	{
 	"name":"panel-open",
-	"color":"var(--color-timetable-panel-open)"
+	"color":"var(--color-timetable-panel-open)",
+	"outline_style":"dashed"
 	},
 	{
 	"name":"night-show",
