@@ -47,11 +47,11 @@ export let blocks=[
 	"tagline_en":"",
 	"tagline_kr":""
 	},
-	{ 
+	{
 	"display":true,
 	"name_kr":"말랑 더 비트 리허설",
 	"name_en":"MTB Rehersal",
-	"start_time":"12:00",
+	"start_time":"12:15",
 	"end_time":"12:45",
 	"color_preset":"buffer",
 	"column":"main-stage",
@@ -65,7 +65,7 @@ export let blocks=[
 	"name_kr":"포니 영상 상영회",
 	"name_en":"Pony Videos Theater",
 	"start_time":"12:45",
-	"end_time":"13:30",
+	"end_time":"13:15",
 	"color_preset":"panel-sub",
 	"column":"main-stage",
 	"description_en":"Let's watch some nostalgic pony videos!",
@@ -118,7 +118,7 @@ export let blocks=[
 	"name_en":"Malang the Beat! : DJ Performance",
 	"start_time":"18:30",
 	"end_time":"20:30",
-	"color_preset":"night-show",
+	"color_preset":"panel-late-c",
 	"column":"main-stage",
 	"description_en":"A DJ party with pony fan music and remixes!",
 	"description_kr":"포니 2차 창작 음악과 리믹스가 있는 DJ 파티!",
@@ -133,7 +133,7 @@ export let blocks=[
 	"name_en":"Malang Wrap-Up Lounge",
 	"start_time":"20:45",
 	"end_time":"23:00",
-	"color_preset":"panel-late",
+	"color_preset":"panel-late-a",
 	"column":"main-stage",
 	"description_en":"Relax and wind down as the event comes to a close.",
 	"description_kr":"여운을 즐기며 행사를 마무리하세요.",
@@ -209,19 +209,6 @@ export let blocks=[
 	},
 	{ 
 	"display":true,
-	"name_kr":"포니 게임방",
-	"name_en":"Pony Game Room",
-	"start_time":"18:30",
-	"end_time":"20:30",
-	"color_preset":"panel-sub",
-	"column":"sub-hall",
-	"description_en":"Play pony-themed board games and video games!",
-	"description_kr":"다양한 포니 보드게임과 비디오게임을 체험해보세요!",
-	"tagline_en":"",
-	"tagline_kr":""
-	},
-	{ 
-	"display":true,
 	"name_kr":"말랑말랑 포니 그림 교실",
 	"name_en":"Malang Drawing Class",
 	"start_time":"15:45",
@@ -233,6 +220,7 @@ export let blocks=[
 	"tagline_en":"",
 	"tagline_kr":""
 	},
+	/*
 	{ 
 	"display":true,
 	"name_kr":"참가자 패널 1",
@@ -272,16 +260,57 @@ export let blocks=[
 	"tagline_en":"",
 	"tagline_kr":""
 	},
+	*/
+	{ 
+	"display":true,
+	"name_kr":"참가자 패널",
+	"name_en":"Panel Slot",
+	"start_time":"10:30",
+	"end_time":"15:30",
+	"color_preset":"panel-open",
+	"column":"sub-hall",
+	"description_en":'Slot for panelists.<br>Apply to be a panelist: <span class="internal-page-autolink autofill-pagename link-button inline color-internal icon-internal generate-icon" data-pageid="panelist"></span>',
+	"description_kr":'포니를 주제로 자유롭게 발표해보세요!<br>패널리스트 모집중: <span class="internal-page-autolink autofill-pagename link-button inline color-internal icon-internal generate-icon" data-pageid="panelist"></span>',
+	"tagline_en":"",
+	"tagline_kr":""
+	},
+	/*
+	{ 
+	"display":true,
+	"name_kr":"포니 게임방",
+	"name_en":"Pony Game Room",
+	"start_time":"18:30",
+	"end_time":"20:30",
+	"color_preset":"panel-late-b",
+	"column":"sub-hall",
+	"description_en":"Play pony-themed board games and video games!",
+	"description_kr":"다양한 포니 보드게임과 비디오게임을 체험해보세요!",
+	"tagline_en":"",
+	"tagline_kr":""
+	},
 	{ 
 	"display":true,
 	"name_kr":"포니 노래방",
 	"name_en":"My Little Karaoke",
 	"start_time":"20:30",
 	"end_time":"22:30",
-	"color_preset":"panel-late",
+	"color_preset":"panel-late-a",
 	"column":"sub-hall",
 	"description_en":"Karaoke, but with pony!",
 	"description_kr":"My Little Karaoke로 포니 노래를 마음껏 불러봐요!",
+	"tagline_en":"",
+	"tagline_kr":""
+	},*/
+	{ 
+	"display":true,
+	"name_kr":"포니 게임방 &amp; 노래방",
+	"name_en":"Pony Game Room &amp; Karaoke",
+	"start_time":"18:30",
+	"end_time":"22:30",
+	"color_preset":"panel-late-b",
+	"column":"sub-hall",
+	"description_en":"Play pony-themed board games and video games!",
+	"description_kr":"다양한 포니 보드게임과 비디오게임을 체험해보세요!",
 	"tagline_en":"",
 	"tagline_kr":""
 	},
@@ -470,6 +499,12 @@ export let color_presets=[
 	"color":"var(--color-timetable-buffer)"
 	},
 	{
+	"name":"buffer-semitransp",
+	"color":"hsl( from var(--color-timetable-buffer) h s l / 70%)",
+	"text_color":"hsl( from var(--color-text-dark) h s l / 70%)",
+	"outline_color":"hsl( from var(--color-text-dark) h s l / 50%)"
+	},
+	{
 	"name":"event-critical",
 	"color":"var(--color-timetable-event-critical)"
 	},
@@ -482,8 +517,20 @@ export let color_presets=[
 	"color":"var(--color-timetable-panel-main)"
 	},
 	{
-	"name":"panel-late",
-	"color":"var(--color-text-dark)",
+	"name":"panel-late-a",
+	"color":"var(--color-timetable-panel-late-a)",
+	"text_color":"var(--color-text-light)",
+	"outline_color":"hsl( from var(--color-text-light) h s l / 70%)"
+	},
+	{
+	"name":"panel-late-b",
+	"color":"var(--color-timetable-panel-late-b)",
+	"text_color":"var(--color-text-light)",
+	"outline_color":"hsl( from var(--color-text-light) h s l / 70%)"
+	},
+	{
+	"name":"panel-late-c",
+	"color":"var(--color-timetable-panel-late-c)",
 	"text_color":"var(--color-text-light)",
 	"outline_color":"hsl( from var(--color-text-light) h s l / 70%)"
 	},
@@ -495,7 +542,7 @@ export let color_presets=[
 	"name":"panel-open",
 	"color":"var(--color-timetable-panel-open)"
 	},
-{
+	{
 	"name":"night-show",
 	"color":"var(--color-timetable-night-show)"
 	},
