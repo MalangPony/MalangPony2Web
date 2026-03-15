@@ -240,8 +240,8 @@ export let blocks=[
 	
 	{ 
 	"display":true,
-	"name_kr":"포니 오락실",
-	"name_en":"Pony Game Room",
+	"name_kr":"포니 아케이드",
+	"name_en":"Pony Arcade",
 	"start_time":"18:00",
 	"end_time":"20:00",
 	"color_preset":"night-show",
