@@ -139,7 +139,7 @@ export const credits_list=[
 		profile_pic:null
 	},
 	
-
+	// Sponsors
 	{
 		name_ko:"반잠",
 		name_en:"반잠",
@@ -180,6 +180,16 @@ export const credits_list=[
 		primary:"sponsor",
 		profile_pic:null
 	},
+	{
+		name_ko:"사랑의짝대기",
+		name_en:"사랑의짝대기",
+		socials:[],
+		roles:["sponsor"],
+		primary:"sponsor",
+		profile_pic:null
+	},
+
+	// Mane
 	{
 		name_ko:"Ruinflare Rune",
 		name_en:"Ruinflare Rune",
@@ -228,6 +238,8 @@ export const credits_list=[
 		primary:"mane",
 		profile_pic:null
 	},
+
+	// Princess
 	{
 		name_ko:"나이트메어 레런",
 		name_en:"나이트메어 레런",
