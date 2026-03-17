@@ -103,8 +103,8 @@ export let blocks=[
 	},
 	{ 
 	"display":true,
-	"name_kr":"래플 추첨 및 수상식",
-	"name_en":"Raffle Draw and Awards Ceremony",
+	"name_kr":"폐회식",
+	"name_en":"Closing Ceremonies",
 	"start_time":"17:00",
 	"end_time":"18:00",
 	"color_preset":"event-critical",
