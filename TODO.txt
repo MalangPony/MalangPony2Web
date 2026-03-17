@@ -9,10 +9,8 @@ overscroll shows edge of backdrop
 Vendors page
 
 > Optional
-for Royal tier box, make it fancy
 L2D HD/SD resolution change button
 Safari accelerometer permission ask
-
 
 > Extra
 L2D SFX
@@ -20,16 +18,6 @@ idle on sky mode - a smol hanmari horizontally moves across screen
 Sky constallations
 3d map add pony
 Timetable mobile when clicking on X button, block behind x gets hovered
-maybe: reg table slightly pink like in old site?
 Change all domains (malangpony.com) to a PHP expression, for when it gets old/
 404 Page
 main.js:120,140 forwards fill to finish callback
-Disable stars on nonintro pages? Disable star animation?
-
-> BEFORE SOURCE PUBLIC
-
-
-> RIGHT BEFORE PUSH TO PROD
-
-
-> AFTER PUSH TO PROD
