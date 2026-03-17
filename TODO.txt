@@ -13,7 +13,6 @@ for Royal tier box, make it fancy
 L2D HD/SD resolution change button
 Safari accelerometer permission ask
 
-Overlay for testing site
 
 > Extra
 L2D SFX
