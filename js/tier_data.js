@@ -300,8 +300,8 @@ export const perks_data={
 		desc_ko:"릴레이 포니 스케치 패널에서 다함께 그릴 포니 장면을 선택하실 수 있습니다."},
 	song_request:{
 		name_en:"Song Request in Malang The Beat!",name_ko:"말랑 더 비트! 선곡권",
-		desc_en:"You'll be able to request a song in our DJ show, Malang The Beat! Fill the floor with a song of your choosing. The DJ will mention the song was requested by a VIP.",
-		desc_ko:"행사의 피날레인 '말랑 더 비트', 귀하가 선택한 음악으로 플로어를 채울 수 있습니다. DJ가 VVIP의 신청곡임을 특별히 언급하며 재생해 드립니다."},
+		desc_en:"You'll be able to request a pony music in 'Malang the Beat! : DJ Performance'! Fill the floor with your requested music. The DJ will mention that it was requested by the Royal Princess.",
+		desc_ko:"행사의 피날레인 '말랑 더 비트! : DJ 쇼'에 원하는 포니 음악을 신청할 수 있습니다. DJ가 로얄 프린세스의 신청곡임을 특별히 언급하며 재생해 드립니다."},
 	signed_poster:{
 		name_en:"Poster Signed by Staff",name_ko:"스태프 사인 포스터",
 		explanation_required:false,
