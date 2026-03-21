@@ -75,7 +75,7 @@ export let blocks=[
 	},
 	{ 
 	"display":true,
-	"name_kr":"우리말 겨루기 II",
+	"name_kr":"우리'말' 겨루기 II",
 	"name_en":"Pony Trivia II",
 	"start_time":"13:30",
 	"end_time":"15:00",
