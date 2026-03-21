@@ -66,6 +66,7 @@ const debug_print_features=document.getElementById("debug-print-features");
 const debug_print_faa=document.getElementById("debug-print-faa");
 const debug_print_container=document.getElementById("debug-print-area");
 
+const domain_warning_overlay = document.getElementById("domain-warning-overlay");
 
 const hanmari_image_container = document.getElementById("hmr-image-container");
 const master_hanmari_container = document.getElementById("master-hanmari-container");
@@ -94,6 +95,17 @@ const countdown_display = document.getElementById("countdown-display");
 
 const load_screen = document.getElementById("load-screen");
 
+
+
+// Domain Warning 
+const url_domain = window.location.hostname;
+if (url_domain==="localhost"){
+  domain_warning_overlay.style.display="flex";
+  domain_warning_overlay.innerHTML="LOCAL SERVER"
+}else if (url_domain==="testing.malangpony.com"){
+  domain_warning_overlay.style.display="flex";
+  domain_warning_overlay.innerHTML="TESTING SITE"
+}
 
 // Debug print area
 if (!Config.DEBUG_OVERLAY_ACTIVE) debug_print_container.style.display="none";

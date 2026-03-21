@@ -1,9 +1,37 @@
 /* Stuff that is displayed over the page. Mostly stuff in #stickies */
 
 
+/* Domain Warning */
+
+@keyframes blink {
+  0% {
+    color: #FFFFFF;
+  }
+  50%{
+    color: #000000;
+  }
+}
+
+#domain-warning-overlay{
+  animation: blink 1s step-end infinite;
+  background-color:#FF8888A0;
+  position:absolute;
+  top:0;
+  left:0;
+  width:200px;
+  height: 32px;
+  font-size:20px;
+  font-family:"DM Mono";
+  font-weight:700;
+  padding:4px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
 /* Debug panel */
 #debug-print-area{
-  z-index:99;
+  z-index:98;
   background-color:#00000040;
   color:#88FF8880;
   position:absolute;
