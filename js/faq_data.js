@@ -22,9 +22,9 @@ export let questions=[
 	},
 	{
 		qtext_ko:"구매한 참가증의 등급 변경이 가능한가요?",
-		qtext_en:"",
+		qtext_en:"Can I change the tier of the badge I already purchased?",
 		atext_ko:"위치폼 시스템 상 이미 구매한 참가증의 등급 변경이 불가능합니다. 참가증을 환불한 뒤, 자리가 남아 있는 등급에 다시 참가 등록을 해주세요.",
-		atext_en:"",
+		atext_en:"The badge tier cannot be changed after purchase. Please request a refund, and then re-purchase a badge at your desired tier.",
 		categories:[]
 	},
 	{
@@ -59,7 +59,7 @@ export let questions=[
 		qtext_ko:"패널 도중에 들어가거나 나가도 되나요?",
 		qtext_en:"Can I leave during a panel?",
 		atext_ko:"패널 도중 자유롭게 입장, 퇴장하셔도 됩니다. 다만 팀을 나누어 진행되는 패널 등은 도중에 입장하면 관전자로만 참여할 수도 있습니다.",
-		atext_en:"You are free to leave and enter anytime during any panel.",
+		atext_en:"You are free to leave and enter anytime during any panel. However, certain panels, such as the ones in which participants are teamed up for a game, you may have to spectate until the end of the panel if you arrive late.",
 		categories:[]
 	},
 	{
