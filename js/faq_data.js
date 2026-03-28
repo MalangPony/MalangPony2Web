@@ -21,7 +21,14 @@ export let questions=[
 		categories:[]
 	},
 	{
-		qtext_ko:"참가증 양도가 가능한가요?",
+		qtext_ko:"구매한 참가증의 등급 변경이 가능한가요?",
+		qtext_en:"",
+		atext_ko:"위치폼 시스템 상 이미 구매한 참가증의 등급 변경이 불가능합니다. 참가증을 환불한 뒤, 자리가 남아 있는 등급에 다시 참가 등록을 해주세요.",
+		atext_en:"",
+		categories:[]
+	},
+	{
+		qtext_ko:"구매한 참가증의 양도가 가능한가요?",
 		qtext_en:"Can the badges be transferred?",
 		atext_ko:"참가 등록 마감일인 6월 30일 전까지 위치폼의 양도 기능을 사용하여 참가증을 자유롭게 양도하실 수 있습니다.",
 		atext_en:"You may use the WitchForm's transfer function to transfer badges before June 30th. However, if you have purchased the badge through Google Forms/PayPal, you will need to contact us.",
@@ -37,7 +44,7 @@ export let questions=[
 	{
 		qtext_ko:"점심이나 저녁시간이 있나요?",
 		qtext_en:"Is there time for having lunch or dinner?",
-		atext_ko:"점심이나 저녁시간은 따로 마련되어 있지 않지만, 행사 도중 언제든지 자유롭게 나가셔서 식사를 하고 오셔도 됩니다.",
+		atext_ko:"점심이나 저녁시간은 따로 마련되어 있지 않으며, 행사 도중 언제든지 자유롭게 나가셔서 식사를 하고 오셔도 됩니다.",
 		atext_en:"There's no official lunch or dinner time in the event timetable, but you may go outside and get food anytime during the event and return.",
 		categories:[]
 	},
@@ -51,7 +58,7 @@ export let questions=[
 	{
 		qtext_ko:"패널 도중에 들어가거나 나가도 되나요?",
 		qtext_en:"Can I leave during a panel?",
-		atext_ko:"패널 도중 자유롭게 입장, 퇴장하셔도 됩니다.",
+		atext_ko:"패널 도중 자유롭게 입장, 퇴장하셔도 됩니다. 다만 팀을 나누어 진행되는 패널 등은 도중에 입장하면 관전자로만 참여할 수도 있습니다.",
 		atext_en:"You are free to leave and enter anytime during any panel.",
 		categories:[]
 	},
@@ -72,7 +79,7 @@ export let questions=[
 	{
 		qtext_ko:"부스에 인원 수 제한이 있나요?",
 		qtext_en:"Is there a limit to how many people can be in a single vendor booth?",
-		atext_ko:"부스인원에 대한 제약은 없습니다! 다만 부스 하나당 의자는 두개씩 주어지며, 부스 운영자 모두 말랑포니 입장권을 따로 구매하셔야 합니다.",
+		atext_ko:"부스인원에 대한 제약은 없습니다! 다만 부스 하나당 의자는 두개씩 주어지며, 부스 운영자 모두 말랑포니 참가증을 따로 구매하셔야 합니다.",
 		atext_en:"There is no hard limit on the number of people. However, there are only two seats per table, and everyone needs to have a badge to the event.",
 		categories:[]
 	},
@@ -84,7 +91,7 @@ export let questions=[
 		categories:[]
 	},
 	{
-		qtext_ko:"행사장 내부에서 음식물 섭취가 가능한가요?",
+		qtext_ko:"행사장 내부에서 음식을 먹을 수 있나요?",
 		qtext_en:"Can I bring food and eat during the event?",
 		atext_ko:"행사중에 음료나 간단한 간식을 드시는 것은 가능하지만, 냄새나 소리가 다른 참가자들에게 방해가 되지 않도록 해주세요.",
 		atext_en:"You are free to have a snack and drink during the event, but make sure the smell or the noise don't bother the other participants.",
