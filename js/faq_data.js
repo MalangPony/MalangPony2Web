@@ -58,8 +58,8 @@ export let questions=[
 	{
 		qtext_ko:"패널 도중에 들어가거나 나가도 되나요?",
 		qtext_en:"Can I leave during a panel?",
-		atext_ko:"패널 도중 자유롭게 입장, 퇴장하셔도 됩니다. 다만 팀을 나누어 진행되는 패널 등은 도중에 입장하면 관전자로만 참여할 수도 있습니다.",
-		atext_en:"You are free to leave and enter anytime during any panel. However, certain panels, such as the ones in which participants are teamed up for a game, you may have to spectate until the end of the panel if you arrive late.",
+		atext_ko:"패널 도중 자유롭게 입장, 퇴장하셔도 됩니다. 다만, 일부 패널(팀을 나누어 진행되는 패널 등)은 늦게 입장하면 관전자로만 참여할 수도 있습니다.",
+		atext_en:"You are free to leave and enter anytime during any panel. However, in some panels (for example, ones that require team participation), you may have to spectate if you arrive late.",
 		categories:[]
 	},
 	{
