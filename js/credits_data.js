@@ -241,14 +241,6 @@ export const credits_list=[
 
 	// Princess
 	{
-		name_ko:"나이트메어 레런",
-		name_en:"나이트메어 레런",
-		socials:[],
-		roles:["princess"],
-		primary:"princess",
-		profile_pic:null
-	},
-	{
 		name_ko:"마싱는수박",
 		name_en:"마싱는수박",
 		socials:[],
