@@ -50,7 +50,7 @@ export let blocks=[
 	{
 	"display":true,
 	"name_kr":"말랑 더 비트 리허설",
-	"name_en":"MTB Rehersal",
+	"name_en":"MTB Rehearsal",
 	"start_time":"12:00",
 	"end_time":"12:45",
 	"color_preset":"buffer",
