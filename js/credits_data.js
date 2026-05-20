@@ -11,7 +11,12 @@ export const credits_list=[
 				handle:"@PaperSurgery"
 			}
 		],
-		roles:["head","design"],
+		roles:[
+			"head",
+			"graphic_design",
+			"guest_relations",
+			"panel_host",
+			"conbook"],
 		primary:"head",
 		profile_pic:null
 	},
@@ -25,7 +30,12 @@ export const credits_list=[
 				handle:"@megatarot"
 			}
 		],
-		roles:["accounting"],
+		roles:[
+			"accounting",
+			"panel_host",
+			"guest_relations",
+			"con_relations",
+			"merch_production"],
 		primary:"accounting",
 		profile_pic:null
 	},
@@ -39,7 +49,9 @@ export const credits_list=[
 				handle:"@ShortcakeSweetz"
 			}
 		],
-		roles:["accounting"],
+		roles:[
+			"accounting",
+			"official_booth"],
 		primary:"accounting",
 		profile_pic:null
 	},
@@ -58,7 +70,9 @@ export const credits_list=[
 				handle:"@ninethedivine"
 			}
 		],
-		roles:["pr"],
+		roles:[
+			"pr",
+			"discord_moderation"],
 		primary:"pr",
 		profile_pic:null
 	},
@@ -77,7 +91,12 @@ export const credits_list=[
 				handle:"@sheeppony"
 			},
 		],
-		roles:["web","design"],
+		roles:[
+			"web",
+			"graphic_design",
+			"conbook",
+			"panel_host",
+			"merch_production"],
 		primary:"web",
 		profile_pic:null
 	},
@@ -87,8 +106,8 @@ export const credits_list=[
 		socials:[
 			// Intentionally left blank
 		],
-		roles:["assistant"],
-		primary:"assistant",
+		roles:["documentation"],
+		primary:"documentation",
 		profile_pic:null
 	},
 	{
@@ -101,8 +120,10 @@ export const credits_list=[
 				handle:"fbud818"
 			}
 		],
-		roles:["assistant"],
-		primary:"assistant",
+		roles:[
+			"pr",
+			"documentation"],
+		primary:"documentation",
 		profile_pic:null
 	},
 	{
@@ -115,7 +136,7 @@ export const credits_list=[
 				handle:"@kari_izuchi"
 			}
 		],
-		roles:["artist","design"],
+		roles:["artist"],
 		primary:"artist",
 		profile_pic:null
 	},
@@ -134,7 +155,7 @@ export const credits_list=[
 				handle:"@marenlicious"
 			},
 		],
-		roles:["artist","design"],
+		roles:["artist","panel_host"],
 		primary:"artist",
 		profile_pic:null
 	},
@@ -183,6 +204,22 @@ export const credits_list=[
 	{
 		name_ko:"사랑의짝대기",
 		name_en:"사랑의짝대기",
+		socials:[],
+		roles:["sponsor"],
+		primary:"sponsor",
+		profile_pic:null
+	},
+	{
+		name_ko:"hanawon",
+		name_en:"hanawon",
+		socials:[],
+		roles:["sponsor"],
+		primary:"sponsor",
+		profile_pic:null
+	},
+	{
+		name_ko:"백그라운드 포니 #1",
+		name_en:"백그라운드 포니 #1",
 		socials:[],
 		roles:["sponsor"],
 		primary:"sponsor",
@@ -271,14 +308,56 @@ export const credits_list=[
 
 // Roles
 export const role_definitions={
-	head:{en:"Con Head",ko:"행사 주최"},
-	design:{en:"Design",ko:"디자인"},
-	accounting:{en:"Accounting",ko:"재무"},
-	pr:{en:"Public Relations",ko:"홍보 및 SNS 관리"},
-	web:{en:"Web Programming",ko:"웹 개발"},
-	assistant:{en:"Assistant",ko:"서무"},
-	artist:{en:"Art",ko:"아티스트"},
-	princess:{en:"Royal Princess",ko:"로얄 프린세스"},
-	mane:{en:"Mane Six",ko:"메인식스"},
-	sponsor:{en:"Sponsor",ko:"스폰서"}
+	head:{
+		en:"Con Head",
+		ko:"행사 주최"},
+	graphic_design:{
+		en:"Graphic Design",
+		ko:"그래픽 디자인"},
+	panel_host:{
+		en:"Panel Host",
+		ko:"패널 진행"},
+	conbook:{
+		en:"Conbook Design",
+		ko:"콘북 디자인"},
+	guest_relations:{
+		en:"Guest Relations",
+		ko:"게스트 관계"},
+	con_relations:{
+		en:"Con Relations",
+		ko:"행사 협력"},
+	merch_production:{
+		en:"Merch Production",
+		ko:"굿즈 제작"},
+	official_booth:{
+		en:"Official Booth",
+		ko:"공식 부스"},
+	discord_moderation:{
+		en:"Discord Moderation",
+		ko:"디스코드 관리"},
+	documentation:{
+		en:"Paperwork",
+		ko:"서무"},
+	accounting:{
+		en:"Accounting",
+		ko:"재무"},
+	pr:{
+		en:"Public Relations",
+		ko:"홍보 및 SNS 관리"},
+	web:{
+		en:"Web Programming",
+		ko:"웹 개발"},
+	artist:{
+		en:"Art",
+		ko:"아티스트"},
+	
+	princess:{
+		en:"Royal Princess",
+		ko:"로얄 프린세스"},
+	mane:{
+		en:"Mane Six",
+		ko:"메인식스"},
+	sponsor:{
+		en:"Sponsor",
+		ko:"스폰서"}
 };

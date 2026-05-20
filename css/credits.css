@@ -12,6 +12,8 @@
  *           .credits-entry-name
  *           .credits-entry-role-list
  *             .credits-entry-role +
+ *           .credits-entry-sns-list
+ *             .credits-entry-sns +
  * 
  */
 #credits-columns{
@@ -137,6 +139,34 @@
 	gap:2px 4px;
 	min-height:1.0em;
 	font-size:0.8em;
+}
+
+
+.credits-entry-role-list{
+	font-size:0.8em;
+	padding-left:0.5em;
+	display:flex;
+	
+	align-items:flex-start;
+	flex-direction:column;
+	
+	justify-content:flex-start;
+	
+	transition-property:max-height, opacity;
+	transition-duration:0.2s;
+	
+	max-height:0px;
+	opacity:0.0;
+	overflow:hidden;
+}
+
+.anim-disabled .credits-entry-role-list{
+	transition-duration:0s;
+}
+
+.credits-entry-container.expanded .credits-entry-role-list{
+	max-height:10lh;
+	opacity:1.0;
 }
 
 #credits-partners{

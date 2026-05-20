@@ -1,5 +1,6 @@
 /* Generates credits list */
 import * as CreditsData from "./credits_data.js";
+import * as Config  from "./config.js";
 
 // The primary roles. Populated automatically from data.
 let primary_roles=[];
@@ -37,8 +38,40 @@ const template_listing  = document.getElementById("credits-template-listing");
 function generate_entry(entry,list_sns=true){
 	let entry_dom = template_listing.content.cloneNode(true);
 	
+	let cec=entry_dom.querySelector(".credits-entry-container");
+	let cen=entry_dom.querySelector(".credits-entry-name");
+	
 	entry_dom.querySelector(".credits-entry-name > .lang-ko").innerHTML=entry.name_ko;
 	entry_dom.querySelector(".credits-entry-name > .lang-en").innerHTML=entry.name_en;
+	
+	let cerl = entry_dom.querySelector(".credits-entry-role-list");
+	if (Config.CREDITS_EXPANDABLE_ROLE_LIST){
+		for (const role of entry.roles){
+			let lineK = document.createElement("div");
+			lineK.classList.add("credits-entry-role");
+			lineK.classList.add("lang-ko");
+			lineK.innerHTML = CreditsData.role_definitions[role].ko;
+			cerl.appendChild(lineK);
+			
+			let lineE = document.createElement("div");
+			lineE.classList.add("credits-entry-role");
+			lineE.classList.add("lang-en");
+			lineE.innerHTML = CreditsData.role_definitions[role].en;
+			cerl.appendChild(lineE);
+		}
+		
+		cen.addEventListener("click",()=>{
+			cec.classList.toggle("expanded");
+		});
+		cen.style.cursor="pointer";
+		cerl.addEventListener("click",()=>{
+			cec.classList.toggle("expanded");
+		});
+		cerl.style.cursor="pointer";
+	}else{
+		cerl.style.display="none";
+		cerl.remove();
+	}
 	
 
 	let sns_list = entry_dom.querySelector(".credits-entry-sns-list");
@@ -57,35 +90,10 @@ function generate_entry(entry,list_sns=true){
 		}
 		sns_dom.href=sns_entry.link;
 		sns_dom.target="_blank";
-		/*
-		let sns_ko=document.createElement("span");
-		sns_ko.classList.add("lang-ko");
-		sns_ko.innerHTML=CreditsData.sns_definitions[sns_id].ko;
-		sns_dom.appendChild(sns_ko);
-		
-		let sns_en=document.createElement("span");
-		sns_en.classList.add("lang-en");
-		sns_en.innerHTML=CreditsData.sns_definitions[sns_id].en;
-		sns_dom.appendChild(sns_en);
-		*/
 		sns_dom.innerHTML=sns_entry.handle;
 		sns_list.appendChild(sns_dom);
 	}
 	if (!list_sns) sns_list.style.display="none";
-	
-	/*
-	let sns_mode=false;
-	entry_dom.querySelector(".credits-entry-name")
-			 .addEventListener("click",()=>{
-		sns_mode=!sns_mode;
-		if (sns_mode){
-			role_list.style.height="0em";
-			sns_list.style.height="1.2em";
-		}else{
-			role_list.style.height="1.2em";
-			sns_list.style.height="0em";
-		}
-	});*/
 	
 	return entry_dom;
 }
