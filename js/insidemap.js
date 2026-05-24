@@ -38,12 +38,19 @@ let current_size=0;
 // Domain is just a fancy name for the map type.
 let current_domain="persp1";
 
+
+let zone_list=[]
+for (const k of InsidemapAutoData.zone_list){
+  if (!InsidemapManualData.zone_data[k].hide) zone_list.push(k);
+}
+  
+
 // Generate Path2D objects from the raw data
 // Should match the canvas pixel size.
 let paths={};
 function recalculate_paths(){
   paths={};
-  for (const k of InsidemapAutoData.zone_list){
+  for (const k of zone_list){
     let p2d=new Path2D();
     let coords=InsidemapAutoData.data[current_domain][k]["zone_poly"];
     for (let i=0;i<coords.length;i++){
@@ -63,7 +70,7 @@ function recalculate_paths(){
 let centers={};
 function recalculate_centers(){
   centers={};
-  for (const k of InsidemapAutoData.zone_list){
+  for (const k of zone_list){
     let co=InsidemapAutoData.data[current_domain][k]["center_override"];
     if (co !== undefined){
       centers[k]=[
@@ -185,7 +192,7 @@ const sc2d = canvas.getContext("2d");
 //   or when the zone is clicked again.
 let selection_progress={};
 let hover_progress={};
-for (const k of InsidemapAutoData.zone_list){
+for (const k of zone_list){
   let s=new AnimatedValue(0.0);
   s.duration=0.5;
   s.exponent=3.0;
@@ -203,7 +210,7 @@ for (const k of InsidemapAutoData.zone_list){
 // When a zone is selected, its key is shifted to the end.
 // This is used to determine the drawing order.
 let selection_sorted_keys=[];
-for (const k of InsidemapAutoData.zone_list){
+for (const k of zone_list){
   selection_sorted_keys.push(k);
 }
 
@@ -221,7 +228,7 @@ let selection_map={};
 // Is the zone being hovered over?
 let hover_map={};
 
-for (const k of InsidemapAutoData.zone_list){
+for (const k of zone_list){
   selection_map[k]=false;
   hover_map[k]=false;
 }
@@ -240,20 +247,20 @@ function mouse_events_handler(e,click){
   // Zone bounds check
   let hm_last=hover_map;
   hover_map={};
-  for (const k of InsidemapAutoData.zone_list){
+  for (const k of zone_list){
     hover_map[k] = sc2d.isPointInPath(paths[k],localX,localY);
   }
   
   // Calculate max priority
   let max_priority=-Infinity;
-  for (const k of InsidemapAutoData.zone_list){
+  for (const k of zone_list){
     if (hover_map[k]){
       if (InsidemapManualData.zone_data[k].priority>max_priority) max_priority=InsidemapManualData.zone_data[k].priority;
     }
   }
   // Filter out lower-priority zones.
   // This means if multiple zones have the same priority, they can be selected at the same time.
-  for (const k of InsidemapAutoData.zone_list){
+  for (const k of zone_list){
     if (InsidemapManualData.zone_data[k].priority<max_priority){
       hover_map[k] = false;
     }
@@ -263,7 +270,7 @@ function mouse_events_handler(e,click){
   let sm_last=selection_map;
   if (click){
     selection_map={};
-    for (const k of InsidemapAutoData.zone_list){
+    for (const k of zone_list){
       // Flip the selection if clicked. Clicking again on a selected zone deselects it.
       if (hover_map[k]) selection_map[k]= !sm_last[k];
       else selection_map[k]=false;
@@ -274,7 +281,7 @@ function mouse_events_handler(e,click){
   let any_hover=false;
   let any_selected=false;
   let was_any_selected=false;
-  for (const k of InsidemapAutoData.zone_list){
+  for (const k of zone_list){
     let was_selected = sm_last[k];
     let selected = selection_map[k];
     let was_hovered = hm_last[k];
@@ -378,7 +385,7 @@ function update_canvas(dt){
   if (!Global.animated) sine_value=0;
   
   // AnimatedValues must be ticked
-  for (const k of InsidemapAutoData.zone_list){
+  for (const k of zone_list){
     selection_progress[k].tick(dt);
     hover_progress[k].tick(dt);
   }
@@ -398,7 +405,7 @@ function update_canvas(dt){
   let focus=focusAV.calculate_value();
   
   // Draw zones
-  for (const k of InsidemapAutoData.zone_list){
+  for (const k of zone_list){
     let p=paths[k];
     let hp=hover_progress[k].calculate_value();
     let sp=selection_progress[k].calculate_value();

@@ -75,13 +75,15 @@ export const zone_data={
     category:"main",
     priority:2
   },
+  
   control:{
     name_ko:"본부석",
     name_en:"HQ",
     desc_ko:"문의사항이 생기면 여기로 와주세요.",
     desc_en:"Here's where you can get help\nif you ever need it.",
     category:"reg",
-    priority:2
+    priority:2,
+    hide:true
   },
   vendor:{
     name_ko:"부스 존",
