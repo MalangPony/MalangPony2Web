@@ -186,7 +186,7 @@ export let blocks=[
 	"name_kr":"굿즈 전시대",
 	"name_en":"Merch Shrine",
 	"start_time":"09:00",
-	"end_time":"19:00",
+	"end_time":"20:00",
 	"color_preset":"long-running",
 	"column":"main-side-shrine",
 	"description_en":"A place to show off your pony merch.",
