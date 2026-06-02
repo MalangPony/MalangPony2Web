@@ -365,7 +365,7 @@
     var(--color-naver-base));
 }
 .link-button.icon-naver-blog::before{
-  background-image:url("/siteicons/favicon_nblog.png");
+  background-image:url("/siteicons/favicon_nblog+NEW_Sq-64px.png");
   --lb-image-icon-size-multiplier:calc(1.0 * var(--lb-icon-size-multiplier));
 }
 
