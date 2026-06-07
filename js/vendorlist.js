@@ -1,8 +1,6 @@
 
 import * as VendorData from "./vendor_data.js"
-
-
-VendorData.vendors;
+import * as ImagePopup from "./image_popup.js";
 
 
 const template = document.getElementById("vendor-list-entry-template");
@@ -19,9 +17,15 @@ for (const v of VendorData.vendors){
 	let social_dom = template_dom.querySelector(".vle-social");
 	
 	let img = document.createElement("img");
-	img.src = "image/Vendors/"+v.image;
+	img.src = "image/Vendors/"+v.image_thumb;
 	img.classList.add("vle-image");
 	image_container_dom.appendChild(img);
+	
+	image_container_dom.addEventListener(
+		"click",()=>{
+			ImagePopup.popup_image("image/Vendors/"+v.image_full);
+	});
+	image_container_dom.style.cursor="pointer";
 	
 	index_dom.innerHTML = ""+v.location;
 	title_dom.innerHTML = v.name;

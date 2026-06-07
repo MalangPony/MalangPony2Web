@@ -150,11 +150,29 @@ Sorry (again) for the spaghetti.
     <!-- Zindex allocation: -->
     <!-- 99 #testing-warning -->
     <!-- 98 #debug-print-area -->
+    <!-- 31 #image-popup -->
     <!-- 30 #email-popup -->
     <!-- 11 #sidebar-animation-container -->
     <!-- 10 #sidebar-container -->
     <!-- 6  #sb-button-positioner -->
     <!-- 5  #switch-positioner -->
+    
+    <div id="image-popup" class="fullsize" style="display:none;">
+      <!-- You can actually click anywhere to close, so this is kinda useless -->
+      <!-- BUT I know people will get stuck SOMEHOW if I don't give them a close button -->
+      <div class="image-popup-subcontainer" id="image-popup-close-container">
+        <div id="image-popup-close-button">
+        </div>
+      </div>
+      <div class="image-popup-subcontainer" id="image-popup-loading-container">
+        <div id="image-popup-loading-indicator">
+            <div>이미지 로딩중...</div>
+        </div>
+      </div>
+      <div class="image-popup-subcontainer" id="image-popup-image-container">
+        <img id="image-popup-img">
+      </div>
+    </div>
     
     <div id="email-popup" class="fullsize" style="display:none;">
       <div id="email-display-body">

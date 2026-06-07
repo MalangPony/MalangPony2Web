@@ -219,6 +219,65 @@
   gap:16px;
 }
 
+/* Image popup */
+#image-popup{
+  z-index:31;
+  pointer-events:auto;
+  background-color:#000000A0;
+}
+
+.image-popup-subcontainer{
+  position:absolute;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+#image-popup-loading-container{
+  z-index:2;
+  pointer-events:none;
+}
+#image-popup-image-container{
+  z-index:1;
+}
+#image-popup-close-container{
+  z-index:3;
+  justify-content:start;
+  align-items:start;
+}
+#image-popup-close-button{
+  padding:12px;
+  background-color:#00000080;
+  cursor:pointer;
+}
+#image-popup-close-container svg{
+  width:48px;
+  height:48px;
+}
+#image-popup-loading-indicator{
+  padding:24px;
+  background-color:#00000080;
+  color:#FFFFFF;
+  font-size:1.2em;
+  font-weight:700;
+}
+@keyframes pulsateanim {
+  from {opacity: 1.0;}
+  to {opacity: 0.5;}
+}
+#image-popup-loading-indicator > div{
+  animation-duration: 0.3s;
+  animation-direction: alternate;
+  animation-play-state: running;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-name:pulsateanim;
+}
+#image-popup-img{
+  max-height: calc(100% - 32px);
+  max-width: calc(100% - 32px);
+}
+
 
 /* Buttons on top right */
 #switch-positioner{
@@ -281,6 +340,17 @@
 
 /* Smaller Mobiles */
 @media (width<480px) {
+  #image-popup-img{
+    max-height: calc(100% - 16px);
+    max-width: calc(100% - 16px);
+  }
+  #image-popup-close-button{
+    padding:8px;
+  }
+  #image-popup-close-container svg{
+    width:36px;
+    height:36px;
+  }
 }
 
 /* Ridiculously Small Mobiles */
