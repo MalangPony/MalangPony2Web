@@ -244,11 +244,13 @@
   z-index:3;
   justify-content:start;
   align-items:start;
+  pointer-events:none;
 }
 #image-popup-close-button{
   padding:12px;
   background-color:#00000080;
   cursor:pointer;
+  pointer-events:auto;
 }
 #image-popup-close-container svg{
   width:48px;
