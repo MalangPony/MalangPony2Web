@@ -369,6 +369,24 @@
   --lb-image-icon-size-multiplier:calc(1.0 * var(--lb-icon-size-multiplier));
 }
 
+.link-button.color-tiktok{
+  --lb-color-bg:light-dark(
+    var(--color-tiktok-light-bg),
+    var(--color-tiktok-dark-bg));
+  --lb-color-text:light-dark(
+    var(--color-tiktok-light-fg),
+    var(--color-tiktok-dark-fg));
+}
+
+.light-mode .link-button.icon-tiktok::before{
+  background-image:url("/siteicons/Tiktok_Isolated_black-64px.png");
+  --lb-image-icon-size-multiplier:calc(1.0 * var(--lb-icon-size-multiplier));
+}
+.dark-mode .link-button.icon-tiktok::before{
+  background-image:url("/siteicons/Tiktok_Isolated_white-64px.png");
+  --lb-image-icon-size-multiplier:calc(1.0 * var(--lb-icon-size-multiplier));
+}
+
 .link-button.icon-internal::before{
   content:"open_in_browser";
   font-family:'Material Symbols Rounded';

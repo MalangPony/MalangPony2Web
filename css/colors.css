@@ -161,4 +161,12 @@
   --color-witchform-base: #fdff85; /* Website button color */
   --color-witchform-fg:#000; /* This is the value they use in their site */
   --color-witchform-bg:#FFF; /* This is the value they use in their site */
+  
+  /* Indistinguishable from X but whatever */
+  --color-tiktok-base:#000;
+  --color-tiktok-white:#FFF;
+  --color-tiktok-light-fg:#000;
+  --color-tiktok-light-bg:#FFF;
+  --color-tiktok-dark-fg:#FFF;
+  --color-tiktok-dark-bg:#000;
 }

@@ -22,14 +22,31 @@ export const vendors=[
 		name:"무지개위나비",
 		desc:"플러터샤이와 레인보우 대쉬 우정관 회지, 그리고 여러 굿즈들",
 		image:"무지개위나비 부스컷 - Kkotnem꽃넴_SQ200.png",
-		socials:[]
+		socials:[
+			{
+				link:"https://x.com/kkotnem",
+				site:"twitter",
+				handle:"@kkotnem"
+			}
+		]
 	},
 	{
 		location:2,
 		name:"어썸해요 포니의 숲",
 		desc:"20% 더 쿨해지고 싶어!",
 		image:"어썸해요 포니의 숲_SQ200.PNG",
-		socials:[]
+		socials:[
+			{
+				link:"https://dubit-sparkle.bsky.social/",
+				site:"bluesky",
+				handle:"@dubit-sparkle"
+			},
+			{
+				link:"https://x.com/dubit_sparkle",
+				site:"twitter",
+				handle:"@dubit_sparkle"
+			},
+		]
 	},
 	{
 		location:3,
@@ -43,14 +60,36 @@ export const vendors=[
 		name:"클라우즈데일 속 비밀스러운 상점",
 		desc:"재밌고 신박하고 귀여운 포니굿즈를 원하신다면? 클라우즈데일 상점으로 오세요!",
 		image:"클라우즈데일 속 비밀스러운 상점_SQ20.png",
-		socials:[]
+		socials:[
+			{
+				link:"https://x.com/shagin_",
+				site:"twitter",
+				handle:"@shagin_"
+			},
+		]
 	},
 	{
 		location:5,
 		name:"와포아기",
 		desc:"와 포니 아직도 기억하시는 구나!",
 		image:"와포아기_SQ200.png",
-		socials:[]
+		socials:[
+			{
+				link:"https://x.com/ruto_gogo",
+				site:"twitter",
+				handle:"@ruto_gogo"
+			},
+			{
+				link:"https://x.com/ruto_me",
+				site:"twitter",
+				handle:"@ruto_me"
+			},
+			{
+				link:"https://x.com/YouSayHowH1gh",
+				site:"twitter",
+				handle:"@YouSayHowH1gh"
+			},
+		]
 	},
 	{
 		location:6,
@@ -64,14 +103,41 @@ export const vendors=[
 		name:"Pucksterv",
 		desc:"A tiny little batpony flew all the from the Netherlands here to sell you cute stuff",
 		image:"Pucksterv_SQ200.png",
-		socials:[]
+		socials:[
+			{
+				link:"https://x.com/pucksterv",
+				site:"twitter",
+				handle:"@pucksterv"
+			},
+			{
+				link:"https://pucksterv.bsky.social/",
+				site:"bluesky",
+				handle:"@pucksterv"
+			}
+		]
 	},
 	{
 		location:8,
 		name:"비밀 우정 연구소",
 		desc:"우정의 마법은 실존 한다고요",
 		image:"비밀 우정 연구소_SQ200.png",
-		socials:[]
+		socials:[
+			{
+				link:"https://x.com/Aran_art0",
+				site:"twitter",
+				handle:"@Aran_art0"
+			},
+			{
+				link:"https://x.com/kimaran091227",
+				site:"twitter",
+				handle:"@kimaran091227"
+			},
+			{
+				link:"https://www.tiktok.com/@kim_aran12",
+				site:"tiktok",
+				handle:"@kim_aran12"
+			},
+		]
 	},
 	{
 		location:9,
