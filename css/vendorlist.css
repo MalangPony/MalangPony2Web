@@ -1,0 +1,77 @@
+.vendor-map-image{
+	width:min(100%,500px);
+	aspect-ratio: calc(1640/1151);
+	
+}
+#vendor-list-container{
+	display:flex;
+	flex-direction:column;
+	align-items:center;
+	align-self:stretch;
+	gap:8px;
+}
+
+
+/* 
+ * #vendor-list-entry-template
+ *   .vendor-list-entry
+ *     .vle-image-container
+ *     .vle-texts
+ *       .vle-index
+ *       .vle-title
+ *       .vle-desc
+ *       .vle-social
+ * 
+ */
+
+.vendor-list-entry{
+	width:min(100%,600px);
+	display:flex;
+	flex-direction:row;
+}
+.vle-image-container{
+	height:7.0em;
+	aspect-ratio:1.0;
+	align-self:end;
+	background-color: var(--color-text-auto);
+	
+}
+.vle-texts{
+	display:flex;
+	flex-direction:column;
+	flex-grow:1.0;
+	align-items:stretch;
+	justify-content:space-evenly;
+	gap:4px;
+	padding-top:4px;
+	padding-bottom:4px;
+	text-align:left;
+	padding-left:8px;
+	border-bottom-color:var(--color-text-auto);
+	border-bottom-width:0.1em;
+	border-bottom-style:dashed;
+}
+.vle-image{
+	height:calc(7.0em - 4px);
+	width:calc(7.0em - 4px);
+	margin:2px;
+}
+.vle-index{
+	font-size:0.8em;
+	font-weight:700;
+	padding-left:0.2em;
+}
+.vle-title{
+	font-size:1.5em;
+	font-weight:700;
+}
+.vle-desc{
+	padding-left:0.1em;
+}
+.vle-social{
+	display:flex;
+	flex-direction:row;
+	gap:4px;
+	font-size:0.8em;
+	flex-wrap:wrap;
+}

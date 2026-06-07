@@ -42,6 +42,7 @@ Sorry (again) for the spaghetti.
 <link href="css/register.css" rel="stylesheet" />
 <link href="css/faq.css" rel="stylesheet" />
 <link href="css/insidemap.css" rel="stylesheet" />
+<link href="css/vendorlist.css" rel="stylesheet" />
 <link href="css/etc.css" rel="stylesheet" />
 
 <!-- Bare minimum amount of styles to display the load screen -->
@@ -246,7 +247,7 @@ Sorry (again) for the spaghetti.
               <span class="lang-en">Venue Map</span>
               <span class="lang-ko">행사장 지도</span>
             </a>
-            <a class="sb-entry sb-link sb-link-disabled sb-link-sublevel" data-pageid="vendorlist">
+            <a class="sb-entry sb-link sb-link-active sb-link-sublevel" data-pageid="vendorlist">
               <span class="lang-en">Vendor List</span>
               <span class="lang-ko">부스 목록</span>
             </a>
@@ -1954,9 +1955,27 @@ Sorry (again) for the spaghetti.
             <span class="lang-ko">부스 목록</span>
           </div>
           
-          <div class="page-text-body centered" style="font-size:1.2em;margin-bottom:4px;">
-            Look at all those vendors!!!
+          <img class="ld-dark vendor-map-image" src="image/MPN2_Conbook_rev103_brVendorMapOnly_rev03_Dark_150dpi.png">
+          
+          <img class="ld-light vendor-map-image" src="image/MPN2_Conbook_rev103_brVendorMapOnly_rev03_Light_150dpi.png">
+          
+          <template id="vendor-list-entry-template">
+            <div class="vendor-list-entry">
+              <div class="vle-image-container"></div>
+              <div class="vle-texts">
+                <div class="vle-index"></div>
+                <div class="vle-title"></div>
+                <div class="vle-desc"></div>
+                <div class="vle-social"></div>
+              </div>
+            </div>
+          </template>
+          
+          <div id="vendor-list-container">
+          
           </div>
+          
+          
           
         </div> <!-- #page-vendorlist -->
         

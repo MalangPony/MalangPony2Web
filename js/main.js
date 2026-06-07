@@ -22,6 +22,7 @@ import * as FAQ from "./faq.js";
 import * as InsideMap from "./insidemap.js";
 import * as Global from "./global.js";
 import * as PerformanceManager from "./perfmanager.js";
+import * as VendorList from "./vendorlist.js";
 
 // DOM
 const body_dom = document.querySelector("body");
