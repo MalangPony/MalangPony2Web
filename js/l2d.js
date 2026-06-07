@@ -306,6 +306,15 @@ model?.once("load", ()=>{
 	auto_resize_model();
 	apply_state(null,true);
 	l2d_load_overlay.style.display="none";
+	
+	if (Config.OPTION_L2D_PRELOAD_MOTIONS){
+		// https://github.com/guansss/pixi-live2d-display/blob/master/src/cubism-common/MotionManager.ts
+		// MotionManager.setupMotions() takes a MotionManagerOptions object, 
+		//   which contains a MotionPreloadStrategy enum in its motionPreload property.
+		// Here the MotionManagerOptions object is just hacked together
+		//   to a bare minimum that setupMotions() method is able to run.
+		motion_manager.setupMotions({motionPreload:"ALL"}); 
+	}
 });
 
 
@@ -424,9 +433,9 @@ export function set_darken_strength(f){
 // Probably not a good idea?
 // Source: https://github.com/guansss/pixi-live2d-display/blob/master/src/cubism-common/FocusController.ts
 export let focus_controller=null;
-let core_model=null;
-let internal_model=null;
-let motion_manager=null;
+export let core_model=null;
+export let internal_model=null;
+export let motion_manager=null;
 // Called once the model is loaded
 function load_internals(){
 	internal_model=model.internalModel;
@@ -1041,11 +1050,11 @@ function temporarily_stare_at_mouse(){
 
 
 
-const STATE_SKY=1;
-const STATE_GROUND=2;
-const STATE_PET=11;
-const STATE_SLEEP=12;
-const STATE_VOID=90;
+export const STATE_SKY=1;
+export const STATE_GROUND=2;
+export const STATE_PET=11;
+export const STATE_SLEEP=12;
+export const STATE_VOID=90;
 
 let currently_on_ground=false;
 export function transition_ground(){
@@ -1059,7 +1068,7 @@ export function transition_sky(){
 
 // Transition to a given state. Automatically play intermediate(transition) animation.
 let current_state=STATE_SKY;
-function apply_state(new_state=null,instant=false){
+export function apply_state(new_state=null,instant=false){
 	
 	let last_state=current_state;
 	if (new_state==null) new_state=last_state;
