@@ -1,7 +1,7 @@
 export const vendors=[
 	{
 		location:0,
-		name:"말랑포니 공식부스",
+		name:"말랑포니 공식 부스",
 		desc:"공식 말랑포니 굿즈들!",
 		image_thumb:"MPN_LogoV2L_SQUARE_DRAFT-20250715b_SQ200.png",
 		image_full:"MPN_LogoV2L_SQUARE_DRAFT-20250715b.png",
@@ -62,7 +62,7 @@ export const vendors=[
 	{
 		location:4,
 		name:"클라우즈데일 속 비밀스러운 상점",
-		desc:"재밌고 신박하고 귀여운 포니굿즈를 원하신다면? 클라우즈데일 상점으로 오세요!",
+		desc:"귀엽고 예쁜 메인식스 중심 포니굿즈를 원하신다면? 클라우즈 데일 상점으로 오세요!",
 		image_thumb:"클라우즈데일 속 비밀스러운 상점_SQ20.png",
 		image_full:"클라우즈데일 속 비밀스러운 상점.png",
 		socials:[
@@ -127,9 +127,9 @@ export const vendors=[
 	{
 		location:8,
 		name:"비밀 우정 연구소",
-		desc:"우정의 마법은 실존 한다고요",
-		image_thumb:"비밀 우정 연구소_SQ200.png",
-		image_full:"비밀 우정 연구소.png",
+		desc:"아 글쎄, 우정의 마법은 실존한다니깐요?",
+		image_thumb:"무제558_20260615214635_SQ200.png",
+		image_full:"무제558_20260615214635.png",
 		socials:[
 			{
 				link:"https://x.com/Aran_art0",
@@ -154,7 +154,13 @@ export const vendors=[
 		desc:"네? 포니 좋아하신다구요? 여기에요 여기! ",
 		image_thumb:"포니의 바람이 불기 시작했다_2_SQ200.png",
 		image_full:"포니의 바람이 불기 시작했다_2.jpg",
-		socials:[]
+		socials:[
+			{
+				link:"https://x.com/Silver_pazqaz",
+				site:"twitter",
+				handle:"@Silver_pazqaz"
+			}
+		]
 	},
 
 	
