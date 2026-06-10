@@ -225,6 +225,14 @@ export const credits_list=[
 		primary:"sponsor",
 		profile_pic:null
 	},
+	{
+		name_ko:"루토",
+		name_en:"루토",
+		socials:[],
+		roles:["sponsor"],
+		primary:"sponsor",
+		profile_pic:null
+	},
 
 	// Mane
 	{
