@@ -159,6 +159,163 @@ export const credits_list=[
 		primary:"artist",
 		profile_pic:null
 	},
+
+	// Guest and Staff
+	{
+		name_ko:"Mantlegen",
+		name_en:"Mantlegen",
+		socials:[
+			{
+				link:"https://x.com/@MantlegenMusic",
+				site:"twitter",
+				handle:"@MantlegenMusic"
+			}
+		],
+		roles:["dj"],
+		primary:"dj",
+		profile_pic:null
+	},
+	{
+		name_ko:"eksoka",
+		name_en:"eksoka",
+		socials:[
+			{
+				link:"https://x.com/@eksokaMusic",
+				site:"twitter",
+				handle:"@eksokaMusic"
+			}
+		],
+		roles:["dj"],
+		primary:"dj",
+		profile_pic:null
+	},
+	{
+		name_ko:"Qchan",
+		name_en:"Qchan",
+		socials:[
+			{
+				link:"https://x.com/@Qchan007",
+				site:"twitter",
+				handle:"@Qchan007"
+			}
+		],
+		roles:["dj"],
+		primary:"dj",
+		profile_pic:null
+	},
+	{
+		name_ko:"그니",
+		name_en:"GUNI",
+		socials:[
+			{
+				link:"https://x.com/@guni1636",
+				site:"twitter",
+				handle:"@guni1636"
+			}
+		],
+		roles:["photography"],
+		primary:"photography",
+		profile_pic:null
+	},
+	{
+		name_ko:"루리",
+		name_en:"Ruri",
+		socials:[
+			{
+				link:"https://x.com/@0blackmir0_",
+				site:"twitter",
+				handle:"@0blackmir0_"
+			}
+		],
+		roles:["photography"],
+		primary:"photography",
+		profile_pic:null
+	},
+	{
+		name_ko:"나찬",
+		name_en:"Nachan",
+		socials:[
+			{
+				link:"https://x.com/@nachani77",
+				site:"twitter",
+				handle:"@nachani77"
+			}
+		],
+		roles:["photography"],
+		primary:"photography",
+		profile_pic:null
+	},
+	{
+		name_ko:"암바",
+		name_en:"ARMBAR",
+		socials:[
+			{
+				link:"https://x.com/@monster_hong",
+				site:"twitter",
+				handle:"@monster_hong"
+			}
+		],
+		roles:["volunteer"],
+		primary:"volunteer",
+		profile_pic:null
+	},
+
+	{
+		name_ko:"도우미A",
+		name_en:"도우미A",
+		socials:[
+			{
+				link:"https://x.com/",
+				site:"twitter",
+				handle:""
+			}
+		],
+		roles:["volunteer"],
+		primary:"volunteer",
+		profile_pic:null
+	},
+	{
+		name_ko:"도우미B",
+		name_en:"도우미B",
+		socials:[
+			{
+				link:"https://x.com/",
+				site:"twitter",
+				handle:""
+			}
+		],
+		roles:["volunteer"],
+		primary:"volunteer",
+		profile_pic:null
+	},
+	{
+		name_ko:"도우미C",
+		name_en:"도우미C",
+		socials:[
+			{
+				link:"https://x.com/",
+				site:"twitter",
+				handle:""
+			}
+		],
+		roles:["volunteer"],
+		primary:"volunteer",
+		profile_pic:null
+	},
+	{
+		name_ko:"도우미D",
+		name_en:"도우미D",
+		socials:[
+			{
+				link:"https://x.com/",
+				site:"twitter",
+				handle:""
+			}
+		],
+		roles:["volunteer"],
+		primary:"volunteer",
+		profile_pic:null
+	},
 	
 	// Sponsors
 	{
@@ -314,6 +471,16 @@ export const credits_list=[
 	},*/
 ];
 
+// Primary Roles to Category
+// Roles are sorted by the number before the slash.
+// If the number is the same, they are shuffled within the same-numbered group.
+export const categories={
+	"core_staff":["1/head","9/accounting","9/pr","9/web","9/documentation","9/artist"],
+	"site_staff":["9/photography","9/volunteer"],
+	"guests":["9/dj"],
+	"sponsors":["3/sponsor","2/mane","1/princess"]
+}
+
 // Roles
 export const role_definitions={
 	head:{
@@ -358,6 +525,19 @@ export const role_definitions={
 	artist:{
 		en:"Art",
 		ko:"아티스트"},
+		
+	photography:{
+		en:"Photography",
+		ko:"촬영"
+	},
+	dj:{
+		en:"DJ",
+		ko:"DJ"
+	},
+	volunteer:{
+		en:"Volunteer",
+		ko:"도우미"
+	},
 	
 	princess:{
 		en:"Royal Princess",

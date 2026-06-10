@@ -80,3 +80,17 @@ export function save_canvas_to_file(canvas){
     a.click();
   })
 }
+
+
+
+// Return a shuffled copy of the array
+export function shuffle_array(a){
+	let original=Array.from(a);
+	let result=[];
+	while (original.length>0) {
+		let random_index=Math.floor(Math.random()*original.length);
+		let random_element=original.splice(random_index,1)[0];
+		result.push(random_element);
+	}
+	return result;
+}

@@ -1,36 +1,47 @@
 /* Generates credits list */
 import * as CreditsData from "./credits_data.js";
 import * as Config  from "./config.js";
+import * as Utils from "./utils.js";
 
-// The primary roles. Populated automatically from data.
-let primary_roles=[];
-// These special roles are handled separately.
-let special_roles=["head","princess","mane","sponsor"];
-for (const entry of CreditsData.credits_list){
-	if (primary_roles.includes(entry.primary)) continue;
-	if (special_roles.includes(entry.primary)) continue;
-	primary_roles.push(entry.primary);
-}
+// Pre-process CreditsData.categories
+let expected_primary_roles=[];
+let sorted_primaries={};
 
 
-// Shuffle groups and entries
-function toShuffled(a){
-	let original=Array.from(a);
-	let result=[];
-	while (original.length>0) {
-		let random_index=Math.floor(Math.random()*original.length);
-		let random_element=original.splice(random_index,1)[0];
-		result.push(random_element);
+for (const c in CreditsData.categories){
+	let sortarr=[];
+	for (const i of CreditsData.categories[c]){
+		let s = i.split("/")
+		let sortval = parseInt(s[0])+Math.random();
+		let role = s[1];
+		//console.log(sortval,role);
+		sortarr.push([sortval,role]);
+		
+		expected_primary_roles.push(role);
 	}
-	return result;
+	
+	sortarr.sort((a, b) => a[0] - b[0]);
+	
+	//console.log(sortarr);
+	
+	sorted_primaries[c] = sortarr.map((e) => e[1]);
+	
+	//console.log(sorted_primaries[c]);
 }
 
-let primary_roles_shuffled=toShuffled(primary_roles);
-let entries_shuffled=toShuffled(CreditsData.credits_list);
+for (const ce of CreditsData.credits_list){
+	if (!expected_primary_roles.includes(ce.primary)){
+		throw new Error("Unexpected primary role! "+ce.primary);
+	}
+}
+
+let entries_shuffled=Utils.shuffle_array(CreditsData.credits_list);
 
 
-const staff_container = document.getElementById("credits-staff-container");
+const core_container = document.getElementById("credits-core-container");
 const sponsor_container = document.getElementById("credits-sponsor-container");
+const site_container = document.getElementById("credits-site-container");
+const guest_container = document.getElementById("credits-guest-container");
 
 const template_section  = document.getElementById("credits-template-section");
 const template_listing  = document.getElementById("credits-template-listing");
@@ -115,13 +126,16 @@ function generate_group(primary_role_id,list_sns=true){
 	return group_dom;
 }
 
-// Head is always at the top
-staff_container.appendChild(generate_group("head",true));
-for (const group_id of primary_roles_shuffled){
-	staff_container.appendChild(generate_group(group_id,true));
-}
 
-// Tier order
-sponsor_container.appendChild(generate_group("princess",false));
-sponsor_container.appendChild(generate_group("mane",false));
-sponsor_container.appendChild(generate_group("sponsor",false));
+for (const group_id of sorted_primaries.core_staff){
+	core_container.appendChild(generate_group(group_id,true));
+}
+for (const group_id of sorted_primaries.site_staff){
+	site_container.appendChild(generate_group(group_id,true));
+}
+for (const group_id of sorted_primaries.guests){
+	guest_container.appendChild(generate_group(group_id,true));
+}
+for (const group_id of sorted_primaries.sponsors){
+	sponsor_container.appendChild(generate_group(group_id,false));
+}
