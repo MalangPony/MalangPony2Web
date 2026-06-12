@@ -203,6 +203,7 @@ export const credits_list=[
 		primary:"dj",
 		profile_pic:null
 	},
+	/*
 	{
 		name_ko:"그니",
 		name_en:"GUNI",
@@ -315,7 +316,7 @@ export const credits_list=[
 		roles:["volunteer"],
 		primary:"volunteer",
 		profile_pic:null
-	},
+	},*/
 	
 	// Sponsors
 	{
