@@ -215,7 +215,7 @@ export let blocks=[
 	"name_en":"Malang Drawing Class",
 	"start_time":"15:15",
 	"end_time":"16:45",
-	"color_preset":"panel-sub",
+	"color_preset":"panel-open",
 	"column":"sub-hall",
 	"description_en":"Want to draw ponies but don't know how? Join Marenlicious' crash course on pony art!",
 	"description_kr":"그림을 못 그려도 괜찮아요! 아티스트 Marenlicious님과 함께 포니 그리는 법을 배워봅시다.",
@@ -224,14 +224,44 @@ export let blocks=[
 	},
 	{ 
 	"display":true,
-	"name_kr":"참가자 패널",
-	"name_en":"Panel Slots",
+	"font_size_multiplier_ko":0.9,
+	"font_size_multiplier_en":0.7,
+	"name_kr":"포니 애니메이션 역사 총정리",
+	"name_en":"The Complete History of MLP Animations",
 	"start_time":"10:45",
+	"end_time":"11:45",
+	"color_preset":"panel-open",
+	"column":"sub-hall",
+	"description_en":'From 1984 to 2024, this is a history course of 40 years of official MLP animations.',
+	"description_kr":'1984년부터 2024년까지, 40년간의 공식 포니 애니메이션의 역사를 복습해 봅시다.',
+	"tagline_en":"",
+	"tagline_kr":""
+	},
+	{ 
+	"display":true,
+	"name_kr":"페인트 마르는 거 보기",
+	"name_en":"Watching Paint Dry",
+	"start_time":"12:00",
+	"end_time":"13:45",
+	"color_preset":"panel-open",
+	"column":"sub-hall",
+	"description_en":'Prove that you\'re the real Pinkie Pie by watching paint dry!',
+	"description_kr":'당신이 진짜 핑키 파이라는 것을 증명하세요!',
+	"tagline_en":"",
+	"tagline_kr":""
+	},
+	{ 
+	"display":true,
+	"font_size_multiplier_ko":0.75,
+	"font_size_multiplier_en":0.75,
+	"name_kr":"번역을 전혀 몰랐던 사람의 우당탕탕 시행착오집",
+	"name_en":"Stories of a Clueless Beginner Translator",
+	"start_time":"14:00",
 	"end_time":"15:00",
 	"color_preset":"panel-open",
 	"column":"sub-hall",
-	"description_en":'A detailed schedule will be<br>announced at a later date.<br>Apply to be a panelist: <span class="internal-page-autolink autofill-pagename link-button inline color-internal icon-internal generate-icon" data-pageid="panelist"></span>',
-	"description_kr":'자세한 내용은 참가자 패널<br>확정 후 공지됩니다.<br>패널리스트 지원하기:<br><span class="internal-page-autolink autofill-pagename link-button inline color-internal icon-internal generate-icon" data-pageid="panelist"></span>',
+	"description_en":'Translating foreign fan works and all its complications',
+	"description_kr":'외국 2차창작 번역시 겪은 시행착오 개선기',
 	"tagline_en":"",
 	"tagline_kr":""
 	},
@@ -489,7 +519,7 @@ export let color_presets=[
 	{
 	"name":"panel-open",
 	"color":"var(--color-timetable-panel-open)",
-	"outline_style":"dashed"
+	//"outline_style":"dashed"
 	},
 	{
 	"name":"night-show",

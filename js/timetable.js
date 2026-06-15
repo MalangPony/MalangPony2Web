@@ -507,13 +507,13 @@ for (const block of blocks){
 	else
 		text_dom.style.marginTop = px2em(tt_block_y_offset);
 	
-	var text_kr = document.createElement("span");
+	var text_kr = document.createElement("div");
 	text_kr.classList.add("lang-ko");
 	text_kr.innerHTML=block.name_kr;
 	text_kr.style.fontSize=(text_size_ko*font_size_multiplier_ko)+"em";
 	text_dom.appendChild(text_kr);
 	
-	var text_en = document.createElement("span");
+	var text_en = document.createElement("div");
 	text_en.classList.add("lang-en");
 	text_en.innerHTML=block.name_en;
 	text_en.style.fontSize=(text_size_en*font_size_multiplier_en)+"em";
