@@ -91,8 +91,8 @@ const nonintro_header =  document.getElementById("nonintro-header-content");
 //const header_divider = document.getElementById("header-divider");
 const main_content_actual = document.getElementById("main-content-actual");
 
-const countdown_display = document.getElementById("countdown-display");
-
+const intro_countdown_display = document.getElementById("intro-countdown-display");
+const register_countdown_display = document.getElementById("register-countdown-display");
 const load_screen = document.getElementById("load-screen");
 
 
@@ -1373,8 +1373,7 @@ apply_mascot_selection_mode();
 
 
 // Countdown
-function calculateDday(){
-  let eventTime=new Date("2026-08-01T10:00:00+09:00");
+function calculateDday(eventTime){
   let nowTime=new Date();
   let timeDelta = eventTime.getTime() - nowTime.getTime();
   if (timeDelta<0) timeDelta=0;
@@ -1418,8 +1417,9 @@ function calculateDday(){
   };
 }
 // It's a bit messy...
-function updateDday(){
-  let dday=calculateDday();
+function formatDday(countdown_display,eventTime){
+  let dday=calculateDday(eventTime);
+  
   for (const dom of countdown_display.querySelectorAll(".countdown-days"))
     dom.innerHTML=dday.days;
   for (const dom of countdown_display.querySelectorAll(".countdown-hours"))
@@ -1452,10 +1452,15 @@ function updateDday(){
     dom.style.display=dday.seconds_numeric==1?"unset":"none";
   
 }
+
+function updateDdays(){
+  formatDday(intro_countdown_display,new Date("2026-08-01T10:00:00+09:00"));
+  formatDday(register_countdown_display,new Date("2026-07-01T00:00:00+09:00"));
+}
 window.setInterval(
-  updateDday,1000
+  updateDdays,1000
 )
-updateDday();
+updateDdays();
 
 
 

@@ -63,22 +63,32 @@ body.langmode-en #ticket{
   }
 }
 
-#countdown-display{
+.countdown-display{
   text-align:center;
 }
 
-#countdown-display > .lang-ko{
+#intro-countdown-display > .lang-ko{
   font-size:1.4em;
 }
-#countdown-display > .lang-ko > .dday{
+#intro-countdown-display > .lang-en{
+  font-size:1.0em;
+}
+.countdown-display > .lang-ko > .dday{
   font-family:"DM Mono";
   font-weight:bold;
 }
 
-#countdown-display > .lang-en > .countdown-numeral{
+.countdown-display > .lang-en > .countdown-numeral{
   font-family:"DM Mono";
   font-weight:bold;
   font-size:1.4em;
+}
+
+#register-countdown-display > .lang-ko{
+  font-size:1.2em;
+}
+#register-countdown-display > .lang-en{
+  font-size:1.0em;
 }
 
 /* Responsive Section */
