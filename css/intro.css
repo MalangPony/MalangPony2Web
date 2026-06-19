@@ -73,6 +73,12 @@ body.langmode-en #ticket{
 #intro-countdown-display > .lang-en{
   font-size:1.0em;
 }
+#register-countdown-display-intropage > .lang-ko{
+  font-size:1.2em;
+}
+#register-countdown-display-intropage > .lang-en{
+  font-size:0.8em;
+}
 .countdown-display > .lang-ko > .dday{
   font-family:"DM Mono";
   font-weight:bold;

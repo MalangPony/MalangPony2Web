@@ -93,6 +93,7 @@ const main_content_actual = document.getElementById("main-content-actual");
 
 const intro_countdown_display = document.getElementById("intro-countdown-display");
 const register_countdown_display = document.getElementById("register-countdown-display");
+const register_countdown_display_intropage = document.getElementById("register-countdown-display-intropage");
 const load_screen = document.getElementById("load-screen");
 
 
@@ -1456,6 +1457,7 @@ function formatDday(countdown_display,eventTime){
 function updateDdays(){
   formatDday(intro_countdown_display,new Date("2026-08-01T10:00:00+09:00"));
   formatDday(register_countdown_display,new Date("2026-07-01T00:00:00+09:00"));
+  formatDday(register_countdown_display_intropage,new Date("2026-07-01T00:00:00+09:00"));
 }
 window.setInterval(
   updateDdays,1000
