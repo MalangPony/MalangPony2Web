@@ -1,23 +1,5 @@
 export const vendors=[
-	{
-		location:0,
-		name:"말랑포니 공식 부스",
-		desc:"공식 말랑포니 굿즈들!",
-		image_thumb:"MPN_LogoV2L_SQUARE_DRAFT-20250715b_SQ200.png",
-		image_full:"MPN_LogoV2L_SQUARE_DRAFT-20250715b.png",
-		socials:[
-			{
-				link:"https://x.com/MalangPony",
-				site:"twitter",
-				handle:"@MalangPony"
-			},
-			{
-				link:"https://bsky.app/profile/malangpony.bsky.social",
-				site:"bluesky",
-				handle:"@malangpony"
-			}
-		]
-	},
+	
 	{
 		location:1,
 		name:"무지개위나비",
@@ -99,11 +81,22 @@ export const vendors=[
 	},
 	{
 		location:6,
-		name:"Taurson's Cafe",
-		desc:"Pony merch made by an artist from the US",
-		image_thumb:"Taursons Cafe CROP_SQ200.jpg",
-		image_full:"Taursons Cafe.jpg",
-		socials:[]
+		name:"말랑포니 공식 부스",
+		desc:"공식 말랑포니 굿즈들!",
+		image_thumb:"MPN_LogoV2L_SQUARE_DRAFT-20250715b_SQ200.png",
+		image_full:"MPN_LogoV2L_SQUARE_DRAFT-20250715b.png",
+		socials:[
+			{
+				link:"https://x.com/MalangPony",
+				site:"twitter",
+				handle:"@MalangPony"
+			},
+			{
+				link:"https://bsky.app/profile/malangpony.bsky.social",
+				site:"bluesky",
+				handle:"@malangpony"
+			}
+		]
 	},
 	{
 		location:7,
