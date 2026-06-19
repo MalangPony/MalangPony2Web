@@ -229,11 +229,11 @@ export const data={
       "zone_poly": [
         [
           2689.6763,
-          695.379
+          805.21695
         ],
         [
           2351.9955,
-          695.379
+          805.21695
         ],
         [
           2351.9955,
@@ -666,12 +666,12 @@ export const data={
     "vendor": {
       "zone_poly": [
         [
-          2103.6976,
-          633.53522
+          2124.8203,
+          668.53852
         ],
         [
-          1870.2285,
-          705.18935
+          1885.3160999999998,
+          742.6066699999999
         ],
         [
           2130.4916,
@@ -866,4 +866,4 @@ export const data={
   }
 };
 
-export const zone_list= ['sub', 'seating', 'storage', 'regDesk', 'snack', 'signboard', 'restroom', 'lobby', 'shrine', 'stage', 'control', 'drawing', 'gallery', 'vendor', 'entrance', 'main'];
+export const zone_list= ['vendor', 'regDesk', 'entrance', 'stage', 'main', 'control', 'shrine', 'signboard', 'seating', 'sub', 'gallery', 'restroom', 'storage', 'lobby', 'drawing', 'snack'];
