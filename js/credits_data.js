@@ -203,7 +203,7 @@ export const credits_list=[
 		primary:"dj",
 		profile_pic:null
 	},
-	/*
+	
 	{
 		name_ko:"그니",
 		name_en:"GUNI",
@@ -262,13 +262,13 @@ export const credits_list=[
 	},
 
 	{
-		name_ko:"도우미A",
-		name_en:"도우미A",
+		name_ko:"반잠",
+		name_en:"halfsleep",
 		socials:[
 			{
-				link:"https://x.com/",
+				link:"https://x.com/@_halfsleep",
 				site:"twitter",
-				handle:""
+				handle:"@_halfsleep"
 			}
 		],
 		roles:["volunteer"],
@@ -276,13 +276,13 @@ export const credits_list=[
 		profile_pic:null
 	},
 	{
-		name_ko:"도우미B",
-		name_en:"도우미B",
+		name_ko:"901",
+		name_en:"901",
 		socials:[
 			{
-				link:"https://x.com/",
-				site:"twitter",
-				handle:""
+				link:"https://www.instagram.com/koojongwon",
+				site:"instagram",
+				handle:"@koojongwon"
 			}
 		],
 		roles:["volunteer"],
@@ -290,13 +290,13 @@ export const credits_list=[
 		profile_pic:null
 	},
 	{
-		name_ko:"도우미C",
-		name_en:"도우미C",
+		name_ko:"능비",
+		name_en:"능비",
 		socials:[
 			{
-				link:"https://x.com/",
+				link:"https://x.com/@noonbi_fur",
 				site:"twitter",
-				handle:""
+				handle:"@noonbi_fur"
 			}
 		],
 		roles:["volunteer"],
@@ -304,19 +304,33 @@ export const credits_list=[
 		profile_pic:null
 	},
 	{
-		name_ko:"도우미D",
-		name_en:"도우미D",
+		name_ko:"망고맛마카롱",
+		name_en:"망고맛마카롱",
 		socials:[
 			{
-				link:"https://x.com/",
+				link:"https://x.com/@mangoxlsxls16",
 				site:"twitter",
-				handle:""
+				handle:"@mangoxlsxls16"
 			}
 		],
 		roles:["volunteer"],
 		primary:"volunteer",
 		profile_pic:null
-	},*/
+	},
+	{
+		name_ko:"머핀",
+		name_en:"머핀",
+		socials:[
+			{
+				link:"https://www.instagram.com/yys4114",
+				site:"instagram",
+				handle:"@yys4114"
+			}
+		],
+		roles:["volunteer"],
+		primary:"volunteer",
+		profile_pic:null
+	},
 	
 	// Sponsors
 	{
@@ -386,6 +400,30 @@ export const credits_list=[
 	{
 		name_ko:"루토",
 		name_en:"루토",
+		socials:[],
+		roles:["sponsor"],
+		primary:"sponsor",
+		profile_pic:null
+	},
+	{
+		name_ko:"과용",
+		name_en:"과용",
+		socials:[],
+		roles:["sponsor"],
+		primary:"sponsor",
+		profile_pic:null
+	},
+	{
+		name_ko:"블닥",
+		name_en:"블닥",
+		socials:[],
+		roles:["sponsor"],
+		primary:"sponsor",
+		profile_pic:null
+	},
+	{
+		name_ko:"Chaos카이",
+		name_en:"Chaos카이",
 		socials:[],
 		roles:["sponsor"],
 		primary:"sponsor",

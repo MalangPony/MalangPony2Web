@@ -40,7 +40,7 @@ let entries_shuffled=Utils.shuffle_array(CreditsData.credits_list);
 
 const core_container = document.getElementById("credits-core-container");
 const sponsor_container = document.getElementById("credits-sponsor-container");
-//const site_container = document.getElementById("credits-site-container");
+const site_container = document.getElementById("credits-site-container");
 const guest_container = document.getElementById("credits-guest-container");
 
 const template_section  = document.getElementById("credits-template-section");
@@ -130,10 +130,10 @@ function generate_group(primary_role_id,list_sns=true){
 for (const group_id of sorted_primaries.core_staff){
 	core_container.appendChild(generate_group(group_id,true));
 }
-/*
+
 for (const group_id of sorted_primaries.site_staff){
 	site_container.appendChild(generate_group(group_id,true));
-}*/
+}
 for (const group_id of sorted_primaries.guests){
 	guest_container.appendChild(generate_group(group_id,true));
 }
