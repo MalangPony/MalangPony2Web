@@ -445,12 +445,20 @@ export const credits_list=[
 		primary:"sponsor",
 		profile_pic:null
 	},
+	{
+		name_ko:"해피도그",
+		name_en:"해피도그",
+		socials:[],
+		roles:["sponsor"],
+		primary:"sponsor",
+		profile_pic:null
+	},
 
 
 	// Mane
 	{
-		name_ko:"Ruinflare Rune",
-		name_en:"Ruinflare Rune",
+		name_ko:"Sweet F&amp;T",
+		name_en:"Sweet F&amp;T",
 		socials:[],
 		roles:["mane"],
 		primary:"mane",
