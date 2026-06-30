@@ -1,6 +1,24 @@
 
 export const tiers_data={
+	onsite:{
+		name_en:"On-Site Badge",
+		name_ko:"현장등록",
+		desc_en:"On-site registration during the event.<br><strong>Numbers are limited.</strong>",
+		desc_ko:"행사 당일 현장에서 등록할 수 있는 등급입니다.<br><strong>갯수가 제한되어 있습니다.</strong>",
+		css_class:"tier-onsite",
+		inherits:null,
+		perks_list:["daiso_badge","conbook"],
+		inherit_exclude:[],
+		price:40,
+		limit:NaN,
+		icon_dark:"/sprites/tier_icons/onsite_200_dark.png",
+		icon_darker:"/sprites/tier_icons/onsite_200_darker.png",
+		icon_orig:"/sprites/tier_icons/onsite_200_orig.png",
+		reg_button_class:""
+	},
 	standard:{
+		insert_divider:true,
+		margin_top:48,
 		name_en:"Standard",
 		name_ko:"스탠다드",
 		desc_en:"Only the essentials.",
@@ -69,7 +87,6 @@ export const tiers_data={
 		icon_darker:"/sprites/tier_icons/mane_200_darker.png",
 		icon_orig:"/sprites/tier_icons/mane_200_orig.png",
 		reg_button_class:"inperson",
-		sold_out:true
 	},
 	princess:{
 		name_en:"Royal Princess",
@@ -99,7 +116,6 @@ export const tiers_data={
 		icon_darker:"/sprites/tier_icons/royal_200_darker.png",
 		icon_orig:"/sprites/tier_icons/royal_200_orig.png",
 		reg_button_class:"inperson",
-		sold_out:false
 	},
 	spirit:{
 		insert_divider:true,
@@ -153,24 +169,7 @@ export const tiers_data={
 		icon_orig:"/sprites/tier_icons/spiritplus_200_orig.png",
 		reg_button_class:"spirit"
 	},
-	onsite:{
-		insert_divider:true,
-		margin_top:48,
-		name_en:"On-Site Badge",
-		name_ko:"현장등록",
-		desc_en:"On-site registration during the event.<br>We recommend you pre-register as <strong>on-site registration may be limited or unavailable</strong> as venue capacity is reached.",
-		desc_ko:"행사 당일 현장에서 등록할 수 있는 등급입니다.<br>인원이 한정되어 있으며, <strong>행사 안전 관리를 위해 현장등록을 진행하지 않을 수도 있으니</strong> 사전등록을 권장합니다.",
-		css_class:"tier-onsite",
-		inherits:null,
-		perks_list:["daiso_badge","conbook"],
-		inherit_exclude:[],
-		price:40,
-		limit:NaN,
-		icon_dark:"/sprites/tier_icons/onsite_200_dark.png",
-		icon_darker:"/sprites/tier_icons/onsite_200_darker.png",
-		icon_orig:"/sprites/tier_icons/onsite_200_orig.png",
-		reg_button_class:""
-	},
+	
 };
 
 const tin_badge_desc_ko="말랑포니의 후원자임을 증명하는 한정판 핀뱃지입니다.";

@@ -97,6 +97,12 @@ body.langmode-en #ticket{
   font-size:1.0em;
 }
 
+#intro-page-art{
+  width:min(100%,400px);
+  margin-top:32px;
+  margin-bottom:32px;
+}
+
 /* Responsive Section */
 /* Targeting down to 300px. */
 

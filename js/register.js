@@ -73,7 +73,9 @@ for (const tier_id in TierData.tiers_data){
 	
 	tier_dom_inner.classList.add(tier_data.css_class);
 	
-	if (tier_data.sold_out){
+	let pre_reg_end = (tier_id!="onsite");
+	
+	if (tier_data.sold_out || pre_reg_end){
 		tier_dom_inner.classList.add("sold-out");
 	}
 	
@@ -90,7 +92,8 @@ for (const tier_id in TierData.tiers_data){
 		
 	tier_dom.querySelector(".register-tier-icon").src=tier_data.icon_darker;
 	
-	if (tier_data.sold_out){
+
+	if (tier_data.sold_out && (!pre_reg_end)){
 		tier_dom.querySelector(".register-tier-limit.lang-ko").innerHTML=
 			tier_data.limit+"명 (매진)";
 		tier_dom.querySelector(".register-tier-limit.lang-en").innerHTML=
@@ -111,6 +114,10 @@ for (const tier_id in TierData.tiers_data){
 		if (tier_data.sold_out && dom.classList.contains("reg-button-soldout")){
 			//pass
 		}else if (tier_data.sold_out){
+			dom.style.display="none";
+		}else if (pre_reg_end && dom.classList.contains("reg-button-end")){
+			//pass
+		}else if (pre_reg_end){
 			dom.style.display="none";
 		}else if (dom.classList.contains("reg-button-"+tier_data.reg_button_class)){
 			// pass

@@ -200,6 +200,12 @@
 	font-weight:700;
 }
 
+.reg-button-end{
+	margin-right:0.4em;
+	font-size:1.2em;
+	font-weight:700;
+}
+
 .register-tier-button{
 	margin:8px;
 	display:flex;

@@ -94,8 +94,8 @@ const nonintro_header =  document.getElementById("nonintro-header-content");
 const main_content_actual = document.getElementById("main-content-actual");
 
 const intro_countdown_display = document.getElementById("intro-countdown-display");
-const register_countdown_display = document.getElementById("register-countdown-display");
-const register_countdown_display_intropage = document.getElementById("register-countdown-display-intropage");
+//const register_countdown_display = document.getElementById("register-countdown-display");
+//const register_countdown_display_intropage = document.getElementById("register-countdown-display-intropage");
 const load_screen = document.getElementById("load-screen");
 
 
@@ -117,12 +117,10 @@ else debug_print_container.style.display="flex";
 // PerfManager callback: CSS Filters
 PerformanceManager.register_feature_disable_callback(
   PerformanceManager.Feature.CSS_FILT_DROP_SHADOWS, ()=>{
-    ticket.classList.remove("css-filters");
     sidebar.classList.remove("css-filters");
   });
 PerformanceManager.register_feature_enable_callback(
   PerformanceManager.Feature.CSS_FILT_DROP_SHADOWS, ()=>{
-    ticket.classList.add("css-filters");
     sidebar.classList.add("css-filters");
   });
 
@@ -1458,8 +1456,8 @@ function formatDday(countdown_display,eventTime){
 
 function updateDdays(){
   formatDday(intro_countdown_display,new Date("2026-08-01T10:00:00+09:00"));
-  formatDday(register_countdown_display,new Date("2026-07-01T00:00:00+09:00"));
-  formatDday(register_countdown_display_intropage,new Date("2026-07-01T00:00:00+09:00"));
+  //formatDday(register_countdown_display,new Date("2026-07-01T00:00:00+09:00"));
+  //formatDday(register_countdown_display_intropage,new Date("2026-07-01T00:00:00+09:00"));
 }
 window.setInterval(
   updateDdays,1000
