@@ -429,6 +429,23 @@ export const credits_list=[
 		primary:"sponsor",
 		profile_pic:null
 	},
+	{
+		name_ko:"rubelon",
+		name_en:"rubelon",
+		socials:[],
+		roles:["sponsor"],
+		primary:"sponsor",
+		profile_pic:null
+	},
+	{
+		name_ko:"밀키스",
+		name_en:"밀키스",
+		socials:[],
+		roles:["sponsor"],
+		primary:"sponsor",
+		profile_pic:null
+	},
+
 
 	// Mane
 	{
