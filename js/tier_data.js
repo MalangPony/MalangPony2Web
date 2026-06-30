@@ -3,8 +3,8 @@ export const tiers_data={
 	onsite:{
 		name_en:"On-Site Badge",
 		name_ko:"현장등록",
-		desc_en:"On-site registration during the event.<br><strong>Numbers are limited.</strong>",
-		desc_ko:"행사 당일 현장에서 등록할 수 있는 등급입니다.<br><strong>갯수가 제한되어 있습니다.</strong>",
+		desc_en:"On-site registration on the day of the event.<br><strong>Numbers are limited.</strong>",
+		desc_ko:"행사 당일 현장에서 등록하는 등급입니다.<br>수량이 한정되어 있어 <strong>조기에 마감될 수 있습니다.</strong>",
 		css_class:"tier-onsite",
 		inherits:null,
 		perks_list:["daiso_badge","conbook"],
