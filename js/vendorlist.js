@@ -35,6 +35,7 @@ for (const v of VendorData.vendors){
 		for (const s of v.socials){
 			let a=document.createElement("a");
 			a.href=s.link;
+			a.setAttribute("target","_blank");
 			a.classList.add("link-button");
 			a.classList.add("icon-"+s.site);
 			a.classList.add("color-"+s.site);
