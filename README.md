@@ -12,7 +12,9 @@ The website is a single-page app, so you must redirect all pages to `index.html`
 Otherwise, opening internal links in a new tab, or refreshing will not work.  
 For Apache, the `.htaccess` file is provided to do just that.  
 
-You can run the included `testing_webserver.py` script for a simple local testing server.   
+You can run the included `testing_webserver.py` script for a simple local testing server.
+
+The conbook PDFs are about 100MB in size and is `.gitignore`'d.  They are under the `/large/` directory. This means you will get 404's when opening the conbook page.
 
 ### The Code
 

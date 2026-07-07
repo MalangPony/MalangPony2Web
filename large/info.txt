@@ -1,0 +1,2 @@
+This is the directory to store large files, currently conbook PDFs only.
+They will be .gitignore'd, so this directory will look empty.
