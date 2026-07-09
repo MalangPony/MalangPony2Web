@@ -438,6 +438,8 @@
   #footer-sns-buttons{
     justify-content:flex-start;
   }
+  
+  
 }
 
 /* Smaller Mobiles */
@@ -445,9 +447,6 @@
   
   #footer-content .footer-text-mobile-break{
     display:inline;
-  }
-  #footer-source{
-    display:none;
   }
 }
 
@@ -469,10 +468,12 @@
     --pages-padding-lr: 24px;
     --pages-actual-width:calc(var(--mcd-inner-width) - 48px);
   }
+  
   #footer-source{
     padding-left:0;
     padding-bottom:8px;
   }
+  
 }
 @media (width>=360px) and (width<480px) {
   /* 480 ~ 360 : Small Mobiles */
@@ -492,6 +493,11 @@
     --pages-padding-lr: 16px;
     --pages-actual-width:calc(var(--mcd-inner-width) - 32px);
   }
+  
+  #footer-source{
+    padding-left:0;
+    padding-bottom:4px;
+  }
 }
 @media (width<360px) {
   /* 360 ~ 300 : Ridiculously Small Mobiles */
@@ -507,5 +513,9 @@
   :root{
     --pages-padding-lr: 8px;
     --pages-actual-width:calc(var(--mcd-inner-width) - 16px);
+  }
+  #footer-source{
+    padding-left:0;
+    padding-bottom:0px;
   }
 }
